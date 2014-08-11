@@ -26,10 +26,10 @@ Event Bus
 Event Bus解耦了asyncTask、handler、thread、broadcast等组件。使用Event bus可以轻松地跨多个Fragment进行通讯。
 
 它用法很简单，在Activity或者Fragment中使用，其中event是一个简单的POJO<br />
-<p><code>
-// 退出系统的事件<p>
+<pre><code>
+// 退出系统的事件
 eventBus.post(new LogoutEvent());
-</code></p>
+</pre></code>
 
 回调事件，同样在Activity或者Fragment中定义好。回调方法名可以随便定义，参数须要和event一一对应。并且在方法名前加上注解Subscribe
 
@@ -60,7 +60,7 @@ Rest Client
 Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 这个模块没有基于apache httpclient，完全基于jdk中的HttpURLConnection。
 
 同步调用get方法：
-<p><code>
+<pre><code>
           RestClient client = RestClient.get(url);<p>
           String body = client.body();
-</code></p>
+</pre></code>

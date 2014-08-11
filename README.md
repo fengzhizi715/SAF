@@ -16,7 +16,8 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * Router
 * Utils
 
-==SAFApp==
+SAFApp
+===
 SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增加了一个可作为缓存存放app全局变量的session，一个ImageLoader，一个记录Activity的List。
 
 Event Bus

@@ -128,3 +128,64 @@ SAF中的DI包括以下几个方面：
 
 Inject View
 ---
+Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码
+<pre><code>
+          public class MainActivity extends Activity {
+                
+                private ImageView imageView;
+                
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  
+                  setContentView(R.layout.activity_main);
+                  imageView = (ImageView) findViewById(R.id.imageview);
+                }
+           }
+</pre></code>
+
+在使用Inject View之后，会这样写代码
+<pre><code>
+          public class MainActivity extends Activity {
+                    
+                @InjectView(id= R.id.imageview)
+                private ImageView imageView;
+                    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                   super.onCreate(savedInstanceState);
+                      
+                   setContentView(R.layout.activity_main);
+                   Injector.injectInto(this);
+                }
+          }
+</pre></code>
+
+目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
+<pre><code>
+          public class DemoFragment extends Fragment {
+
+                   @InjectView(id=R.id.title)
+                   private TextView titleView;
+
+                   @InjectView(id=R.id.imageview)
+                   private ImageView imageView;
+
+                   @Override
+                   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                          View v = inflater.inflate(R.layout.fragment_demo, container, false);
+
+                          Injector.injectInto(this,v); // 和Activity使用的区别之处在这里
+          
+                          initViews();
+                          initData();
+          
+                          return v;
+                   }
+          
+                  ......
+           }
+</pre></code>
+
+Inject Extra
+---    

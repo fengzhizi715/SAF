@@ -110,4 +110,21 @@ Image Cache
 ===
 图片缓存模块包括2级缓存，内存中的cache和sd卡上存放在文件中的cache。
 
-图片缓存模块通过ImageLoader进行图片加载。 如果app中使用了SAFApp，则无须创建新的ImageLoader就可以使用。          
+图片缓存模块通过ImageLoader进行图片加载。 如果app中使用了SAFApp，则无须创建新的ImageLoader就可以使用。     
+<pre><code>
+          // 第一个参数是图片的url，第二个参数是ImageView对象，第三个参数是默认图片
+          imageLoader.displayImage(url, imageView ,R.drawable.defalut_icon);
+</pre></code>
+
+
+Dependency Injection
+===
+Dependency Injection是依赖注入的意思，简称DI。
+
+SAF中的DI包括以下几个方面：
+* Inject View ：简化组件的查找注册
+* Inject Service ：简化系统服务的注册，目前只支持android的系统服务
+* Inject Extra ：简化2个Activity之间Extra传递
+
+Inject View
+---

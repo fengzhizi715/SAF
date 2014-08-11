@@ -71,8 +71,7 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
               
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
-                }
-                
+              }
           });
 </pre></code>
 
@@ -83,3 +82,32 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
           client.send(jsonString); // jsonString是已经由json对象转换成string类型
           String body = client.body();
 </pre></code>
+
+异步调用post方法：post body内容为json
+<pre><code>
+          RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
+        
+                public void onSuccess(String content) {
+                }
+        
+           });
+</pre></code>
+
+异步调用post方法：以form形式传递数据
+<pre><code>
+          RestClient.post(urlString, map, new HttpResponseHandler(){
+
+                @Override
+                public void onSuccess(String content) {
+
+                }
+                                        
+          });
+</pre></code>
+
+
+Image Cache
+===
+图片缓存模块包括2级缓存，内存中的cache和sd卡上存放在文件中的cache。
+
+图片缓存模块通过ImageLoader进行图片加载。 如果app中使用了SAFApp，则无须创建新的ImageLoader就可以使用。          

@@ -38,7 +38,9 @@ eventBus.post(new LogoutEvent());
           @Subscribe
           public void onLogoutEvent(LogoutEvent event) {
           }
-@Subscribe可以使用枚举
+          
+          
+@Subscribe可以使用枚举<br />
          /**
           * 使用ThreadMode.BackgroundThread枚举，表示在后台线程运行，不在主线程中运行。
           * @param event
@@ -48,3 +50,8 @@ eventBus.post(new LogoutEvent());
           
           }
 使用枚举BackgroundThread时，如果在回调方法中需要更新ui，则必须要配合handler使用。 在不使用枚举的情况下，@Subscribe会默认使用PostThread，表示回调方法会在主线程中运行。 如果在一个Activity中存在多个Fragment，并且在Activity或者在Fragment中存在订阅同一event的回调方法。如果发出event的请求时，这些回调方法都会起作用。
+
+
+Rest Client
+===
+Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 这个模块没有基于apache httpclient，完全基于jdk中的HttpURLConnection。

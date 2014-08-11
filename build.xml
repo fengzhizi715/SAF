@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="SAF">
+	<description>SAF Project v1.1</description>
+	
+	<tstamp/>
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="project_name" value="SAF"/>
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+	<property name="version" value="1.1.3" />
+	<property name="src" value="src" />
+	<property name="dest_dir" value="build" />
+	<property name="build_dir" value="${dest_dir}/classes" />
+	<property name="jar_all_name" value="${project_name}-all-${version}.jar" />
+	<property name="jar_core_name" value="${project_name}-core-${version}.jar" />
+	<property name="jar_util_name" value="${project_name}-utils-${version}.jar" />
+	<property name="jar_annotation_name" value="${project_name}-annotation-${version}.jar" />
+	<property name="jar_orm_name" value="${project_name}-orm-${version}.jar" />
+	<property name="jar_http_name" value="${project_name}-http-${version}.jar" />
+	<property name="jar_router_name" value="${project_name}-router-${version}.jar" />
+	<property name="javadoc_dir" value="${dest_dir}/javadoc" />
+	<property name="proguard" value="${basedir}/proguard"/>
+	<property name="proguard.lib" value="${proguard}/lib"/>
+
+	<path id="build_classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init">
+		<echo message="start to complie the saf!" />
+		<antcall target="clean" />
+		<mkdir dir="${dest_dir}" />
+		<mkdir dir="${build_dir}" />
+		<mkdir dir="${javadoc_dir}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dest_dir}" />
+	</target>
+
+	<target depends="build-project,javadoc" name="build" description="编译所有的jar包以及javadoc">
+		<jar jarfile="${dest_dir}/${jar_util_name}" basedir="${build_dir}" includes="cn/salesuite/saf/utils/DateHelper.class,cn/salesuite/saf/utils/StringHelper.class,cn/salesuite/saf/utils/IOUtil.class" />
+		<jar jarfile="${dest_dir}/${jar_core_name}" basedir="${build_dir}" includes="**/*.class"
+	         excludes="cn/salesuite/saf/utils/*.class,cn/salesuite/saf/inject/**/*.class,cn/salesuite/saf/view/*.class,cn/salesuite/saf/eventbus/*.class" />
+		<jar jarfile="${dest_dir}/${jar_annotation_name}" basedir="${build_dir}" includes="cn/salesuite/saf/inject/**/*.class" />
+		<jar jarfile="${dest_dir}/${jar_orm_name}" basedir="${build_dir}" includes="cn/salesuite/saf/orm/**/*.class" />
+		<jar jarfile="${dest_dir}/${jar_http_name}" basedir="${build_dir}" includes="cn/salesuite/saf/http/rest/**/*.class" />
+		<jar jarfile="${dest_dir}/${jar_router_name}" basedir="${build_dir}" includes="cn/salesuite/saf/route/**/*.class" />
+		<jar jarfile="${dest_dir}/${jar_all_name}" basedir="${build_dir}" includes="**/*.class"/>
+	</target>
+
+	<target depends="build-project" name="build-all-jar" description="单独编译SAF-all.jar">
+		<jar jarfile="${dest_dir}/${jar_all_name}" basedir="${build_dir}" includes="**/*.class"/>
+	</target>
+
+	<target depends="init" name="build-project">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build_dir}" source="${source}" target="${target}" encoding="UTF-8" includeantruntime="on">
+			<src path="src" />
+			<classpath refid="build_classpath" />
+		</javac>
+		<copy includeemptydirs="false" todir="${build_dir}">
+			<fileset dir="src">
+				<exclude name="**/*.launch" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="javadoc" description="生成Javadoc HTML文件">
+		<delete dir="${javadoc_dir}" />
+		<mkdir dir="${javadoc_dir}" />
+		<javadoc destdir="${javadoc_dir}"
+			                 packagenames="cn.salesuite.saf.*"
+			                 windowtitle="${project_name} API Documents"
+                             locale="en_US"
+                             author="true"
+			                 use="yes"  
+			                 linksource="no"  
+			                 splitindex="yes"  
+			                 encoding="UTF-8" docencoding="UTF-8" charset="UTF-8">
+			<classpath refid="build_classpath" />
+			<packageset dir="${src}" defaultexcludes="yes" />
+			<bottom><![CDATA[<b>SAF API Documents v1.0</b>, <i>Copyright 2012-2014, <a href="http://www.salesuite.cn" target="_blank">http://www.salesuite.cn</a>, All Rights Reserved.</i>]]></bottom>
+		</javadoc>
+	</target>
+
+	<target name="obfuscatejar" depends="build-all-jar" description="使用proguard混淆jar">
+		<taskdef resource="proguard/ant/task.properties" classpath="${proguard.lib}/proguard.jar" />
+		<proguard printseeds="on" ignorewarnings="true" optimize="true">
+			<injar file="${dest_dir}/${jar_all_name}"/>
+			<outjar file="${dest_dir}/OB_${jar_all_name}"/>
+			<libraryjar file="${java.home}/lib/rt.jar">
+				<fileset dir="${basedir}">
+					<include name="lib/**/*.jar" />
+				</fileset>
+			</libraryjar>
+
+			<keepattribute name="LineNumberTable" />
+			<!-- 保留废弃的方法 -->
+			<keepattribute name="Deprecated" />
+			<!-- 保留所有的注解 -->
+			<keepattribute name="*Annotation*" />
+			<keepattribute name="Exceptions" />
+			<!-- 保留签名，解决泛型问题 -->
+			<keepattribute name="Signature" />
+
+            <!-- 保留回调接口中的方法 -->
+            <keep name="cn.salesuite.saf.http.CommHttpClient.OnResponseReceivedListener">
+                <method name="onResponseReceived"/>
+            </keep>
+
+            <!-- Preserve all public classes, and their public and protected fields
+						        and methods. -->            			
+			<keep access="public" >
+				<field access="public protected" />
+				<method access="public protected" />
+			</keep>
+
+			<!-- Preserve all .class method names. -->
+
+			<keepclassmembernames access="public">
+				<method type="java.lang.Class" name="class$" parameters="java.lang.String" />
+				<method type="java.lang.Class" name="class$" parameters="java.lang.String,boolean" />
+			</keepclassmembernames>
+
+			<!-- Preserve all native method names and the names of their classes. -->
+
+			<keepclasseswithmembernames>
+				<method access="native" />
+			</keepclasseswithmembernames>
+
+			<!-- Preserve the methods that are required in all enumeration classes. -->
+
+			<keepclassmembers extends="java.lang.Enum">
+				<method access="public static" type="**[]" name="values" parameters="" />
+				<method access="public static" type="**" name="valueOf" parameters="java.lang.String" />
+			</keepclassmembers>
+
+			<!-- Explicitly preserve all serialization members. The Serializable
+						         interface is only a marker interface, so it wouldn't save them.
+						         You can comment this out if your library doesn't use serialization.
+						         If your code contains serializable classes that have to be backward
+						         compatible, please refer to the manual. -->
+
+			<keepclassmembers implements="java.io.Serializable">
+				<field access="final" type="long" name="serialVersionUID" />
+				<field access="static final" type="java.io.ObjectStreamField[]" name="serialPersistentFields" />
+				<method access="private" type="void" name="writeObject" parameters="java.io.ObjectOutputStream" />
+				<method access="private" type="void" name="readObject" parameters="java.io.ObjectInputStream" />
+				<method type="java.lang.Object" name="writeReplace" parameters="" />
+				<method type="java.lang.Object" name="readResolve" parameters="" />
+			</keepclassmembers>
+		</proguard>
+	</target>
+</project>

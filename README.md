@@ -7,7 +7,7 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [SAFApp]{#SAFApp}  
+* [SAFApp](https://github.com/fengzhizi715/SAF#safapp)
 * Event Bus
 * Rest Client
 * Image Cache

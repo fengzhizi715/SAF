@@ -64,3 +64,22 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
           RestClient client = RestClient.get(url);<p>
           String body = client.body();
 </pre></code>
+
+异步调用get方法：
+<pre><code>
+          RestClient.get(url,new HttpResponseHandler(){
+              
+              public void onSuccess(String content) {
+                // content为http请求成功后返回的response
+                }
+                
+          });
+</pre></code>
+
+同步调用post方法：post body内容为json
+<pre><code>
+          RestClient client = RestClient.post(url);
+          client.acceptJson().contentType("application/json", null);
+          client.send(jsonString); // jsonString是已经由json对象转换成string类型
+          String body = client.body();
+</pre></code>

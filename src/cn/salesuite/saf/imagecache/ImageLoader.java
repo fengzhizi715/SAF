@@ -152,6 +152,11 @@ public class ImageLoader {
     private Bitmap getBitmapFromDiskCache(final String urlString) {
     	if (enableDiskCache) {
             final String key = getDiskCacheKey(urlString);
+            
+            if (key==null) {
+            	return null;
+            }
+            
             final Bitmap cachedBitmap = diskCache.getBitmap(key);
 
             if (cachedBitmap == null)
@@ -166,6 +171,9 @@ public class ImageLoader {
 
     private static String getDiskCacheKey(final String urlString) {
         final String sanitizedKey = urlString.replaceAll("[^a-z0-9_]", "");
+        if (sanitizedKey.length()>63) { // sanitizedKey > 63时，不用sd卡缓存用内存缓存。
+        	return null;
+        }
         return sanitizedKey.substring(0, Math.min(63, sanitizedKey.length()));
     }
     

@@ -8,12 +8,12 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 -----------------------------------
 * SAFApp<br />
 * Event Bus<br />
-3.Rest Client<br />
-4.Image Cache<br />
-5.Dependency Injection<br />
-6.Sqlite ORM<br />
-7.Router<br />
-8.Utils<br />
+* Rest Client<br />
+* Image Cache<br />
+* Dependency Injection<br />
+* Sqlite ORM<br />
+* Router<br />
+* Utils<br />
 
 SAFApp
 ===
@@ -27,8 +27,7 @@ Event Bus解耦了asyncTask、handler、thread、broadcast等组件。使用Even
 
 它用法很简单，在Activity或者Fragment中使用，其中event是一个简单的POJO<br />
 <p><code>
-// 退出系统的事件
-
+// 退出系统的事件<p>
 eventBus.post(new LogoutEvent());
 </code></p>
 
@@ -62,7 +61,6 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
 同步调用get方法：
 <p><code>
-          RestClient client = RestClient.get(url);
-          
+          RestClient client = RestClient.get(url);<p>
           String body = client.body();
 </code></p>

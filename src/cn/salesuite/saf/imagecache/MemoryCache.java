@@ -110,4 +110,13 @@ public class MemoryCache {
 		mLruCache.evictAll();
 		mSoftCache.clear();
 	}
+	
+	/**
+	 * 根据key删除MemoryCache的图片缓存
+	 * @param url
+	 */
+	public void remove(String url) {
+		mLruCache.remove(url);
+		mSoftCache.remove(url);
+	}
 }

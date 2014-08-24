@@ -118,7 +118,16 @@ public class ImageLoader {
             imageView.setImageResource(imageId);
         }
     }
-        
+    
+    /**
+     * 根据url，删除cache里的图片
+     * @param url
+     */
+    public void remove(String url) {
+    	memoryCache.remove(url);
+    	diskCache.remove(url);
+    }
+    
     private void queuePhoto(String url, ImageView imageView) {
         ImageRequest p=new ImageRequest(url, imageView);
         mQueue.add(p);

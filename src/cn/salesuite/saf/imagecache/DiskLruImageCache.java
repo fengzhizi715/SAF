@@ -167,4 +167,18 @@ public class DiskLruImageCache {
             e.printStackTrace();
         }
     }
+    
+	/**
+	 * 根据key删除DiskLruImageCache的图片缓存
+	 * @param url
+	 */
+	public void remove(String url) {
+		if (containsKey(url)) {
+			try {
+				mDiskCache.remove(url);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

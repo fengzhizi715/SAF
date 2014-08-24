@@ -125,7 +125,11 @@ public class ImageLoader {
      */
     public void remove(String url) {
     	memoryCache.remove(url);
-    	diskCache.remove(url);
+        String key = getDiskCacheKey(url);
+        if (key==null) {
+        	return;
+        }
+    	diskCache.remove(key);
     }
     
     private void queuePhoto(String url, ImageView imageView) {

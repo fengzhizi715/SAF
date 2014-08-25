@@ -120,7 +120,7 @@ public class ImageLoader {
     }
     
     /**
-     * 根据url，删除cache里的图片
+     * 根据url，删除cache里的图片，包括内存cache和sd卡上的cache
      * @param url
      */
     public void remove(String url) {
@@ -205,7 +205,7 @@ public class ImageLoader {
     private void addBitmapToCache(final String key, final Bitmap bitmap) {
         memoryCache.put(key, bitmap);
 
-        if (!enableDiskCache) {
+        if (enableDiskCache) { // sd卡缓存开关打开时，将图片缓存到sd卡上
             final String diskCacheKey = getDiskCacheKey(key);
 
             if ((diskCache != null) && !diskCache.containsKey(diskCacheKey)) {
@@ -296,6 +296,7 @@ public class ImageLoader {
         public void run(){
             if(imageViewReused(photoToLoad))
                 return;
+            
             if(bitmap!=null) {
             	if (photoToLoad.options!=null) {
             		photoToLoad.imageView.setImageBitmap(BitmapHelper.roundCorners(bitmap , photoToLoad.options.cornerRadius));

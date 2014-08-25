@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
  *
  * 
  */
+@Deprecated
 public class HttpJsonPost extends HttpJsonClient{
 
     public HttpJsonPost() {

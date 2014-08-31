@@ -77,25 +77,25 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
 
 同步调用post方法：post body内容为json
-<pre><code>
+
           RestClient client = RestClient.post(url);
           client.acceptJson().contentType("application/json", null);
           client.send(jsonString); // jsonString是已经由json对象转换成string类型
           String body = client.body();
-</pre></code>
+
 
 异步调用post方法：post body内容为json
-<pre><code>
+
           RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
         
                 public void onSuccess(String content) {
                 }
         
            });
-</pre></code>
+
 
 异步调用post方法：以form形式传递数据
-<pre><code>
+
           RestClient.post(urlString, map, new HttpResponseHandler(){
 
                 @Override
@@ -104,7 +104,6 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
                 }
                                         
           });
-</pre></code>
 
 
 Image Cache

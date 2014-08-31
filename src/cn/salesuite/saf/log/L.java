@@ -11,6 +11,7 @@ import cn.salesuite.saf.utils.StringHelper;
 import android.util.Log;
 
 /**
+ * 日志包装类
  * @author Tony Shen
  *
  */
@@ -45,15 +46,15 @@ public class L {
 	
 	public static LogLevel logLevel = LogLevel.DEBUG; // 日志的等级，可以进行配置
 	
-	public static void init(SAFActivity activity) {
+	public L(SAFActivity activity) {
 		TAG = activity.TAG;
 	}
 	
-	public static void init(SAFFragmentActivity activity) {
+	public L(SAFFragmentActivity activity) {
 		TAG = activity.TAG;
 	}
 	
-	public static void init(SAFFragment fragment) {
+	public L(SAFFragment fragment) {
 		TAG = fragment.TAG;
 	}
 	
@@ -62,6 +63,15 @@ public class L {
 			
 			if(StringHelper.isNotBlank(msg)) {
 				Log.e(TAG, msg);
+			}
+		}
+	}
+	
+	public static void e(String msg,Object ...args) {
+		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.e(TAG, String.format(msg, args));
 			}
 		}
 	}
@@ -97,6 +107,15 @@ public class L {
 		}
 	}
 	
+	public static void w(String msg,Object ...args) {
+		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.w(TAG, String.format(msg, args));
+			}
+		}
+	}
+	
 	public static void w(String msg,Throwable tr) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
@@ -128,6 +147,15 @@ public class L {
 		}
 	}
 	
+	public static void i(String msg,Object ...args) {
+		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.i(TAG, String.format(msg, args));
+			}
+		}
+	}
+	
 	public static void i(String msg,Throwable tr) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
@@ -155,6 +183,15 @@ public class L {
 			
 			if(StringHelper.isNotBlank(msg)) {
 				Log.d(TAG, msg);
+			}
+		}
+	}
+	
+	public static void d(String msg,Object ...args) {
+		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.d(TAG, String.format(msg, args));
 			}
 		}
 	}

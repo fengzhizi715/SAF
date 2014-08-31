@@ -67,14 +67,14 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 </pre></code>
 
 异步调用get方法：
-<pre><code>
+
           RestClient.get(url,new HttpResponseHandler(){
               
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
               }
           });
-</pre></code>
+
 
 同步调用post方法：post body内容为json
 <pre><code>
@@ -229,7 +229,7 @@ InflateLayout
          *
          */
          @InflateLayout(id=R.layout.my_view)
-         public class MyView extends FrameLayout {
+         public class MyView extends LinearLayout {
 
               @InjectView(id = R.id.textview1)
 	          public TextView view1;

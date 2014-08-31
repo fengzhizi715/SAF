@@ -221,7 +221,7 @@ Inject Extra
 
 InflateLayout
 ---
-<pre><code>
+
         /**
          * @author Tony Shen
          *
@@ -239,11 +239,11 @@ InflateLayout
 		         super(context);
 	         }
         }
-</pre></code>
+
 
 在Activity、Fragment中的写法:
 <pre><code> 	
-MyView myView = Injector.build(mContext, MyView.class);
+         MyView myView = Injector.build(mContext, MyView.class);
 </pre></code>
 
 Sqlite ORM
@@ -267,7 +267,7 @@ Sqlite ORM
 
 
 使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。
-<pre><code>
+
           /**
            * @author Tony Shen
            *
@@ -281,10 +281,9 @@ Sqlite ORM
                 }
   
            }
-</pre></code>     
 
 db的domain使用是也是基于注解
-<pre><code>
+
           /**
            * 
            * 表示sqlite中autocomplete表的属性
@@ -303,10 +302,10 @@ db的domain使用是也是基于注解
               @Column(name="key_reference",length=80)
               public String KEY_REFERENCE;
           }
-</pre></code> 
+
 
 db的操作很简单
-<pre><code>
+
           Autocomplete auto = new Autocomplete();
           auto.KEY_TYPE = "1";
           auto.KEY_WORDS = "testtest";
@@ -323,7 +322,7 @@ db的操作很简单
           } else {
                Log.i("+++++++++++++++","auto3 is null!");
           }
-</pre></code> 
+
 
 查询结果集
 <pre><code>

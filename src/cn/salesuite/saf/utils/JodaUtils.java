@@ -11,6 +11,7 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 /**
+ * 使用Joda封装的日期帮助类，替换原先的DateHelper
  * @author Tony Shen
  *
  */

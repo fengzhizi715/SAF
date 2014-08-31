@@ -1,38 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Saf by fengzhizi715</title>
+    <meta name="description" content="Saf : SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>Saf</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Saf</h1>
-        <p>SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。</p>
-        <p class="view"><a href="https://github.com/fengzhizi715/SAF">View the Project on GitHub <small>fengzhizi715/SAF</small></a></p>
-        <ul>
-          <li><a href="https://github.com/fengzhizi715/SAF/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/fengzhizi715/SAF/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/fengzhizi715/SAF">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/fengzhizi715/SAF">View on GitHub</a>
+
+          <h1 id="project_title">Saf</h1>
+          <h2 id="project_tagline">SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/fengzhizi715/SAF/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/fengzhizi715/SAF/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a name="saf" class="anchor" href="#saf"><span class="octicon octicon-link"></span></a>SAF</h1>
 
 <p>SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。
 SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。目前它刚刚到1.1版本，肯定会存在各种各样的问题。 
-这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756</p>
+这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756</p>
 
 <h2>
 <a name="%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD" class="anchor" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="octicon octicon-link"></span></a>主要功能</h2>
@@ -99,51 +103,45 @@ eventBus.post(new LogoutEvent());
           String body = client.body();
 </p></code></pre>
 
-<p>异步调用get方法：
-</p><pre><code>
-          RestClient.get(url,new HttpResponseHandler(){
+<p>异步调用get方法：</p>
 
-<pre><code>          public void onSuccess(String content) {
+<pre><code>      RestClient.get(url,new HttpResponseHandler(){
+
+          public void onSuccess(String content) {
             // content为http请求成功后返回的response
           }
       });
 </code></pre>
 
-<p></p></code></pre>
+<p>同步调用post方法：post body内容为json</p>
 
-<p>同步调用post方法：post body内容为json
-</p><pre><code>
-          RestClient client = RestClient.post(url);
-          client.acceptJson().contentType("application/json", null);
-          client.send(jsonString); // jsonString是已经由json对象转换成string类型
-          String body = client.body();
+<pre><code>      RestClient client = RestClient.post(url);
+      client.acceptJson().contentType("application/json", null);
+      client.send(jsonString); // jsonString是已经由json对象转换成string类型
+      String body = client.body();
 </code></pre>
 
-<p>异步调用post方法：post body内容为json
-</p><pre><code>
-          RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
+<p>异步调用post方法：post body内容为json</p>
 
-<pre><code>            public void onSuccess(String content) {
+<pre><code>      RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
+
+            public void onSuccess(String content) {
             }
 
        });
 </code></pre>
 
-<p></p></code></pre>
+<p>异步调用post方法：以form形式传递数据</p>
 
-<p>异步调用post方法：以form形式传递数据
-</p><pre><code>
-          RestClient.post(urlString, map, new HttpResponseHandler(){
+<pre><code>      RestClient.post(urlString, map, new HttpResponseHandler(){
 
-<pre><code>            @Override
+            @Override
             public void onSuccess(String content) {
 
             }
 
       });
 </code></pre>
-
-<p></p></code></pre>
 
 <h1>
 <a name="image-cache" class="anchor" href="#image-cache"><span class="octicon octicon-link"></span></a>Image Cache</h1>
@@ -166,14 +164,15 @@ eventBus.post(new LogoutEvent());
 <li>Inject View ：简化组件的查找注册</li>
 <li>Inject Service ：简化系统服务的注册，目前只支持android的系统服务</li>
 <li>Inject Extra ：简化2个Activity之间Extra传递</li>
+<li>InflateLayout ：简化布局填充时，组件的查找注册</li>
 </ul><h2>
 <a name="inject-view" class="anchor" href="#inject-view"><span class="octicon octicon-link"></span></a>Inject View</h2>
 
-<p>Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码
-</p><pre><code>
-          public class MainActivity extends Activity {
+<p>Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码</p>
 
-<pre><code>            private ImageView imageView;
+<pre><code>      public class MainActivity extends Activity {
+
+            private ImageView imageView;
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -185,13 +184,11 @@ eventBus.post(new LogoutEvent());
        }
 </code></pre>
 
-<p></p></code></pre>
+<p>在使用Inject View之后，会这样写代码</p>
 
-<p>在使用Inject View之后，会这样写代码
-</p><pre><code>
-          public class MainActivity extends Activity {
+<pre><code>      public class MainActivity extends Activity {
 
-<pre><code>            @InjectView(id= R.id.imageview)
+            @InjectView(id= R.id.imageview)
             private ImageView imageView;
 
             @Override
@@ -204,13 +201,11 @@ eventBus.post(new LogoutEvent());
       }
 </code></pre>
 
-<p></p></code></pre>
+<p>目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。</p>
 
-<p>目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
-</p><pre><code>
-          public class DemoFragment extends Fragment {
+<pre><code>      public class DemoFragment extends Fragment {
 
-<pre><code>               @InjectView(id=R.id.title)
+               @InjectView(id=R.id.title)
                private TextView titleView;
 
                @InjectView(id=R.id.imageview)
@@ -232,26 +227,23 @@ eventBus.post(new LogoutEvent());
        }
 </code></pre>
 
-<p></p></code></pre>
-
 <h2>
 <a name="inject-extra" class="anchor" href="#inject-extra"><span class="octicon octicon-link"></span></a>Inject Extra</h2>
 
-<p></p><pre><code>
-         /**
-          * MainActivity传递数据给SecondActivity
-          * Intent i = new Intent(MainActivity.this,SecondActivity.class);<br>
-          * i.putExtra("test", "saf");
-          * i.putExtra("test_object", hello);
-          * startActivity(i);
-          * 在SecondActivity可以使用@InjectExtra注解
-          *
-          * @author Tony Shen
-          *
-          */
-         public class SecondActivity extends Activity{
+<pre><code>     /**
+      * MainActivity传递数据给SecondActivity
+      * Intent i = new Intent(MainActivity.this,SecondActivity.class);                                               
+      * i.putExtra("test", "saf");
+      * i.putExtra("test_object", hello);
+      * startActivity(i);
+      * 在SecondActivity可以使用@InjectExtra注解
+      *
+      * @author Tony Shen
+      *
+      */
+     public class SecondActivity extends Activity{
 
-<pre><code>           @InjectExtra(key="test")
+           @InjectExtra(key="test")
            private String testStr;
 
            @InjectExtra(key="test_object")
@@ -267,36 +259,63 @@ eventBus.post(new LogoutEvent());
       }
 </code></pre>
 
-<p></p></code></pre>
+<h2>
+<a name="inflatelayout" class="anchor" href="#inflatelayout"><span class="octicon octicon-link"></span></a>InflateLayout</h2>
+
+<pre><code>    /**
+     * @author Tony Shen
+     *
+     */
+     @InflateLayout(id=R.layout.my_view)
+     public class MyView extends LinearLayout {
+
+          @InjectView(id = R.id.textview1)
+          public TextView view1;
+
+          @InjectView(id = R.id.textview2)
+          public TextView view2;
+
+         public MyView(Context context) {
+             super(context);
+         }
+    }
+</code></pre>
+
+<p>在Activity、Fragment中的写法:
+</p><pre><code><br>
+         MyView myView = Injector.build(mContext, MyView.class);
+</code></pre>
 
 <h1>
 <a name="sqlite-orm" class="anchor" href="#sqlite-orm"><span class="octicon octicon-link"></span></a>Sqlite ORM</h1>
 
-<p>顾名思义就是sqlite的orm框架，采用oop的方式简化对sqlite的操作。 首先需要在AndroidManifest.xml中配上一些参数
-</p><pre><code>
-        &lt;!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表--&gt;
-        <pre><code>   &lt;!-- 表示db的名称--&gt;
+<p>顾名思义就是sqlite的orm框架，采用oop的方式简化对sqlite的操作。 首先需要在AndroidManifest.xml中配上一些参数</p>
+
+<pre><code>    &lt;!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表--&gt;
+    &lt;meta-data
+        android:name="DOMAIN_PACKAGE"
+        android:value="com.example.testsaf.db" /&gt;
+
+    &lt;!-- 表示db的名称--&gt;
     &lt;meta-data
         android:name="DB_NAME"
         android:value="testsaf.db" /&gt;
 
-    &lt;!-- 表示db的版本号--&gt;
+     &lt;!-- 表示db的版本号--&gt;
      &lt;meta-data
         android:name="DB_VERSION"
         android:value="1" /&gt;
 </code></pre>
 
-<p></p></code></pre>
+<p>使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。</p>
 
-<p>使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。
-</p><pre><code>
-          /**
-           * @author Tony Shen
-           *
-           */
-           public class TestApp extends Application{
+<pre><code>      /**
+       * @author Tony Shen
+       *
+       */
+       public class TestApp extends Application{
 
-<pre><code>            @Override
+            @Override
             public void onCreate() {
                super.onCreate();
                DBManager.initialize(this);
@@ -305,20 +324,18 @@ eventBus.post(new LogoutEvent());
        }
 </code></pre>
 
-<p></p></code></pre>     
+<p>db的domain使用是也是基于注解</p>
 
-<p>db的domain使用是也是基于注解
-</p><pre><code>
-          /**
-           * 
-           * 表示sqlite中autocomplete表的属性
-           * @author Tony Shen
-           * 
-           */
-          @Table(name="autocomplete")
-          public class Autocomplete extends DBDomain{
+<pre><code>      /**
+       * 
+       * 表示sqlite中autocomplete表的属性
+       * @author Tony Shen
+       * 
+       */
+      @Table(name="autocomplete")
+      public class Autocomplete extends DBDomain{
 
-<pre><code>          @Column(name="key_words",length=20,notNull=true)
+          @Column(name="key_words",length=20,notNull=true)
           public String KEY_WORDS;
 
           @Column(name="key_type",length=20,notNull=true)
@@ -329,16 +346,14 @@ eventBus.post(new LogoutEvent());
       }
 </code></pre>
 
-<p></p></code></pre> 
+<p>db的操作很简单</p>
 
-<p>db的操作很简单
-</p><pre><code>
-          Autocomplete auto = new Autocomplete();
-          auto.KEY_TYPE = "1";
-          auto.KEY_WORDS = "testtest";
-          auto.save(); // 插入第一条记录
+<pre><code>      Autocomplete auto = new Autocomplete();
+      auto.KEY_TYPE = "1";
+      auto.KEY_WORDS = "testtest";
+      auto.save(); // 插入第一条记录
 
-<pre><code>      Autocomplete auto2 = new Autocomplete();
+      Autocomplete auto2 = new Autocomplete();
       auto2.KEY_TYPE = "0";
       auto2.KEY_WORDS = "haha";
       auto2.save(); // 插入第二条记录
@@ -350,8 +365,6 @@ eventBus.post(new LogoutEvent());
            Log.i("+++++++++++++++","auto3 is null!");
       }
 </code></pre>
-
-<p></p></code></pre> 
 
 <p>查询结果集
 </p><pre><code>
@@ -365,18 +378,18 @@ Log.i("+++++++++++++++","list2.size()="+list2.size()); // 表示查询select * f
 <h1>
 <a name="router" class="anchor" href="#router"><span class="octicon octicon-link"></span></a>Router</h1>
 
-<p>类似于rails的router功能，Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数
-</p><pre><code>
-          Router.getInstance().setContext(getApplicationContext()); // 这一步是必须的，用于初始化Router
-          Router.getInstance().map("user/:user/password/:password", SecondActivity.class);
+<p>类似于rails的router功能，Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数</p>
+
+<pre><code>      Router.getInstance().setContext(getApplicationContext()); // 这一步是必须的，用于初始化Router
+      Router.getInstance().map("user/:user/password/:password", SecondActivity.class);
 </code></pre>
 
-<p>有时候，activity跳转还会有动画效果，那么我们可以这么做
-</p><pre><code>
-          RouterOptions options = new RouterOptions();
-          options.enterAnim = R.anim.slide_right_in;
-          options.exitAnim = R.anim.slide_left_out;
-          Router.getInstance().map("user/:user/password/:password", SecondActivity.class, options);
+<p>有时候，activity跳转还会有动画效果，那么我们可以这么做</p>
+
+<pre><code>      RouterOptions options = new RouterOptions();
+      options.enterAnim = R.anim.slide_right_in;
+      options.exitAnim = R.anim.slide_left_out;
+      Router.getInstance().map("user/:user/password/:password", SecondActivity.class, options);
 </code></pre>
 
 <p>在Application中定义好映射，activity之间跳转只需在activity中写下如下的代码，即可跳转到相应的Activity，并传递参数
@@ -384,28 +397,24 @@ Log.i("+++++++++++++++","list2.size()="+list2.size()); // 表示查询select * f
            Router.getInstance().open("user/fengzhizi715/password/715");
 </code></pre>
 
-<p>如果在跳转前需要先做判断，看看是否满足跳转的条件,doCheck()返回false表示不跳转，true表示进行跳转到下一个activity
-</p><pre><code>
-          Router.getInstance().open("user/fengzhizi715/password/715",new RouterChecker(){
+<p>如果在跳转前需要先做判断，看看是否满足跳转的条件,doCheck()返回false表示不跳转，true表示进行跳转到下一个activity</p>
 
-<pre><code>             public boolean doCheck() {
+<pre><code>      Router.getInstance().open("user/fengzhizi715/password/715",new RouterChecker(){
+
+             public boolean doCheck() {
                  return true;
              }
       });
 </code></pre>
 
-<p></p></code></pre>
+<p>单独跳转到某个网页，调用系统电话，调用手机上的地图app打开地图等无须在Application中定义跳转映射。</p>
 
-<p>单独跳转到某个网页，调用系统电话，调用手机上的地图app打开地图等无须在Application中定义跳转映射。
-</p><pre><code>
-          Router.getInstance().openURI("<a href="http://www.g.cn%22">http://www.g.cn"</a>);
+<pre><code>      Router.getInstance().openURI("http://www.g.cn");
 
-<pre><code>      Router.getInstance().openURI("tel://18662430000");
+      Router.getInstance().openURI("tel://18662430000");
 
       Router.getInstance().openURI("geo:0,0?q=31,121");
 </code></pre>
-
-<p></p></code></pre>
 
 <p>Fragment之间的跳转也无须在Application中定义跳转映射。直接在某个Fragment写下如下的代码
 </p><pre><code>
@@ -423,11 +432,16 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 <p>包含了很多常用的工具类，比如日期操作、字符串操作、SAFUtil里包含各种乱七八糟的常用类等等。</p>
       </section>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/fengzhizi715">fengzhizi715</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Saf maintained by <a href="https://github.com/fengzhizi715">fengzhizi715</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>

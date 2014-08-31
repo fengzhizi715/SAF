@@ -223,6 +223,7 @@ Inject Extra
 
 InflateLayout
 ---
+<pre><code>
 /**
  * @author Tony Shen
  *
@@ -240,9 +241,12 @@ public class MyView extends FrameLayout {
 		super(context);
 	}
 }
+</pre></code>
 
-在Activity、Fragment中的写法：    	
+在Activity、Fragment中的写法:
+<pre><code> 	
 MyView myView = Injector.build(mContext, MyView.class);
+</pre></code>
 
 Sqlite ORM
 ===

@@ -224,23 +224,23 @@ Inject Extra
 InflateLayout
 ---
 <pre><code>
-/**
- * @author Tony Shen
- *
- */
-@InflateLayout(id=R.layout.my_view)
-public class MyView extends FrameLayout {
+        /**
+         * @author Tony Shen
+         *
+         */
+         @InflateLayout(id=R.layout.my_view)
+         public class MyView extends FrameLayout {
 
-    @InjectView(id = R.id.textview1)
-	public TextView view1;
+              @InjectView(id = R.id.textview1)
+	          public TextView view1;
     
-    @InjectView(id = R.id.textview2)
-	public TextView view2;
+              @InjectView(id = R.id.textview2)
+	          public TextView view2;
 	
-	public HomePopupWindow(Context context) {
-		super(context);
-	}
-}
+	         public MyView(Context context) {
+		         super(context);
+	         }
+        }
 </pre></code>
 
 在Activity、Fragment中的写法:

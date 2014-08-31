@@ -130,7 +130,7 @@ SAF中的DI包括以下几个方面：
 Inject View
 ---
 Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码
-<pre><code>
+
           public class MainActivity extends Activity {
                 
                 private ImageView imageView;
@@ -143,10 +143,10 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                   imageView = (ImageView) findViewById(R.id.imageview);
                 }
            }
-</pre></code>
+
 
 在使用Inject View之后，会这样写代码
-<pre><code>
+
           public class MainActivity extends Activity {
                     
                 @InjectView(id= R.id.imageview)
@@ -160,10 +160,10 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                    Injector.injectInto(this);
                 }
           }
-</pre></code>
+
 
 目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
-<pre><code>
+
           public class DemoFragment extends Fragment {
 
                    @InjectView(id=R.id.title)
@@ -186,11 +186,11 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
           
                   ......
            }
-</pre></code>
+
 
 Inject Extra
 ---
-<pre><code>
+
          /**
           * MainActivity传递数据给SecondActivity
           * Intent i = new Intent(MainActivity.this,SecondActivity.class);                                               
@@ -218,7 +218,6 @@ Inject Extra
                    Log.i("++++++++++++","hello="+SAFUtil.printObject(hello)); // 该方法用于打印对象
               }
           }
-</pre></code>
 
 InflateLayout
 ---

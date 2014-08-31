@@ -2,7 +2,7 @@ SAF
 ===
 SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。
 SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。目前它刚刚到1.1版本，肯定会存在各种各样的问题。 
-这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756
+这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756
 
 
 主要功能
@@ -126,6 +126,7 @@ SAF中的DI包括以下几个方面：
 * Inject View ：简化组件的查找注册
 * Inject Service ：简化系统服务的注册，目前只支持android的系统服务
 * Inject Extra ：简化2个Activity之间Extra传递
+* InflateLayout ：简化布局填充时，组件的查找注册
 
 Inject View
 ---
@@ -220,26 +221,48 @@ Inject Extra
           }
 </pre></code>
 
+InflateLayout
+---
+/**
+ * @author Tony Shen
+ *
+ */
+@InflateLayout(id=R.layout.my_view)
+public class MyView extends FrameLayout {
+
+    @InjectView(id = R.id.textview1)
+	public TextView view1;
+    
+    @InjectView(id = R.id.textview2)
+	public TextView view2;
+	
+	public HomePopupWindow(Context context) {
+		super(context);
+	}
+}
+
+在Activity、Fragment中的写法：    	
+MyView myView = Injector.build(mContext, MyView.class);
 
 Sqlite ORM
 ===
 顾名思义就是sqlite的orm框架，采用oop的方式简化对sqlite的操作。 首先需要在AndroidManifest.xml中配上一些参数
-<pre><code>
+
         <!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表-->
         <meta-data
             android:name="DOMAIN_PACKAGE"
             android:value="com.example.testsaf.db" />
         
-       <!-- 表示db的名称-->
+        <!-- 表示db的名称-->
         <meta-data
             android:name="DB_NAME"
             android:value="testsaf.db" />
  
-        <!-- 表示db的版本号-->
+         <!-- 表示db的版本号-->
          <meta-data
             android:name="DB_VERSION"
             android:value="1" />
-</pre></code>
+
 
 使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。
 <pre><code>

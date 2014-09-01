@@ -6,6 +6,10 @@ package cn.salesuite.saf.inject;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -26,6 +30,7 @@ import cn.salesuite.saf.inject.annotation.InjectResource;
 import cn.salesuite.saf.inject.annotation.InjectSupportFragment;
 import cn.salesuite.saf.inject.annotation.InjectSystemService;
 import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.saf.inject.annotation.OnClick;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -213,6 +218,7 @@ public class Injector {
     
 	private void injectAll(Finder finder) {
         injectFields(finder);
+        bindMethods(finder);
 	}
 
 	private void injectFields(Finder finder) {
@@ -326,5 +332,70 @@ public class Injector {
         } catch (Exception e) {
             throw new InjectException("Could not inject into field " + field.getName(), e);
         }
+	}
+	
+	private void bindMethods(Finder finder) {
+        Method[] methods = clazz.getDeclaredMethods();
+        Set<View> modifiedViews = new HashSet<View>();
+        for (final Method method : methods) {
+            Annotation[] annotations = method.getAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation.annotationType() == OnClick.class) {
+                    bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
+                }
+            }
+        }
+	}
+	
+	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        boolean invokeWithView;
+        if (parameterTypes.length == 0) {
+            invokeWithView = false;
+        } else if (parameterTypes.length == 1) {
+            if (parameterTypes[0] == View.class) {
+                invokeWithView = true;
+            } else {
+                throw new InjectException("Method may have no parameter or a single View parameter only: "
+                        + method.getName() + ", found paramter type " + parameterTypes[0]);
+            }
+        } else {
+            throw new InjectException("Method may have no parameter or a single View parameter only: "
+                    + method.getName());
+        }
+        method.setAccessible(true);
+        InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
+
+        int[] ids = onClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+                boolean modified = modifiedViews.add(view);
+                if (!modified) {
+                    throw new InjectException("View can be bound to methods only once using OnClick: "
+                            + method.getName());
+                }
+                view.setOnClickListener(listener);
+            }
+        }
+        return invokeWithView;
+    }
+	
+	private View findView(Member field, int viewId, Finder finder) {
+		View view = null;
+		switch (finder) {
+		case ACTIVITY:
+			if (activity == null) {
+				throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in " + context.getClass());
+			}
+			view = finder.findById(activity, viewId);
+			if (view == null) {
+				throw new InjectException("View not found for member " + field.getName());
+			}
+			break;
+		default:
+			break;
+		}
+		return view;
 	}
 }

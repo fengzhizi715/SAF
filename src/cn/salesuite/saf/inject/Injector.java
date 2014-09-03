@@ -229,6 +229,14 @@ public class Injector {
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == InjectView.class) {
                     int id = ((InjectView) annotation).id();
+//                  TODO frankswu not find id,default use field name 
+                    if(id == 0){
+                    	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
+                        if (id == 0) {
+                            throw new InjectException("View not found for member " + field.getName());
+                        }
+                    }
+                    
                     View view = null;
                 	switch (finder) {  
                     case DIALOG:

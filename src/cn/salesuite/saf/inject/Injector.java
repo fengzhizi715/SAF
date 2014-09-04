@@ -8,7 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
@@ -31,6 +33,7 @@ import cn.salesuite.saf.inject.annotation.InjectResource;
 import cn.salesuite.saf.inject.annotation.InjectSupportFragment;
 import cn.salesuite.saf.inject.annotation.InjectSystemService;
 import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.saf.inject.annotation.InjectViews;
 import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 
@@ -224,45 +227,41 @@ public class Injector {
 	}
 
 	private void injectFields(Finder finder) {
-
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
+
             Annotation[] annotations = field.getAnnotations();
+            View view = null;
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == InjectView.class) {
                     int id = ((InjectView) annotation).id();
-//                  frankswu not find id,default use field name 
-                    if(id == 0){
-                    	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
-                        if (id == 0) {
-                            throw new InjectException("View not found for member " + field.getName());
-                        }
-                    }
-                    View view = null;
-                	switch (finder) {  
-                    case DIALOG:
-                    	view = Finder.DIALOG.findById(target, id);
-                        break;  
-                    case ACTIVITY:
-                        if (activity == null) {
-                            throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in "
-                                    + context.getClass());
-                        }
-                    	view = Finder.ACTIVITY.findById(activity, id);
-                        break;
-                    case FRAGMENT:
-                    	view = Finder.FRAGMENT.findById(fragmentView, id);
-                        break;
-                    case VIEW:
-                    	view = Finder.VIEW.findById(target, id);
-                        break;
-                    }
-                	
+                    view = findViewByAnnotationId(id,field,finder);
                     if (view == null) {
                         throw new InjectException("View not found for member " + field.getName());
                     }
-                    
                     injectIntoField(field, view);
+                } else if (annotation.annotationType() == InjectViews.class) {
+                	String fieldTypeName = field.getType().getName();
+					// TODO frankswu add injectViews 
+                	if ("[I".equals(fieldTypeName)||"java.util.List".equals(fieldTypeName)) {
+                        int[] ids = ((InjectViews) annotation).ids();
+                        List<View> views = new ArrayList<View>();
+                        for (int id : ids) {
+                            view = findViewByAnnotationId(id,field,finder);
+                            if (view == null) {
+                                throw new InjectException("View not found for member " + field.getName()+", and id is " + id);
+                            }
+                            views.add(view);
+    					}
+	                    if ("[I".equals(fieldTypeName)) {
+		                    injectIntoField(field, views.toArray());                	
+						}
+	                    if ("java.util.List".equals(fieldTypeName)) {
+		                    injectIntoField(field, views);                	
+						}
+					} else {
+                        throw new InjectException("The View of InjectViews annotation " + field.getName()+" is not list or array !");
+					}
                 } else if (annotation.annotationType() == InjectResource.class) {
                     Object ressource = findResource(field.getType(), field, (InjectResource) annotation);
                     injectIntoField(field, ressource);
@@ -284,6 +283,43 @@ public class Injector {
         }
 	}
 	
+	/**
+	 * frankswu not find id,default use field name 
+	 * @param id
+	 * @param field
+	 * @param finder
+	 * @return
+	 */
+	private View findViewByAnnotationId(int id, Field field, Finder finder) {
+
+        if(id == 0){
+        	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
+            if (id == 0) {
+                throw new InjectException("View not found for member " + field.getName());
+            }
+        }
+        
+    	switch (finder) {  
+        case DIALOG:
+        	return Finder.DIALOG.findById(target, id);
+        	
+        case ACTIVITY:
+            if (activity == null) {
+                throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in "
+                        + context.getClass());
+            }
+        	return Finder.ACTIVITY.findById(activity, id);
+        	
+        case FRAGMENT:
+        	return Finder.FRAGMENT.findById(fragmentView, id);
+
+        case VIEW:
+        	return Finder.VIEW.findById(target, id);
+
+        }
+    	return null;
+	}
+
 	/**
 	 * 查找fragment
 	 * @param field
@@ -376,9 +412,9 @@ public class Injector {
         int[] ids = onItemClick.id();
         for (int id : ids) {
             if (id != 0) {
-            	AdapterView view = null;
+            	AdapterView<?> view = null;
             	try {
-                    view = (AdapterView) findView(method, id, finder);
+                    view = (AdapterView<?>) findView(method, id, finder);
 				} catch (Exception e) {
                     throw new InjectException("The view can be cast to AdapterView for using OnItemClick! ");
 				}
@@ -451,4 +487,6 @@ public class Injector {
 		}
 		return view;
 	}
+	
+
 }

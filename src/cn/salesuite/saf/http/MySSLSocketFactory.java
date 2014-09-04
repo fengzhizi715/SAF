@@ -23,7 +23,7 @@ public class MySSLSocketFactory extends
 	public MySSLSocketFactory(KeyStore truststore)
 			throws NoSuchAlgorithmException, KeyManagementException,
 			KeyStoreException, UnrecoverableKeyException {
-		super(null);
+		super(truststore);
 
 		try {
 			SSLContext context = SSLContext.getInstance("TLS");

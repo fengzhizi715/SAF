@@ -243,7 +243,7 @@ public class Injector {
                 } else if (annotation.annotationType() == InjectViews.class) {
                 	String fieldTypeName = field.getType().getName();
 					// TODO frankswu add injectViews 
-                	if ("[I".equals(fieldTypeName)||"java.util.List".equals(fieldTypeName)) {
+                	if ("[L".equals(fieldTypeName)||"java.util.List".equals(fieldTypeName)) {
                         int[] ids = ((InjectViews) annotation).ids();
                         List<View> views = new ArrayList<View>();
                         for (int id : ids) {
@@ -253,7 +253,7 @@ public class Injector {
                             }
                             views.add(view);
     					}
-	                    if ("[I".equals(fieldTypeName)) {
+	                    if ("[L".equals(fieldTypeName)) {
 		                    injectIntoField(field, views.toArray());                	
 						}
 	                    if ("java.util.List".equals(fieldTypeName)) {
@@ -488,5 +488,4 @@ public class Injector {
 		return view;
 	}
 	
-
 }

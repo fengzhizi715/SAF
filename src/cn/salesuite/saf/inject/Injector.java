@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import cn.salesuite.saf.inject.annotation.InflateLayout;
 import cn.salesuite.saf.inject.annotation.InjectExtra;
 import cn.salesuite.saf.inject.annotation.InjectResource;
@@ -31,6 +32,7 @@ import cn.salesuite.saf.inject.annotation.InjectSupportFragment;
 import cn.salesuite.saf.inject.annotation.InjectSystemService;
 import cn.salesuite.saf.inject.annotation.InjectView;
 import cn.salesuite.saf.inject.annotation.OnClick;
+import cn.salesuite.saf.inject.annotation.OnItemClick;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -229,14 +231,13 @@ public class Injector {
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == InjectView.class) {
                     int id = ((InjectView) annotation).id();
-//                  TODO frankswu not find id,default use field name 
+//                  frankswu not find id,default use field name 
                     if(id == 0){
                     	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
                         if (id == 0) {
                             throw new InjectException("View not found for member " + field.getName());
                         }
                     }
-                    
                     View view = null;
                 	switch (finder) {  
                     case DIALOG:
@@ -351,26 +352,52 @@ public class Injector {
                 if (annotation.annotationType() == OnClick.class) {
                     bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
                 }
+//              TODO frankswu add OnItemClick
+                if (annotation.annotationType() == OnItemClick.class) {
+                    bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
+                }
             }
         }
 	}
 	
-	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        boolean invokeWithView;
-        if (parameterTypes.length == 0) {
-            invokeWithView = false;
-        } else if (parameterTypes.length == 1) {
-            if (parameterTypes[0] == View.class) {
-                invokeWithView = true;
-            } else {
-                throw new InjectException("Method may have no parameter or a single View parameter only: "
-                        + method.getName() + ", found paramter type " + parameterTypes[0]);
+	/**
+	 * @param method
+	 * @param annotation
+	 * @param modifiedViews
+	 * @param finder
+	 */
+	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
+		// TODO frankswu add OnItemClick 
+        boolean invokeWithView = checkInvokeWithView(method);
+        
+        method.setAccessible(true);
+        InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
+
+        int[] ids = onItemClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+            	AdapterView view = null;
+            	try {
+                    view = (AdapterView) findView(method, id, finder);
+				} catch (Exception e) {
+                    throw new InjectException("The view can be cast to AdapterView for using OnItemClick! ");
+				}
+                
+                boolean modified = modifiedViews.add(view);
+                if (!modified) {
+                    throw new InjectException("View can be bound to methods only once using OnItemClick: " + method.getName());
+                }
+                view.setOnItemClickListener(listener);
             }
-        } else {
-            throw new InjectException("Method may have no parameter or a single View parameter only: "
-                    + method.getName());
         }
+        return invokeWithView;
+		
+	}
+
+	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
+		
+        boolean invokeWithView = checkInvokeWithView(method);
+        
         method.setAccessible(true);
         InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
 
@@ -389,6 +416,23 @@ public class Injector {
         return invokeWithView;
     }
 	
+	private boolean checkInvokeWithView(Method method) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        if (parameterTypes.length == 0) {
+            return false;
+        } else if (parameterTypes.length == 1) {
+            if (parameterTypes[0] == View.class) {
+                return true;
+            } else {
+                throw new InjectException("Method may have no parameter or a single View parameter only: "
+                        + method.getName() + ", found paramter type " + parameterTypes[0]);
+            }
+        } else {
+            throw new InjectException("Method may have no parameter or a single View parameter only: "
+                    + method.getName());
+        }
+	}
+
 	private View findView(Member field, int viewId, Finder finder) {
 		View view = null;
 		switch (finder) {
@@ -401,6 +445,7 @@ public class Injector {
 				throw new InjectException("View not found for member " + field.getName());
 			}
 			break;
+			// TODO frankswu 是否需要FRAGMENT和view支持
 		default:
 			break;
 		}

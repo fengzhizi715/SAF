@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Tony Shen
  *
  */
+@Deprecated
 public class DateHelper {
 
 	private static String[] CONSTELLATIONS = new String[] { "白羊座", "金牛座", "双子座",

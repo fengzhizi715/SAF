@@ -118,7 +118,20 @@ public class ImageLoader {
             imageView.setImageResource(imageId);
         }
     }
-        
+    
+    /**
+     * 根据url，删除cache里的图片，包括内存cache和sd卡上的cache
+     * @param url
+     */
+    public void remove(String url) {
+    	memoryCache.remove(url);
+        String key = getDiskCacheKey(url);
+        if (key==null) {
+        	return;
+        }
+    	diskCache.remove(key);
+    }
+    
     private void queuePhoto(String url, ImageView imageView) {
         ImageRequest p=new ImageRequest(url, imageView);
         mQueue.add(p);
@@ -152,6 +165,11 @@ public class ImageLoader {
     private Bitmap getBitmapFromDiskCache(final String urlString) {
     	if (enableDiskCache) {
             final String key = getDiskCacheKey(urlString);
+            
+            if (key==null) {
+            	return null;
+            }
+            
             final Bitmap cachedBitmap = diskCache.getBitmap(key);
 
             if (cachedBitmap == null)
@@ -166,6 +184,9 @@ public class ImageLoader {
 
     private static String getDiskCacheKey(final String urlString) {
         final String sanitizedKey = urlString.replaceAll("[^a-z0-9_]", "");
+        if (sanitizedKey.length()>63) { // sanitizedKey > 63时，不用sd卡缓存用内存缓存。
+        	return null;
+        }
         return sanitizedKey.substring(0, Math.min(63, sanitizedKey.length()));
     }
     
@@ -184,7 +205,7 @@ public class ImageLoader {
     private void addBitmapToCache(final String key, final Bitmap bitmap) {
         memoryCache.put(key, bitmap);
 
-        if (!enableDiskCache) {
+        if (enableDiskCache) { // sd卡缓存开关打开时，将图片缓存到sd卡上
             final String diskCacheKey = getDiskCacheKey(key);
 
             if ((diskCache != null) && !diskCache.containsKey(diskCacheKey)) {
@@ -275,6 +296,7 @@ public class ImageLoader {
         public void run(){
             if(imageViewReused(photoToLoad))
                 return;
+            
             if(bitmap!=null) {
             	if (photoToLoad.options!=null) {
             		photoToLoad.imageView.setImageBitmap(BitmapHelper.roundCorners(bitmap , photoToLoad.options.cornerRadius));

@@ -17,6 +17,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.imagecache.ImageLoader;
+import cn.salesuite.saf.utils.SAFUtil;
 import cn.salesuite.saf.utils.StringHelper;
 
 /**
@@ -73,7 +74,11 @@ public class SAFApp extends Application {
 		} else {
 			imageLoader = new ImageLoader(instance,defaultImageId);        // 使用ImageLoader组件时,设置defaultImageId
 		}
-
+		
+		if (!SAFUtil.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
+			imageLoader.setEnableDiskCache(false);
+		}
+		
 		PackageManager manager = this.getPackageManager();
 		try {
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);

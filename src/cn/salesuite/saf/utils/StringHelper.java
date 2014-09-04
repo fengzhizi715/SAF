@@ -220,6 +220,24 @@ public class StringHelper {
         }
         return true;
     }
+    
+    /**
+     * <p>Checks if a String is whitespace, empty ("") or null.</p>
+     *
+     * <pre>
+     * StringHelper.isNotBlank(null)      = false
+     * StringHelper.isNotBlank("")        = false
+     * StringHelper.isNotBlank(" ")       = false
+     * StringHelper.isNotBlank("bob")     = true
+     * StringHelper.isNotBlank("  bob  ") = true
+     * </pre>
+     * 
+     * @param obj the String to check, may be not null
+     * @return
+     */
+    public static boolean isNotBlank(Object obj) {
+    	return !StringHelper.isBlank(obj);
+    }
 	
 	/**
 	 * 如果str字符串为null,返回为"";如果字符串不为空,返回原来的字符串

@@ -24,6 +24,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -344,4 +345,18 @@ public class SAFUtil {
 		}
 		return false;
 	}
+
+	/**
+	 * 判断是否存在sd卡
+	 * @return
+	 */
+	public static boolean hasSdcard() {
+		String status = Environment.getExternalStorageState();
+		if (status.equals(Environment.MEDIA_MOUNTED)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

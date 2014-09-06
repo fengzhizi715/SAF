@@ -3,12 +3,6 @@
  */
 package cn.salesuite.saf.inject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -22,35 +16,15 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.IntentSender.SendIntentException;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.content.res.Resources.Theme;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -349,7 +323,7 @@ public class Injector {
 	}
 
 	/**
-	 * 查找fragment
+	 * 查找supprot fragment
 	 * @param field
 	 * @param fragmentId
 	 * @return
@@ -435,13 +409,13 @@ public class Injector {
 	}
 	
 	/**
+	 * frankswu add OnItemClick，增加OnItemClick事件的绑定
 	 * @param method
 	 * @param annotation
 	 * @param modifiedViews
 	 * @param finder
 	 */
 	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
-		// TODO frankswu add OnItemClick 
         boolean invokeWithView = checkInvokeWithView(method);
         
         method.setAccessible(true);
@@ -468,6 +442,14 @@ public class Injector {
 		
 	}
 
+	/**
+	 * 增加OnClick事件的绑定
+	 * @param method
+	 * @param onClick
+	 * @param modifiedViews
+	 * @param finder
+	 * @return
+	 */
 	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
 		
         boolean invokeWithView = checkInvokeWithView(method);

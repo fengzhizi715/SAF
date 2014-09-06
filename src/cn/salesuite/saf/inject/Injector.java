@@ -492,6 +492,9 @@ public class Injector {
 	private View findView(Member field, int viewId, Finder finder) {
 		View view = null;
 		switch (finder) {
+        case DIALOG:
+        	return Finder.DIALOG.findById(target, viewId);
+        	
 		case ACTIVITY:
 			if (activity == null) {
 				throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in " + context.getClass());
@@ -501,6 +504,10 @@ public class Injector {
 				throw new InjectException("View not found for member " + field.getName());
 			}
 			break;
+			
+        case FRAGMENT:
+        	return Finder.FRAGMENT.findById(fragmentView, viewId);
+        	
 		case VIEW:
 			view = Finder.VIEW.findById(target, viewId);
 			break;

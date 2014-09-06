@@ -501,7 +501,9 @@ public class Injector {
 				throw new InjectException("View not found for member " + field.getName());
 			}
 			break;
-			// TODO frankswu 是否需要FRAGMENT和view支持
+		case VIEW:
+			view = Finder.VIEW.findById(target, viewId);
+			break;
 		default:
 			break;
 		}

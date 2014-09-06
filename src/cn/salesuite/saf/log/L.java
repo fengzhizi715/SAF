@@ -46,15 +46,15 @@ public class L {
 	
 	public static LogLevel logLevel = LogLevel.DEBUG; // 日志的等级，可以进行配置
 	
-	public L(SAFActivity activity) {
+	public static void init (SAFActivity activity) {
 		TAG = activity.TAG;
 	}
 	
-	public L(SAFFragmentActivity activity) {
+	public static void init(SAFFragmentActivity activity) {
 		TAG = activity.TAG;
 	}
 	
-	public L(SAFFragment fragment) {
+	public static void init(SAFFragment fragment) {
 		TAG = fragment.TAG;
 	}
 	

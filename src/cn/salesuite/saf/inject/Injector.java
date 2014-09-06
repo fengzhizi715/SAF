@@ -3,7 +3,14 @@
  */
 package cn.salesuite.saf.inject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -15,15 +22,35 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.IntentSender.SendIntentException;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -243,7 +270,7 @@ public class Injector {
                 } else if (annotation.annotationType() == InjectViews.class) {
                 	String fieldTypeName = field.getType().getName();
 					// TODO frankswu add injectViews 
-                	if ("[L".equals(fieldTypeName)||"java.util.List".equals(fieldTypeName)) {
+                	if (fieldTypeName.startsWith("[L") || fieldTypeName.startsWith("java.util.List")) {
                         int[] ids = ((InjectViews) annotation).ids();
                         List<View> views = new ArrayList<View>();
                         for (int id : ids) {
@@ -253,10 +280,11 @@ public class Injector {
                             }
                             views.add(view);
     					}
-	                    if ("[L".equals(fieldTypeName)) {
-		                    injectIntoField(field, views.toArray());                	
+	                    if (fieldTypeName.startsWith("[L")) {
+	                    	View[] v = (View[]) Array.newInstance(field.getType().getComponentType(), views.size());
+		                    injectListIntoField(field, views.toArray(v));                	
 						}
-	                    if ("java.util.List".equals(fieldTypeName)) {
+	                    if (fieldTypeName.startsWith("java.util.List")) {
 		                    injectIntoField(field, views);                	
 						}
 					} else {
@@ -378,6 +406,16 @@ public class Injector {
             throw new InjectException("Could not inject into field " + field.getName(), e);
         }
 	}
+
+	private void injectListIntoField(Field field, Object[] value) {
+        try {
+            field.setAccessible(true);
+            field.set(target, value);
+        } catch (Exception e) {
+            throw new InjectException("Could not inject into field " + field.getName(), e);
+        }
+	}
+	
 	
 	private void bindMethods(Finder finder) {
         Method[] methods = clazz.getDeclaredMethods();
@@ -487,5 +525,5 @@ public class Injector {
 		}
 		return view;
 	}
-	
+
 }

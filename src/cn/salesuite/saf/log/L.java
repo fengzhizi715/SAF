@@ -147,6 +147,20 @@ public class L {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param prefix 前缀，用于区分是哪个要打印的日志
+	 * @param msg
+	 */
+	public static void i(String prefix,String  msg) {
+		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.i(TAG, prefix+"="+msg);
+			}
+		}
+	}
+	
 	public static void i(String msg,Object ...args) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
@@ -174,6 +188,19 @@ public class L {
 			
 			if(object!=null) {
 				Log.i(TAG, SAFUtil.printObject(object));
+			}
+		}
+	}
+	
+	/**
+	 * 打印普通java对象
+	 * @param object
+	 */
+	public static void i(String prefix,Object object) {
+		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
+			
+			if(object!=null) {
+				Log.i(TAG, prefix+"="+SAFUtil.printObject(object));
 			}
 		}
 	}

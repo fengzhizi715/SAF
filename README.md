@@ -122,11 +122,13 @@ Dependency Injection
 Dependency Injection是依赖注入的意思，简称DI。
 
 SAF中的DI包括以下几个方面：
-* Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=xxxx)
+* Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=R.id.xxxx)
 * Inject Views：支持多个相同类型组件的注入
 * Inject Service ：简化系统服务的注册，目前只支持android的系统服务
 * Inject Extra ：简化2个Activity之间Extra传递
 * InflateLayout ：简化布局填充时，组件的查找注册
+* OnClick：简化各种组件的Click事件写法
+* OnItemClick：简化ListView的ItemView事件写法
 
 Inject View
 ---
@@ -163,6 +165,7 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
           }
 
 约定大于配置的写法，无需写(id= R.id.imageview)
+
           public class MainActivity extends Activity {
                     
                 @InjectView
@@ -276,6 +279,41 @@ InflateLayout
 <pre><code> 	
          MyView myView = Injector.build(mContext, MyView.class);
 </pre></code>
+
+
+OnClick
+---
+@OnClick 可以在Activity、Fragment、Dialog、View中使用，支持多个组件绑定同一个方法。
+
+public class AddCommentFragment extends BaseFragment {
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_add_comment, container, false);
+
+        Injector.injectInto(this, v);
+
+        initView();
+
+        return v;
+    }
+    
+	@OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
+	void clickLeftMenu() {
+		popBackStack();
+	}
+	
+	@OnClick(id=R.id.btn_comment_send)
+	void clickCommentSend() {
+        if (StringHelper.isBlank(commentEdit.getText().toString())) {
+            ToastUtil.showShort(mContext, R.string.the_comment_need_more_character);
+        } else {
+            AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
+        }
+	}
+
 
 Sqlite ORM
 ===

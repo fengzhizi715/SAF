@@ -1,9 +1,8 @@
 SAF
 ===
 SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。<br>
-SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。目前它刚刚到1.1.x版本，肯定会存在各种各样的问题。 <br>
-这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF<br>
-目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756
+SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF<br>
+目前google code上的工程暂停维护，迁移到github上。它刚刚到1.1.x版本，肯定会存在各种各样的问题。遇到任何问题欢迎跟我的qq联系，qq：63067756
 
 
 主要功能
@@ -205,7 +204,6 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
 
 Inject Views
 ---
-目前@InjectViews支持多个相同类型组件的注入，并使用List、数组。
           public class MainActivity extends Activity {
                     
                 @InjectViews(ids={R.id.imageView1,R.id.imageView2})

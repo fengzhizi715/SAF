@@ -285,34 +285,37 @@ OnClick
 ---
 @OnClick 可以在Activity、Fragment、Dialog、View中使用，支持多个组件绑定同一个方法。
 
-public class AddCommentFragment extends BaseFragment {
+     public class AddCommentFragment extends BaseFragment {
     
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+         @Override
+         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_add_comment, container, false);
+             View v = inflater.inflate(R.layout.fragment_add_comment, container, false);
 
-        Injector.injectInto(this, v);
+             Injector.injectInto(this, v);
 
-        initView();
+             initView();
 
-        return v;
-    }
-    
-	@OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
-	void clickLeftMenu() {
-		popBackStack();
-	}
-	
-	@OnClick(id=R.id.btn_comment_send)
-	void clickCommentSend() {
-        if (StringHelper.isBlank(commentEdit.getText().toString())) {
-            ToastUtil.showShort(mContext, R.string.the_comment_need_more_character);
-        } else {
-            AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
+             return v;
         }
-	}
+    
+	    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
+	    void clickLeftMenu() {
+		    popBackStack();
+	    }
+	
+	    @OnClick(id=R.id.btn_comment_send)
+	    void clickCommentSend() {
+            if (StringHelper.isBlank(commentEdit.getText().toString())) {
+               ToastUtil.showShort(mContext, R.string.the_comment_need_more_character);
+            } else {
+               AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
+            }
+	    }
+	    
+	    ....
+    }
 
 
 Sqlite ORM

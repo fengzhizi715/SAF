@@ -31,9 +31,9 @@
           <h1>
 <a name="saf" class="anchor" href="#saf"><span class="octicon octicon-link"></span></a>SAF</h1>
 
-<p>SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。
-SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。目前它刚刚到1.1版本，肯定会存在各种各样的问题。 
-这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756</p>
+<p>SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。<br>
+SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。2014年9月开始<a href="https://github.com/frankswu">frankswu</a>加入跟我一起开发SAF<br>
+目前google code上的工程暂停维护，迁移到github上。它刚刚到1.1.x版本，肯定会存在各种各样的问题。遇到任何问题欢迎跟我的qq联系，qq：63067756</p>
 
 <h2>
 <a name="%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD" class="anchor" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="octicon octicon-link"></span></a>主要功能</h2>
@@ -158,10 +158,13 @@ eventBus.post(new LogoutEvent());
 <p>SAF中的DI包括以下几个方面：</p>
 
 <ul>
-<li>Inject View ：简化组件的查找注册</li>
+<li>Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=R.id.xxxx)</li>
+<li>Inject Views：支持多个相同类型组件的注入</li>
 <li>Inject Service ：简化系统服务的注册，目前只支持android的系统服务</li>
 <li>Inject Extra ：简化2个Activity之间Extra传递</li>
 <li>InflateLayout ：简化布局填充时，组件的查找注册</li>
+<li>OnClick：简化各种组件的Click事件写法</li>
+<li>OnItemClick：简化ListView的ItemView事件写法</li>
 </ul><h2>
 <a name="inject-view" class="anchor" href="#inject-view"><span class="octicon octicon-link"></span></a>Inject View</h2>
 
@@ -198,6 +201,23 @@ eventBus.post(new LogoutEvent());
       }
 </code></pre>
 
+<p>约定大于配置的写法，无需写(id= R.id.imageview)</p>
+
+<pre><code>      public class MainActivity extends Activity {
+
+            @InjectView
+            private ImageView imageview;
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+               super.onCreate(savedInstanceState);
+
+               setContentView(R.layout.activity_main);
+               Injector.injectInto(this);
+            }
+      }
+</code></pre>
+
 <p>目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。</p>
 
 <pre><code>      public class DemoFragment extends Fragment {
@@ -222,6 +242,24 @@ eventBus.post(new LogoutEvent());
 
               ......
        }
+</code></pre>
+
+<h2>
+<a name="inject-views" class="anchor" href="#inject-views"><span class="octicon octicon-link"></span></a>Inject Views</h2>
+
+<pre><code>      public class MainActivity extends Activity {
+
+            @InjectViews(ids={R.id.imageView1,R.id.imageView2})
+            private List&lt;ImageView&gt; imageviews;
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+               super.onCreate(savedInstanceState);
+
+               setContentView(R.layout.activity_main);
+               Injector.injectInto(this);
+            }
+      }
 </code></pre>
 
 <h2>
@@ -281,6 +319,44 @@ eventBus.post(new LogoutEvent());
 <p>在Activity、Fragment中的写法:
 </p><pre><code><br>
          MyView myView = Injector.build(mContext, MyView.class);
+</code></pre>
+
+<h2>
+<a name="onclick" class="anchor" href="#onclick"><span class="octicon octicon-link"></span></a>OnClick</h2>
+
+<p><a href="https://github.com/OnClick" class="user-mention">@OnClick</a> 可以在Activity、Fragment、Dialog、View中使用，支持多个组件绑定同一个方法。</p>
+
+<pre><code> public class AddCommentFragment extends BaseFragment {
+
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+
+         View v = inflater.inflate(R.layout.fragment_add_comment, container, false);
+
+         Injector.injectInto(this, v);
+
+         initView();
+
+         return v;
+    }
+
+    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
+    void clickLeftMenu() {
+        popBackStack();
+    }
+
+    @OnClick(id=R.id.btn_comment_send)
+    void clickCommentSend() {
+        if (StringHelper.isBlank(commentEdit.getText().toString())) {
+           ToastUtil.showShort(mContext, R.string.the_comment_need_more_character);
+        } else {
+           AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
+        }
+    }
+
+    ....
+}
 </code></pre>
 
 <h1>

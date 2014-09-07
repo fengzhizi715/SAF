@@ -149,6 +149,20 @@ public class L {
 	
 	/**
 	 * 
+	 * @param tag 自定义tag
+	 * @param msg
+	 */
+	public static void iWithTag(String tag,String msg) {
+		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
+			
+			if(StringHelper.isNotBlank(msg)) {
+				Log.i(tag, msg);
+			}
+		}
+	}
+	
+	/**
+	 * 
 	 * @param prefix 前缀，用于区分是哪个要打印的日志
 	 * @param msg
 	 */
@@ -188,6 +202,20 @@ public class L {
 			
 			if(object!=null) {
 				Log.i(TAG, SAFUtil.printObject(object));
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param tag 自定义tag
+	 * @param msg
+	 */
+	public static void iWithTag(String tag,Object object) {
+		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
+			
+			if(object!=null) {
+				Log.i(tag, SAFUtil.printObject(object));
 			}
 		}
 	}

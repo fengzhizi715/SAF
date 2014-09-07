@@ -123,7 +123,8 @@ Dependency Injection
 Dependency Injection是依赖注入的意思，简称DI。
 
 SAF中的DI包括以下几个方面：
-* Inject View ：简化组件的查找注册
+* Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=xxxx)
+* Inject Views：支持多个相同类型组件的注入
 * Inject Service ：简化系统服务的注册，目前只支持android的系统服务
 * Inject Extra ：简化2个Activity之间Extra传递
 * InflateLayout ：简化布局填充时，组件的查找注册
@@ -162,6 +163,20 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                 }
           }
 
+约定大于配置的写法，无需写(id= R.id.imageview)
+          public class MainActivity extends Activity {
+                    
+                @InjectView
+                private ImageView imageview;
+                    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                   super.onCreate(savedInstanceState);
+                      
+                   setContentView(R.layout.activity_main);
+                   Injector.injectInto(this);
+                }
+          }
 
 目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
 
@@ -187,6 +202,23 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
           
                   ......
            }
+
+Inject Views
+---
+目前@InjectViews支持多个相同类型组件的注入，并使用List、数组。
+          public class MainActivity extends Activity {
+                    
+                @InjectViews(ids={R.id.imageView1,R.id.imageView2})
+                private List<ImageView> imageviews;
+                    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                   super.onCreate(savedInstanceState);
+                      
+                   setContentView(R.layout.activity_main);
+                   Injector.injectInto(this);
+                }
+          }
 
 
 Inject Extra

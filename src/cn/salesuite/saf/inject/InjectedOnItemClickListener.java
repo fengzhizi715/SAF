@@ -23,7 +23,8 @@ public class InjectedOnItemClickListener extends AbstractInjectedOnListener
 		if (enabled) {
 			enabled = false;
 			view.post(ENABLE_AGAIN);
-			handleOnListener(view,position,id);
+			handleOnListener(parentView,view,position,id);
 		}
+
 	}
 }

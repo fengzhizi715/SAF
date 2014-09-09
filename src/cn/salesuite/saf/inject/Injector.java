@@ -323,7 +323,7 @@ public class Injector {
 	}
 
 	/**
-	 * 查找supprot fragment
+	 * 查找fragment
 	 * @param field
 	 * @param fragmentId
 	 * @return
@@ -390,7 +390,6 @@ public class Injector {
         }
 	}
 	
-	
 	private void bindMethods(Finder finder) {
         Method[] methods = clazz.getDeclaredMethods();
         Set<View> modifiedViews = new HashSet<View>();
@@ -399,24 +398,23 @@ public class Injector {
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == OnClick.class) {
                     bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
-                }
-//              TODO frankswu add OnItemClick
-                if (annotation.annotationType() == OnItemClick.class) {
-                    bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
+                } else if (annotation.annotationType() == OnItemClick.class) {
+//                  frankswu add OnItemClick
+                	bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
                 }
             }
         }
 	}
 	
 	/**
-	 * frankswu add OnItemClick，增加OnItemClick事件的绑定
 	 * @param method
 	 * @param annotation
 	 * @param modifiedViews
 	 * @param finder
 	 */
 	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
-        boolean invokeWithView = checkInvokeWithView(method);
+		// TODO frankswu add OnItemClick 
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
         
         method.setAccessible(true);
         InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
@@ -442,17 +440,9 @@ public class Injector {
 		
 	}
 
-	/**
-	 * 增加OnClick事件的绑定
-	 * @param method
-	 * @param onClick
-	 * @param modifiedViews
-	 * @param finder
-	 * @return
-	 */
 	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
 		
-        boolean invokeWithView = checkInvokeWithView(method);
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
         
         method.setAccessible(true);
         InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
@@ -472,42 +462,50 @@ public class Injector {
         return invokeWithView;
     }
 	
-	private boolean checkInvokeWithView(Method method) {
+	private boolean checkInvokeWithView(Method method, Class[] paramterClass) {
         Class<?>[] parameterTypes = method.getParameterTypes();
+        int paramterNum = paramterClass.length;
         if (parameterTypes.length == 0) {
             return false;
-        } else if (parameterTypes.length == 1) {
-            if (parameterTypes[0] == View.class) {
-                return true;
-            } else {
-                throw new InjectException("Method may have no parameter or a single View parameter only: "
-                        + method.getName() + ", found paramter type " + parameterTypes[0]);
-            }
+        } else if (parameterTypes.length == paramterNum) {
+        	if (paramterClass.length == parameterTypes.length) {
+            	for (int i = 0; i < parameterTypes.length; i++) {
+                    if (parameterTypes[i] == paramterClass[i]) {
+                        return true;
+                    } else {
+                        throw new InjectException("the " + method.getName() + ", the correct paramter type is " + paramterClass[i] +
+                                		", but now found paramter type is" + parameterTypes[i]+" !");
+                    }
+    			}
+			} else { 
+				return false;
+			}
         } else {
-            throw new InjectException("Method may have no parameter or a single View parameter only: "
-                    + method.getName());
+            throw new InjectException("Method may have no parameter or the number of parameter is wrong: "
+                    + method.getName()+" paramter number [" + paramterNum +  "]is correct,but now is " + parameterTypes.length);
         }
+		return false;
 	}
 
 	private View findView(Member field, int viewId, Finder finder) {
 		View view = null;
 		switch (finder) {
-        case DIALOG:
-        	return Finder.DIALOG.findById(target, viewId);
-        	
+		case DIALOG:
+			view= Finder.DIALOG.findById(target, viewId);
+			break;
 		case ACTIVITY:
 			if (activity == null) {
 				throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in " + context.getClass());
 			}
 			view = finder.findById(activity, viewId);
 			if (view == null) {
-				throw new InjectException("View not found for member " + field.getName());
+				throw new InjectException("View not found for member "
+						+ field.getName());
 			}
 			break;
-			
-        case FRAGMENT:
-        	return Finder.FRAGMENT.findById(fragmentView, viewId);
-        	
+		case FRAGMENT:
+			view = Finder.FRAGMENT.findById(fragmentView, viewId);
+			break;
 		case VIEW:
 			view = Finder.VIEW.findById(target, viewId);
 			break;
@@ -516,5 +514,5 @@ public class Injector {
 		}
 		return view;
 	}
-
+	
 }

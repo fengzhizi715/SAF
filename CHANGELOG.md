@@ -2,6 +2,11 @@ SAF
 ===
 当前最新版本是1.1.4，1.1.4之前的开发都是在google code上托管的。从1.1.4开始记录版本日志。
 
+Version 1.1.5
+---
+2014-09-11
+ *  优化ImageLoader，disklrucache升级到2.0.3
+
 Version 1.1.4
 ---
 2014-09-06

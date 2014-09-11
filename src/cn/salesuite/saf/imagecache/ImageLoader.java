@@ -59,7 +59,7 @@ public class ImageLoader {
     public void displayImage(String url, ImageView imageView) {
         imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
-        if(bitmap!=null)
+        if(bitmap!=null) 
             imageView.setImageBitmap(bitmap);
         else {
             queuePhoto(url, imageView);
@@ -154,40 +154,35 @@ public class ImageLoader {
     public Bitmap getBitmap(String url,ImageView imageView) {
         //from SD cache
         Bitmap b = getBitmapFromDiskCache(url);
-        if(b!=null)
-            return b;
+        if(b!=null) 
+        	return b;
         
         //from web
         downloadBitmap(url,new JobOptions(imageView));
         return memoryCache.get(url);
     }
     
-    private Bitmap getBitmapFromDiskCache(final String urlString) {
+    private Bitmap getBitmapFromDiskCache(String urlString) {
     	if (enableDiskCache) {
-            final String key = getDiskCacheKey(urlString);
-            
+            String key = getDiskCacheKey(urlString);
             if (key==null) {
             	return null;
             }
-            
-            final Bitmap cachedBitmap = diskCache.getBitmap(key);
 
-            if (cachedBitmap == null)
-                return null;
+            Bitmap cachedBitmap = diskCache.getBitmap(key);
 
-            return cachedBitmap;
+            return cachedBitmap==null?null:cachedBitmap;
     	} else {
     		return null;
     	}
-
     }
 
     private static String getDiskCacheKey(final String urlString) {
-        final String sanitizedKey = urlString.replaceAll("[^a-z0-9_]", "");
-        if (sanitizedKey.length()>63) { // sanitizedKey > 63时，不用sd卡缓存用内存缓存。
+        final String sanitizedKey = urlString.replaceAll("[^a-z0-9_-]", "");
+        if (sanitizedKey.length()>119) { // sanitizedKey > 120时，不用sd卡缓存用内存缓存。
         	return null;
         }
-        return sanitizedKey.substring(0, Math.min(63, sanitizedKey.length()));
+        return sanitizedKey.substring(0, Math.min(119, sanitizedKey.length()));
     }
     
     private void downloadBitmap(final String urlString, final JobOptions options) {

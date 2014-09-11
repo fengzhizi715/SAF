@@ -60,7 +60,7 @@ public class Injector {
     protected final Class<?> clazz;
     private final Bundle extras;
     
-    private static Map<Class,View> viewHandlerMap = new HashMap<Class,View>();
+    private static Map<String,View> viewHandlerMap = new HashMap<String,View>();
     
 	public enum Finder {
 		DIALOG {
@@ -97,15 +97,16 @@ public class Injector {
 		 * @return
 		 */
 		protected View findViewById(Object source,int id) {
-			View view = viewHandlerMap.get(source.getClass());
+            String key = source.getClass()+":"+id;
+			View view = viewHandlerMap.get(key);
 
 			if (view == null) {
 				if (source instanceof Activity) {
-					return ((Activity) source).findViewById(id);
+					view = ((Activity) source).findViewById(id);
 				} else {
-					return ((View) source).findViewById(id);
+					view = ((View) source).findViewById(id);
 				}
-				
+				viewHandlerMap.put(key, view);
 			}
 			return view;
 		}

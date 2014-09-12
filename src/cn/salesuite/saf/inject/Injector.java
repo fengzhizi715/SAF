@@ -10,8 +10,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
@@ -37,7 +39,7 @@ import cn.salesuite.saf.inject.annotation.InjectView;
 import cn.salesuite.saf.inject.annotation.InjectViews;
 import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
-
+import cn.salesuite.saf.inject.annotation.OnLongClick;
 /**
  * 可以注入view、resource、systemservice等等<br>
  * 在Activity中使用注解，首先需要在onCreate（）中使用Injector.injectInto(this);<br>
@@ -58,6 +60,8 @@ public class Injector {
     protected final Class<?> clazz;
     private final Bundle extras;
     
+    private static Map<String,View> viewHandlerMap = new HashMap<String,View>();
+    
 	public enum Finder {
 		DIALOG {
 			@Override
@@ -68,22 +72,45 @@ public class Injector {
 		ACTIVITY {
 			@Override
 			public View findById(Object source, int id) {
-				return ((Activity) source).findViewById(id);
+				return findViewById(source, id);
 			}
 		},
-	    FRAGMENT {
+
+		FRAGMENT {
 			@Override
 			public View findById(Object source, int id) {
-				return ((View) source).findViewById(id);
+				return findViewById(source, id);
 			}
 		},
 		VIEW {
 			@Override
 			public View findById(Object source, int id) {
-				return ((View) source).findViewById(id);
+				return findViewById(source, id);
 			}
 		};
 
+		/**
+		 * TODO frankswu : 对activity和fragment增加缓存
+		 * 
+		 * @param source
+		 * @param id
+		 * @return
+		 */
+		protected View findViewById(Object source,int id) {
+            String key = source.getClass()+":"+id;
+			View view = viewHandlerMap.get(key);
+
+			if (view == null) {
+				if (source instanceof Activity) {
+					view = ((Activity) source).findViewById(id);
+				} else {
+					view = ((View) source).findViewById(id);
+				}
+				viewHandlerMap.put(key, view);
+			}
+			return view;
+		}
+		
 		public abstract View findById(Object source, int id);
 	}
     
@@ -286,43 +313,6 @@ public class Injector {
 	}
 	
 	/**
-	 * frankswu not find id,default use field name 
-	 * @param id
-	 * @param field
-	 * @param finder
-	 * @return
-	 */
-	private View findViewByAnnotationId(int id, Field field, Finder finder) {
-
-        if(id == 0){
-        	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
-            if (id == 0) {
-                throw new InjectException("View not found for member " + field.getName());
-            }
-        }
-        
-    	switch (finder) {  
-        case DIALOG:
-        	return Finder.DIALOG.findById(target, id);
-        	
-        case ACTIVITY:
-            if (activity == null) {
-                throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in "
-                        + context.getClass());
-            }
-        	return Finder.ACTIVITY.findById(activity, id);
-        	
-        case FRAGMENT:
-        	return Finder.FRAGMENT.findById(fragmentView, id);
-
-        case VIEW:
-        	return Finder.VIEW.findById(target, id);
-
-        }
-    	return null;
-	}
-
-	/**
 	 * 查找fragment
 	 * @param field
 	 * @param fragmentId
@@ -401,11 +391,37 @@ public class Injector {
                 } else if (annotation.annotationType() == OnItemClick.class) {
 //                  frankswu add OnItemClick
                 	bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
-                }
+                } else if (annotation.annotationType() == OnLongClick.class) {
+//                  frankswu add OnLongClick
+                	bindOnLongClickListener(method, (OnLongClick) annotation, modifiedViews ,finder);
+                } 
             }
         }
 	}
 	
+	private boolean bindOnLongClickListener(Method method, OnLongClick onLongClick,
+			Set<View> modifiedViews, Finder finder) {
+		// frankswu add OnLongClick 
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
+        
+        method.setAccessible(true);
+        InjectedOnLongClickListener listener = new InjectedOnLongClickListener(target, method, invokeWithView);
+
+        int[] ids = onLongClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+//                boolean modified = modifiedViews.add(view);
+//                if (!modified) {
+//                    throw new InjectException("View can be bound to methods only once using OnLongClick: "
+//                            + method.getName());
+//                }
+                view.setOnLongClickListener(listener);
+            }
+        }
+        return invokeWithView;
+	}
+
 	/**
 	 * @param method
 	 * @param annotation
@@ -413,7 +429,7 @@ public class Injector {
 	 * @param finder
 	 */
 	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
-		// TODO frankswu add OnItemClick 
+		// frankswu : add OnItemClick 
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
         
         method.setAccessible(true);
@@ -429,10 +445,10 @@ public class Injector {
                     throw new InjectException("The view can be cast to AdapterView for using OnItemClick! ");
 				}
                 
-                boolean modified = modifiedViews.add(view);
-                if (!modified) {
-                    throw new InjectException("View can be bound to methods only once using OnItemClick: " + method.getName());
-                }
+//                boolean modified = modifiedViews.add(view);
+//                if (!modified) {
+//                    throw new InjectException("View can be bound to methods only once using OnItemClick: " + method.getName());
+//                }
                 view.setOnItemClickListener(listener);
             }
         }
@@ -451,11 +467,11 @@ public class Injector {
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
-                boolean modified = modifiedViews.add(view);
-                if (!modified) {
-                    throw new InjectException("View can be bound to methods only once using OnClick: "
-                            + method.getName());
-                }
+//                boolean modified = modifiedViews.add(view);
+//                if (!modified) {
+//                    throw new InjectException("View can be bound to methods only once using OnClick: "
+//                            + method.getName());
+//                }
                 view.setOnClickListener(listener);
             }
         }
@@ -487,6 +503,25 @@ public class Injector {
 		return false;
 	}
 
+	/**
+	 * frankswu not find id,default use field name 
+	 * @param id
+	 * @param field
+	 * @param finder
+	 * @return
+	 */
+	private View findViewByAnnotationId(int id, Field field, Finder finder) {
+        if(id == 0){
+        	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
+            if (id == 0) {
+                throw new InjectException("View not found for member " + field.getName());
+            }
+        }
+        return findView(field, id, finder);
+	}
+
+	
+	
 	private View findView(Member field, int viewId, Finder finder) {
 		View view = null;
 		switch (finder) {

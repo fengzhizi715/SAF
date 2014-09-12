@@ -4,16 +4,15 @@
 package cn.salesuite.saf.inject;
 
 import java.lang.annotation.Annotation;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
@@ -40,6 +39,7 @@ import cn.salesuite.saf.inject.annotation.InjectViews;
 import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
+
 /**
  * 可以注入view、resource、systemservice等等<br>
  * 在Activity中使用注解，首先需要在onCreate（）中使用Injector.injectInto(this);<br>
@@ -60,8 +60,6 @@ public class Injector {
     protected final Class<?> clazz;
     private final Bundle extras;
     
-    private static Map<String,View> viewHandlerMap = new HashMap<String,View>();
-    
 	public enum Finder {
 		DIALOG {
 			@Override
@@ -72,44 +70,21 @@ public class Injector {
 		ACTIVITY {
 			@Override
 			public View findById(Object source, int id) {
-				return findViewById(source, id);
+				return ((Activity) source).findViewById(id);
 			}
 		},
-
-		FRAGMENT {
+	    FRAGMENT {
 			@Override
 			public View findById(Object source, int id) {
-				return findViewById(source, id);
+				return ((View) source).findViewById(id);
 			}
 		},
 		VIEW {
 			@Override
 			public View findById(Object source, int id) {
-				return findViewById(source, id);
+				return ((View) source).findViewById(id);
 			}
 		};
-
-		/**
-		 * TODO frankswu : 对activity和fragment增加缓存
-		 * 
-		 * @param source
-		 * @param id
-		 * @return
-		 */
-		protected View findViewById(Object source,int id) {
-            String key = source.getClass()+":"+id;
-			View view = viewHandlerMap.get(key);
-
-			if (view == null) {
-				if (source instanceof Activity) {
-					view = ((Activity) source).findViewById(id);
-				} else {
-					view = ((View) source).findViewById(id);
-				}
-				viewHandlerMap.put(key, view);
-			}
-			return view;
-		}
 		
 		public abstract View findById(Object source, int id);
 	}
@@ -284,8 +259,7 @@ public class Injector {
 	                    if (fieldTypeName.startsWith("[L")) {
 	                    	View[] v = (View[]) Array.newInstance(field.getType().getComponentType(), views.size());
 		                    injectListIntoField(field, views.toArray(v));                	
-						}
-	                    if (fieldTypeName.startsWith("java.util.List")) {
+						} else if (fieldTypeName.startsWith("java.util.List")) {
 		                    injectIntoField(field, views);                	
 						}
 					} else {
@@ -411,12 +385,9 @@ public class Injector {
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
-//                boolean modified = modifiedViews.add(view);
-//                if (!modified) {
-//                    throw new InjectException("View can be bound to methods only once using OnLongClick: "
-//                            + method.getName());
-//                }
-                view.setOnLongClickListener(listener);
+                if (view!=null) {
+                    view.setOnLongClickListener(listener);
+                }
             }
         }
         return invokeWithView;
@@ -441,15 +412,12 @@ public class Injector {
             	AdapterView<?> view = null;
             	try {
                     view = (AdapterView<?>) findView(method, id, finder);
+                    if (view!=null) {
+                        view.setOnItemClickListener(listener);
+                    }
 				} catch (Exception e) {
                     throw new InjectException("The view can be cast to AdapterView for using OnItemClick! ");
 				}
-                
-//                boolean modified = modifiedViews.add(view);
-//                if (!modified) {
-//                    throw new InjectException("View can be bound to methods only once using OnItemClick: " + method.getName());
-//                }
-                view.setOnItemClickListener(listener);
             }
         }
         return invokeWithView;
@@ -467,12 +435,9 @@ public class Injector {
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
-//                boolean modified = modifiedViews.add(view);
-//                if (!modified) {
-//                    throw new InjectException("View can be bound to methods only once using OnClick: "
-//                            + method.getName());
-//                }
-                view.setOnClickListener(listener);
+                if (view!=null) {
+                    view.setOnClickListener(listener);
+                }
             }
         }
         return invokeWithView;
@@ -520,8 +485,6 @@ public class Injector {
         return findView(field, id, finder);
 	}
 
-	
-	
 	private View findView(Member field, int viewId, Finder finder) {
 		View view = null;
 		switch (finder) {

@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
+import cn.salesuite.saf.log.L;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -199,8 +201,17 @@ public class RestClient {
 		System.out.println("get url="+url);
 		RestClient client = new RestClient(url, RestConstant.METHOD_GET);
 		client.acceptGzipEncoding().uncompress(true);
-		String body = client.body();
-		callback.onSuccess(body);
+		String body = null;
+		try {
+			body = client.body();
+			callback.onSuccess(body);			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			L.e("get method error!", e);
+			callback.onFail(jsonString);
+		}
+
 	}
 
 	/**

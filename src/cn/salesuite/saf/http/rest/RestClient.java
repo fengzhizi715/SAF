@@ -223,7 +223,7 @@ public class RestClient {
 			client = new RestClient(url, RestConstant.METHOD_GET);
 			client.acceptGzipEncoding().uncompress(true);
 			String body = null;
-			// TODO frankswu : 
+			// frankswu : 
 			body = client.body();
 			callback.onSuccess(body);			
 		} catch (RestException e) {
@@ -1033,36 +1033,4 @@ public class RestClient {
 	}
 	
 	
-	// TODO frankswu : test
-	static int retry_status = 0;
-	static int retry_num = 0;
-	
-	public static void main(String[] args) {
-		AtomicInteger i = new AtomicInteger(3);
-		System.out.println(i.incrementAndGet());
-		System.out.println(i.decrementAndGet());
-		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				while (retry_status == 0) {
-					try {
-						Thread.sleep(1000);
-						
-						System.out.println(Thread.currentThread().getId()+"[" + System.currentTimeMillis()+ "]retry" + ++retry_num);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
-				
-			}
-		}).start();
-		
-		
-		
-	}
 }

@@ -18,10 +18,12 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 import cn.salesuite.saf.log.L;
@@ -82,6 +84,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class RestClient {
 
+	private static final int SUCCESS = 200;
 	private HttpURLConnection connection = null;
 	private RestOutputStream output;
 
@@ -96,6 +99,11 @@ public class RestClient {
 	private int httpProxyPort;    // 代理服务器的端口
 
 	private int bufferSize = 8192;
+	
+	private static int DEFAULT_READ_TIMEOUT = 1000;
+	private static int DEFAULT_CONNECTION_TIMEOUT = 1000;
+	
+	private static int DEFAULT_RETRY_NUM = 3;
 	
 	/**
 	 * 默认的ConnectionFactory
@@ -131,12 +139,19 @@ public class RestClient {
 			else
 				connection = CONNECTION_FACTORY.create(url);
 			connection.setRequestMethod(requestMethod);
+			connection.setReadTimeout(DEFAULT_READ_TIMEOUT);
+			connection.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
 			return connection;
 		} catch (IOException e) {
 			throw new RestException(e);
 		}
 	}
 
+	/**
+	 * after set connectionTimeout and readTimeout can throw java.net.SocketTimeoutException<br> 
+	 * 
+	 * @return
+	 */
 	public HttpURLConnection getConnection() {
 		if (connection == null)
 			connection = createConnection();
@@ -197,22 +212,34 @@ public class RestClient {
 	 * @param callback
 	 * @throws RestException
 	 */
-	public static void get(String url,HttpResponseHandler callback) throws RestException {
+	public static void get(String url,HttpResponseHandler callback) {
 		System.out.println("get url="+url);
-		RestClient client = new RestClient(url, RestConstant.METHOD_GET);
-		client.acceptGzipEncoding().uncompress(true);
-		String body = null;
+		get(url, callback, DEFAULT_RETRY_NUM);
+	}
+	
+	private static void get(String url,HttpResponseHandler callback,int retryNum) {
+		RestClient client = null;
 		try {
+			client = new RestClient(url, RestConstant.METHOD_GET);
+			client.acceptGzipEncoding().uncompress(true);
+			String body = null;
+			// TODO frankswu : 
 			body = client.body();
 			callback.onSuccess(body);			
+		} catch (RestException e) {
+			e.printStackTrace();
+			L.e(e.getErrorCode(),e);
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+				get(url, callback, --retryNum);
+			} else {
+				callback.onFail(e);
+			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			L.e("get method error!", e);
-			callback.onFail(jsonString);
 		}
-
 	}
+
 
 	/**
 	 * 同步发起post请求
@@ -235,17 +262,30 @@ public class RestClient {
 	 */
 	public static void post(String url,JSONObject json,HttpResponseHandler callback) throws RestException {
 		System.out.println("post url="+url+"\n"+"post body="+JSON.toJSONString(json));
-		
+		post(url, json, callback, DEFAULT_RETRY_NUM);
+	}
+	
+	private static void post(String url,JSONObject json,HttpResponseHandler callback,int retryNum) throws RestException {
 		RestClient request = new RestClient(url, RestConstant.METHOD_POST);
 		request.acceptJson().contentType("application/json");
 		request.acceptGzipEncoding().uncompress(true);
 		try {
 			request.send(json);
+			String body = request.body();
+			callback.onSuccess(body);
+		} catch (RestException e) {
+			e.printStackTrace();
+			L.e(e.getErrorCode(),e);
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+				post(url, json, callback, --retryNum);
+			} else {
+				callback.onFail(e);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			L.e(e);
 		}
-		String body = request.body();
-		callback.onSuccess(body);
+	
 	}
 	
 	/**
@@ -257,12 +297,29 @@ public class RestClient {
 	 */
 	public static void post(String url,Map<?, ?> map,HttpResponseHandler callback) throws RestException {
 		System.out.println("post url="+url+"\n"+"form map="+map.toString());
-		
-		RestClient request = new RestClient(url, RestConstant.METHOD_POST).form(map);
-		String body = request.body();
-		callback.onSuccess(body);
+		post(url, map, callback, DEFAULT_RETRY_NUM);
 	}
 	
+	private static void post(String url,Map<?, ?> map,HttpResponseHandler callback, int retryNum) throws RestException {
+		RestClient request = null;
+		try {
+			new RestClient(url, RestConstant.METHOD_POST).form(map);
+			String body = request.body();
+			callback.onSuccess(body);
+		} catch (RestException e) {
+			e.printStackTrace();
+			L.e(e.getErrorCode(),e);
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+				post(url, map, callback, --retryNum);
+			} else {
+				callback.onFail(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			L.e(e);
+		}
+
+	}
 	/**
 	 * 发起put请求
 	 * 
@@ -415,10 +472,17 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public String body(final String charset) throws RestException {
-		final ByteArrayOutputStream output = byteStream();
 		try {
+			final ByteArrayOutputStream output = byteStream();
+			if (getConnection().getResponseCode() != SUCCESS) {
+				throw new RestException(RestException.RETRY_CONNECTION);
+			}
 			copy(buffer(), output);
+			
 			return output.toString(RestUtil.getValidCharset(charset));
+		} catch (SocketTimeoutException e) {
+			throw new RestException(e, RestException.RETRY_CONNECTION);
+			
 		} catch (IOException e) {
 			throw new RestException(e);
 		}
@@ -686,6 +750,9 @@ public class RestClient {
 		try {
 			openOutput();
 			copy(input, output);
+		} catch (SocketTimeoutException e) {
+			throw new RestException(e, RestException.RETRY_CONNECTION);
+			
 		} catch (IOException e) {
 			throw new RestException(e);
 		}
@@ -951,5 +1018,51 @@ public class RestClient {
 		output = new RestOutputStream(getConnection().getOutputStream(), charset,
 				bufferSize);
 		return this;
+	}
+	
+	public static void setRetryNum(int retry_num) {
+		RestClient.DEFAULT_RETRY_NUM = retry_num;
+	}
+	
+	public static void setReadTimeout(int readTimeout) {
+		RestClient.DEFAULT_READ_TIMEOUT = readTimeout;
+	}
+	
+	public static void setConnectionTimeout(int connectionTimeout) {
+		RestClient.DEFAULT_CONNECTION_TIMEOUT = connectionTimeout;
+	}
+	
+	
+	// TODO frankswu : test
+	static int retry_status = 0;
+	static int retry_num = 0;
+	
+	public static void main(String[] args) {
+		AtomicInteger i = new AtomicInteger(3);
+		System.out.println(i.incrementAndGet());
+		System.out.println(i.decrementAndGet());
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				while (retry_status == 0) {
+					try {
+						Thread.sleep(1000);
+						
+						System.out.println(Thread.currentThread().getId()+"[" + System.currentTimeMillis()+ "]retry" + ++retry_num);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
+		}).start();
+		
+		
+		
 	}
 }

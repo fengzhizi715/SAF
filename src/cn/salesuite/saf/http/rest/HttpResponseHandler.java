@@ -14,4 +14,12 @@ public interface HttpResponseHandler {
 	 * @param content
 	 */
 	public void onSuccess(String content);
+	
+	/**
+	 * http请求失败后，response转换成jsonString
+	 * 
+	 * @param e
+	 */
+	public void onFail(RestException e);
+	
 }

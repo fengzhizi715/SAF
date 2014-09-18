@@ -73,6 +73,11 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
               }
+              
+             @Override
+			 public void onFail(RestException exception){
+						
+			  }
           });
 
 
@@ -88,8 +93,13 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
           RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
         
-                public void onSuccess(String content) {
-                }
+             public void onSuccess(String content) {
+             }
+                
+             @Override
+			 public void onFail(RestException exception){
+						
+			 }
         
            });
 
@@ -98,10 +108,14 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
           RestClient.post(urlString, map, new HttpResponseHandler(){
 
-                @Override
-                public void onSuccess(String content) {
+              @Override
+              public void onSuccess(String content) {
 
-                }
+              }
+                
+              @Override
+			   public void onFail(RestException exception){
+			    }
                                         
           });
 

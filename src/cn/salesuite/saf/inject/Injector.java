@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +40,7 @@ import cn.salesuite.saf.inject.annotation.InjectViews;
 import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
+import cn.salesuite.saf.inject.annotation.OnTouch;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -368,11 +370,13 @@ public class Injector {
                 } else if (annotation.annotationType() == OnLongClick.class) {
 //                  frankswu add OnLongClick
                 	bindOnLongClickListener(method, (OnLongClick) annotation, modifiedViews ,finder);
+                } else if (annotation.annotationType() == OnTouch.class) {
+                	bindOnTouchListener(method, (OnTouch) annotation, modifiedViews ,finder);
                 } 
             }
         }
 	}
-	
+
 	private boolean bindOnLongClickListener(Method method, OnLongClick onLongClick,
 			Set<View> modifiedViews, Finder finder) {
 		// frankswu add OnLongClick 
@@ -442,6 +446,25 @@ public class Injector {
         }
         return invokeWithView;
     }
+	
+	private boolean bindOnTouchListener(Method method, OnTouch onTouch,
+			Set<View> modifiedViews, Finder finder) {
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class,MotionEvent.class});
+        
+        method.setAccessible(true);
+        InjectedOnTouchListener listener = new InjectedOnTouchListener(target, method, invokeWithView);
+
+        int[] ids = onTouch.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+                if (view!=null) {
+                    view.setOnTouchListener(listener);
+                }
+            }
+        }
+        return invokeWithView;
+	}
 	
 	private boolean checkInvokeWithView(Method method, Class[] paramterClass) {
         Class<?>[] parameterTypes = method.getParameterTypes();

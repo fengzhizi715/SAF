@@ -81,7 +81,7 @@ public class ImageLoader {
      */
     public void displayImage(String url, ImageView imageView, int imageId) {
     	if (StringHelper.isBlank(url)) {
-            imageView.setImageResource(stub_id);
+            imageView.setImageResource(imageId);
             return;
     	}
     	
@@ -126,7 +126,7 @@ public class ImageLoader {
      */
     public void displayImage(String url, ImageView imageView, int imageId,final JobOptions options) {
     	if (StringHelper.isBlank(url)) {
-            imageView.setImageResource(stub_id);
+            imageView.setImageResource(imageId);
             return;
     	}
     	

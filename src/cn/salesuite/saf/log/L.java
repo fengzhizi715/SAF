@@ -58,6 +58,10 @@ public class L {
 		TAG = fragment.TAG;
 	}
 	
+	public static void init(Class<?> clazz) {
+		TAG = clazz.getSimpleName();
+	}
+	
 	public static void e(String msg) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			

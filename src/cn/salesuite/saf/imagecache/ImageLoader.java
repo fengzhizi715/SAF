@@ -171,8 +171,23 @@ public class ImageLoader {
         mQueue.add(p);
         backgroundExecutor.submit(new PhotosLoader());
 	}
+
+    //通过URl获取缓存或者sd中的图片Image
+    public Bitmap getBitmap(String url) {
+        Bitmap bitmap=memoryCache.get(url);
+        if(bitmap!=null) {
+            return bitmap;
+        } else {
+            bitmap = getBitmapFromDiskCache(url);
+            if(bitmap!=null){
+                return bitmap;
+            }else {
+                return null;
+            }
+        }
+    }
     
-    public Bitmap getBitmap(String url,ImageView imageView) {
+    private Bitmap getBitmap(String url,ImageView imageView) {
         //from SD cache
         Bitmap b = getBitmapFromDiskCache(url);
         if(b!=null) 

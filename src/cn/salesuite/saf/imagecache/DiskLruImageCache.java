@@ -123,10 +123,11 @@ public class DiskLruImageCache {
         Bitmap bitmap = null;
         DiskLruCache.Snapshot snapshot = null;
         try {
-
             snapshot = mDiskCache.get(key);
-            if (snapshot == null)
-                return null;
+
+            if (snapshot == null) 
+            	return null;
+               
             final InputStream in = snapshot.getInputStream(0);
             if (in != null) {
                 final BufferedInputStream buffIn = new BufferedInputStream(in, IO_BUFFER_SIZE);
@@ -167,4 +168,18 @@ public class DiskLruImageCache {
             e.printStackTrace();
         }
     }
+    
+	/**
+	 * 根据key删除DiskLruImageCache的图片缓存
+	 * @param url
+	 */
+	public void remove(String url) {
+		if (containsKey(url)) {
+			try {
+				mDiskCache.remove(url);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

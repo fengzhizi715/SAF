@@ -4,8 +4,16 @@
 package cn.salesuite.saf.inject;
 
 import java.lang.annotation.Annotation;
+
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,14 +26,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import cn.salesuite.saf.inject.annotation.InflateLayout;
 import cn.salesuite.saf.inject.annotation.InjectExtra;
 import cn.salesuite.saf.inject.annotation.InjectResource;
 import cn.salesuite.saf.inject.annotation.InjectSupportFragment;
 import cn.salesuite.saf.inject.annotation.InjectSystemService;
 import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.saf.inject.annotation.InjectViews;
+import cn.salesuite.saf.inject.annotation.OnClick;
+import cn.salesuite.saf.inject.annotation.OnItemClick;
+import cn.salesuite.saf.inject.annotation.OnLongClick;
+import cn.salesuite.saf.inject.annotation.OnTouch;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -72,7 +87,7 @@ public class Injector {
 				return ((View) source).findViewById(id);
 			}
 		};
-
+		
 		public abstract View findById(Object source, int id);
 	}
     
@@ -213,41 +228,45 @@ public class Injector {
     
 	private void injectAll(Finder finder) {
         injectFields(finder);
+        bindMethods(finder);
 	}
 
 	private void injectFields(Finder finder) {
-
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
+
             Annotation[] annotations = field.getAnnotations();
+            View view = null;
             for (Annotation annotation : annotations) {
                 if (annotation.annotationType() == InjectView.class) {
                     int id = ((InjectView) annotation).id();
-                    View view = null;
-                	switch (finder) {  
-                    case DIALOG:
-                    	view = Finder.DIALOG.findById(target, id);
-                        break;  
-                    case ACTIVITY:
-                        if (activity == null) {
-                            throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in "
-                                    + context.getClass());
-                        }
-                    	view = Finder.ACTIVITY.findById(activity, id);
-                        break;
-                    case FRAGMENT:
-                    	view = Finder.FRAGMENT.findById(fragmentView, id);
-                        break;
-                    case VIEW:
-                    	view = Finder.VIEW.findById(target, id);
-                        break;
-                    }
-                	
+                    view = findViewByAnnotationId(id,field,finder);
                     if (view == null) {
                         throw new InjectException("View not found for member " + field.getName());
                     }
-                    
                     injectIntoField(field, view);
+                } else if (annotation.annotationType() == InjectViews.class) {
+                	String fieldTypeName = field.getType().getName();
+					// TODO frankswu add injectViews 
+                	if (fieldTypeName.startsWith("[L") || fieldTypeName.startsWith("java.util.List")) {
+                        int[] ids = ((InjectViews) annotation).ids();
+                        List<View> views = new ArrayList<View>();
+                        for (int id : ids) {
+                            view = findViewByAnnotationId(id,field,finder);
+                            if (view == null) {
+                                throw new InjectException("View not found for member " + field.getName()+", and id is " + id);
+                            }
+                            views.add(view);
+    					}
+	                    if (fieldTypeName.startsWith("[L")) {
+	                    	View[] v = (View[]) Array.newInstance(field.getType().getComponentType(), views.size());
+		                    injectListIntoField(field, views.toArray(v));                	
+						} else if (fieldTypeName.startsWith("java.util.List")) {
+		                    injectIntoField(field, views);                	
+						}
+					} else {
+                        throw new InjectException("The View of InjectViews annotation " + field.getName()+" is not list or array !");
+					}
                 } else if (annotation.annotationType() == InjectResource.class) {
                     Object ressource = findResource(field.getType(), field, (InjectResource) annotation);
                     injectIntoField(field, ressource);
@@ -327,4 +346,194 @@ public class Injector {
             throw new InjectException("Could not inject into field " + field.getName(), e);
         }
 	}
+
+	private void injectListIntoField(Field field, Object[] value) {
+        try {
+            field.setAccessible(true);
+            field.set(target, value);
+        } catch (Exception e) {
+            throw new InjectException("Could not inject into field " + field.getName(), e);
+        }
+	}
+	
+	private void bindMethods(Finder finder) {
+        Method[] methods = clazz.getDeclaredMethods();
+        Set<View> modifiedViews = new HashSet<View>();
+        for (final Method method : methods) {
+            Annotation[] annotations = method.getAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation.annotationType() == OnClick.class) {
+                    bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
+                } else if (annotation.annotationType() == OnItemClick.class) {
+//                  frankswu add OnItemClick
+                	bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
+                } else if (annotation.annotationType() == OnLongClick.class) {
+//                  frankswu add OnLongClick
+                	bindOnLongClickListener(method, (OnLongClick) annotation, modifiedViews ,finder);
+                } else if (annotation.annotationType() == OnTouch.class) {
+                	bindOnTouchListener(method, (OnTouch) annotation, modifiedViews ,finder);
+                } 
+            }
+        }
+	}
+
+	private boolean bindOnLongClickListener(Method method, OnLongClick onLongClick,
+			Set<View> modifiedViews, Finder finder) {
+		// frankswu add OnLongClick 
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
+        
+        method.setAccessible(true);
+        InjectedOnLongClickListener listener = new InjectedOnLongClickListener(target, method, invokeWithView);
+
+        int[] ids = onLongClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+                if (view!=null) {
+                    view.setOnLongClickListener(listener);
+                }
+            }
+        }
+        return invokeWithView;
+	}
+
+	/**
+	 * @param method
+	 * @param annotation
+	 * @param modifiedViews
+	 * @param finder
+	 */
+	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
+		// frankswu : add OnItemClick 
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
+        
+        method.setAccessible(true);
+        InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
+
+        int[] ids = onItemClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+            	AdapterView<?> view = null;
+            	try {
+                    view = (AdapterView<?>) findView(method, id, finder);
+                    if (view!=null) {
+                        view.setOnItemClickListener(listener);
+                    }
+				} catch (Exception e) {
+                    throw new InjectException("The view can be cast to AdapterView for using OnItemClick! ");
+				}
+            }
+        }
+        return invokeWithView;
+		
+	}
+
+	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
+		
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
+        
+        method.setAccessible(true);
+        InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
+
+        int[] ids = onClick.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+                if (view!=null) {
+                    view.setOnClickListener(listener);
+                }
+            }
+        }
+        return invokeWithView;
+    }
+	
+	private boolean bindOnTouchListener(Method method, OnTouch onTouch,
+			Set<View> modifiedViews, Finder finder) {
+        boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class,MotionEvent.class});
+        
+        method.setAccessible(true);
+        InjectedOnTouchListener listener = new InjectedOnTouchListener(target, method, invokeWithView);
+
+        int[] ids = onTouch.id();
+        for (int id : ids) {
+            if (id != 0) {
+                View view = findView(method, id, finder);
+                if (view!=null) {
+                    view.setOnTouchListener(listener);
+                }
+            }
+        }
+        return invokeWithView;
+	}
+	
+	private boolean checkInvokeWithView(Method method, Class[] paramterClass) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        int paramterNum = paramterClass.length;
+        if (parameterTypes.length == 0) {
+            return false;
+        } else if (parameterTypes.length == paramterNum) {
+        	if (paramterClass.length == parameterTypes.length) {
+            	for (int i = 0; i < parameterTypes.length; i++) {
+                    if (parameterTypes[i] == paramterClass[i]) {
+                        return true;
+                    } else {
+                        throw new InjectException("the " + method.getName() + ", the correct paramter type is " + paramterClass[i] +
+                                		", but now found paramter type is" + parameterTypes[i]+" !");
+                    }
+    			}
+			} else { 
+				return false;
+			}
+        } else {
+            throw new InjectException("Method may have no parameter or the number of parameter is wrong: "
+                    + method.getName()+" paramter number [" + paramterNum +  "]is correct,but now is " + parameterTypes.length);
+        }
+		return false;
+	}
+
+	/**
+	 * frankswu not find id,default use field name 
+	 * @param id
+	 * @param field
+	 * @param finder
+	 * @return
+	 */
+	private View findViewByAnnotationId(int id, Field field, Finder finder) {
+        if(id == 0){
+        	id = this.context.getResources().getIdentifier(field.getName(), "id", this.context.getPackageName());
+            if (id == 0) {
+                throw new InjectException("View not found for member " + field.getName());
+            }
+        }
+        return findView(field, id, finder);
+	}
+
+	private View findView(Member field, int viewId, Finder finder) {
+		View view = null;
+		switch (finder) {
+		case DIALOG:
+			view= Finder.DIALOG.findById(target, viewId);
+			break;
+		case ACTIVITY:
+			if (activity == null) {
+				throw new InjectException("Views can be injected only in activities (member " + field.getName() + " in " + context.getClass());
+			}
+			view = finder.findById(activity, viewId);
+			if (view == null) {
+				throw new InjectException("View not found for member "
+						+ field.getName());
+			}
+			break;
+		case FRAGMENT:
+			view = Finder.FRAGMENT.findById(fragmentView, viewId);
+			break;
+		case VIEW:
+			view = Finder.VIEW.findById(target, viewId);
+			break;
+		default:
+			break;
+		}
+		return view;
+	}
+	
 }

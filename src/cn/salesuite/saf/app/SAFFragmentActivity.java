@@ -11,12 +11,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.Toast;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.net.CellIDInfo;
 import cn.salesuite.saf.net.CellIDInfoManager;
 import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.ToastUtil;
 
 /**
  * @author Tony Shen
@@ -104,32 +103,18 @@ public class SAFFragmentActivity extends FragmentActivity{
 		delActivityFromManager(this);
 	}
 	
-	protected void showToast(int strId) {
-		Toast.makeText(this, getString(strId), Toast.LENGTH_SHORT).show();
+	/**
+	 * @param message toast的内容
+	 */
+	protected void toast(String message) {
+		ToastUtil.showShort(this, message);
 	}
 
-	protected void showToast(String str) {
-		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-	}
-	
 	/**
-	 * 绘制中部的Toast
-	 * @param strId
+	 * @param resId toast的内容来自String.xml
 	 */
-	protected void showMidToast(int strId) {
-		Toast msg = Toast.makeText(this, getString(strId), Toast.LENGTH_SHORT);
-		msg.setGravity(Gravity.CENTER, msg.getXOffset(), msg.getYOffset() / 2);
-		msg.show();
-	}
-	
-	/**
-	 * 绘制中部的Toast
-	 * @param str
-	 */
-	protected void showMidToast(String str) {
-		Toast msg = Toast.makeText(this, str, Toast.LENGTH_SHORT);
-		msg.setGravity(Gravity.CENTER, msg.getXOffset(), msg.getYOffset() / 2);
-		msg.show();
+	protected void toast(int resId) {
+		ToastUtil.showShort(this, resId);
 	}
 	
 	/**
@@ -155,7 +140,7 @@ public class SAFFragmentActivity extends FragmentActivity{
 		}
 
 		if (dbm <= -112) {
-			showToast("当前信号差");
+			toast("当前信号差");
 		}
 	}
 	

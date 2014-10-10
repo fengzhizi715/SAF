@@ -61,6 +61,22 @@ public class ToastUtil {
 			}
 		});
 	}
+	
+	public static void showToast(Context context, final int resId,
+			final int duration) {
+		if (context == null)
+			return;
+
+		Toast.makeText(context, resId, duration).show();
+	}
+	
+	public static void showToast(Context context, final String message,
+			final int duration) {
+		if (context == null)
+			return;
+
+		Toast.makeText(context, message, duration).show();
+	}
 
 	public static void showLong(final Activity activity, int resId) {
 		showToast(activity, resId, LENGTH_LONG);
@@ -84,6 +100,14 @@ public class ToastUtil {
 		String message = activity.getString(resId);
 		showLong(activity, message, args);
 	}
+	
+	public static void showLong(Context context, int resId) {
+		showToast(context, resId, LENGTH_LONG);
+	}
+
+	public static void showLong(Context context, String message) {
+		showToast(context, message, LENGTH_LONG);
+	}
 
 	public static void showShort(final Activity activity, final int resId) {
 		showToast(activity, resId, LENGTH_SHORT);
@@ -106,5 +130,13 @@ public class ToastUtil {
 
 		String message = activity.getString(resId);
 		showShort(activity, message, args);
+	}
+	
+	public static void showShort(Context context, int resId) {
+		showToast(context, resId, LENGTH_SHORT);
+	}
+
+	public static void showShort(Context context, String message) {
+		showToast(context, message, LENGTH_SHORT);
 	}
 }

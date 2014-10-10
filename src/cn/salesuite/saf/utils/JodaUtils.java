@@ -11,6 +11,7 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 /**
+ * 使用Joda封装的日期帮助类，替换原先的DateHelper
  * @author Tony Shen
  *
  */
@@ -41,6 +42,33 @@ public class JodaUtils {
 	 */
 	public static String getCurrentDay() {
 		return new DateTime().toString("dd");
+	}
+	
+	/**
+	 * 得到当前的小时
+	 * 返回格式:hh
+	 * @return String
+	 */
+	public static String getCurrentHour() {
+		return new DateTime().toString("hh");
+	}
+	
+	/**
+	 * 得到当前的分钟
+	 * 返回格式:mm
+	 * @return String
+	 */
+	public static String getCurrentMinute() {
+		return new DateTime().toString("mm");
+	}
+	
+	/**
+	 * 得到当前的秒
+	 * 返回格式:ss
+	 * @return String
+	 */
+	public static String getCurrentSecond() {
+		return new DateTime().toString("ss");
 	}
 
 	/**

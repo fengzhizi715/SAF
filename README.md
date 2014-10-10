@@ -1,8 +1,8 @@
 SAF
 ===
-SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。
-SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。目前它刚刚到1.1版本，肯定会存在各种各样的问题。 
-这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年了。目前google code上的工程暂停维护，迁移到github上。遇到任何问题欢迎跟我的qq联系，qq：63067756
+SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。<br>
+SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的一个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF<br>
+目前google code上的工程暂停维护，迁移到github上。它刚刚到1.1.x版本，肯定会存在各种各样的问题。遇到任何问题欢迎跟我的qq联系，qq：63067756
 
 
 主要功能
@@ -67,44 +67,57 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 </pre></code>
 
 异步调用get方法：
-<pre><code>
+
           RestClient.get(url,new HttpResponseHandler(){
               
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
               }
+              
+             @Override
+			 public void onFail(RestException exception){
+						
+			  }
           });
-</pre></code>
+
 
 同步调用post方法：post body内容为json
-<pre><code>
+
           RestClient client = RestClient.post(url);
           client.acceptJson().contentType("application/json", null);
           client.send(jsonString); // jsonString是已经由json对象转换成string类型
           String body = client.body();
-</pre></code>
+
 
 异步调用post方法：post body内容为json
-<pre><code>
+
           RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
         
-                public void onSuccess(String content) {
-                }
+             public void onSuccess(String content) {
+             }
+                
+             @Override
+			 public void onFail(RestException exception){
+						
+			 }
         
            });
-</pre></code>
+
 
 异步调用post方法：以form形式传递数据
-<pre><code>
+
           RestClient.post(urlString, map, new HttpResponseHandler(){
 
-                @Override
-                public void onSuccess(String content) {
+              @Override
+              public void onSuccess(String content) {
 
-                }
+              }
+                
+              @Override
+			   public void onFail(RestException exception){
+			    }
                                         
           });
-</pre></code>
 
 
 Image Cache
@@ -123,14 +136,18 @@ Dependency Injection
 Dependency Injection是依赖注入的意思，简称DI。
 
 SAF中的DI包括以下几个方面：
-* Inject View ：简化组件的查找注册
+* Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=R.id.xxxx)
+* Inject Views：支持多个相同类型组件的注入
 * Inject Service ：简化系统服务的注册，目前只支持android的系统服务
 * Inject Extra ：简化2个Activity之间Extra传递
+* InflateLayout ：简化布局填充时，组件的查找注册
+* OnClick：简化各种组件的Click事件写法
+* OnItemClick：简化ListView的ItemView事件写法
 
 Inject View
 ---
 Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码
-<pre><code>
+
           public class MainActivity extends Activity {
                 
                 private ImageView imageView;
@@ -143,10 +160,10 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                   imageView = (ImageView) findViewById(R.id.imageview);
                 }
            }
-</pre></code>
+
 
 在使用Inject View之后，会这样写代码
-<pre><code>
+
           public class MainActivity extends Activity {
                     
                 @InjectView(id= R.id.imageview)
@@ -160,10 +177,25 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                    Injector.injectInto(this);
                 }
           }
-</pre></code>
+
+约定大于配置的写法，无需写(id= R.id.imageview)
+
+          public class MainActivity extends Activity {
+                    
+                @InjectView
+                private ImageView imageview;
+                    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                   super.onCreate(savedInstanceState);
+                      
+                   setContentView(R.layout.activity_main);
+                   Injector.injectInto(this);
+                }
+          }
 
 目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
-<pre><code>
+
           public class DemoFragment extends Fragment {
 
                    @InjectView(id=R.id.title)
@@ -186,11 +218,27 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
           
                   ......
            }
-</pre></code>
+
+Inject Views
+---
+          public class MainActivity extends Activity {
+                    
+                @InjectViews(ids={R.id.imageView1,R.id.imageView2})
+                private List<ImageView> imageviews;
+                    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                   super.onCreate(savedInstanceState);
+                      
+                   setContentView(R.layout.activity_main);
+                   Injector.injectInto(this);
+                }
+          }
+
 
 Inject Extra
 ---
-<pre><code>
+
          /**
           * MainActivity传递数据给SecondActivity
           * Intent i = new Intent(MainActivity.this,SecondActivity.class);                                               
@@ -218,31 +266,94 @@ Inject Extra
                    Log.i("++++++++++++","hello="+SAFUtil.printObject(hello)); // 该方法用于打印对象
               }
           }
+
+InflateLayout
+---
+
+        /**
+         * @author Tony Shen
+         *
+         */
+         @InflateLayout(id=R.layout.my_view)
+         public class MyView extends LinearLayout {
+
+              @InjectView(id = R.id.textview1)
+	          public TextView view1;
+    
+              @InjectView(id = R.id.textview2)
+	          public TextView view2;
+	
+	         public MyView(Context context) {
+		         super(context);
+	         }
+        }
+
+
+在Activity、Fragment中的写法:
+<pre><code> 	
+         MyView myView = Injector.build(mContext, MyView.class);
 </pre></code>
+
+
+OnClick
+---
+@OnClick 可以在Activity、Fragment、Dialog、View中使用，支持多个组件绑定同一个方法。
+
+     public class AddCommentFragment extends BaseFragment {
+    
+         @Override
+         public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+             View v = inflater.inflate(R.layout.fragment_add_comment, container, false);
+
+             Injector.injectInto(this, v);
+
+             initView();
+
+             return v;
+        }
+    
+	    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
+	    void clickLeftMenu() {
+		    popBackStack();
+	    }
+	
+	    @OnClick(id=R.id.btn_comment_send)
+	    void clickCommentSend() {
+            if (StringHelper.isBlank(commentEdit.getText().toString())) {
+               ToastUtil.showShort(mContext, R.string.the_comment_need_more_character);
+            } else {
+               AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
+            }
+	    }
+	    
+	    ....
+    }
 
 
 Sqlite ORM
 ===
 顾名思义就是sqlite的orm框架，采用oop的方式简化对sqlite的操作。 首先需要在AndroidManifest.xml中配上一些参数
-<pre><code>
+
         <!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表-->
         <meta-data
             android:name="DOMAIN_PACKAGE"
             android:value="com.example.testsaf.db" />
         
-       <!-- 表示db的名称-->
+        <!-- 表示db的名称-->
         <meta-data
             android:name="DB_NAME"
             android:value="testsaf.db" />
  
-        <!-- 表示db的版本号-->
+         <!-- 表示db的版本号-->
          <meta-data
             android:name="DB_VERSION"
             android:value="1" />
-</pre></code>
+
 
 使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。
-<pre><code>
+
           /**
            * @author Tony Shen
            *
@@ -256,10 +367,9 @@ Sqlite ORM
                 }
   
            }
-</pre></code>     
 
 db的domain使用是也是基于注解
-<pre><code>
+
           /**
            * 
            * 表示sqlite中autocomplete表的属性
@@ -278,10 +388,10 @@ db的domain使用是也是基于注解
               @Column(name="key_reference",length=80)
               public String KEY_REFERENCE;
           }
-</pre></code> 
+
 
 db的操作很简单
-<pre><code>
+
           Autocomplete auto = new Autocomplete();
           auto.KEY_TYPE = "1";
           auto.KEY_WORDS = "testtest";
@@ -298,7 +408,7 @@ db的操作很简单
           } else {
                Log.i("+++++++++++++++","auto3 is null!");
           }
-</pre></code> 
+
 
 查询结果集
 <pre><code>
@@ -313,18 +423,18 @@ Log.i("+++++++++++++++","list2.size()="+list2.size()); // 表示查询select * f
 Router
 ===
 类似于rails的router功能，Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数
-<pre><code>
+
           Router.getInstance().setContext(getApplicationContext()); // 这一步是必须的，用于初始化Router
           Router.getInstance().map("user/:user/password/:password", SecondActivity.class);
-</pre></code>
+
 
 有时候，activity跳转还会有动画效果，那么我们可以这么做
-<pre><code>
+
           RouterOptions options = new RouterOptions();
           options.enterAnim = R.anim.slide_right_in;
           options.exitAnim = R.anim.slide_left_out;
           Router.getInstance().map("user/:user/password/:password", SecondActivity.class, options);
-</pre></code>
+
 
 在Application中定义好映射，activity之间跳转只需在activity中写下如下的代码，即可跳转到相应的Activity，并传递参数
 <pre><code>
@@ -332,23 +442,23 @@ Router
 </pre></code>
 
 如果在跳转前需要先做判断，看看是否满足跳转的条件,doCheck()返回false表示不跳转，true表示进行跳转到下一个activity
-<pre><code>
+
           Router.getInstance().open("user/fengzhizi715/password/715",new RouterChecker(){
 
                  public boolean doCheck() {
                      return true;
                  }
           });
-</pre></code>
+
 
 单独跳转到某个网页，调用系统电话，调用手机上的地图app打开地图等无须在Application中定义跳转映射。
-<pre><code>
+
           Router.getInstance().openURI("http://www.g.cn");
 
           Router.getInstance().openURI("tel://18662430000");
 
           Router.getInstance().openURI("geo:0,0?q=31,121");
-</pre></code>
+
 
 Fragment之间的跳转也无须在Application中定义跳转映射。直接在某个Fragment写下如下的代码
 <pre><code>

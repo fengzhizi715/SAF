@@ -45,6 +45,7 @@ import android.util.Log;
  * @author Tony Shen
  *
  */
+@Deprecated
 public class CommHttpClient {
 	
 	public String TAG = "CommHttpClient";

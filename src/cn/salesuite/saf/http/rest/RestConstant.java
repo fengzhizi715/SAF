@@ -155,4 +155,12 @@ public class RestConstant {
 			+ BOUNDARY;
 
 	public static final String CRLF = "\r\n";
+	
+	public static int DEFAULT_READ_TIMEOUT = 30000;
+	
+	public static int DEFAULT_CONNECTION_TIMEOUT = 30000;
+	
+	public static int DEFAULT_RETRY_NUM = 3;
+	
+	public static final int SUCCESS = 200;
 }

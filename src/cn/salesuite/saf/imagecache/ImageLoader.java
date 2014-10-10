@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.utils.BitmapHelper;
+import cn.salesuite.saf.utils.StringHelper;
 
 /**
  * @author Tony Shen
@@ -57,9 +58,14 @@ public class ImageLoader {
      * @param imageView
      */
     public void displayImage(String url, ImageView imageView) {
+    	if (StringHelper.isBlank(url)) {
+            imageView.setImageResource(stub_id);
+            return;
+    	}
+    	
         imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
-        if(bitmap!=null)
+        if(bitmap!=null) 
             imageView.setImageBitmap(bitmap);
         else {
             queuePhoto(url, imageView);
@@ -74,6 +80,11 @@ public class ImageLoader {
      * @param imageId 默认图片，可能区别与default_img_id，一个app只有一个default_img_id，imageId可有很多个
      */
     public void displayImage(String url, ImageView imageView, int imageId) {
+    	if (StringHelper.isBlank(url)) {
+            imageView.setImageResource(imageId);
+            return;
+    	}
+    	
         imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null)
@@ -91,6 +102,11 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, final JobOptions options) {
+    	if (StringHelper.isBlank(url)) {
+            imageView.setImageResource(stub_id);
+            return;
+    	}
+    	
         imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null) {
@@ -109,6 +125,11 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, int imageId,final JobOptions options) {
+    	if (StringHelper.isBlank(url)) {
+            imageView.setImageResource(imageId);
+            return;
+    	}
+    	
         imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null) {
@@ -118,7 +139,20 @@ public class ImageLoader {
             imageView.setImageResource(imageId);
         }
     }
-        
+    
+    /**
+     * 根据url，删除cache里的图片，包括内存cache和sd卡上的cache
+     * @param url
+     */
+    public void remove(String url) {
+    	memoryCache.remove(url);
+        String key = getDiskCacheKey(url);
+        if (key==null) {
+        	return;
+        }
+    	diskCache.remove(key);
+    }
+    
     private void queuePhoto(String url, ImageView imageView) {
         ImageRequest p=new ImageRequest(url, imageView);
         mQueue.add(p);
@@ -141,40 +175,35 @@ public class ImageLoader {
     public Bitmap getBitmap(String url,ImageView imageView) {
         //from SD cache
         Bitmap b = getBitmapFromDiskCache(url);
-        if(b!=null)
-            return b;
+        if(b!=null) 
+        	return b;
         
         //from web
         downloadBitmap(url,new JobOptions(imageView));
         return memoryCache.get(url);
     }
     
-    private Bitmap getBitmapFromDiskCache(final String urlString) {
+    private Bitmap getBitmapFromDiskCache(String urlString) {
     	if (enableDiskCache) {
-            final String key = getDiskCacheKey(urlString);
-            
+            String key = getDiskCacheKey(urlString);
             if (key==null) {
             	return null;
             }
-            
-            final Bitmap cachedBitmap = diskCache.getBitmap(key);
 
-            if (cachedBitmap == null)
-                return null;
+            Bitmap cachedBitmap = diskCache.getBitmap(key);
 
-            return cachedBitmap;
+            return cachedBitmap==null?null:cachedBitmap;
     	} else {
     		return null;
     	}
-
     }
 
     private static String getDiskCacheKey(final String urlString) {
-        final String sanitizedKey = urlString.replaceAll("[^a-z0-9_]", "");
-        if (sanitizedKey.length()>63) { // sanitizedKey > 63时，不用sd卡缓存用内存缓存。
+        final String sanitizedKey = urlString.replaceAll("[^a-z0-9_-]", "");
+        if (sanitizedKey.length()>119) { // sanitizedKey > 120时，不用sd卡缓存用内存缓存。
         	return null;
         }
-        return sanitizedKey.substring(0, Math.min(63, sanitizedKey.length()));
+        return sanitizedKey.substring(0, Math.min(119, sanitizedKey.length()));
     }
     
     private void downloadBitmap(final String urlString, final JobOptions options) {
@@ -192,7 +221,7 @@ public class ImageLoader {
     private void addBitmapToCache(final String key, final Bitmap bitmap) {
         memoryCache.put(key, bitmap);
 
-        if (!enableDiskCache) {
+        if (enableDiskCache) { // sd卡缓存开关打开时，将图片缓存到sd卡上
             final String diskCacheKey = getDiskCacheKey(key);
 
             if ((diskCache != null) && !diskCache.containsKey(diskCacheKey)) {
@@ -283,6 +312,7 @@ public class ImageLoader {
         public void run(){
             if(imageViewReused(photoToLoad))
                 return;
+            
             if(bitmap!=null) {
             	if (photoToLoad.options!=null) {
             		photoToLoad.imageView.setImageBitmap(BitmapHelper.roundCorners(bitmap , photoToLoad.options.cornerRadius));

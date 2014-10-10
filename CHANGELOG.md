@@ -2,6 +2,14 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.7
+---
+2014-10-10
+ *  优化ImageLoader
+ *  增加@OnTouch
+ *  增加SAFAdapter
+ *  完善L、ToastUtil
+
 Version 1.1.6
 ---
 2014-09-17

@@ -130,6 +130,15 @@ public class JodaUtils {
 		return format(date,"yyyy-MM-dd");
 	}
 	
+		
+	/**
+	 * @param date
+	 * @return formated date by yyyy-MM-dd HH:mm:ss
+	 */
+	public static final String formatDateTime(Date date) {
+		return format(date,"yyyy-MM-dd HH:mm:ss");
+	}
+    
 	/**
 	 * @param date
 	 * @param pattern: Date format pattern

@@ -172,8 +172,12 @@ public class ImageLoader {
         backgroundExecutor.submit(new PhotosLoader());
 	}
 
-    //通过URl获取缓存或者sd中的图片Image
-    public Bitmap getBitmap(String url) {
+    /**
+     * 通过URl获取缓存或者sd中的图片Image
+     * @param url
+     * @return
+     */
+    public Bitmap getBitmapFromCache(String url) {
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null) {
             return bitmap;
@@ -181,10 +185,10 @@ public class ImageLoader {
             bitmap = getBitmapFromDiskCache(url);
             if(bitmap!=null){
                 return bitmap;
-            }else {
-                return null;
             }
         }
+        
+        return null;
     }
     
     private Bitmap getBitmap(String url,ImageView imageView) {

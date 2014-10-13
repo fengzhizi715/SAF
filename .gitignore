@@ -26,3 +26,5 @@ proguard/
 .classpath
 .project
 .settings/
+
+.idea/workspace.xml

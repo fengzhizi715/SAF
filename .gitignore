@@ -26,10 +26,6 @@ proguard/
 .classpath
 .project
 .settings/
-<<<<<<< HEAD
 
-.idea/workspace.xml
-=======
 .idea/
-iSAF.iml
->>>>>>> 7345585bac2c244982d3990a83675311c3fe926d
+*.iml

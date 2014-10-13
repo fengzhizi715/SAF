@@ -191,8 +191,6 @@ public class ImageLoader {
         backgroundExecutor.submit(new PhotosLoader());
 	}
 
-<<<<<<< HEAD
-=======
     /**
      * 通过URl获取缓存或者sd中的图片Image
      * @param url
@@ -211,8 +209,7 @@ public class ImageLoader {
         
         return null;
     }
-    
->>>>>>> 7345585bac2c244982d3990a83675311c3fe926d
+
     private Bitmap getBitmap(String url,ImageView imageView) {
         //from SD cache
         Bitmap b = getBitmapFromDiskCache(url);

@@ -3,6 +3,7 @@
  */
 package cn.salesuite.saf.app;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.widget.BaseAdapter;
@@ -13,7 +14,7 @@ import android.widget.BaseAdapter;
  */
 public abstract class SAFAdapter<T> extends BaseAdapter {
 
-	private List<T> mList = null;
+	protected List<T> mList = null;
 	
 	public List<T> getList(){
 		return mList;
@@ -25,6 +26,19 @@ public abstract class SAFAdapter<T> extends BaseAdapter {
 		}
 		
 		mList = list;
+		notifyDataSetChanged();
+	}
+	
+	public void add(T t) {
+		if (t == null) {
+			return;
+		}
+		
+		if (mList == null) {
+			mList = new ArrayList<T>();
+		}
+		
+		mList.add(t);
 		notifyDataSetChanged();
 	}
 	
@@ -40,6 +54,19 @@ public abstract class SAFAdapter<T> extends BaseAdapter {
 		}
 		
 		mList.addAll(list);
+		notifyDataSetChanged();
+	}
+	
+	public void addToTop(T t) {
+		if (t == null) {
+			return;
+		}
+		
+		if (mList == null) {
+			mList = new ArrayList<T>();
+		}
+		
+		mList.add(0, t);
 		notifyDataSetChanged();
 	}
 

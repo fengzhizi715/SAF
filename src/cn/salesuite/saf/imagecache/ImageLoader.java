@@ -164,6 +164,15 @@ public class ImageLoader {
     }
 
     /**
+     * 通过URl获取图片的bitmap
+     * @param url
+     * @return
+     */
+    public Bitmap loadBitmap(String url) {
+        return loadBitmap(url, null);
+    }
+    
+    /**
      * 根据url，删除cache里的图片，包括内存cache和sd卡上的cache
      * @param url
      */
@@ -195,36 +204,6 @@ public class ImageLoader {
         backgroundExecutor.submit(new PhotosLoader());
 	}
 
-    /**
-     * 通过URl获取图片的bitmap
-     * @param url
-     * @return
-     */
-    public Bitmap loadBitmap(String url) {
-        Bitmap bitmap=memoryCache.get(url);
-        if(bitmap!=null) {
-            return bitmap;
-        } else {
-            bitmap = getBitmapFromDiskCache(url);
-            if(bitmap==null){
-            	bitmap = downloadBitmap(url);
-            }
-        }
-        
-        return bitmap;
-    }
-
-    private Bitmap getBitmap(String url,ImageView imageView) {
-        //from SD cache
-        Bitmap b = getBitmapFromDiskCache(url);
-        if(b!=null) 
-        	return b;
-        
-        //from web
-        downloadBitmap(url,new JobOptions(imageView));
-        return memoryCache.get(url);
-    }
-    
     private Bitmap getBitmapFromDiskCache(String urlString) {
     	if (enableDiskCache) {
             String key = getDiskCacheKey(urlString);
@@ -247,41 +226,7 @@ public class ImageLoader {
         }
         return sanitizedKey.substring(0, Math.min(119, sanitizedKey.length()));
     }
-    
-	private Bitmap downloadBitmap(String urlString) {
-		InputStream is = null;
-		Bitmap bitmap = null;
-		try {
-			is = RestClient.get(urlString).stream();
-			bitmap = BitmapFactory.decodeStream(is);
-		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 
-		if (bitmap!=null) {
-			addBitmapToCache(urlString, bitmap);
-		}
-
-		return bitmap;
-	}
-	
-    private void downloadBitmap(final String urlString, final JobOptions options) {
-        final BitmapProcessor processor = new BitmapProcessor(mContext);
-        final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
-
-        if (bitmap == null) {
-            Log.e("ImageLoader", "download Drawable got null");
-            return;
-        }
-        loadListener.onLoadingComplete(urlString, bitmap);
-        addBitmapToCache(urlString, bitmap);
-    }
     
     private void addBitmapToCache(final String key, final Bitmap bitmap) {
         memoryCache.put(key, bitmap);
@@ -354,6 +299,53 @@ public class ImageLoader {
                 return;
             BitmapDisplayer bd=new BitmapDisplayer(bmp, request);
             handler.post(bd);
+        }
+
+        //这个不能在UI线程操作
+        private Bitmap getBitmap(String url,ImageView imageView) {
+            //from SD cache
+            Bitmap b = getBitmapFromDiskCache(url);
+            if(b!=null)
+                return b;
+
+            //from web
+            downloadBitmap(url,new JobOptions(imageView));
+            return memoryCache.get(url);
+        }
+
+        private Bitmap downloadBitmap(String urlString) {
+            InputStream is = null;
+            Bitmap bitmap = null;
+            try {
+                is = RestClient.get(urlString).stream();
+                bitmap = BitmapFactory.decodeStream(is);
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            if (bitmap!=null) {
+                addBitmapToCache(urlString, bitmap);
+            }
+
+            return bitmap;
+        }
+
+        private void downloadBitmap(final String urlString, final JobOptions options) {
+            final BitmapProcessor processor = new BitmapProcessor(mContext);
+            final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
+
+            if (bitmap == null) {
+                Log.e("ImageLoader", "download Drawable got null");
+                return;
+            }
+            loadListener.onLoadingComplete(urlString, bitmap);
+            addBitmapToCache(urlString, bitmap);
         }
     }
     

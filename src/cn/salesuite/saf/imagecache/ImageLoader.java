@@ -3,6 +3,8 @@
  */
 package cn.salesuite.saf.imagecache;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -11,11 +13,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
+import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.utils.BitmapHelper;
 import cn.salesuite.saf.utils.StringHelper;
 
@@ -192,22 +196,22 @@ public class ImageLoader {
 	}
 
     /**
-     * 通过URl获取缓存或者sd中的图片Image
+     * 通过URl获取图片的bitmap
      * @param url
      * @return
      */
-    public Bitmap getBitmapFromCache(String url) {
+    public Bitmap loadBitmap(String url) {
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null) {
             return bitmap;
         } else {
             bitmap = getBitmapFromDiskCache(url);
-            if(bitmap!=null){
-                return bitmap;
+            if(bitmap==null){
+            	bitmap = downloadBitmap(url);
             }
         }
         
-        return null;
+        return bitmap;
     }
 
     private Bitmap getBitmap(String url,ImageView imageView) {
@@ -244,6 +248,29 @@ public class ImageLoader {
         return sanitizedKey.substring(0, Math.min(119, sanitizedKey.length()));
     }
     
+	private Bitmap downloadBitmap(String urlString) {
+		InputStream is = null;
+		Bitmap bitmap = null;
+		try {
+			is = RestClient.get(urlString).stream();
+			bitmap = BitmapFactory.decodeStream(is);
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (bitmap!=null) {
+			addBitmapToCache(urlString, bitmap);
+		}
+
+		return bitmap;
+	}
+	
     private void downloadBitmap(final String urlString, final JobOptions options) {
         final BitmapProcessor processor = new BitmapProcessor(mContext);
         final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);

@@ -3,8 +3,6 @@
  */
 package cn.salesuite.saf.imagecache;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -13,13 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
-import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.utils.BitmapHelper;
 import cn.salesuite.saf.utils.StringHelper;
 
@@ -153,9 +149,7 @@ public class ImageLoader {
             return bitmap;
         } else {
             bitmap = getBitmapFromDiskCache(url);
-            if(bitmap!=null){
-                return bitmap;
-            }else {
+            if(bitmap==null){
                 queuePhoto(url, imageView);
                 bitmap = loadListener.getLoadedBitmap();
             }
@@ -289,64 +283,45 @@ public class ImageLoader {
         	
             if(imageViewReused(request))
                 return;
+            
             Bitmap bmp=getBitmap(request.url,request.imageView);
+            
             if (request.options!=null) {
             	memoryCache.put(request.url, BitmapHelper.roundCorners(bmp , request.options.cornerRadius));
             } else {
             	memoryCache.put(request.url, bmp);
             }
+            
             if(imageViewReused(request))
                 return;
+            
             BitmapDisplayer bd=new BitmapDisplayer(bmp, request);
             handler.post(bd);
         }
+    }
+    
+    //这个不能在UI线程操作
+    private Bitmap getBitmap(String url,ImageView imageView) {
+        //from SD cache
+        Bitmap b = getBitmapFromDiskCache(url);
+        if(b!=null)
+            return b;
 
-        //这个不能在UI线程操作
-        private Bitmap getBitmap(String url,ImageView imageView) {
-            //from SD cache
-            Bitmap b = getBitmapFromDiskCache(url);
-            if(b!=null)
-                return b;
+        //from web
+        downloadBitmap(url,new JobOptions(imageView));
+        return memoryCache.get(url);
+    }
 
-            //from web
-            downloadBitmap(url,new JobOptions(imageView));
-            return memoryCache.get(url);
+    private void downloadBitmap(final String urlString, final JobOptions options) {
+        final BitmapProcessor processor = new BitmapProcessor(mContext);
+        final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
+
+        if (bitmap == null) {
+            Log.e("ImageLoader", "download Drawable got null");
+            return;
         }
-
-        private Bitmap downloadBitmap(String urlString) {
-            InputStream is = null;
-            Bitmap bitmap = null;
-            try {
-                is = RestClient.get(urlString).stream();
-                bitmap = BitmapFactory.decodeStream(is);
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            if (bitmap!=null) {
-                addBitmapToCache(urlString, bitmap);
-            }
-
-            return bitmap;
-        }
-
-        private void downloadBitmap(final String urlString, final JobOptions options) {
-            final BitmapProcessor processor = new BitmapProcessor(mContext);
-            final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
-
-            if (bitmap == null) {
-                Log.e("ImageLoader", "download Drawable got null");
-                return;
-            }
-            loadListener.onLoadingComplete(urlString, bitmap);
-            addBitmapToCache(urlString, bitmap);
-        }
+        
+        loadListener.onLoadingComplete(urlString, bitmap);
     }
     
     boolean imageViewReused(ImageRequest photoToLoad){
@@ -439,22 +414,21 @@ public class ImageLoader {
 
     public class ImageLoadListener implements ImageLoadingListener{
 
-
-        private Bitmap loadedImage;
-
+    	private Bitmap loadedImage;
+    	
         @Override
         public void onLoadingComplete(String imageUri, Bitmap loadedImage) {
-            this.loadedImage = loadedImage;
+        	this.loadedImage = loadedImage;
+            addBitmapToCache(imageUri, loadedImage);
         }
 
         @Override
         public void onLoadingCancelled(String imageUri, View view) {
 
         }
-
+        
         public Bitmap getLoadedBitmap() {
             return loadedImage;
         }
-
     }
 }

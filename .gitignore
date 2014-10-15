@@ -26,5 +26,6 @@ proguard/
 .classpath
 .project
 .settings/
+
 .idea/
-iSAF.iml
+*.iml

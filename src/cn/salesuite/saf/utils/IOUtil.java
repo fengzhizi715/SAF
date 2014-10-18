@@ -3,6 +3,7 @@
  */
 package cn.salesuite.saf.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,6 +18,26 @@ import java.nio.channels.FileChannel;
  * 
  */
 public class IOUtil {
+	
+	private final static int BUFFER_SIZE = 1024;
+	
+	/**
+	 * 从输入流读取数据
+	 * @param inStream
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] readInputStream(InputStream inStream) throws Exception{
+		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int len = 0;
+		while( (len = inStream.read(buffer)) !=-1 ){
+			outSteam.write(buffer, 0, len);
+		}
+		outSteam.close();
+		inStream.close();
+		return outSteam.toByteArray();
+	}
 
 	/**
 	 * 
@@ -25,10 +46,9 @@ public class IOUtil {
 	 * @throws IOException
 	 */
 	public static void copyStream(InputStream is, OutputStream os) throws IOException {
-		final int buffer_size = 1024;
-		byte[] bytes = new byte[buffer_size];
+		byte[] bytes = new byte[BUFFER_SIZE];
 		for (;;) {
-			int count = is.read(bytes, 0, buffer_size);
+			int count = is.read(bytes, 0, BUFFER_SIZE);
 			if (count == -1)
 				break;
 			os.write(bytes, 0, count);

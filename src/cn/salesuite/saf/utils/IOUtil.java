@@ -40,6 +40,17 @@ public class IOUtil {
 	}
 
 	/**
+	 * 从输入流读取数据
+	 * @param inStream
+	 * @return
+	 * @throws Exception
+	 */
+	public static String inputStream2String(InputStream inStream) throws Exception{
+		
+		return new String(readInputStream(inStream));
+	}
+	
+	/**
 	 * 
 	 * @param is
 	 * @param os

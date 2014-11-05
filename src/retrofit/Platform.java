@@ -25,6 +25,7 @@ import retrofit.android.AndroidLog;
 import retrofit.android.MainThreadExecutor;
 import retrofit.client.Client;
 import retrofit.client.RetrofitClient;
+import retrofit.client.UrlConnectionClient;
 import retrofit.converter.Converter;
 import retrofit.converter.FastjsonConverter;
 import android.os.Build;
@@ -73,12 +74,7 @@ abstract class Platform {
 
 		@Override
 		Client.Provider defaultClient() {
-			final Client client;
-			/*
-			 * if (hasOkHttpOnClasspath()) { client =
-			 * OkClientInstantiator.instantiate(); } else { }
-			 */
-			client = new RetrofitClient();
+			final Client client = new UrlConnectionClient();
 
 			return new Client.Provider() {
 				@Override
@@ -129,15 +125,7 @@ abstract class Platform {
 
 		@Override
 		Client.Provider defaultClient() {
-			final Client client;
-
-//			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-//				client = new AndroidApacheClient();
-//			} else {
-//				client = new UrlConnectionClient();
-//			}
-			
-			client = new RetrofitClient();
+			final Client client = new RetrofitClient();
 					
 			return new Client.Provider() {
 				@Override

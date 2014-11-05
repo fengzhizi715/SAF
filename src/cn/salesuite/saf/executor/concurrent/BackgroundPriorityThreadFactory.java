@@ -5,6 +5,8 @@ package cn.salesuite.saf.executor.concurrent;
 
 import java.util.concurrent.ThreadFactory;
 
+import cn.salesuite.saf.utils.StringHelper;
+
 import android.os.Process;
 
 /**
@@ -13,15 +15,36 @@ import android.os.Process;
  *
  */
 public class BackgroundPriorityThreadFactory implements ThreadFactory {
+	
+	public String threadName;
+	
+	public BackgroundPriorityThreadFactory() {
+	}
+	
+	public BackgroundPriorityThreadFactory(String threadName) {
+		this.threadName = threadName;
+	}
 
 	@Override
 	public Thread newThread(Runnable r) {
-		return new Thread(r) {
-			@Override
-			public void run() {
-				Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-				super.run();
-			}
-		};
+		
+		if (StringHelper.isNotBlank(threadName)) {
+			return new Thread(r,threadName) {
+				@Override
+				public void run() {
+					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+					super.run();
+				}
+			};
+		} else {
+			return new Thread(r) {
+				@Override
+				public void run() {
+					Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+					super.run();
+				}
+			};
+		}
+		
 	}
 }

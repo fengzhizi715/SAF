@@ -15,23 +15,21 @@
  */
 package retrofit;
 
-import android.os.Build;
-import android.os.Process;
+import static java.lang.Thread.MIN_PRIORITY;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+
 import retrofit.android.AndroidApacheClient;
 import retrofit.android.AndroidLog;
 import retrofit.android.MainThreadExecutor;
-//import retrofit.appengine.UrlFetchClient;
 import retrofit.client.Client;
 import retrofit.client.UrlConnectionClient;
 import retrofit.converter.Converter;
 import retrofit.converter.FastjsonConverter;
-
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
-import static java.lang.Thread.MIN_PRIORITY;
+import android.os.Build;
+import cn.salesuite.saf.executor.concurrent.BackgroundPriorityThreadFactory;
 
 /**
  * TODO frankswu : change okhttp to restClient
@@ -53,11 +51,7 @@ abstract class Platform {
       }
     } catch (ClassNotFoundException ignored) {
     }
-/*
-    if (System.getProperty("com.google.appengine.runtime.version") != null) {
-      return new AppEngine();
-    }
-*/
+    
     return new Base();
   }
 
@@ -142,16 +136,7 @@ abstract class Platform {
     }
 
     @Override Executor defaultHttpExecutor() {
-      return Executors.newCachedThreadPool(new ThreadFactory() {
-        @Override public Thread newThread(final Runnable r) {
-          return new Thread(new Runnable() {
-            @Override public void run() {
-              Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND);
-              r.run();
-            }
-          }, RestAdapter.IDLE_THREAD_NAME);
-        }
-      });
+      return Executors.newCachedThreadPool(new BackgroundPriorityThreadFactory(RestAdapter.IDLE_THREAD_NAME));
     }
 
     @Override Executor defaultCallbackExecutor() {
@@ -162,56 +147,6 @@ abstract class Platform {
       return new AndroidLog("Retrofit");
     }
   }
-
-/*
-  private static class AppEngine extends Base {
-    @Override Client.Provider defaultClient() {
-      final UrlFetchClient client = new UrlFetchClient();
-      return new Client.Provider() {
-        @Override public Client get() {
-          return client;
-        }
-      };
-    }
-  }
-＊/
-  /** Determine whether or not OkHttp 1.6 or newer is present on the runtime classpath.
-  private static boolean hasOkHttpOnClasspath() {
-    boolean okUrlFactory = false;
-    try {
-      Class.forName("com.squareup.okhttp.OkUrlFactory");
-      okUrlFactory = true;
-    } catch (ClassNotFoundException e) {
-    }
-
-    boolean okHttpClient = false;
-    try {
-      Class.forName("com.squareup.okhttp.OkHttpClient");
-      okHttpClient = true;
-    } catch (ClassNotFoundException e) {
-    }
-
-    if (okHttpClient != okUrlFactory) {
-      throw new RuntimeException(""
-          + "Retrofit detected an unsupported OkHttp on the classpath.\n"
-          + "To use OkHttp with this version of Retrofit, you'll need:\n"
-          + "1. com.squareup.okhttp:okhttp:1.6.0 (or newer)\n"
-          + "2. com.squareup.okhttp:okhttp-urlconnection:1.6.0 (or newer)\n"
-          + "Note that OkHttp 2.0.0+ is supported!");
-    }
-
-    return okHttpClient;
-  }
- */
-  /**
-   * Indirection for OkHttp class to prevent VerifyErrors on Android 2.0 and earlier when the
-   * dependency is not present.
-  private static class OkClientInstantiator {
-    static Client instantiate() {
-      return new OkClient();
-    }
-  }
-   */
 
   private static boolean hasRxJavaOnClasspath() {
     try {

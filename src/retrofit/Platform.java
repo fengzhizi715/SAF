@@ -21,11 +21,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import retrofit.android.AndroidApacheClient;
 import retrofit.android.AndroidLog;
 import retrofit.android.MainThreadExecutor;
 import retrofit.client.Client;
-import retrofit.client.UrlConnectionClient;
+import retrofit.client.RetrofitClient;
 import retrofit.converter.Converter;
 import retrofit.converter.FastjsonConverter;
 import android.os.Build;
@@ -35,126 +34,144 @@ import cn.salesuite.saf.executor.concurrent.BackgroundPriorityThreadFactory;
  * TODO frankswu : change okhttp to restClient
  */
 abstract class Platform {
-  private static final Platform PLATFORM = findPlatform();
+	private static final Platform PLATFORM = findPlatform();
 
-  static final boolean HAS_RX_JAVA = hasRxJavaOnClasspath();
+	static final boolean HAS_RX_JAVA = hasRxJavaOnClasspath();
 
-  static Platform get() {
-    return PLATFORM;
-  }
+	static Platform get() {
+		return PLATFORM;
+	}
 
-  private static Platform findPlatform() {
-    try {
-      Class.forName("android.os.Build");
-      if (Build.VERSION.SDK_INT != 0) {
-        return new Android();
-      }
-    } catch (ClassNotFoundException ignored) {
-    }
-    
-    return new Base();
-  }
+	private static Platform findPlatform() {
+		try {
+			Class.forName("android.os.Build");
+			if (Build.VERSION.SDK_INT != 0) {
+				return new Android();
+			}
+		} catch (ClassNotFoundException ignored) {
+		}
 
-  abstract Converter defaultConverter();
-  abstract Client.Provider defaultClient();
-  abstract Executor defaultHttpExecutor();
-  abstract Executor defaultCallbackExecutor();
-  abstract RestAdapter.Log defaultLog();
+		return new Base();
+	}
 
-  /** Provides sane defaults for operation on the JVM. */
-  private static class Base extends Platform {
-    @Override Converter defaultConverter() {
-      return new FastjsonConverter();
-    }
+	abstract Converter defaultConverter();
 
-    @Override Client.Provider defaultClient() {
-      final Client client;
-/*
-      if (hasOkHttpOnClasspath()) {
-        client = OkClientInstantiator.instantiate();
-      } else {
-      }
-*/
-        client = new UrlConnectionClient();
+	abstract Client.Provider defaultClient();
 
-        return new Client.Provider() {
-        @Override public Client get() {
-          return client;
-        }
-      };
-    }
+	abstract Executor defaultHttpExecutor();
 
-    @Override Executor defaultHttpExecutor() {
-      return Executors.newCachedThreadPool(new ThreadFactory() {
-        @Override public Thread newThread(final Runnable r) {
-          return new Thread(new Runnable() {
-            @Override public void run() {
-              Thread.currentThread().setPriority(MIN_PRIORITY);
-              r.run();
-            }
-          }, RestAdapter.IDLE_THREAD_NAME);
-        }
-      });
-    }
+	abstract Executor defaultCallbackExecutor();
 
-    @Override Executor defaultCallbackExecutor() {
-      return new Utils.SynchronousExecutor();
-    }
+	abstract RestAdapter.Log defaultLog();
 
-    @Override RestAdapter.Log defaultLog() {
-      return new RestAdapter.Log() {
-        @Override public void log(String message) {
-          System.out.println(message);
-        }
-      };
-    }
-  }
+	/** Provides sane defaults for operation on the JVM. */
+	private static class Base extends Platform {
+		@Override
+		Converter defaultConverter() {
+			return new FastjsonConverter();
+		}
 
-  /** Provides sane defaults for operation on Android. */
-  private static class Android extends Platform {
-    @Override Converter defaultConverter() {
-      return new FastjsonConverter();
-    }
+		@Override
+		Client.Provider defaultClient() {
+			final Client client;
+			/*
+			 * if (hasOkHttpOnClasspath()) { client =
+			 * OkClientInstantiator.instantiate(); } else { }
+			 */
+			client = new RetrofitClient();
 
-    @Override Client.Provider defaultClient() {
-      final Client client;
-/*
-      if (false) {
-        client = OkClientInstantiator.instantiate();
-      } else
-      */
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-        client = new AndroidApacheClient();
-      } else {
-        client = new UrlConnectionClient();
-      }
-      return new Client.Provider() {
-        @Override public Client get() {
-          return client;
-        }
-      };
-    }
+			return new Client.Provider() {
+				@Override
+				public Client get() {
+					return client;
+				}
+			};
+		}
 
-    @Override Executor defaultHttpExecutor() {
-      return Executors.newCachedThreadPool(new BackgroundPriorityThreadFactory(RestAdapter.IDLE_THREAD_NAME));
-    }
+		@Override
+		Executor defaultHttpExecutor() {
+			return Executors.newCachedThreadPool(new ThreadFactory() {
+				@Override
+				public Thread newThread(final Runnable r) {
+					return new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Thread.currentThread().setPriority(MIN_PRIORITY);
+							r.run();
+						}
+					}, RestAdapter.IDLE_THREAD_NAME);
+				}
+			});
+		}
 
-    @Override Executor defaultCallbackExecutor() {
-      return new MainThreadExecutor();
-    }
+		@Override
+		Executor defaultCallbackExecutor() {
+			return new Utils.SynchronousExecutor();
+		}
 
-    @Override RestAdapter.Log defaultLog() {
-      return new AndroidLog("Retrofit");
-    }
-  }
+		@Override
+		RestAdapter.Log defaultLog() {
+			return new RestAdapter.Log() {
+				@Override
+				public void log(String message) {
+					System.out.println(message);
+				}
+			};
+		}
+	}
 
-  private static boolean hasRxJavaOnClasspath() {
-    try {
-      Class.forName("rx.Observable");
-      return true;
-    } catch (ClassNotFoundException ignored) {
-    }
-    return false;
-  }
+	/** Provides sane defaults for operation on Android. */
+	private static class Android extends Platform {
+		@Override
+		Converter defaultConverter() {
+			return new FastjsonConverter();
+		}
+
+		@Override
+		Client.Provider defaultClient() {
+			final Client client;
+
+//			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+//				client = new AndroidApacheClient();
+//			} else {
+//				client = new UrlConnectionClient();
+//			}
+			
+			client = new RetrofitClient();
+					
+			return new Client.Provider() {
+				@Override
+				public Client get() {
+					return client;
+				}
+			};
+		}
+
+		@Override
+		Executor defaultHttpExecutor() {
+			return Executors
+					.newCachedThreadPool(new BackgroundPriorityThreadFactory(
+							RestAdapter.IDLE_THREAD_NAME));
+		}
+
+		@Override
+		Executor defaultCallbackExecutor() {
+			return new MainThreadExecutor();
+		}
+
+		@Override
+		RestAdapter.Log defaultLog() {
+			return new AndroidLog("Retrofit");
+		}
+	}
+
+	private static boolean hasRxJavaOnClasspath() {
+		try {
+			Class.forName("rx.Observable");
+			return true;
+		} catch (ClassNotFoundException ignored) {
+		}
+		return false;
+	}
 
 }

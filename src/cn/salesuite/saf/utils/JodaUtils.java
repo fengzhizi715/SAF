@@ -50,7 +50,7 @@ public class JodaUtils {
 	 * @return String
 	 */
 	public static String getCurrentHour() {
-		return new DateTime().toString("hh");
+		return new DateTime().toString("HH");
 	}
 	
 	/**

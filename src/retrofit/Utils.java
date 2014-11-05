@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Executor;
+
+import cn.salesuite.saf.utils.IOUtil;
 import retrofit.client.Request;
 import retrofit.client.Response;
 import retrofit.mime.TypedByteArray;
@@ -27,25 +29,6 @@ import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
 final class Utils {
-  private static final int BUFFER_SIZE = 0x1000;
-
-  /**
-   * Creates a {@code byte[]} from reading the entirety of an {@link InputStream}. May return an
-   * empty array but never {@code null}.
-   * <p>
-   * Copied from Guava's {@code ByteStreams} class.
-   */
-  static byte[] streamToBytes(InputStream stream) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    if (stream != null) {
-      byte[] buf = new byte[BUFFER_SIZE];
-      int r;
-      while ((r = stream.read(buf)) != -1) {
-        baos.write(buf, 0, r);
-      }
-    }
-    return baos.toByteArray();
-  }
 
   /**
    * Conditionally replace a {@link Request} with an identical copy whose body is backed by a
@@ -78,7 +61,7 @@ final class Utils {
     String bodyMime = body.mimeType();
     InputStream is = body.in();
     try {
-      byte[] bodyBytes = Utils.streamToBytes(is);
+      byte[] bodyBytes = IOUtil.readInputStream(is);
       body = new TypedByteArray(bodyMime, bodyBytes);
 
       return replaceResponseBody(response, body);

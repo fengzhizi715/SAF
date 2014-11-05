@@ -19,7 +19,7 @@ import java.nio.channels.FileChannel;
  */
 public class IOUtil {
 	
-	private final static int BUFFER_SIZE = 1024;
+	private final static int BUFFER_SIZE = 0x400; // 1024
 	
 	/**
 	 * 从输入流读取数据
@@ -27,7 +27,7 @@ public class IOUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static byte[] readInputStream(InputStream inStream) throws Exception{
+	public static byte[] readInputStream(InputStream inStream) throws IOException{
 		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
 		byte[] buffer = new byte[BUFFER_SIZE];
 		int len = 0;
@@ -45,7 +45,7 @@ public class IOUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String inputStream2String(InputStream inStream) throws Exception{
+	public static String inputStream2String(InputStream inStream) throws IOException{
 		
 		return new String(readInputStream(inStream));
 	}

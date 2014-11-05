@@ -27,19 +27,17 @@ import retrofit.mime.TypedOutput;
 
 import  com.alibaba.fastjson.JSON;
 
-
-
 /**
- * TODO frankswu : change Gson to Fastjson
+ * TODO frankswu : change GSON to fastjson
  *
  * A {@link Converter} which uses GSON for serialization and deserialization of entities.
  *
  * @author Jake Wharton (jw@squareup.com)
  */
 public class FastjsonConverter implements Converter {
-  //private final JSON json;
+
   private String charset;
-  private static final int BUFFER_SIZE = 1024;
+  private static final int BUFFER_SIZE = 0x400; //1024
 
   /**
    * Create an instance using the supplied {@link JSON} object for conversion. Encoding to JSON and
@@ -54,7 +52,6 @@ public class FastjsonConverter implements Converter {
    * decoding from JSON (when no charset is specified by a header) will use the specified charset.
    */
   public FastjsonConverter(String charset) {
-    //this.json = gson;
     this.charset = charset;
   }
 
@@ -76,7 +73,6 @@ public class FastjsonConverter implements Converter {
           sb.append(buf, 0, res);
       }
 
-     // System.out.println(sb.toString());
       return JSON.parseObject(sb.toString(),type);
     } catch (IOException e) {
       throw new ConversionException(e);

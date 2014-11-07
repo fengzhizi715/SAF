@@ -86,7 +86,15 @@ public class Injector {
 			public View findById(Object source, int id) {
 				return ((View) source).findViewById(id);
 			}
-		};
+		},
+        VIEW_HOLDER {
+            @Override
+            public View findById(Object source, int id) {
+                return ((View) source).findViewById(id);
+            }
+        },
+
+        ;
 		
 		public abstract View findById(Object source, int id);
 	}
@@ -143,8 +151,28 @@ public class Injector {
         activity = null;
         extras = null;
 	}
-	
-	public Injector(View view) {
+
+    /**
+     * frankswu : 使用场景是在adapter里面的viewHolder
+     *
+     * @param object
+     * @param v
+     */
+    public Injector(Object object, View v) {
+        if (object == null || v == null) {
+            throw new IllegalArgumentException("viewHolder/view may not be null");
+        }
+        fragmentView = null;
+        this.target = v;
+        resources = v.getContext().getResources();
+        context = v.getContext();
+        clazz = object.getClass();
+        activity = null;
+        extras = null;
+    }
+
+
+    public Injector(View view) {
         if (view == null) {
             throw new IllegalArgumentException("view may not be null");
         }
@@ -186,6 +214,17 @@ public class Injector {
 	public static Injector injectInto(Fragment fragment,View v) {
         Injector injector = new Injector(fragment,v);
         injector.injectAll(Finder.FRAGMENT);
+        return injector;
+    }
+    /**
+     * 在adapter中使用注解
+     * @param obj
+     * @param v
+     * @return
+     */
+    public static Injector injectInto(Object obj,View v) {
+        Injector injector = new Injector(obj,v);
+        injector.injectAll(Finder.VIEW_HOLDER);
         return injector;
     }
 
@@ -399,7 +438,7 @@ public class Injector {
 
 	/**
 	 * @param method
-	 * @param annotation
+	 * @param onItemClick
 	 * @param modifiedViews
 	 * @param finder
 	 */
@@ -530,6 +569,9 @@ public class Injector {
 		case VIEW:
 			view = Finder.VIEW.findById(target, viewId);
 			break;
+        case VIEW_HOLDER:
+            view = Finder.VIEW_HOLDER.findById(target, viewId);
+            break;
 		default:
 			break;
 		}

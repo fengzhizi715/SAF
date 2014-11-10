@@ -2,6 +2,13 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.8
+---
+2014-11-10
+ *  完善SAFAdapter
+ *  Injector增加Adapter的支持
+ *  完善多个工具类
+
 Version 1.1.7
 ---
 2014-10-10

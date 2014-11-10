@@ -46,7 +46,8 @@ import cn.salesuite.saf.inject.annotation.OnTouch;
  * 可以注入view、resource、systemservice等等<br>
  * 在Activity中使用注解，首先需要在onCreate（）中使用Injector.injectInto(this);<br>
  * 在Dialog中使用注解，首先需要在构造方法中使用Injector.injectInto(this);<br>
- * 在Fragment中使用注解，首先需要在onCreateView（）中使用Injector.injectInto(this,view);
+ * 在Fragment中使用注解，首先需要在onCreateView（）中使用Injector.injectInto(this,view);<br>
+ * 在Adapter中使用注解，首先需要在ViewHold中定义一个构造函数，在构造函数中使用Injector.injectInto(this,view);
  * @author Tony Shen
  *
  */
@@ -57,7 +58,7 @@ public class Injector {
     protected final Context context;
     protected final Object target;
     protected final Activity activity;
-    protected final View fragmentView;
+    protected final View targetView;
     protected final Resources resources;
     protected final Class<?> clazz;
     private final Bundle extras;
@@ -92,9 +93,7 @@ public class Injector {
             public View findById(Object source, int id) {
                 return ((View) source).findViewById(id);
             }
-        },
-
-        ;
+        };
 		
 		public abstract View findById(Object source, int id);
 	}
@@ -122,7 +121,7 @@ public class Injector {
             activity = null;
             extras = null;
         }
-        fragmentView = null;
+        targetView = null;
         clazz = target.getClass();
     }
     
@@ -136,14 +135,14 @@ public class Injector {
         clazz = target.getClass();
         activity = null;
         extras = null;
-        fragmentView = null;
+        targetView = null;
 	}
 	
 	public Injector(Fragment fragment , View v) {
         if (fragment == null || v == null) {
             throw new IllegalArgumentException("fragment/view may not be null");
         }
-        fragmentView = v;
+        targetView = v;
         this.target = fragment;
         resources = fragment.getResources();
         context = fragment.getActivity().getApplicationContext();
@@ -162,8 +161,8 @@ public class Injector {
         if (object == null || v == null) {
             throw new IllegalArgumentException("viewHolder/view may not be null");
         }
-        fragmentView = null;
-        this.target = v;
+        targetView = v;
+        this.target = object;
         resources = v.getContext().getResources();
         context = v.getContext();
         clazz = object.getClass();
@@ -182,7 +181,7 @@ public class Injector {
         clazz = target.getClass();
         activity = null;
         extras = null;
-        fragmentView = null;
+        targetView = null;
 	}
 
 	/**
@@ -216,6 +215,7 @@ public class Injector {
         injector.injectAll(Finder.FRAGMENT);
         return injector;
     }
+	
     /**
      * 在adapter中使用注解
      * @param obj
@@ -382,7 +382,7 @@ public class Injector {
             field.setAccessible(true);
             field.set(target, value);
         } catch (Exception e) {
-            throw new InjectException("Could not inject into field " + field.getName(), e);
+            throw new InjectException("Could not inject into field " + field.getName() + " at taget [" + target.getClass() + "]", e);
         }
 	}
 
@@ -564,13 +564,13 @@ public class Injector {
 			}
 			break;
 		case FRAGMENT:
-			view = Finder.FRAGMENT.findById(fragmentView, viewId);
+			view = Finder.FRAGMENT.findById(targetView, viewId);
 			break;
 		case VIEW:
 			view = Finder.VIEW.findById(target, viewId);
 			break;
         case VIEW_HOLDER:
-            view = Finder.VIEW_HOLDER.findById(target, viewId);
+            view = Finder.VIEW_HOLDER.findById(targetView, viewId);
             break;
 		default:
 			break;

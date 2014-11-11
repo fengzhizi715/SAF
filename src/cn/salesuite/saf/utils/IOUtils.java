@@ -17,7 +17,7 @@ import java.nio.channels.FileChannel;
  * 
  * 
  */
-public class IOUtil {
+public class IOUtils {
 	
 	private final static int BUFFER_SIZE = 0x400; // 1024
 	
@@ -47,7 +47,7 @@ public class IOUtil {
 	 */
 	public static String inputStream2String(InputStream inStream) throws IOException{
 		
-		return new String(readInputStream(inStream));
+		return new String(readInputStream(inStream), "UTF-8");
 	}
 	
 	/**

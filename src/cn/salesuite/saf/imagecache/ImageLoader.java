@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
-import cn.salesuite.saf.utils.BitmapHelper;
+import cn.salesuite.saf.utils.BitmapUtils;
 import cn.salesuite.saf.utils.StringHelper;
 
 /**
@@ -287,7 +287,7 @@ public class ImageLoader {
             Bitmap bmp=getBitmap(request.url,request.imageView);
             
             if (request.options!=null) {
-            	memoryCache.put(request.url, BitmapHelper.roundCorners(bmp , request.options.cornerRadius));
+            	memoryCache.put(request.url, BitmapUtils.roundCorners(bmp , request.options.cornerRadius));
             } else {
             	memoryCache.put(request.url, bmp);
             }
@@ -347,7 +347,7 @@ public class ImageLoader {
             
             if(bitmap!=null) {
             	if (photoToLoad.options!=null) {
-            		photoToLoad.imageView.setImageBitmap(BitmapHelper.roundCorners(bitmap , photoToLoad.options.cornerRadius));
+            		photoToLoad.imageView.setImageBitmap(BitmapUtils.roundCorners(bitmap , photoToLoad.options.cornerRadius));
             	} else {
             		photoToLoad.imageView.setImageBitmap(bitmap);
             	}

@@ -16,7 +16,7 @@ import android.graphics.RectF;
  * @author Tony Shen
  * 
  */
-public class BitmapHelper {
+public class BitmapUtils {
     
     /**
      * 画圆角图形,默认的半径为10

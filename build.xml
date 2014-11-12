@@ -8,7 +8,7 @@
 	<property name="project_name" value="SAF"/>
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
-	<property name="version" value="1.1.8" />
+	<property name="version" value="1.1.9" />
 	<property name="src" value="src" />
 	<property name="dest_dir" value="build" />
 	<property name="build_dir" value="${dest_dir}/classes" />
@@ -42,7 +42,7 @@
 	</target>
 
 	<target depends="build-project,javadoc" name="build" description="编译所有的jar包以及javadoc">
-		<jar jarfile="${dest_dir}/${jar_util_name}" basedir="${build_dir}" includes="cn/salesuite/saf/utils/DateHelper.class,cn/salesuite/saf/utils/StringHelper.class,cn/salesuite/saf/utils/IOUtil.class" />
+		<jar jarfile="${dest_dir}/${jar_util_name}" basedir="${build_dir}" includes="cn/salesuite/saf/utils/DateHelper.class,cn/salesuite/saf/utils/StringUtils.class,cn/salesuite/saf/utils/IOUtils.class" />
 		<jar jarfile="${dest_dir}/${jar_core_name}" basedir="${build_dir}" includes="**/*.class"
 	         excludes="cn/salesuite/saf/utils/*.class,cn/salesuite/saf/inject/**/*.class,cn/salesuite/saf/view/*.class,cn/salesuite/saf/eventbus/*.class" />
 		<jar jarfile="${dest_dir}/${jar_annotation_name}" basedir="${build_dir}" includes="cn/salesuite/saf/inject/**/*.class" />

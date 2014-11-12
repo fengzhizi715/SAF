@@ -8,12 +8,16 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 import android.graphics.Rect;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
- * @author Tony
+ * @author Tony Shen
  * 
  */
 public class ViewUtils {
@@ -104,6 +108,47 @@ public class ViewUtils {
 
 	public static int transformToDensityPixel(int regularPixel, float densityDpi) {
 		return (int) (regularPixel * densityDpi);
+	}
+	
+	public static boolean checkBtnEnable(EditText... editTexts) {
+		boolean enable = true;
+		for (EditText each : editTexts) {
+			if (StringHelper.isBlank(each.getText())) {
+				enable = false;
+				break;
+			}
+		}
+		return enable;
+	}
+
+	public static void checkNotBlank(final Button button,
+			final EditText... editTexts) {
+		TextWatcher notBlank = new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i,
+					int i2, int i3) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i2,
+					int i3) {
+				if (checkBtnEnable(editTexts)) {
+					button.setEnabled(true);
+				} else {
+					button.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable editable) {
+
+			}
+		};
+		
+		for (EditText each : editTexts) {
+			each.addTextChangedListener(notBlank);
+		}
 	}
 
 }

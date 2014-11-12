@@ -14,7 +14,7 @@ import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.net.CellIDInfo;
 import cn.salesuite.saf.net.CellIDInfoManager;
 import cn.salesuite.saf.utils.SAFUtil;
-import cn.salesuite.saf.utils.ToastUtil;
+import cn.salesuite.saf.utils.ToastUtils;
 
 /**
  * SAF框架基类的Activity
@@ -107,14 +107,14 @@ public class SAFActivity extends Activity{
 	 * @param message toast的内容
 	 */
 	protected void toast(String message) {
-		ToastUtil.showShort(this, message);
+		ToastUtils.showShort(this, message);
 	}
 
 	/**
 	 * @param resId toast的内容来自String.xml
 	 */
 	protected void toast(int resId) {
-		ToastUtil.showShort(this, resId);
+		ToastUtils.showShort(this, resId);
 	}
 	
 	/**

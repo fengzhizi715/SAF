@@ -113,7 +113,7 @@ public class ViewUtils {
 	public static boolean checkBtnEnable(EditText... editTexts) {
 		boolean enable = true;
 		for (EditText each : editTexts) {
-			if (StringHelper.isBlank(each.getText())) {
+			if (StringUtils.isBlank(each.getText())) {
 				enable = false;
 				break;
 			}

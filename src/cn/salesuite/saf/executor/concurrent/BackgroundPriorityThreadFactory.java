@@ -5,7 +5,7 @@ package cn.salesuite.saf.executor.concurrent;
 
 import java.util.concurrent.ThreadFactory;
 
-import cn.salesuite.saf.utils.StringHelper;
+import cn.salesuite.saf.utils.StringUtils;
 
 import android.os.Process;
 
@@ -28,7 +28,7 @@ public class BackgroundPriorityThreadFactory implements ThreadFactory {
 	@Override
 	public Thread newThread(Runnable r) {
 		
-		if (StringHelper.isNotBlank(threadName)) {
+		if (StringUtils.isNotBlank(threadName)) {
 			return new Thread(r,threadName) {
 				@Override
 				public void run() {

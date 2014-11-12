@@ -38,7 +38,7 @@ import com.alibaba.fastjson.JSON;
  * @author Tony Shen
  *
  */
-public class SAFUtil {
+public class SAFUtils {
 	
 	public static boolean isFroyoOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;

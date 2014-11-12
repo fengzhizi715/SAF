@@ -6,8 +6,8 @@ package cn.salesuite.saf.log;
 import cn.salesuite.saf.app.SAFActivity;
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.app.SAFFragmentActivity;
-import cn.salesuite.saf.utils.SAFUtil;
-import cn.salesuite.saf.utils.StringHelper;
+import cn.salesuite.saf.utils.SAFUtils;
+import cn.salesuite.saf.utils.StringUtils;
 import android.util.Log;
 
 /**
@@ -65,7 +65,7 @@ public class L {
 	public static void e(String msg) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.e(TAG, msg);
 			}
 		}
@@ -74,7 +74,7 @@ public class L {
 	public static void e(String msg,Object ...args) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.e(TAG, String.format(msg, args));
 			}
 		}
@@ -83,7 +83,7 @@ public class L {
 	public static void e(String msg,Throwable tr) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.e(TAG, msg,tr);
 			}
 		}
@@ -97,7 +97,7 @@ public class L {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.e(TAG, SAFUtil.printObject(object));
+				Log.e(TAG, SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public class L {
 	public static void w(String msg) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.w(TAG, msg);
 			}
 		}
@@ -114,7 +114,7 @@ public class L {
 	public static void w(String msg,Object ...args) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.w(TAG, String.format(msg, args));
 			}
 		}
@@ -123,7 +123,7 @@ public class L {
 	public static void w(String msg,Throwable tr) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.w(TAG, msg,tr);
 			}
 		}
@@ -137,7 +137,7 @@ public class L {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.w(TAG, SAFUtil.printObject(object));
+				Log.w(TAG, SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -145,7 +145,7 @@ public class L {
 	public static void i(String msg) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.i(TAG, msg);
 			}
 		}
@@ -159,7 +159,7 @@ public class L {
 	public static void iWithTag(String tag,String msg) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.i(tag, msg);
 			}
 		}
@@ -173,7 +173,7 @@ public class L {
 	public static void i(String prefix,String  msg) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.i(TAG, prefix+"="+msg);
 			}
 		}
@@ -182,7 +182,7 @@ public class L {
 	public static void i(String msg,Object ...args) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.i(TAG, String.format(msg, args));
 			}
 		}
@@ -191,7 +191,7 @@ public class L {
 	public static void i(String msg,Throwable tr) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.i(TAG, msg,tr);
 			}
 		}
@@ -205,7 +205,7 @@ public class L {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(TAG, SAFUtil.printObject(object));
+				Log.i(TAG, SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -219,7 +219,7 @@ public class L {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(tag, SAFUtil.printObject(object));
+				Log.i(tag, SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -232,7 +232,7 @@ public class L {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(TAG, prefix+"="+SAFUtil.printObject(object));
+				Log.i(TAG, prefix+"="+SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -240,7 +240,7 @@ public class L {
 	public static void d(String msg) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.d(TAG, msg);
 			}
 		}
@@ -249,7 +249,7 @@ public class L {
 	public static void d(String msg,Object ...args) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.d(TAG, String.format(msg, args));
 			}
 		}
@@ -258,7 +258,7 @@ public class L {
 	public static void d(String msg,Throwable tr) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringHelper.isNotBlank(msg)) {
+			if(StringUtils.isNotBlank(msg)) {
 				Log.d(TAG, msg,tr);
 			}
 		}
@@ -272,7 +272,7 @@ public class L {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.d(TAG, SAFUtil.printObject(object));
+				Log.d(TAG, SAFUtils.printObject(object));
 			}
 		}
 	}

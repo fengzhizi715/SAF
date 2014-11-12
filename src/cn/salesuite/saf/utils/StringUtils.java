@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @author Tony Shen
  *
  */
-public class StringHelper {
+public class StringUtils {
 
     private static final char CHAR_CHINESE_SPACE = '\u3000';//中文（全角）空格
 	
@@ -166,7 +166,7 @@ public class StringHelper {
 	 * @return
 	 */
 	public static boolean isNotEmpty(String str){
-        return !StringHelper.isEmpty(str);
+        return !StringUtils.isEmpty(str);
     }
 	
     /**
@@ -215,7 +215,7 @@ public class StringHelper {
      * @return
      */
     public static boolean isNotBlank(Object obj) {
-    	return !StringHelper.isBlank(obj);
+    	return !StringUtils.isBlank(obj);
     }
 	
 	/**

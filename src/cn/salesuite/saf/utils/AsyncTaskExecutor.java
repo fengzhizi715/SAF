@@ -52,7 +52,7 @@ public class AsyncTaskExecutor {
     public static <Params, Progress, Result> AsyncTask<Params, Progress, Result> 
     executeAsyncTask(AsyncTask<Params, Progress, Result> task,
     		Params... params) {
-    	if (SAFUtil.isHoneycombOrHigher()) {
+    	if (SAFUtils.isHoneycombOrHigher()) {
     		task.executeOnExecutor(concurrentExecutor, params);
     	} else {
     		task.execute(params);

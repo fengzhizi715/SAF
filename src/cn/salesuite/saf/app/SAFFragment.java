@@ -6,7 +6,7 @@ package cn.salesuite.saf.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
 /**
@@ -32,7 +32,7 @@ public class SAFFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         
-        TAG = SAFUtil.makeLogTag(this.getClass());
+        TAG = SAFUtils.makeLogTag(this.getClass());
 	}
     
 	/**

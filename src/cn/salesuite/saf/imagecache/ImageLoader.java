@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.utils.BitmapUtils;
-import cn.salesuite.saf.utils.StringHelper;
+import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * @author Tony Shen
@@ -60,7 +60,7 @@ public class ImageLoader {
      * @param imageView
      */
     public void displayImage(String url, ImageView imageView) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(stub_id);
             return;
     	}
@@ -82,7 +82,7 @@ public class ImageLoader {
      * @param imageId 默认图片，可能区别与default_img_id，一个app只有一个default_img_id，imageId可有很多个
      */
     public void displayImage(String url, ImageView imageView, int imageId) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(imageId);
             return;
     	}
@@ -104,7 +104,7 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, final JobOptions options) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(stub_id);
             return;
     	}
@@ -127,7 +127,7 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, int imageId,final JobOptions options) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(imageId);
             return;
     	}

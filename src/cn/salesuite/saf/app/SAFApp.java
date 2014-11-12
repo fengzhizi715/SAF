@@ -18,8 +18,8 @@ import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.imagecache.ImageLoader;
-import cn.salesuite.saf.utils.SAFUtil;
-import cn.salesuite.saf.utils.StringHelper;
+import cn.salesuite.saf.utils.SAFUtils;
+import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * SAFApp是自定义的Application,session可作为缓存存放app的全局变量<br>
@@ -77,7 +77,7 @@ public class SAFApp extends Application {
 			imageLoader = new ImageLoader(instance,defaultImageId);        // 使用ImageLoader组件时,设置defaultImageId
 		}
 		
-		if (!SAFUtil.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
+		if (!SAFUtils.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
 			imageLoader.setEnableDiskCache(false);
 		}
 		
@@ -108,7 +108,7 @@ public class SAFApp extends Application {
 			imei = mphonemanger.getDeviceId();
 		}
 		
-		if (StringHelper.isBlank(imei)) {
+		if (StringUtils.isBlank(imei)) {
 			imei = SAFConstant.SPECIAL_IMEI;
 		}
 		return imei;

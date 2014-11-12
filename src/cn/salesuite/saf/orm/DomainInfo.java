@@ -12,8 +12,8 @@ import java.util.Map;
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
-import cn.salesuite.saf.utils.ReflectionUtil;
-import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.ReflectionUtils;
+import cn.salesuite.saf.utils.SAFUtils;
 
 /**
  * @author Tony Shen
@@ -35,7 +35,7 @@ public final class DomainInfo {
 	}
 	
 	private boolean loadDomainFromMetaData(Application app) {
-		String domainPackage = SAFUtil.getMetaData(app, DOMAIN_PACKAGE);
+		String domainPackage = SAFUtils.getMetaData(app, DOMAIN_PACKAGE);
 		
 		if (!TextUtils.isEmpty(domainPackage)) {
 			loadDomainList(app, domainPackage);
@@ -47,7 +47,7 @@ public final class DomainInfo {
 	private void loadDomainList(Application app, String domainPackage) {
 		final ClassLoader classLoader = app.getClass().getClassLoader();
 		try {
-			List<String>  domains = ReflectionUtil.getPackageAllClassName(app, domainPackage);
+			List<String>  domains = ReflectionUtils.getPackageAllClassName(app, domainPackage);
 			if (domains!=null && domains.size()>0) {
 				for(String domain:domains) {
 					Class domainClass = Class.forName(domain, false, classLoader);

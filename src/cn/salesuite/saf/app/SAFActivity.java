@@ -13,7 +13,7 @@ import android.util.Log;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.net.CellIDInfo;
 import cn.salesuite.saf.net.CellIDInfoManager;
-import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
 /**
@@ -33,14 +33,14 @@ public class SAFActivity extends Activity{
 		public void run() {
 			CellIDInfoManager manager = new CellIDInfoManager();
 			getSignalStrength(manager);
-			if (SAFUtil.isWiFiActive(app)) {
+			if (SAFUtils.isWiFiActive(app)) {
 				networkName = "wifi";
 				return;
 			}
 			if (networkType == 0) {
 				networkType = getNetworkType(manager);
 			}
-			networkName = SAFUtil.getNetWorkName(networkType,manager.getMnc());
+			networkName = SAFUtils.getNetWorkName(networkType,manager.getMnc());
 			app.session.put(SAFConstant.DEVICE_NET_INFO, networkName);
 		}
 	};
@@ -53,7 +53,7 @@ public class SAFActivity extends Activity{
 			checkMobileStatus();
 		}
 
-		TAG = SAFUtil.makeLogTag(this.getClass());
+		TAG = SAFUtils.makeLogTag(this.getClass());
 		addActivityToManager(this);
 	}
 	

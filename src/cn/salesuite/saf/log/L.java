@@ -246,6 +246,34 @@ public class L {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param tag 自定义tag
+	 * @param msg
+	 */
+	public static void dWithTag(String tag,String msg) {
+		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
+			
+			if(StringUtils.isNotBlank(msg)) {
+				Log.i(tag, msg);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param prefix 前缀，用于区分是哪个要打印的日志
+	 * @param msg
+	 */
+	public static void d(String prefix,String  msg) {
+		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
+			
+			if(StringUtils.isNotBlank(msg)) {
+				Log.i(TAG, prefix+"="+msg);
+			}
+		}
+	}
+	
 	public static void d(String msg,Object ...args) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
@@ -273,6 +301,33 @@ public class L {
 			
 			if(object!=null) {
 				Log.d(TAG, SAFUtils.printObject(object));
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param tag 自定义tag
+	 * @param msg
+	 */
+	public static void dWithTag(String tag,Object object) {
+		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
+			
+			if(object!=null) {
+				Log.i(tag, SAFUtils.printObject(object));
+			}
+		}
+	}
+	
+	/**
+	 * 打印普通java对象
+	 * @param object
+	 */
+	public static void d(String prefix,Object object) {
+		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
+			
+			if(object!=null) {
+				Log.i(TAG, prefix+"="+SAFUtils.printObject(object));
 			}
 		}
 	}

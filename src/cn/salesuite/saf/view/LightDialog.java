@@ -3,7 +3,7 @@
  */
 package cn.salesuite.saf.view;
 
-import cn.salesuite.saf.utils.SAFUtils;
+import cn.salesuite.saf.utils.SAFUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 
@@ -29,7 +29,7 @@ public class LightDialog extends AlertDialog{
 	   */
 	  public static LightDialog create(Context context) {
 	    LightDialog dialog;
-	    if (SAFUtils.isICSOrHigher())
+	    if (SAFUtil.isICSOrHigher())
 	      dialog = new LightDialog(context, 3);
 	    else {
 	      dialog = new LightDialog(context);

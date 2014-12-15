@@ -13,8 +13,8 @@ import android.util.Log;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.net.CellIDInfo;
 import cn.salesuite.saf.net.CellIDInfoManager;
-import cn.salesuite.saf.utils.SAFUtils;
-import cn.salesuite.saf.utils.ToastUtils;
+import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.ToastUtil;
 
 /**
  * SAF框架基类的Activity
@@ -33,14 +33,14 @@ public class SAFActivity extends Activity{
 		public void run() {
 			CellIDInfoManager manager = new CellIDInfoManager();
 			getSignalStrength(manager);
-			if (SAFUtils.isWiFiActive(app)) {
+			if (SAFUtil.isWiFiActive(app)) {
 				networkName = "wifi";
 				return;
 			}
 			if (networkType == 0) {
 				networkType = getNetworkType(manager);
 			}
-			networkName = SAFUtils.getNetWorkName(networkType,manager.getMnc());
+			networkName = SAFUtil.getNetWorkName(networkType,manager.getMnc());
 			app.session.put(SAFConstant.DEVICE_NET_INFO, networkName);
 		}
 	};
@@ -53,7 +53,7 @@ public class SAFActivity extends Activity{
 			checkMobileStatus();
 		}
 
-		TAG = SAFUtils.makeLogTag(this.getClass());
+		TAG = SAFUtil.makeLogTag(this.getClass());
 		addActivityToManager(this);
 	}
 	
@@ -107,14 +107,14 @@ public class SAFActivity extends Activity{
 	 * @param message toast的内容
 	 */
 	protected void toast(String message) {
-		ToastUtils.showShort(this, message);
+		ToastUtil.showShort(this, message);
 	}
 
 	/**
 	 * @param resId toast的内容来自String.xml
 	 */
 	protected void toast(int resId) {
-		ToastUtils.showShort(this, resId);
+		ToastUtil.showShort(this, resId);
 	}
 	
 	/**

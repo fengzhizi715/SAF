@@ -3,14 +3,16 @@
  */
 package cn.salesuite.saf.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +21,9 @@ import java.util.regex.Pattern;
  * @author Tony Shen
  *
  */
-public class StringUtils {
+public class StringHelper {
 
+	private final static int BUFFER_SIZE = 4096;
     private static final char CHAR_CHINESE_SPACE = '\u3000';//中文（全角）空格
 	
 	/**
@@ -84,11 +87,29 @@ public class StringUtils {
 	}
 
 	/**
+	 * 将InputStream转换成String
+	 * 
+	 * @param in
+	 * @return
+	 * @throws Exception
+	 */
+	public static String inputStream2String(InputStream in) throws Exception {
+
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		byte[] data = new byte[BUFFER_SIZE];
+		int count = -1;
+		while ((count = in.read(data, 0, BUFFER_SIZE)) != -1)
+			outStream.write(data, 0, count);
+		data = null;
+		return new String(outStream.toByteArray(), "utf-8");
+	}
+
+	/**
 	 * 去掉字符串的空格
 	 * @param input
 	 * @return
 	 */
-	public static String trim(String input){
+	public static String trimContent(String input){
 		if(input==null) return "";
 		StringBuilder sb = new StringBuilder();
 		for(int i=0;i<input.length();i++){
@@ -166,7 +187,7 @@ public class StringUtils {
 	 * @return
 	 */
 	public static boolean isNotEmpty(String str){
-        return !StringUtils.isEmpty(str);
+        return !StringHelper.isEmpty(str);
     }
 	
     /**
@@ -215,7 +236,7 @@ public class StringUtils {
      * @return
      */
     public static boolean isNotBlank(Object obj) {
-    	return !StringUtils.isBlank(obj);
+    	return !StringHelper.isBlank(obj);
     }
 	
 	/**
@@ -246,7 +267,7 @@ public class StringUtils {
     }
     
     /**
-     * 求两个字符串数组的交集 
+     * 求两个数组的交集 
      * @param arr1
      * @param arr2
      * @return
@@ -277,7 +298,7 @@ public class StringUtils {
     }
     
     /**
-     * 求两个字符串数组的差集  
+     * 求两个数组的差集  
      * @param arr1
      * @param arr2
      * @return

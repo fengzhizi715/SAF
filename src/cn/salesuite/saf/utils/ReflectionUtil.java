@@ -16,7 +16,7 @@ import dalvik.system.DexFile;
  * @author Tony Shen
  *
  */
-public class ReflectionUtils {
+public class ReflectionUtil {
 	
 	/**
 	 * 获取某一个包名下的所有类名

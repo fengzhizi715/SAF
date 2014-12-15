@@ -18,7 +18,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import cn.salesuite.saf.utils.SAFUtil;
+import cn.salesuite.saf.utils.SAFUtils;
 
 /**
  * @author Tony Shen
@@ -65,7 +65,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	private static String getDbName(Context context) {
-		String dbname = SAFUtil.getMetaData(context, DB_NAME);
+		String dbname = SAFUtils.getMetaData(context, DB_NAME);
 
 		if (dbname == null) {
 			Log.i(TAG,"DB_NAME not found. Defaulting name to 'saf_db.db'.");
@@ -76,7 +76,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	private static int getDbVersion(Context context) {
-		Integer dbversion = SAFUtil.getMetaData(context, DB_VERSION);
+		Integer dbversion = SAFUtils.getMetaData(context, DB_VERSION);
 
 		if (dbversion == null || dbversion == 0) {
 			Log.i(TAG,"DB_VERSION not found. Defaulting version to 1.");

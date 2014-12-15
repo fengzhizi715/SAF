@@ -38,7 +38,7 @@ import com.alibaba.fastjson.JSON;
  * @author Tony Shen
  *
  */
-public class SAFUtil {
+public class SAFUtils {
 	
 	public static boolean isFroyoOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
@@ -257,7 +257,11 @@ public class SAFUtil {
 	 * @return
 	 */
 	public static String printObject(Object obj) {
-		return JSON.toJSONString(obj);
+		if(obj!=null) {
+			return JSON.toJSONString(obj);
+		} else {
+			return "{}"; // 对象为空，则打印出{}
+		}
 	}
 
 	/**

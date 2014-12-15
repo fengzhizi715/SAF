@@ -68,26 +68,31 @@ public class BasePrefs {
     protected void putBoolean(String key, boolean v) {
         ensureEditorAvailability();
         editor.putBoolean(key, v);
+        save();
     }
 
     protected void putFloat(String key, float v) {
         ensureEditorAvailability();
         editor.putFloat(key, v);
+        save();
     }
 
     protected void putInt(String key, int v) {
         ensureEditorAvailability();
         editor.putInt(key, v);
+        save();
     }
 
     protected void putLong(String key, long v) {
         ensureEditorAvailability();
         editor.putLong(key, v);
+        save();
     }
 
     protected void putString(String key, String v) {
         ensureEditorAvailability();
         editor.putString(key, v);
+        save();
     }
     
     protected void putObject(String key, Object obj) {
@@ -99,6 +104,7 @@ public class BasePrefs {
   
             String stringBase64 = new String(Base64.encodeBase64(baos.toByteArray()));  
             editor.putString(key, stringBase64);
+            save();
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
@@ -119,10 +125,12 @@ public class BasePrefs {
     public void remove(String key) {
     	ensureEditorAvailability();
     	editor.remove(key);
+    	save();
     }
     
     public void clear() {
     	ensureEditorAvailability();
     	editor.clear();
+    	save();
     }
 }

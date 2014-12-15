@@ -6,8 +6,8 @@ package cn.salesuite.saf.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import cn.salesuite.saf.utils.SAFUtil;
-import cn.salesuite.saf.utils.ToastUtil;
+import cn.salesuite.saf.utils.SAFUtils;
+import cn.salesuite.saf.utils.ToastUtils;
 
 /**
  * @author Tony Shen
@@ -32,20 +32,20 @@ public class SAFFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         
-        TAG = SAFUtil.makeLogTag(this.getClass());
+        TAG = SAFUtils.makeLogTag(this.getClass());
 	}
     
 	/**
 	 * @param message toast的内容
 	 */
 	protected void toast(String message) {
-		ToastUtil.showShort(mContext, message);
+		ToastUtils.showShort(mContext, message);
 	}
 
 	/**
 	 * @param resId toast的内容来自String.xml
 	 */
 	protected void toast(int resId) {
-		ToastUtil.showShort(mContext, resId);
+		ToastUtils.showShort(mContext, resId);
 	}
 }

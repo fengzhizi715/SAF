@@ -21,6 +21,7 @@ import java.net.Proxy;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
@@ -663,6 +664,17 @@ public class RestClient {
 		getConnection().setRequestProperty(name, value);
 		return this;
 	}
+	
+	/**
+	 * 获取所有的response headers
+	 * 
+	 * @return map of response header names to their value(s)
+	 * @throws RestException
+	 */
+	public Map<String, List<String>> headers() throws RestException {
+		closeOutputQuietly();
+		return getConnection().getHeaderFields();
+	}
 
 	protected RestClient closeOutputQuietly() throws RestException {
 		try {
@@ -1011,6 +1023,11 @@ public class RestClient {
 		output = new RestOutputStream(getConnection().getOutputStream(), charset,
 				bufferSize);
 		return this;
+	}
+	
+	public RestOutputStream getOutput() throws IOException {
+		openOutput();
+		return output;
 	}
 	
 	public static void setRetryNum(int retry_num) {

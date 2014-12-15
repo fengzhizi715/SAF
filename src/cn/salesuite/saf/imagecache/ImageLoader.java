@@ -3,8 +3,6 @@
  */
 package cn.salesuite.saf.imagecache;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -13,15 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
-import cn.salesuite.saf.http.rest.RestClient;
-import cn.salesuite.saf.utils.BitmapHelper;
-import cn.salesuite.saf.utils.StringHelper;
+import cn.salesuite.saf.utils.BitmapUtils;
+import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * @author Tony Shen
@@ -64,7 +60,7 @@ public class ImageLoader {
      * @param imageView
      */
     public void displayImage(String url, ImageView imageView) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(stub_id);
             return;
     	}
@@ -86,7 +82,7 @@ public class ImageLoader {
      * @param imageId 默认图片，可能区别与default_img_id，一个app只有一个default_img_id，imageId可有很多个
      */
     public void displayImage(String url, ImageView imageView, int imageId) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(imageId);
             return;
     	}
@@ -108,7 +104,7 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, final JobOptions options) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(stub_id);
             return;
     	}
@@ -131,7 +127,7 @@ public class ImageLoader {
      * @param options 图片带JobOptions选项，可变成画圆角图形
      */
     public void displayImage(String url, ImageView imageView, int imageId,final JobOptions options) {
-    	if (StringHelper.isBlank(url)) {
+    	if (StringUtils.isBlank(url)) {
             imageView.setImageResource(imageId);
             return;
     	}
@@ -153,9 +149,7 @@ public class ImageLoader {
             return bitmap;
         } else {
             bitmap = getBitmapFromDiskCache(url);
-            if(bitmap!=null){
-                return bitmap;
-            }else {
+            if(bitmap==null){
                 queuePhoto(url, imageView);
                 bitmap = loadListener.getLoadedBitmap();
             }
@@ -289,64 +283,45 @@ public class ImageLoader {
         	
             if(imageViewReused(request))
                 return;
+            
             Bitmap bmp=getBitmap(request.url,request.imageView);
+            
             if (request.options!=null) {
-            	memoryCache.put(request.url, BitmapHelper.roundCorners(bmp , request.options.cornerRadius));
+            	memoryCache.put(request.url, BitmapUtils.roundCorners(bmp , request.options.cornerRadius));
             } else {
             	memoryCache.put(request.url, bmp);
             }
+            
             if(imageViewReused(request))
                 return;
+            
             BitmapDisplayer bd=new BitmapDisplayer(bmp, request);
             handler.post(bd);
         }
+    }
+    
+    //这个不能在UI线程操作
+    private Bitmap getBitmap(String url,ImageView imageView) {
+        //from SD cache
+        Bitmap b = getBitmapFromDiskCache(url);
+        if(b!=null)
+            return b;
 
-        //这个不能在UI线程操作
-        private Bitmap getBitmap(String url,ImageView imageView) {
-            //from SD cache
-            Bitmap b = getBitmapFromDiskCache(url);
-            if(b!=null)
-                return b;
+        //from web
+        downloadBitmap(url,new JobOptions(imageView));
+        return memoryCache.get(url);
+    }
 
-            //from web
-            downloadBitmap(url,new JobOptions(imageView));
-            return memoryCache.get(url);
+    private void downloadBitmap(final String urlString, final JobOptions options) {
+        final BitmapProcessor processor = new BitmapProcessor(mContext);
+        final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
+
+        if (bitmap == null) {
+            Log.e("ImageLoader", "download Drawable got null");
+            return;
         }
-
-        private Bitmap downloadBitmap(String urlString) {
-            InputStream is = null;
-            Bitmap bitmap = null;
-            try {
-                is = RestClient.get(urlString).stream();
-                bitmap = BitmapFactory.decodeStream(is);
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            if (bitmap!=null) {
-                addBitmapToCache(urlString, bitmap);
-            }
-
-            return bitmap;
-        }
-
-        private void downloadBitmap(final String urlString, final JobOptions options) {
-            final BitmapProcessor processor = new BitmapProcessor(mContext);
-            final Bitmap bitmap = processor.decodeSampledBitmapFromUrl(urlString, options.requestedWidth, options.requestedHeight);
-
-            if (bitmap == null) {
-                Log.e("ImageLoader", "download Drawable got null");
-                return;
-            }
-            loadListener.onLoadingComplete(urlString, bitmap);
-            addBitmapToCache(urlString, bitmap);
-        }
+        
+        loadListener.onLoadingComplete(urlString, bitmap);
     }
     
     boolean imageViewReused(ImageRequest photoToLoad){
@@ -372,7 +347,7 @@ public class ImageLoader {
             
             if(bitmap!=null) {
             	if (photoToLoad.options!=null) {
-            		photoToLoad.imageView.setImageBitmap(BitmapHelper.roundCorners(bitmap , photoToLoad.options.cornerRadius));
+            		photoToLoad.imageView.setImageBitmap(BitmapUtils.roundCorners(bitmap , photoToLoad.options.cornerRadius));
             	} else {
             		photoToLoad.imageView.setImageBitmap(bitmap);
             	}
@@ -439,22 +414,21 @@ public class ImageLoader {
 
     public class ImageLoadListener implements ImageLoadingListener{
 
-
-        private Bitmap loadedImage;
-
+    	private Bitmap loadedImage;
+    	
         @Override
         public void onLoadingComplete(String imageUri, Bitmap loadedImage) {
-            this.loadedImage = loadedImage;
+        	this.loadedImage = loadedImage;
+            addBitmapToCache(imageUri, loadedImage);
         }
 
         @Override
         public void onLoadingCancelled(String imageUri, View view) {
 
         }
-
+        
         public Bitmap getLoadedBitmap() {
             return loadedImage;
         }
-
     }
 }

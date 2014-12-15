@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 /**
  * 在不是主线程的时候无法直接使用toast，但是可以使用该工具类实现toast。当然在主线程的时候也可以使用该类。
- * @author Tony
+ * @author Tony Shen
  * 
  */
-public class ToastUtil {
+public class ToastUtils {
 	
 	/**
 	 * 

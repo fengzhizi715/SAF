@@ -50,7 +50,7 @@ public class JodaUtils {
 	 * @return String
 	 */
 	public static String getCurrentHour() {
-		return new DateTime().toString("hh");
+		return new DateTime().toString("HH");
 	}
 	
 	/**
@@ -347,5 +347,24 @@ public class JodaUtils {
 	 */
     public static String getWeek(Date date){    	
     	return new DateTime(date).dayOfWeek().getAsText();
+    }
+    
+	/**
+	 * 将时间戳转换成日期字符串
+	 * @param timestamp
+	 * @return
+	 */
+	public static String timestamp2String(Long timestamp) {
+		return JodaUtils.formatDate(new Date(timestamp));
+	}
+    
+    /**
+     * 将时间戳转换成日期字符串
+     * @param timestamp
+     * @param pattern
+     * @return
+     */
+    public static String timestamp2String(Long timestamp,String pattern) {
+        return JodaUtils.format(new Date(timestamp),pattern);
     }
 }

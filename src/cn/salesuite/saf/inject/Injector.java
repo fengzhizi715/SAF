@@ -46,8 +46,7 @@ import cn.salesuite.saf.inject.annotation.OnTouch;
  * 可以注入view、resource、systemservice等等<br>
  * 在Activity中使用注解，首先需要在onCreate（）中使用Injector.injectInto(this);<br>
  * 在Dialog中使用注解，首先需要在构造方法中使用Injector.injectInto(this);<br>
- * 在Fragment中使用注解，首先需要在onCreateView（）中使用Injector.injectInto(this,view);<br>
- * 在Adapter中使用注解，首先需要在ViewHold中定义一个构造函数，在构造函数中使用Injector.injectInto(this,view);
+ * 在Fragment中使用注解，首先需要在onCreateView（）中使用Injector.injectInto(this,view);
  * @author Tony Shen
  *
  */
@@ -58,7 +57,7 @@ public class Injector {
     protected final Context context;
     protected final Object target;
     protected final Activity activity;
-    protected final View targetView;
+    protected final View fragmentView;
     protected final Resources resources;
     protected final Class<?> clazz;
     private final Bundle extras;
@@ -87,13 +86,7 @@ public class Injector {
 			public View findById(Object source, int id) {
 				return ((View) source).findViewById(id);
 			}
-		},
-        VIEW_HOLDER {
-            @Override
-            public View findById(Object source, int id) {
-                return ((View) source).findViewById(id);
-            }
-        };
+		};
 		
 		public abstract View findById(Object source, int id);
 	}
@@ -121,7 +114,7 @@ public class Injector {
             activity = null;
             extras = null;
         }
-        targetView = null;
+        fragmentView = null;
         clazz = target.getClass();
     }
     
@@ -135,14 +128,14 @@ public class Injector {
         clazz = target.getClass();
         activity = null;
         extras = null;
-        targetView = null;
+        fragmentView = null;
 	}
 	
 	public Injector(Fragment fragment , View v) {
         if (fragment == null || v == null) {
             throw new IllegalArgumentException("fragment/view may not be null");
         }
-        targetView = v;
+        fragmentView = v;
         this.target = fragment;
         resources = fragment.getResources();
         context = fragment.getActivity().getApplicationContext();
@@ -150,28 +143,8 @@ public class Injector {
         activity = null;
         extras = null;
 	}
-
-    /**
-     * frankswu : 使用场景是在adapter里面的viewHolder
-     *
-     * @param object
-     * @param v
-     */
-    public Injector(Object object, View v) {
-        if (object == null || v == null) {
-            throw new IllegalArgumentException("viewHolder/view may not be null");
-        }
-        targetView = v;
-        this.target = object;
-        resources = v.getContext().getResources();
-        context = v.getContext();
-        clazz = object.getClass();
-        activity = null;
-        extras = null;
-    }
-
-
-    public Injector(View view) {
+	
+	public Injector(View view) {
         if (view == null) {
             throw new IllegalArgumentException("view may not be null");
         }
@@ -181,7 +154,7 @@ public class Injector {
         clazz = target.getClass();
         activity = null;
         extras = null;
-        targetView = null;
+        fragmentView = null;
 	}
 
 	/**
@@ -213,18 +186,6 @@ public class Injector {
 	public static Injector injectInto(Fragment fragment,View v) {
         Injector injector = new Injector(fragment,v);
         injector.injectAll(Finder.FRAGMENT);
-        return injector;
-    }
-	
-    /**
-     * 在adapter中使用注解
-     * @param obj
-     * @param v
-     * @return
-     */
-    public static Injector injectInto(Object obj,View v) {
-        Injector injector = new Injector(obj,v);
-        injector.injectAll(Finder.VIEW_HOLDER);
         return injector;
     }
 
@@ -382,7 +343,7 @@ public class Injector {
             field.setAccessible(true);
             field.set(target, value);
         } catch (Exception e) {
-            throw new InjectException("Could not inject into field " + field.getName() + " at taget [" + target.getClass() + "]", e);
+            throw new InjectException("Could not inject into field " + field.getName(), e);
         }
 	}
 
@@ -438,7 +399,7 @@ public class Injector {
 
 	/**
 	 * @param method
-	 * @param onItemClick
+	 * @param annotation
 	 * @param modifiedViews
 	 * @param finder
 	 */
@@ -564,14 +525,11 @@ public class Injector {
 			}
 			break;
 		case FRAGMENT:
-			view = Finder.FRAGMENT.findById(targetView, viewId);
+			view = Finder.FRAGMENT.findById(fragmentView, viewId);
 			break;
 		case VIEW:
 			view = Finder.VIEW.findById(target, viewId);
 			break;
-        case VIEW_HOLDER:
-            view = Finder.VIEW_HOLDER.findById(targetView, viewId);
-            break;
 		default:
 			break;
 		}

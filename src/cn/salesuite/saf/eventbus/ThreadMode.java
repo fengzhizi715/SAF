@@ -12,5 +12,7 @@ public enum ThreadMode {
 
     BackgroundThread,
 
-    Async
+    Async,
+    
+    ScheduleBackgroundThread
 }

@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 
@@ -26,6 +27,7 @@ import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
  */
 public class EventBus {
     static ExecutorService executorService = new BackgroundExecutor();
+    static ScheduledThreadPoolExecutor scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
     
 	public static final String DEFAULT_IDENTIFIER = "saf_bus";
 
@@ -54,6 +56,7 @@ public class EventBus {
 	};
 	
     private final BackgroundPoster backgroundPoster;
+    private final ScheduledPoster scheduledPoster;
 	private final Map<Class<?>, Set<Class<?>>> flattenHierarchyCache = new HashMap<Class<?>, Set<Class<?>>>();
 
 	@Override
@@ -68,6 +71,7 @@ public class EventBus {
 	public EventBus(String identifier) {
 		this.identifier = identifier;
 		backgroundPoster = new BackgroundPoster(this);
+		scheduledPoster = new ScheduledPoster(this);
 	}
 
 	/**
@@ -270,6 +274,12 @@ public class EventBus {
 			backgroundPoster.enqueue(event,wrapper);
 			break;
 		case Async:
+			break;
+		case ScheduleBackgroundThread:
+			if (event instanceof ScheduledEvent) {
+				scheduledPoster.enqueue(event, wrapper);
+			}
+			
 			break;
         default:
             throw new IllegalStateException("Unknown thread mode: " + wrapper.subscriberMethod.threadMode);

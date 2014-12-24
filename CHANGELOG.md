@@ -2,6 +2,14 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.10
+---
+2014-12-24
+ *  eventbus增加线程模式ScheduleBackgroundThread
+ *  增加List的帮助类Lists
+ *  BasePrefs中各个put方法，都包含save()方法，避免BasePrefs再调用save（）
+ *  修复bug
+
 Version 1.1.9
 ---
 2014-11-12

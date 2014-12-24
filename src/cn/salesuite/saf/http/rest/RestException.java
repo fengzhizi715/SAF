@@ -18,6 +18,7 @@ public class RestException extends RuntimeException{
 	protected RestException(IOException cause) {
 		super(cause);
 	}
+	
 	protected RestException(IOException cause,String code) {
 		super(cause);
 		this.errorCode = code;

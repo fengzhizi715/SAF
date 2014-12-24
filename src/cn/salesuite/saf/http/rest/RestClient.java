@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.utils.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -231,6 +232,10 @@ public class RestClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 			L.e("get method error!", e);
+			
+			if (StringUtils.isNotBlank(e.getMessage())) {
+				callback.onFail(new RestException(e.getMessage()));
+			}
 		}
 	}
 
@@ -275,9 +280,13 @@ public class RestClient {
 			} else {
 				callback.onFail(e);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			L.e(e);
+			
+			if (StringUtils.isNotBlank(e.getMessage())) {
+				callback.onFail(new RestException(e.getMessage()));
+			}
 		}
 	
 	}
@@ -311,6 +320,10 @@ public class RestClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 			L.e(e);
+			
+			if (StringUtils.isNotBlank(e.getMessage())) {
+				callback.onFail(new RestException(e.getMessage()));
+			}
 		}
 
 	}

@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -62,20 +63,33 @@ public class ToastUtils {
 		});
 	}
 	
-	public static void showToast(Context context, final int resId,
+	public static void showToast(final Context context, final int resId,
 			final int duration) {
 		if (context == null)
 			return;
 
-		Toast.makeText(context, resId, duration).show();
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(context.getApplicationContext(), resId,
+						duration).show();
+			}
+
+		});
 	}
 	
-	public static void showToast(Context context, final String message,
+	public static void showToast(final Context context, final String message,
 			final int duration) {
 		if (context == null)
 			return;
 
-		Toast.makeText(context, message, duration).show();
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(context.getApplicationContext(), message,
+						duration).show();
+			}
+
+		});
+
 	}
 
 	public static void showLong(final Activity activity, int resId) {

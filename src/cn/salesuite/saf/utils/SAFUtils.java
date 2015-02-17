@@ -26,9 +26,12 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.StatFs;
 import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import cn.salesuite.saf.app.SAFApp;
 import cn.salesuite.saf.config.SAFConfig;
 
 import com.alibaba.fastjson.JSON;
@@ -187,7 +190,7 @@ public class SAFUtils {
 	 * @param cls
 	 * @return
 	 */
-	public static String makeLogTag(Class cls) {
+	public static String makeLogTag(Class<?> cls) {
 		String tag = null;
 		if (SAFConfig.TAG_LEVEL == 0) {
 			tag = cls.getSimpleName();
@@ -377,12 +380,28 @@ public class SAFUtils {
 	 * @return
 	 */
 	public static boolean hasSdcard() {
+		
 		String status = Environment.getExternalStorageState();
-		if (status.equals(Environment.MEDIA_MOUNTED)) {
-			return true;
-		} else {
-			return false;
-		}
+		
+		return status.equals(Environment.MEDIA_MOUNTED)?true:false;
+	}
+	
+	/**
+	 * 获取手机可用的内存空间 
+	 * 返回单位 G  如  “1.5GB”
+	 * 
+	 * @return
+	 */
+	public static String getAvailableSDRomString() {
+		if (!hasSdcard())
+			return "0";
+		
+		File path = Environment.getExternalStorageDirectory();
+		StatFs stat = new StatFs(path.getPath());
+		long blockSize = stat.getBlockSize();
+		long availableBlocks = stat.getAvailableBlocks();
+		return Formatter.formatFileSize(SAFApp.getInstance().getApplicationContext(), availableBlocks
+				* blockSize);
 	}
 
 }

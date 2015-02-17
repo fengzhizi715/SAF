@@ -18,7 +18,7 @@ import org.apache.http.conn.util.InetAddressUtils;
 public class NetworkUtils {
 
 	/**
-	 * 获得本机ip，没有联网 returne null
+	 * 获得本机ip，没有联网 return null
 	 * 
 	 * @return
 	 */

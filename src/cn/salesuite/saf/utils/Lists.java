@@ -11,6 +11,11 @@ import java.util.List;
  */
 public class Lists {
 
+	/**
+	 * 判断集合是否为空
+	 * @param list
+	 * @return
+	 */
 	public static <T> boolean isNoBlank(List<T> list) {
 		
 		if (list!=null && list.size()>0) {

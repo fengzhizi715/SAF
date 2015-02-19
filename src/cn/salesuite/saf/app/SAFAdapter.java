@@ -6,6 +6,9 @@ package cn.salesuite.saf.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.salesuite.saf.inject.Injector;
+
+import android.view.View;
 import android.widget.BaseAdapter;
 
 /**
@@ -116,5 +119,16 @@ public abstract class SAFAdapter<T> extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+	
+	/**
+	 * adapter中的viewholder继承SAFViewHolder就可以用@InjectView
+	 * @author Tony Shen
+	 *
+	 */
+	protected class SAFViewHolder {
+        public SAFViewHolder(View convertView) {
+			Injector.injectInto(this, convertView);
+		}
 	}
 }

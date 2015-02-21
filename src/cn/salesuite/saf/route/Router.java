@@ -113,7 +113,11 @@ public class Router {
 		openURI(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK);
 	}
 	
-	public void openURI(String url,Context context,Bundle extras,int flags) {
+	public void openURI(String url,Context context,Bundle extras, int flags) {
+		openURI(url,context,extras,null,flags);
+	}
+
+	public void openURI(String url,Context context,Bundle extras, RouterPoint point, int flags) {
 		if (context == null) {
 			throw new RouterException("You need to supply a context for Router " + this.toString());
 		}
@@ -123,7 +127,10 @@ public class Router {
 		if (extras != null) {
 			intent.putExtras(extras);
 		}
+		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
+		if(point != null) {point.beforeRouter(url,extras);}
 		context.startActivity(intent);
+		if(point != null) {point.afterRouter(url,extras);}
 	}
 	
 	/**
@@ -192,7 +199,10 @@ public class Router {
 			intent.putExtras(extras);
 		}
 		this.addFlagsToIntent(intent, context, flags);
+		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
+		if(point != null) {point.beforeRouter(url,extras);}
 		context.startActivity(intent);
+		if(point != null) {point.afterRouter(url,extras);}
 		
 		if (options.enterAnim>0 && options.exitAnim>0) {
 			((Activity)context).overridePendingTransition(options.enterAnim, options.exitAnim);
@@ -221,7 +231,10 @@ public class Router {
 		Fragment fragment = fragmentOptions.mFragmentInstnace;
 		fragment = parseFragmentUrl(url,fragmentOptions);
 		
+		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
+		if(point != null) {point.beforeRouter(url,fragmentOptions.mArg);}
 		fragmentOptions.fragmentManager.beginTransaction().replace(containerViewId , fragment).addToBackStack(null).commit();
+		if(point != null) {point.afterRouter(url,fragmentOptions.mArg);}
 	}
 	
 	private Fragment parseFragmentUrl(String url, FragmentOptions fragmentOptions) {
@@ -339,5 +352,18 @@ public class Router {
 	 */
 	public interface RouterChecker {
 		boolean doCheck(); //router跳转前的先判断是否满足跳转的条件,false表示不跳转，true表示进行跳转到下一个activity
+	}
+
+	/**
+	 * 提供埋点的便利接口，支持openURI和openFragment方法
+	 * @author frankswu
+	 *
+	 */
+	public interface RouterPoint {
+
+		void beforeRouter(String url,Bundle extras);
+
+		void afterRouter(String url,Bundle extras);
+
 	}
 }

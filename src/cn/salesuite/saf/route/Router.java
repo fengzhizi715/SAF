@@ -176,12 +176,20 @@ public class Router {
 		this.open(url, context, null,checker);
 	}
 	
+	public void open(String url,Context context,RouterPoint point) {
+		this.open(url, context, null ,point);
+	}
+	
 	public void open(String url,Context context,Bundle extras) {
-		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,null,null); // 默认的跳转类型,将Activity放到一个新的Task中
+		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,null,null);    // 默认的跳转类型,将Activity放到一个新的Task中
 	}
 	
 	public void open(String url,Context context,Bundle extras,RouterChecker checker) {
 		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,checker,null); // 默认的跳转类型,将Activity放到一个新的Task中
+	}
+	
+	public void open(String url,Context context,Bundle extras,RouterPoint point) {
+		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,null,point);   // 默认的跳转类型,将Activity放到一个新的Task中
 	}
 	
 	public void open(String url,Context context,Bundle extras,int flags,RouterChecker checker, RouterPoint point) {
@@ -243,7 +251,7 @@ public class Router {
 		Fragment fragment = fragmentOptions.mFragmentInstnace;
 		fragment = parseFragmentUrl(url,fragmentOptions);
 		
-		// TODO frankswu : 在fragment跳转之前增加相应的接口可以做类似埋点的工作
+		// frankswu : 在fragment跳转之前增加相应的接口可以做类似埋点的工作
 		if (point != null) {
 			point.beforeRouter(url, fragmentOptions.mArg);
 		}
@@ -369,11 +377,12 @@ public class Router {
 	 *
 	 */
 	public interface RouterChecker {
-		boolean doCheck(); //router跳转前的先判断是否满足跳转的条件,false表示不跳转，true表示进行跳转到下一个activity
+		//router跳转前的先判断是否满足跳转的条件,false表示不跳转，true表示进行跳转到下一个activity
+		boolean doCheck(); 
 	}
 
 	/**
-	 * 提供埋点的便利接口，支持openURI和openFragment方法
+	 * 提供埋点的便利接口，支持open、openURI和openFragment方法
 	 * @author frankswu
 	 *
 	 */

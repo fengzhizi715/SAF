@@ -2,6 +2,13 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.11
+---
+2015-02-24
+ *  增加工具类
+ *  优化Router，Router增加便于埋点的接口
+ *  修复ToastUtils的bug
+
 Version 1.1.10
 ---
 2014-12-24

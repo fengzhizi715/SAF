@@ -127,10 +127,17 @@ public class Router {
 		if (extras != null) {
 			intent.putExtras(extras);
 		}
-		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
-		if(point != null) {point.beforeRouter(url,extras);}
+		
+		// frankswu : 在start之前增加相应的接口可以做类似埋点的工作
+		if (point != null) {
+			point.beforeRouter(url, extras);
+		}
+		
 		context.startActivity(intent);
-		if(point != null) {point.afterRouter(url,extras);}
+		
+		if (point != null) {
+			point.afterRouter(url, extras);
+		}
 	}
 	
 	/**
@@ -170,22 +177,20 @@ public class Router {
 	}
 	
 	public void open(String url,Context context,Bundle extras) {
-		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,null); // 默认的跳转类型,将Activity放到一个新的Task中
+		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,null,null); // 默认的跳转类型,将Activity放到一个新的Task中
 	}
 	
 	public void open(String url,Context context,Bundle extras,RouterChecker checker) {
-		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,checker); // 默认的跳转类型,将Activity放到一个新的Task中
+		open(url,context,extras,Intent.FLAG_ACTIVITY_NEW_TASK,checker,null); // 默认的跳转类型,将Activity放到一个新的Task中
 	}
 	
-	public void open(String url,Context context,Bundle extras,int flags,RouterChecker checker) {
+	public void open(String url,Context context,Bundle extras,int flags,RouterChecker checker, RouterPoint point) {
 		if (context == null) {
 			throw new RouterException("You need to supply a context for Router "+ this.toString());
 		}
 		
-		if (checker!=null) {
-			if (!checker.doCheck()) {
-				return;
-			}
+		if (checker!=null && !checker.doCheck()) {
+			return;
 		}
 		
 		RouterParameter param = parseUrl(url);
@@ -199,10 +204,17 @@ public class Router {
 			intent.putExtras(extras);
 		}
 		this.addFlagsToIntent(intent, context, flags);
-		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
-		if(point != null) {point.beforeRouter(url,extras);}
+		
+		// frankswu : 在start之前增加相应的接口可以做类似埋点的工作
+		if (point != null) {
+			point.beforeRouter(url, extras);
+		}
+		
 		context.startActivity(intent);
-		if(point != null) {point.afterRouter(url,extras);}
+		
+		if (point != null) {
+			point.afterRouter(url, extras);
+		}
 		
 		if (options.enterAnim>0 && options.exitAnim>0) {
 			((Activity)context).overridePendingTransition(options.enterAnim, options.exitAnim);
@@ -222,7 +234,7 @@ public class Router {
 		fragmentOptions.fragmentManager.beginTransaction().replace(containerViewId , fragmentOptions.mFragmentInstnace).addToBackStack(null).commit();
 	}
 	
-	public void openFragment(String url,FragmentOptions fragmentOptions,int containerViewId) {
+	public void openFragment(String url,FragmentOptions fragmentOptions,int containerViewId,RouterPoint point) {
 		if (!(fragmentOptions != null
 				&& fragmentOptions.mFragmentInstnace != null
 				&& fragmentOptions.fragmentManager != null))
@@ -231,10 +243,16 @@ public class Router {
 		Fragment fragment = fragmentOptions.mFragmentInstnace;
 		fragment = parseFragmentUrl(url,fragmentOptions);
 		
-		// TODO frankswu : 在start之前增加相应的接口可以做类似埋点的工作
-		if(point != null) {point.beforeRouter(url,fragmentOptions.mArg);}
+		// TODO frankswu : 在fragment跳转之前增加相应的接口可以做类似埋点的工作
+		if (point != null) {
+			point.beforeRouter(url, fragmentOptions.mArg);
+		}
+		
 		fragmentOptions.fragmentManager.beginTransaction().replace(containerViewId , fragment).addToBackStack(null).commit();
-		if(point != null) {point.afterRouter(url,fragmentOptions.mArg);}
+		
+		if (point != null) {
+			point.afterRouter(url, fragmentOptions.mArg);
+		}
 	}
 	
 	private Fragment parseFragmentUrl(String url, FragmentOptions fragmentOptions) {

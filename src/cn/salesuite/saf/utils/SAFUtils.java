@@ -374,6 +374,20 @@ public class SAFUtils {
 		}
 		return false;
 	}
+	
+	/**
+	 * 判断经纬度是否在中国
+	 * @param mLocation
+	 * @return
+	 */
+	public static boolean positionInChina(double latitude,double longitude){
+		if(latitude>18.167 && latitude<53.55){
+			if(longitude>73.667 && longitude<135.033){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 判断是否存在sd卡

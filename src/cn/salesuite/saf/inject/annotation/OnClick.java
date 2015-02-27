@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.salesuite.saf.inject.annotation;
 
@@ -17,4 +17,8 @@ import java.lang.annotation.Target;
 public @interface OnClick {
 
 	int[] id();
+
+    String after() default "";
+
+    String before() default "";
 }

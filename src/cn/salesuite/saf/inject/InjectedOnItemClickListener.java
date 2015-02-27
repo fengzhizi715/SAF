@@ -18,12 +18,17 @@ public class InjectedOnItemClickListener extends AbstractInjectedOnListener
 		super(target, method, invokeWithViewParam);
 	}
 
+    InjectedOnItemClickListener(Object target, Method method,boolean invokeWithViewParam, String beforeMethodName, String afterMethodName) {
+        super(target, method, invokeWithViewParam,beforeMethodName, afterMethodName);
+    }
 	@Override
 	public void onItemClick(AdapterView<?> parentView, View view, int position, long id) {
 		if (enabled) {
 			enabled = false;
 			view.post(ENABLE_AGAIN);
-			handleOnListener(parentView,view,position,id);
+            invokeMethod(hasBeforeMethodName,beforeMethodName,method,view,position,id);
+            handleOnListener(parentView,view,position,id);
+            invokeMethod(hasAfterMethodName,afterMethodName,method,view,position,id);
 		}
 
 	}

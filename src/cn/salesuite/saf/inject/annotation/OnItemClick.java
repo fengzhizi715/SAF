@@ -16,4 +16,18 @@ public @interface OnItemClick {
 	
 	int[] id();
 
+    /**
+     * 在OnItemClick之后执行的方法名称（方法参数表Method,View,int,long），默认为空字符。
+     *
+     * @return
+     */
+    String after() default "";
+
+    /**
+     * 在OnItemClick之前执行的方法名称（方法参数表Method,View,int,long），默认为空字符。
+     *
+     * @return
+     */
+    String before() default "";
+
 }

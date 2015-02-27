@@ -18,7 +18,17 @@ public @interface OnClick {
 
 	int[] id();
 
+    /**
+     * 在onclick之后执行的方法名称（方法参数表Method,View），默认为空字符。
+     *
+     * @return
+     */
     String after() default "";
 
+    /**
+     * 在onclick之前执行的方法名称（方法参数表Method,View），默认为空字符。
+     *
+     * @return
+     */
     String before() default "";
 }

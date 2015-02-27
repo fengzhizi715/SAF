@@ -447,8 +447,8 @@ public class Injector {
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
         
         method.setAccessible(true);
-        InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
-
+        //InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
+        InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView,onItemClick.before(),onItemClick.after());
         int[] ids = onItemClick.id();
         for (int id : ids) {
             if (id != 0) {
@@ -482,6 +482,7 @@ public class Injector {
                 if (view!=null) {
                     view.setOnClickListener(listener);
                 }
+
             }
         }
         return invokeWithView;

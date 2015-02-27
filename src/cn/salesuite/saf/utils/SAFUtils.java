@@ -340,6 +340,20 @@ public class SAFUtils {
 	}
 	
 	/**
+	 * 关闭虚拟键盘
+	 * @param context
+	 * @param views
+	 */
+	public static void hideSoftInputFromWindow(Context context,View... views) {
+		InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (views!=null && views.length>0) {
+			for (View view:views) {
+				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+			}
+		}
+	}
+	
+	/**
 	 * 获取AndroidManifest.xml中<meta-data>元素的值
 	 * @param context
 	 * @param name

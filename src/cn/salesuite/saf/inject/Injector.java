@@ -472,7 +472,8 @@ public class Injector {
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
         
         method.setAccessible(true);
-        InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
+        //InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
+        InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView,onClick.before(),onClick.after());
 
         int[] ids = onClick.id();
         for (int id : ids) {

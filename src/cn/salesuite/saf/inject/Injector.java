@@ -425,6 +425,11 @@ public class Injector {
         InjectedOnLongClickListener listener = new InjectedOnLongClickListener(target, method, invokeWithView);
 
         int[] ids = onLongClick.id();
+        
+        if (ids==null) {
+            throw new InjectException("onLongClick.id() not found for method " + method.getName());
+        }
+        
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
@@ -447,9 +452,13 @@ public class Injector {
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
         
         method.setAccessible(true);
-        //InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView);
         InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView,onItemClick.before(),onItemClick.after());
         int[] ids = onItemClick.id();
+        
+        if (ids==null) {
+            throw new InjectException("OnItemClick.id() not found for method " + method.getName());
+        }
+        
         for (int id : ids) {
             if (id != 0) {
             	AdapterView<?> view = null;
@@ -476,6 +485,11 @@ public class Injector {
         InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView,onClick.before(),onClick.after());
 
         int[] ids = onClick.id();
+        
+        if (ids==null) {
+            throw new InjectException("onClick.id() not found for method " + method.getName());
+        }
+        
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
@@ -496,6 +510,11 @@ public class Injector {
         InjectedOnTouchListener listener = new InjectedOnTouchListener(target, method, invokeWithView);
 
         int[] ids = onTouch.id();
+        
+        if (ids==null) {
+            throw new InjectException("onTouch.id() not found for method " + method.getName());
+        }
+        
         for (int id : ids) {
             if (id != 0) {
                 View view = findView(method, id, finder);
@@ -513,23 +532,20 @@ public class Injector {
         if (parameterTypes.length == 0) {
             return false;
         } else if (parameterTypes.length == paramterNum) {
-        	if (paramterClass.length == parameterTypes.length) {
-            	for (int i = 0; i < parameterTypes.length; i++) {
-                    if (parameterTypes[i] == paramterClass[i]) {
-                        return true;
-                    } else {
-                        throw new InjectException("the " + method.getName() + ", the correct paramter type is " + paramterClass[i] +
-                                		", but now found paramter type is" + parameterTypes[i]+" !");
-                    }
-    			}
-			} else { 
-				return false;
+        	for (int i = 0; i < parameterTypes.length; i++) {
+                if (parameterTypes[i] == paramterClass[i]) {
+                    continue;
+                } else {
+                    throw new InjectException("the " + method.getName() + ", the correct paramter type is " + paramterClass[i] +
+                            		", but now found paramter type is" + parameterTypes[i]+" !");
+                }
 			}
+        	
+        	return true;
         } else {
             throw new InjectException("Method may have no parameter or the number of parameter is wrong: "
                     + method.getName()+" paramter number [" + paramterNum +  "]is correct,but now is " + parameterTypes.length);
         }
-		return false;
 	}
 
 	/**

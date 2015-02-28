@@ -8,16 +8,11 @@ import java.lang.reflect.Method;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import cn.salesuite.saf.eventbus.EventBus;
-import cn.salesuite.saf.log.L;
-
 /**
  * @author Tony Shen
  *
  */
 public class InjectedOnClickListener extends AbstractInjectedOnListener implements OnClickListener {
-
-
 
 	InjectedOnClickListener(Object target, Method method,boolean invokeWithViewParam) {
 		super(target, method, invokeWithViewParam);
@@ -26,7 +21,6 @@ public class InjectedOnClickListener extends AbstractInjectedOnListener implemen
     InjectedOnClickListener(Object target, Method method,boolean invokeWithViewParam, String beforeMethodName, String afterMethodName) {
         super(target, method, invokeWithViewParam,beforeMethodName,afterMethodName);
     }
-
 
 	@Override
 	public final void onClick(View v) {
@@ -38,8 +32,5 @@ public class InjectedOnClickListener extends AbstractInjectedOnListener implemen
             invokeMethod(hasAfterMethodName,afterMethodName,method,v);
 		}
 	}
-
-
-
 }
 

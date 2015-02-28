@@ -5,6 +5,7 @@ import android.view.View;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * @author frankswu
@@ -39,15 +40,15 @@ public abstract class AbstractInjectedOnListener {
         this.target = target;
         this.method = method;
         this.invokeWithViewParam = invokeWithViewParam;
-        if (beforeMethodName != null && !"".equals(beforeMethodName)) {
+        if (StringUtils.isNotBlank(beforeMethodName)) {
             hasBeforeMethodName = true;
             this.beforeMethodName = beforeMethodName;
         }
-        if (afterMethodName != null && !"".equals(afterMethodName)) {
+        
+        if (StringUtils.isNotBlank(afterMethodName)) {
             hasAfterMethodName = true;
             this.afterMethodName = afterMethodName;
         }
-
     }
 	  
 	protected void handleOnListener(Object... objs) {

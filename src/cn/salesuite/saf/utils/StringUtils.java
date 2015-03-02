@@ -217,6 +217,22 @@ public class StringUtils {
     public static boolean isNotBlank(Object obj) {
     	return !StringUtils.isBlank(obj);
     }
+    
+    public static boolean isNotBlank(Object... objs) {
+    	if (objs == null || objs.length==0) {
+    		return false;
+    	}
+
+		for (Object obj:objs) {
+			if (isNotBlank(obj)) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+
+		return true;
+    }
 	
 	/**
 	 * 如果str字符串为null,返回为"";如果字符串不为空,返回原来的字符串

@@ -62,6 +62,18 @@ public class SAFUtils {
 	public static boolean isJellyBeanOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
+	
+	public static boolean isJellyBeanMR1OrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+    }
+	
+	public static boolean isJellyBeanMR2OrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+    }
+	
+	public static boolean isKitkatOrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
 
 	public static boolean isWiFiActive(Context context) { 
 		WifiManager wm=null;

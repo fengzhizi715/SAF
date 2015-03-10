@@ -4,6 +4,7 @@
 package cn.salesuite.saf.utils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -91,5 +92,19 @@ public class IOUtils {
 
         in.close();
         out.close();
+    }
+    
+    /**
+     * 安全关闭io流
+     * @param closeable
+     */
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

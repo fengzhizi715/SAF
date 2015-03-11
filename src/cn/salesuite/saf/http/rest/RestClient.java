@@ -236,6 +236,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			callback.onFail(e);
 			L.e("get method error!", e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {
@@ -315,6 +316,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			callback.onFail(e);
 			L.e(e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {
@@ -352,6 +354,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			callback.onFail(e);
 			L.e(e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {

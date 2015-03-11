@@ -20,6 +20,6 @@ public interface HttpResponseHandler {
 	 * 
 	 * @param e
 	 */
-	public void onFail(RestException e);
+	public void onFail(Exception e);
 	
 }

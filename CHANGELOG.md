@@ -2,6 +2,15 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.12
+---
+2015-03-11
+ *  增加OnClick的hocker接口，before和after方法，用于埋点
+ *  增加OnItemClick的hocker接口，before和after方法，用于埋点
+ *  增加工具方法
+ *  增加RestClient的BinaryResponseHandler（曹亚明）
+ *  增加全新的AsyncTask（曹亚明）
+
 Version 1.1.11
 ---
 2015-02-24

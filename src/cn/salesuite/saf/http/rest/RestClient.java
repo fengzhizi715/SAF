@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.utils.IOUtils;
 import cn.salesuite.saf.utils.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -539,26 +540,9 @@ public class RestClient {
 			if (getConnection().getResponseCode() != RestConstant.SUCCESS) {
 				throw new RestException(RestException.RETRY_CONNECTION);
 			}
-		    int total=contentLength();
-		    binaryHandler.onLoading(total);
-			System.out.println("total="+contentLength());
-			InputStream inputStream = getConnection().getInputStream();
-			ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024 * 10];
-			while (true) {
-				int len = inputStream.read(buffer);
-				System.out.println("len="+len);
-				binaryHandler.onProgress(len);
-				if (len == -1) {
-					break;
-				}
-				arrayOutputStream.write(buffer, 0, len);
-			}
-			arrayOutputStream.close();
-			inputStream.close();
-			byte[] data = arrayOutputStream.toByteArray();
+		    binaryHandler.onLoading(contentLength());
+		    byte[] data=IOUtils.inputStreamToBytes(getConnection().getInputStream(), binaryHandler);
 			binaryHandler.onSuccess(data);
-			
 		} catch (SocketTimeoutException e) {
 			throw new RestException(e, RestException.RETRY_CONNECTION);
 			

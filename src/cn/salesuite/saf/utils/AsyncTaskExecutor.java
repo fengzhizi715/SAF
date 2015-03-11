@@ -10,8 +10,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import cn.salesuite.saf.async.AsyncTask;
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 
 /**
  * @author Tony Shen

@@ -8,8 +8,8 @@ Version 1.1.12
  *  增加OnClick的hocker接口，before和after方法，用于埋点
  *  增加OnItemClick的hocker接口，before和after方法，用于埋点
  *  增加工具方法
- *  增加RestClient的BinaryResponseHandler（曹亚明）
- *  增加全新的AsyncTask（曹亚明）
+ *  增加RestClient的BinaryResponseHandler（曹亚民）
+ *  增加全新的AsyncTask（曹亚民）
 
 Version 1.1.11
 ---

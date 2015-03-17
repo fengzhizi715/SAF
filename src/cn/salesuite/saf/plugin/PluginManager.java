@@ -8,5 +8,6 @@ package cn.salesuite.saf.plugin;
  *
  */
 public class PluginManager {
+	
 
 }

@@ -25,9 +25,9 @@ public @interface InjectExtra {
 	
 	String key();
 	
-	int defaultIntValue() default 0;
+	int defaultInt() default 0;
 	
-	boolean defaultBooleanValue() default false;
+	boolean defaultBoolean() default false;
 	
-    String defaultStringValue() default "";
+    String defaultString() default "";
 }

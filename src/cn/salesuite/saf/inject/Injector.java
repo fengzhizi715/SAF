@@ -4,7 +4,6 @@
 package cn.salesuite.saf.inject;
 
 import java.lang.annotation.Annotation;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -320,18 +319,36 @@ public class Injector {
                         	if (field.getType().getName().equals(  
                                     java.lang.Integer.class.getName())  
                                     || field.getType().getName().equals("int")) {
-                        		value = ((InjectExtra) annotation).defaultIntValue();
+                        		value = ((InjectExtra) annotation).defaultInt();
                         	} else if (field.getType().getName().equals(  
                                     java.lang.Boolean.class.getName())  
                                     || field.getType().getName().equals("boolean")) {
-                        		value = ((InjectExtra) annotation).defaultBooleanValue();
+                        		value = ((InjectExtra) annotation).defaultBoolean();
                         	} else if (field.getType().getName().equals(  
                                     java.lang.String.class.getName())) {
-                        		value = ((InjectExtra) annotation).defaultStringValue();
+                        		value = ((InjectExtra) annotation).defaultString();
                         	}
                         }
                         
                         injectIntoField(field, value);
+                    } else {
+                    	Object value = null;
+                    	if (field.getType().getName().equals(  
+                                java.lang.Integer.class.getName())  
+                                || field.getType().getName().equals("int")) {
+                    		value = ((InjectExtra) annotation).defaultInt();
+                    	} else if (field.getType().getName().equals(  
+                                java.lang.Boolean.class.getName())  
+                                || field.getType().getName().equals("boolean")) {
+                    		value = ((InjectExtra) annotation).defaultBoolean();
+                    	} else if (field.getType().getName().equals(  
+                                java.lang.String.class.getName())) {
+                    		value = ((InjectExtra) annotation).defaultString();
+                    	}
+                    	
+                    	if (value!=null) {
+                        	injectIntoField(field, value);
+                    	}
                     }
                 } else if (annotation.annotationType() == InjectSupportFragment.class) {
                     int id = ((InjectSupportFragment) annotation).id();

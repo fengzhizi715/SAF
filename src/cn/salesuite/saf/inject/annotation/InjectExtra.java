@@ -22,5 +22,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface InjectExtra {
+	
 	String key();
+	
+	int defaultIntValue() default 0;
+	
+	boolean defaultBooleanValue() default false;
+	
+    String defaultStringValue() default "";
 }

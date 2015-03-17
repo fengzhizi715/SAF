@@ -316,6 +316,21 @@ public class Injector {
                 } else if (annotation.annotationType() == InjectExtra.class) {
                     if (extras != null) {
                         Object value = extras.get(((InjectExtra) annotation).key());
+                        if (value==null) {
+                        	if (field.getType().getName().equals(  
+                                    java.lang.Integer.class.getName())  
+                                    || field.getType().getName().equals("int")) {
+                        		value = ((InjectExtra) annotation).defaultIntValue();
+                        	} else if (field.getType().getName().equals(  
+                                    java.lang.Boolean.class.getName())  
+                                    || field.getType().getName().equals("boolean")) {
+                        		value = ((InjectExtra) annotation).defaultBooleanValue();
+                        	} else if (field.getType().getName().equals(  
+                                    java.lang.String.class.getName())) {
+                        		value = ((InjectExtra) annotation).defaultStringValue();
+                        	}
+                        }
+                        
                         injectIntoField(field, value);
                     }
                 } else if (annotation.annotationType() == InjectSupportFragment.class) {

@@ -4,6 +4,8 @@ SAF(Simple Android Framework)是一个简单的android框架，它为开发Andro
 SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了2年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF  
 目前google code上的工程暂停维护，迁移到github上。它刚刚到1.1.x版本，肯定会存在各种各样的问题。遇到任何问题欢迎跟我的qq联系，qq：63067756
 
+![](logo.png)
+
 saf的demo地址：
 https://github.com/frankswu/saf_android_demo
 

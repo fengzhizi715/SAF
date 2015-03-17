@@ -3,18 +3,21 @@
  */
 package cn.salesuite.saf.plugin;
 
-import cn.salesuite.saf.app.SAFActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import cn.salesuite.saf.app.SAFActivity;
 
 /**
+ * 插件中的类必须继承BasePluginActivity
  * @author Tony Shen
  *
  */
 public class BasePluginActivity extends SAFActivity implements IPlugin{
 
+    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 	}
 
 	@Override

@@ -5,6 +5,8 @@ package cn.salesuite.saf.plugin;
 
 import java.io.File;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import cn.salesuite.saf.app.SAFActivity;
 import cn.salesuite.saf.inject.Injector;
@@ -24,7 +26,9 @@ public class ProxyActivity extends SAFActivity {
 	@InjectExtra(key=ACTIVITY_NAME)
 	String mActivityName;
 
-	IPlugin mPluginActivity;
+	private IPlugin mPluginActivity;
+	
+	private String mPluginApkFilePath;
 	
 	private static final String PLUGIN_NAME = "plugin_name";
 	private static final String ACTIVITY_NAME = "activity_name";
@@ -44,9 +48,39 @@ public class ProxyActivity extends SAFActivity {
             return;
         }
         
-        
+        mPluginApkFilePath = pluginFile.getAbsolutePath();
+
+        try {
+            initPlugin();
+            mPluginActivity.onCreate(savedInstanceState);
+        } catch (Exception e) {
+            mPluginActivity = null;
+            e.printStackTrace();
+        }
     }
 	
+	private void initPlugin() {
+		
+		PackageInfo packageInfo;
+		try {
+			PackageManager pm = getPackageManager();
+			packageInfo = pm.getPackageArchiveInfo(mPluginApkFilePath,
+					PackageManager.GET_ACTIVITIES);
+
+			ClassLoader classLoader = PluginManager.getClassLoaderByPath(this,
+					mPluginName, mPluginApkFilePath);
+			Class<?> mClassLaunchActivity = (Class<?>) classLoader
+					.loadClass(mActivityName);
+
+			getIntent().setExtrasClassLoader(classLoader);
+			mPluginActivity = (IPlugin) mClassLaunchActivity.newInstance();
+
+		} catch (Exception e) {
+		}
+
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

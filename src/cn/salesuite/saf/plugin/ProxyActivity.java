@@ -30,6 +30,8 @@ public class ProxyActivity extends SAFActivity {
 	
 	private String mPluginApkFilePath;
 	
+	private PluginManager mPluginManager;
+	
 	private static final String PLUGIN_NAME = "plugin_name";
 	private static final String ACTIVITY_NAME = "activity_name";
 	
@@ -74,6 +76,8 @@ public class ProxyActivity extends SAFActivity {
 
 			getIntent().setExtrasClassLoader(classLoader);
 			mPluginActivity = (IPlugin) mClassLaunchActivity.newInstance();
+			
+			mPluginManager = PluginManager.getInstance(this);
 
 		} catch (Exception e) {
 		}

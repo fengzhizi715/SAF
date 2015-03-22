@@ -3,7 +3,9 @@
  */
 package cn.salesuite.saf.plugin;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 
 /**
@@ -27,4 +29,7 @@ public interface IPlugin {
     public void onStop();
     
     public void onDestroy();
+
+	public void init(String path, Activity context,
+			ClassLoader classLoader, PackageInfo packageInfo);
 }

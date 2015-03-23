@@ -67,6 +67,9 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (isFromPlugin) {
+			return;
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 

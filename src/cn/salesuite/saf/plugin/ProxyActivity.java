@@ -5,6 +5,7 @@ package cn.salesuite.saf.plugin;
 
 import java.io.File;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -96,4 +97,44 @@ public class ProxyActivity extends SAFActivity {
 			mPluginActivity.onStart();
 		}
 	}
+	
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(mPluginActivity != null) {
+            mPluginActivity.onRestart();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mPluginActivity != null) {
+            mPluginActivity.onStop();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mPluginActivity != null) {
+            mPluginActivity.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mPluginActivity != null) {
+            mPluginActivity.onDestroy();
+        }
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (mPluginActivity!=null) {
+        	mPluginActivity.onActivityResult(requestCode, resultCode, data);
+    	}
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

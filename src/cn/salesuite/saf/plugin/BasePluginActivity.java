@@ -6,6 +6,9 @@ package cn.salesuite.saf.plugin;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import cn.salesuite.saf.app.SAFActivity;
 
@@ -54,6 +57,7 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
         if (isFromPlugin) {
             return;
         }
+        
 		super.onStart();
 	}
 
@@ -62,6 +66,7 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
         if (isFromPlugin) {
             return;
         }
+        
 		super.onRestart();
 	}
 
@@ -70,6 +75,7 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
 		if (isFromPlugin) {
 			return;
 		}
+		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -78,6 +84,7 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
         if (isFromPlugin) {
             return;
         }
+        
 		super.onResume();
 	}
 
@@ -96,4 +103,18 @@ public class BasePluginActivity extends SAFActivity implements IPlugin{
 		super.onDestroy();
 	}
 
+    @Override
+    public Resources getResources() {
+        return mContext.getResources() == null ? super.getResources() : mContext.getResources();
+    }
+    
+    @Override
+    public AssetManager getAssets() {
+        return mContext.getAssets() == null ? super.getAssets() : mContext.getAssets();
+    }
+    
+    @Override
+    public Theme getTheme() {
+        return mContext.getTheme() == null ? super.getTheme() : mContext.getTheme();
+    }
 }

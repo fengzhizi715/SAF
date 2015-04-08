@@ -21,10 +21,21 @@ import java.net.Proxy;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.IOUtils;
@@ -101,6 +112,9 @@ public class RestClient {
 
 	private int bufferSize = 8192;
 	
+	private static SSLSocketFactory TRUSTED_FACTORY;
+	private static HostnameVerifier TRUSTED_VERIFIER;
+	
 	/**
 	 * 默认的ConnectionFactory
 	 */
@@ -172,7 +186,80 @@ public class RestClient {
       this.httpProxyPort = proxyPort;
       return this;
     }
+    
+    /**
+     * 配置HTTPS连接，信任所有证书
+     *
+     * @return RestClient
+     * @throws RestException
+     */
+	public RestClient trustAllCerts() throws RestException {
+		final HttpURLConnection connection = getConnection();
+		if (connection instanceof HttpsURLConnection)
+			((HttpsURLConnection) connection)
+					.setSSLSocketFactory(getTrustedFactory());
+		return this;
+	}
 
+    /**
+     * 配置HTTPS连接，信任所有host
+     *
+     * @return RestClient
+     */
+	public RestClient trustAllHosts() {
+		final HttpURLConnection connection = getConnection();
+		if (connection instanceof HttpsURLConnection)
+			((HttpsURLConnection) connection)
+					.setHostnameVerifier(getTrustedVerifier());
+		return this;
+	}
+
+	private static SSLSocketFactory getTrustedFactory()
+			throws RestException {
+		if (TRUSTED_FACTORY == null) {
+			final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return new X509Certificate[0];
+				}
+
+				public void checkClientTrusted(X509Certificate[] chain,
+						String authType) {
+					// Intentionally left blank
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain,
+						String authType) {
+					// Intentionally left blank
+				}
+			} };
+			try {
+				SSLContext context = SSLContext.getInstance("TLS");
+				context.init(null, trustAllCerts, new SecureRandom());
+				TRUSTED_FACTORY = context.getSocketFactory();
+			} catch (GeneralSecurityException e) {
+				IOException ioException = new IOException(
+						"Security exception configuring SSL context");
+				ioException.initCause(e);
+				throw new RestException(ioException);
+			}
+		}
+
+		return TRUSTED_FACTORY;
+	}
+
+	private static HostnameVerifier getTrustedVerifier() {
+		if (TRUSTED_VERIFIER == null)
+			TRUSTED_VERIFIER = new HostnameVerifier() {
+
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+
+		return TRUSTED_VERIFIER;
+	}
+		  
 	/**
 	 * 创建 HTTP connection wrapper
 	 * 
@@ -222,6 +309,14 @@ public class RestClient {
 		try {
 			client = new RestClient(url, RestConstant.METHOD_GET);
 			client.acceptGzipEncoding().uncompress(true);
+			
+			if (url.startsWith("https")) {
+				//Accept all certificates
+				client.trustAllCerts();
+				//Accept all hostnames
+				client.trustAllHosts();
+			}
+			
 			String body = null;
 			// frankswu : 
 			body = client.body();
@@ -301,6 +396,14 @@ public class RestClient {
 		RestClient request = new RestClient(url, RestConstant.METHOD_POST);
 		request.acceptJson().contentType("application/json");
 		request.acceptGzipEncoding().uncompress(true);
+		
+		if (url.startsWith("https")) {
+			//Accept all certificates
+			request.trustAllCerts();
+			//Accept all hostnames
+			request.trustAllHosts();
+		}
+		
 		try {
 			request.send(json);
 			String body = request.body();

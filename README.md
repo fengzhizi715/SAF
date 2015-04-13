@@ -146,7 +146,7 @@ SAF中的DI包括以下几个方面：
 * Inject Service ：简化系统服务的注册，目前只支持android的系统服务
 * Inject Extra ：简化2个Activity之间Extra传递
 * InflateLayout ：简化布局填充时，组件的查找注册
-* OnClick：简化各种组件的Click事件写法
+* OnClick：简化各种组件的Click事件写法，其属性after可以指定一个方法在OnClick之后执行(一般用于埋点或者其共性操作)。
 * OnItemClick：简化ListView的ItemView事件写法
 
 Inject View
@@ -199,7 +199,7 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                 }
           }
 
-目前，@InjectView可用于Activity、Dialog、Fragment中。在Activity和Dialog用法相似，在Fragment中用法有一点区别。
+目前，@InjectView可用于Activity、Dialog、Fragment,Adapter(ViewHolder)中。在Activity和Dialog用法相似，在Fragment和Adapter中用法有一点区别。
 
           public class DemoFragment extends Fragment {
 
@@ -319,10 +319,15 @@ OnClick
              return v;
         }
     
-	    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel})
+	    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel}, after = "pointClickView")
 	    void clickLeftMenu() {
 		    popBackStack();
 	    }
+
+      public void pointClickView(Method method, View view) {
+        L.d("pointClickView");
+        ....
+      }
 	
 	    @OnClick(id=R.id.btn_comment_send)
 	    void clickCommentSend() {

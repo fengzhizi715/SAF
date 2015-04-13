@@ -75,6 +75,7 @@ public abstract class AbstractInjectedOnListener {
             for (Method m : methods) {
                 if (methodName.equals(m.getName())) {
                     try {
+                        m.setAccessible(true);
                         if (postion == -1) {
                             m.invoke(target,method,v);
                         } else {

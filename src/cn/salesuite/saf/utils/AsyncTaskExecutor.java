@@ -59,6 +59,24 @@ public class AsyncTaskExecutor {
     	}
     	return task;
     }
+    
+    /**
+     * Concurrently executes AsyncTask on any Android version
+     * @param task to execute
+     * @param params for task
+     * @return executing AsyncTask 
+     */
+    @SuppressLint("NewApi") 
+    public static <Params, Progress, Result> android.os.AsyncTask<Params, Progress, Result> 
+    executeAsyncTask(android.os.AsyncTask<Params, Progress, Result> task,
+    		Params... params) {
+    	if (SAFUtils.isHoneycombOrHigher()) {
+    		task.executeOnExecutor(concurrentExecutor, params);
+    	} else {
+    		task.execute(params);
+    	}
+    	return task;
+    }
 
     private static class AsyncTaskThreadFactory implements ThreadFactory {
     	private final AtomicInteger count;

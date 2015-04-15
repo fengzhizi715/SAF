@@ -3,6 +3,7 @@
  */
 package cn.salesuite.saf.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -22,7 +23,7 @@ import cn.salesuite.saf.http.rest.BinaryResponseHandler;
  */
 public class IOUtils {
 
-private final static int BUFFER_SIZE = 0x400; // 1024
+    private final static int BUFFER_SIZE = 0x400; // 1024
 	
 	/**
 	 * 从输入流读取数据
@@ -97,6 +98,23 @@ private final static int BUFFER_SIZE = 0x400; // 1024
     }
     
     /**
+     * 将流写入文件
+     * @param in
+     * @param target
+     * @throws IOException
+     */
+    public static void writeToFile(InputStream in, File target) throws IOException {
+        BufferedOutputStream bos = new BufferedOutputStream(
+                new FileOutputStream(target));
+        int count;
+        byte data[] = new byte[BUFFER_SIZE];
+        while ((count = in.read(data, 0, BUFFER_SIZE)) != -1) {
+            bos.write(data, 0, count);
+        }
+        bos.close();
+    }
+    
+    /**
      * 安全关闭io流
      * @param closeable
      */
@@ -135,7 +153,6 @@ private final static int BUFFER_SIZE = 0x400; // 1024
 			
 			return data;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

@@ -20,7 +20,6 @@ public class PluginClassLoader extends DexClassLoader {
 		apkPath = dexPath;
 		NativeLibManager.unPackSOFromApk(dexPath, libraryPath);
 	}
-	
     
 	public String getApkPath() {
 		return apkPath;

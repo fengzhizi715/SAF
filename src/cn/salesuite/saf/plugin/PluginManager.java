@@ -8,7 +8,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.content.Context;
-import dalvik.system.DexClassLoader;
 
 /**
  * @author Tony Shen
@@ -18,8 +17,8 @@ public class PluginManager {
 
 	private static PluginManager mInstance;
     private Context mContext;
-    private String mNativeLibDir;
-    private static final HashMap<String, DexClassLoader> mClassLoaderMap = new HashMap<String, DexClassLoader>();
+    private static String mNativeLibDir;
+    private static final HashMap<String, PluginClassLoader> mClassLoaderMap = new HashMap<String, PluginClassLoader>();
     private static Lock lock = new ReentrantLock();
 
     private PluginManager(Context context) {
@@ -39,20 +38,30 @@ public class PluginManager {
         return mInstance;
     }
     
-    public static ClassLoader getClassLoaderByPath(Context c, String pluginName, String apkFilePath) throws Exception {
+    /**
+     * 返回插件对应的加载器，不会重复加载同样的资源
+     * @param context
+     * @param pluginName
+     * @param apkFilePath
+     * @return
+     */
+    public static ClassLoader getClassLoaderByPath(Context context, String pluginName, String apkFilePath) {
     	lock.lock();
-    	DexClassLoader dexClassLoader = null;
+    	PluginClassLoader classloader = null;
     	try {
-    		dexClassLoader = mClassLoaderMap.get(pluginName);
-            if (dexClassLoader == null) {
-                String optimizedDexOutputPath = c.getDir("odex", Context.MODE_PRIVATE).getAbsolutePath();
-                dexClassLoader = new DexClassLoader(apkFilePath, optimizedDexOutputPath, null, c.getClassLoader());
-                mClassLoaderMap.put(pluginName, dexClassLoader);
+    		classloader = mClassLoaderMap.get(pluginName);
+            if (classloader == null) {
+
+                String dexOutputPath = context
+                        .getDir(PluginUtils.PLUGIN_PATH, Context.MODE_PRIVATE).getAbsolutePath();
+                
+                classloader = new PluginClassLoader(apkFilePath, dexOutputPath, mNativeLibDir, context.getClassLoader());
+                mClassLoaderMap.put(pluginName, classloader);
             }
     	} finally {
     		lock.lock();
     	}
 
-        return dexClassLoader;
+        return classloader;
     }
 }

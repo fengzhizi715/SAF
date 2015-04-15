@@ -13,7 +13,7 @@ import android.content.Context;
  */
 public class PluginUtils {
 
-    private static final String PLUGIN_PATH = "plugins";
+	public static final String PLUGIN_PATH = "plugins";
     
     public static File getInstallPath(Context context, String pluginName) {
         File pluginDir = getPluginPath(context);

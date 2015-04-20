@@ -255,7 +255,7 @@ public class L {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
 			if(StringUtils.isNotBlank(msg)) {
-				Log.i(tag, msg);
+				Log.d(tag, msg);
 			}
 		}
 	}
@@ -269,7 +269,7 @@ public class L {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
 			if(StringUtils.isNotBlank(msg)) {
-				Log.i(TAG, prefix+"="+msg);
+				Log.d(TAG, prefix+"="+msg);
 			}
 		}
 	}
@@ -314,7 +314,7 @@ public class L {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(tag, SAFUtils.printObject(object));
+				Log.d(tag, SAFUtils.printObject(object));
 			}
 		}
 	}
@@ -327,7 +327,7 @@ public class L {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(TAG, prefix+"="+SAFUtils.printObject(object));
+				Log.d(TAG, prefix+"="+SAFUtils.printObject(object));
 			}
 		}
 	}

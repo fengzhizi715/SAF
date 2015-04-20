@@ -285,7 +285,7 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static RestClient get(String url) throws RestException {
-		System.out.println("get url="+url);
+		L.d("get url="+url);
 		return new RestClient(url, RestConstant.METHOD_GET);
 	}
 	/**
@@ -295,12 +295,13 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static void get(String url,HttpResponseHandler callback) {
-		System.out.println("get url="+url);
+		L.d("get url="+url);
 		get(url, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
+	
 	//hendry.cao
 	public static void get(String url,BinaryResponseHandler callback) {
-		System.out.println("get url="+url);
+		L.d("get url="+url);
 		get(url, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
@@ -376,7 +377,7 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static RestClient post(String url) throws RestException {
-		System.out.println("post url="+url);
+		L.d("post url="+url);
 		return new RestClient(url, RestConstant.METHOD_POST);
 	}
 
@@ -388,7 +389,7 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static void post(String url,JSONObject json,HttpResponseHandler callback) throws RestException {
-		System.out.println("post url="+url+"\n"+"post body="+JSON.toJSONString(json));
+		L.d("post url="+url+"\n"+"post body="+JSON.toJSONString(json));
 		post(url, json, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
@@ -435,7 +436,7 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static void post(String url,Map<?, ?> map,HttpResponseHandler callback) throws RestException {
-		System.out.println("post url="+url+"\n"+"form map="+map.toString());
+		L.d("post url="+url+"\n"+"form map="+map.toString());
 		post(url, map, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	

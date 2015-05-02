@@ -166,7 +166,15 @@ public class Injector {
         context = v.getContext();
         clazz = object.getClass();
         activity = null;
-        extras = null;
+        if (context != null) {
+            if (context instanceof Activity) {
+                extras = ((Activity) context).getIntent().getExtras();
+            } else {
+                extras = null;
+            }
+        } else {
+            extras = null;
+        }
     }
 
 
@@ -313,43 +321,13 @@ public class Injector {
                 	Object service = context.getSystemService(serviceName);
                     injectIntoField(field, service);
                 } else if (annotation.annotationType() == InjectExtra.class) {
-                    if (extras != null) {
-                        Object value = extras.get(((InjectExtra) annotation).key());
-                        if (value==null) {
-                        	if (field.getType().getName().equals(  
-                                    java.lang.Integer.class.getName())  
-                                    || field.getType().getName().equals("int")) {
-                        		value = ((InjectExtra) annotation).defaultInt();
-                        	} else if (field.getType().getName().equals(  
-                                    java.lang.Boolean.class.getName())  
-                                    || field.getType().getName().equals("boolean")) {
-                        		value = ((InjectExtra) annotation).defaultBoolean();
-                        	} else if (field.getType().getName().equals(  
-                                    java.lang.String.class.getName())) {
-                        		value = ((InjectExtra) annotation).defaultString();
-                        	}
-                        }
-                        
-                        injectIntoField(field, value);
-                    } else {
-                    	Object value = null;
-                    	if (field.getType().getName().equals(  
-                                java.lang.Integer.class.getName())  
-                                || field.getType().getName().equals("int")) {
-                    		value = ((InjectExtra) annotation).defaultInt();
-                    	} else if (field.getType().getName().equals(  
-                                java.lang.Boolean.class.getName())  
-                                || field.getType().getName().equals("boolean")) {
-                    		value = ((InjectExtra) annotation).defaultBoolean();
-                    	} else if (field.getType().getName().equals(  
-                                java.lang.String.class.getName())) {
-                    		value = ((InjectExtra) annotation).defaultString();
-                    	}
-                    	
-                    	if (value!=null) {
-                        	injectIntoField(field, value);
-                    	}
+                    String extraKey = ((InjectExtra) annotation).key();
+                    // key 没有使用
+                    if (StringUtils.isBlank(extraKey)) {
+                        extraKey = field.getName();
                     }
+                    setInjectExtra(field,extras,extraKey,annotation);
+
                 } else if (annotation.annotationType() == InjectSupportFragment.class) {
                     int id = ((InjectSupportFragment) annotation).id();
                     Fragment fragment = findSupportFragment(field, id);
@@ -358,6 +336,25 @@ public class Injector {
             }
         }
 	}
+
+    private void setInjectExtra(Field field, Bundle extras, String extraKey,Annotation annotation) {
+
+        Object value = extras != null ? extras.get(extraKey) : null;
+        if (value==null) {
+            if (field.getType().getName().equals(java.lang.Integer.class.getName())
+                    || field.getType().getName().equals("int")) {
+                value = ((InjectExtra) annotation).defaultInt();
+            } else if (field.getType().getName().equals(java.lang.Boolean.class.getName())
+                    || field.getType().getName().equals("boolean")) {
+                value = ((InjectExtra) annotation).defaultBoolean();
+            } else if (field.getType().getName().equals(java.lang.String.class.getName())) {
+                value = ((InjectExtra) annotation).defaultString();
+            }
+        }
+        if (value != null) {
+            injectIntoField(field, value);
+        }
+    }
 	
 	/**
 	 * 查找fragment

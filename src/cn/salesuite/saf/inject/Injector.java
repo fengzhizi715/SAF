@@ -40,6 +40,7 @@ import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
 import cn.salesuite.saf.inject.annotation.OnTouch;
+import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -349,8 +350,15 @@ public class Injector {
                 value = ((InjectExtra) annotation).defaultBoolean();
             } else if (field.getType().getName().equals(java.lang.String.class.getName())) {
                 value = ((InjectExtra) annotation).defaultString();
+            } else if (field.getType().getName().equals(java.lang.Long.class.getName())
+                    || field.getType().getName().equals("long")) {
+                value = ((InjectExtra) annotation).defaultLong();
+            } else if (field.getType().getName().equals(java.lang.Double.class.getName())
+                    || field.getType().getName().equals("double")) {
+                value = ((InjectExtra) annotation).defaultDouble();
             }
         }
+        
         if (value != null) {
             injectIntoField(field, value);
         }

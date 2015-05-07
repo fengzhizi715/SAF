@@ -2,6 +2,14 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.13
+---
+2015-05-06
+ *  RestClient增加https的支持
+ *  修复L的bug
+ *  InjectExtra增加默认值
+ *  AsyncTaskExecutor增加android.os.AsyncTask的支持
+
 Version 1.1.12
 ---
 2015-03-11

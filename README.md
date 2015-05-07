@@ -20,6 +20,7 @@ https://github.com/frankswu/saf_android_demo
 * [Sqlite ORM](https://github.com/fengzhizi715/SAF#sqlite-orm)
 * [Router](https://github.com/fengzhizi715/SAF#router)
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
+* [Plugin](https://github.com/fengzhizi715/SAF#plugin)
 
 SAFApp
 ===
@@ -499,3 +500,11 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 Utils
 ===
 包含了很多常用的工具类，比如日期操作、字符串操作、SAFUtil里包含各种乱七八糟的常用类等等。
+
+
+Plugin
+===
+[android-saf-plugin-demo](https://github.com/frankswu/android-saf-plugin-demo)
+基于SAF框架和androidPluginMgr的plugin实现
+
+

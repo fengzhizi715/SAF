@@ -16,7 +16,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 抽象的基类Parcelable，继承该类需要有构造方法
+ * 抽象的基类Parcelable，可以直接继承该类
  * @author Tony Shen
  *
  */

@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -123,7 +125,19 @@ public class SAFApp extends Application {
 		super.onLowMemory();
 		imageLoader.clearMemCache();
 	}
-    
+	
+	@Override
+	@TargetApi(14)
+	public void onTrimMemory(int level) {
+		if (SAFUtils.isICSOrHigher()) {
+			super.onTrimMemory(level);
+			
+			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
+				imageLoader.clearCache();
+			}
+		}
+	}
+	
 	/**
 	 * 子类继承时,可使用自己的默认图片
 	 * @param defaultImageId

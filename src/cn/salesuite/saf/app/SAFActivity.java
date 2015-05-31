@@ -5,7 +5,9 @@ package cn.salesuite.saf.app;
 
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ComponentCallbacks2;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -91,6 +93,24 @@ public class SAFActivity extends Activity{
 			return app.activityManager.get(size-1).getClass().getName();
 		}
 		return null;
+	}
+	
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		app.imageLoader.clearMemCache();
+	}
+	
+	@Override
+	@TargetApi(14)
+	public void onTrimMemory(int level) {
+		if (SAFUtils.isICSOrHigher()) {
+			super.onTrimMemory(level);
+			
+			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
+				app.imageLoader.clearCache();
+			}
+		}
 	}
 	
 	@Override

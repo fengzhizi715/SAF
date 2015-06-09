@@ -3,6 +3,7 @@
  */
 package cn.salesuite.saf.app;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
@@ -10,7 +11,7 @@ import android.app.Activity;
 import android.content.ComponentCallbacks2;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.net.CellIDInfo;
@@ -29,8 +30,9 @@ public class SAFActivity extends Activity{
 	public String TAG;
 	public int networkType;
 	public String networkName;
+    protected Handler mHandler = new SafeHandler(this);
 	
-	private Handler mdBmHandler = new Handler(Looper.getMainLooper());
+	private Handler mdBmHandler = new SafeHandler(this);
 	private Runnable mGetdBmRunnable = new Runnable() {
 		public void run() {
 			CellIDInfoManager manager = new CellIDInfoManager();
@@ -171,5 +173,23 @@ public class SAFActivity extends Activity{
 	 */
 	private int getNetworkType(CellIDInfoManager manager) {
 		return manager.getNetworkType();
+	}
+	
+	/**
+	 * 防止内部Handler类引起内存泄露
+	 * @author Tony Shen
+	 *
+	 */
+    public static class SafeHandler extends Handler{
+	    private final WeakReference<Activity> mActivity;
+	    public SafeHandler(Activity activity) {
+	        mActivity = new WeakReference<Activity>(activity);
+	    }
+	    @Override
+	    public void handleMessage(Message msg) {
+	        if(mActivity.get() == null) {
+	            return;
+	        }
+	    }
 	}
 }

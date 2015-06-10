@@ -4,7 +4,6 @@
 package cn.salesuite.saf.app;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -13,9 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import cn.salesuite.saf.config.SAFConstant;
-import cn.salesuite.saf.net.CellIDInfo;
-import cn.salesuite.saf.net.CellIDInfoManager;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -32,31 +28,10 @@ public class SAFActivity extends Activity{
 	public String networkName;
     protected Handler mHandler = new SafeHandler(this);
 	
-	private Handler mdBmHandler = new SafeHandler(this);
-	private Runnable mGetdBmRunnable = new Runnable() {
-		public void run() {
-			CellIDInfoManager manager = new CellIDInfoManager();
-			getSignalStrength(manager);
-			if (SAFUtils.isWiFiActive(app)) {
-				networkName = "wifi";
-				return;
-			}
-			if (networkType == 0) {
-				networkType = getNetworkType(manager);
-			}
-			networkName = SAFUtils.getNetWorkName(networkType,manager.getMnc());
-			app.session.put(SAFConstant.DEVICE_NET_INFO, networkName);
-		}
-	};
-	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		app = (SAFApp) this.getApplication();
-		if(SAFConstant.CHECK_MOBILE_STATUS) {
-			checkMobileStatus();
-		}
-
 		TAG = SAFUtils.makeLogTag(this.getClass());
 		addActivityToManager(this);
 	}
@@ -118,10 +93,6 @@ public class SAFActivity extends Activity{
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (SAFConstant.CHECK_MOBILE_STATUS && app.deviceid!=null) {
-			mdBmHandler.removeCallbacks(mGetdBmRunnable);
-		}
-
 		delActivityFromManager(this);
 	}
 	
@@ -137,42 +108,6 @@ public class SAFActivity extends Activity{
 	 */
 	protected void toast(int resId) {
 		ToastUtils.showShort(this, resId);
-	}
-	
-	/**
-	 * 检测手机状态,当手机信号弱时,利用toast提示用户
-	 */
-	protected void checkMobileStatus() {
-		if (app.deviceid!=null) {
-			mdBmHandler.post(mGetdBmRunnable);
-		}
-	}
-	
-	private void getSignalStrength(CellIDInfoManager manager) {
-		int dbm = -112;
-		
-		ArrayList<CellIDInfo> CellID = null;
-		try {
-			CellID = manager.getCellIDInfo(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (CellID!=null && CellID.size()>0) {
-			dbm = CellID.get(0).signal_strength;
-		}
-
-		if (dbm <= -112) {
-			toast("当前信号差");
-		}
-	}
-	
-	/**
-	 * 获取手机网络类型,该方法在调用getSignalStrength()之后使用
-	 * @param manager
-	 * @return
-	 */
-	private int getNetworkType(CellIDInfoManager manager) {
-		return manager.getNetworkType();
 	}
 	
 	/**

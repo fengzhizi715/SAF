@@ -2,6 +2,13 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.14
+---
+2015-06-18
+ *  增加AbstractParcelable
+ *  精简SAFActivity、SAFFragmentActivity
+ *  删除cn.salesuite.saf.net包,减少saf包的大小
+
 Version 1.1.13
 ---
 2015-05-06

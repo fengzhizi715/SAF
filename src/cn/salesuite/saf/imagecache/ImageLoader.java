@@ -389,8 +389,12 @@ public class ImageLoader {
      * 清空所有缓存
      */
     public void clearCache() {
-        memoryCache.clear();
-        diskCache.clearCache();
+    	if (enableDiskCache) {
+            memoryCache.clear();
+            diskCache.clearCache();
+    	} else {
+    		memoryCache.clear();
+    	}
     }
     
     /**

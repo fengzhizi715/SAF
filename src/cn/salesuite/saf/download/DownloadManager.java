@@ -8,7 +8,58 @@ import cn.salesuite.saf.utils.ToastUtils;
 import android.content.Context;
 
 /**
- * 单downloadtask的manager
+ * downloadtask的manager
+ * <pre>
+ * <code>
+ * DownloadManager.getInstance(app).startDownload(url, path, fileName, new DownloadTaskListener() {
+ *			
+ *				@Override
+ *				public void updateProcess(DownloadTask mgr) {
+ *					if (mgr!=null) {
+ *						pBar.setProgress((int)mgr.getDownloadSize());
+ *						if (mgr.getDownloadPercent()==0 && mgr.getTotalSize()!=0) {
+ *							pBar.setMax((int)mgr.getTotalSize());
+ *							isDownloadSuccess = true;
+ *						}
+ *					}
+ *				}
+ *				
+ *				@Override
+ *				public void preDownload(DownloadTask mgr) {
+ *					if (pBar == null) {
+ *						pBar = new ProgressDialog(mContext);
+ *						pBar.setTitle("正在下载");
+ *						pBar.setMessage("请稍候...");
+ *						pBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+ *						pBar.setCancelable(false);
+ *					}
+ *					pBar.show();
+ *				}
+ *				
+ *				@Override
+ *				public void pauseProcess(DownloadTask mgr) {
+ *					// nothing
+ *				}
+ *				
+ *				@Override
+ *				public void finishDownload(DownloadTask mgr) {
+ *					if (isDownloadSuccess) {
+ *						SAFUtils.installAPK(apkPathUrl, mContext);
+ *					} else {
+ *						loadingNext();
+ *					}
+ *					pBar.cancel();
+ *				}
+ *				
+ *				@Override
+ *				public void errorDownload(DownloadTask mgr, int error) {
+ *					isDownloadSuccess = false;
+ *					toast("下载发生错误");
+ *				}
+ *			});
+ *
+ * </code>
+ * </pre>
  * 
  *
  */

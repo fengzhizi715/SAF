@@ -447,5 +447,24 @@ public class SAFUtils {
 		return Formatter.formatFileSize(SAFApp.getInstance().getApplicationContext(), availableBlocks
 				* blockSize);
 	}
+	
+	/**
+	 * 获取SD 卡内存
+	 * @return
+	 */
+	public static long getAvailableSD() {
+		if (!hasSdcard())
+			return 0;
+		
+		String storageDirectory = Environment.getExternalStorageDirectory().toString();
 
+		try {
+			StatFs stat = new StatFs(storageDirectory);
+			long avaliableSize = ((long) stat.getAvailableBlocks() * (long) stat
+					.getBlockSize());
+			return avaliableSize;
+		} catch (RuntimeException ex) {
+			return 0;
+		}
+	}
 }

@@ -14,7 +14,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
-import cn.salesuite.saf.config.SAFConfig;
+import cn.salesuite.saf.config.SAFConstant;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 
@@ -42,7 +42,7 @@ public class DiskLruImageCache {
 
     public DiskLruImageCache(Context context, CompressFormat compressFormat, int quality) {
         try {
-            final File diskCacheDir = getDiskCacheDir(context, SAFConfig.CACHE_DIR);
+            final File diskCacheDir = getDiskCacheDir(context, SAFConstant.CACHE_DIR);
             mDiskCache = DiskLruCache.open(diskCacheDir, APP_VERSION, VALUE_COUNT, DiskLruImageCache.DISK_CACHE_SIZE);
             mCompressFormat = compressFormat;
             mCompressQuality = quality;

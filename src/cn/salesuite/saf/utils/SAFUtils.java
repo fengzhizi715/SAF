@@ -33,7 +33,6 @@ import android.text.format.Formatter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import cn.salesuite.saf.app.SAFApp;
-import cn.salesuite.saf.config.SAFConfig;
 
 import com.alibaba.fastjson.JSON;
 
@@ -207,13 +206,7 @@ public class SAFUtils {
 	 * @return
 	 */
 	public static String makeLogTag(Class<?> cls) {
-		String tag = null;
-		if (SAFConfig.TAG_LEVEL == 0) {
-			tag = cls.getSimpleName();
-		} else if(SAFConfig.TAG_LEVEL == 1){
-			tag = cls.getCanonicalName();
-		}
-		return tag;
+		return cls.getSimpleName();
 	}
 	
 	/**

@@ -12,14 +12,13 @@ import java.net.URL;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
-import cn.salesuite.saf.log.L;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.StatFs;
 import android.util.Log;
+import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.utils.SAFUtils;
 
 
 public class DownloadTask extends AsyncTask<Void, Integer, Long> {
@@ -29,7 +28,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 	public final static int ERROR_BLOCK_INTERNET = 2;
 	public final static int ERROR_UNKONW = 3;
 	public final static int TIME_OUT = 30000;
-	private final static int BUFFER_SIZE = 1024 * 8;
+	private final static int BUFFER_SIZE = 0x2000; // 1024*8
 
 	private static final String TAG = "DownloadTask";
 
@@ -242,7 +241,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 			return 0l;
 		}
 
-		long storage = getAvailableStorage();
+		long storage = SAFUtils.getAvailableSD();
 		Log.i(TAG, "storage:" + storage + " totalSize:" + totalSize);
 		if (totalSize - file.length() > storage) {
 			errStausCode = ERROR_SD_NO_MEMORY;
@@ -341,28 +340,6 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 			}
 		}
 		return count;
-	}
-
-	/*
-	 * 获取 SD 卡内存
-	 */
-	public static long getAvailableStorage() {
-		String storageDirectory = null;
-		storageDirectory = Environment.getExternalStorageDirectory().toString();
-
-		Log.v(TAG, "getAvailableStorage. storageDirectory : "
-				+ storageDirectory);
-
-		try {
-			StatFs stat = new StatFs(storageDirectory);
-			long avaliableSize = ((long) stat.getAvailableBlocks() * (long) stat
-					.getBlockSize());
-			Log.v(TAG, "getAvailableStorage. avaliableSize : " + avaliableSize);
-			return avaliableSize;
-		} catch (RuntimeException ex) {
-			Log.e(TAG, "getAvailableStorage - exception. return 0");
-			return 0;
-		}
 	}
 
 	private boolean isOnline() {

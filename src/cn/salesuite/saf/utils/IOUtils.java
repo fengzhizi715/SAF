@@ -14,8 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
-import cn.salesuite.saf.http.rest.BinaryResponseHandler;
-
 /**
  * @author Tony Shen
  * 
@@ -127,35 +125,4 @@ public class IOUtils {
             }
         }
     }
-	/**
-	 * 二进制下载流转化，更新进度条
-	 * @param in
-	 * @param binaryHandler
-	 * @return
-	 */
-	public static byte[] inputStreamToBytes(InputStream in,
-			BinaryResponseHandler binaryHandler) {
-		try {
-			ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[1024 * 10];
-			while (true) {
-				int len;
-				len = in.read(buffer);
-				binaryHandler.onProgress(len);
-				if (len == -1) {
-					break;
-				}
-				arrayOutputStream.write(buffer, 0, len);
-			}
-			arrayOutputStream.close();
-			in.close();
-			byte[] data = arrayOutputStream.toByteArray();
-			
-			return data;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
 }

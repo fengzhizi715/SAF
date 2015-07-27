@@ -38,7 +38,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import cn.salesuite.saf.log.L;
-import cn.salesuite.saf.utils.IOUtils;
 import cn.salesuite.saf.utils.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -299,12 +298,6 @@ public class RestClient {
 		get(url, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
-	//hendry.cao
-	public static void get(String url,BinaryResponseHandler callback) {
-		L.d("get url="+url);
-		get(url, callback, RestConstant.DEFAULT_RETRY_NUM);
-	}
-	
 	private static void get(String url,HttpResponseHandler callback,int retryNum) {
 		RestClient client = null;
 		try {
@@ -322,35 +315,6 @@ public class RestClient {
 			// frankswu : 
 			body = client.body();
 			callback.onSuccess(body);			
-		} catch (RestException e) {
-			e.printStackTrace();
-			L.e(e.getErrorCode(),e);
-			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
-				get(url, callback, --retryNum);
-			} else {
-				callback.onFail(e);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			L.e("get method error!", e);
-			
-			if (StringUtils.isNotBlank(e.getMessage())) {
-				callback.onFail(new RestException(e.getMessage()));
-			}
-		}
-	}
-	/**
-	 * 异步发起get请求
-	 * @param url
-	 * @param 二进制文件下载,暂未考虑断点续传
-	 * @throws RestException
-	 */
-	private static void get(String url,BinaryResponseHandler callback,int retryNum) {
-		RestClient client = null;
-		try {
-			client = new RestClient(url, RestConstant.METHOD_GET);
-			client.acceptGzipEncoding().uncompress(true);
-			client.body(callback);	
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
@@ -607,9 +571,7 @@ public class RestClient {
 	public String body() throws RestException {
 		return body(charset());
 	}
-	public void body(BinaryResponseHandler binaryHandler) throws RestException {
-		 body(charset(),binaryHandler);
-	}
+
 	/**
 	 * 返回指定charset的http response
 	 * 
@@ -633,27 +595,7 @@ public class RestClient {
 			throw new RestException(e);
 		}
 	}
-	/**
-	 * 二进制下载(暂时未考虑断点续传问题)
-	 * @param charset
-	 * @throws RestException
-	 */
-	
-	public void body(final String charset,BinaryResponseHandler binaryHandler) throws RestException {
-		try {
-			if (getConnection().getResponseCode() != RestConstant.SUCCESS) {
-				throw new RestException(RestException.RETRY_CONNECTION);
-			}
-		    binaryHandler.onLoading(contentLength());
-		    byte[] data=IOUtils.inputStreamToBytes(getConnection().getInputStream(), binaryHandler);
-			binaryHandler.onSuccess(data);
-		} catch (SocketTimeoutException e) {
-			throw new RestException(e, RestException.RETRY_CONNECTION);
-			
-		} catch (IOException e) {
-			throw new RestException(e);
-		}
-	}
+
 	/**
 	 * 设置{@link HttpURLConnection#setUseCaches(boolean)}的值
 	 * 

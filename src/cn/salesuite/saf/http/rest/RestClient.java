@@ -37,6 +37,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import android.webkit.CookieManager;
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.StringUtils;
 
@@ -287,6 +288,7 @@ public class RestClient {
 		L.d("get url="+url);
 		return new RestClient(url, RestConstant.METHOD_GET);
 	}
+	
 	/**
 	 * 异步发起get请求
 	 * @param url
@@ -295,10 +297,22 @@ public class RestClient {
 	 */
 	public static void get(String url,HttpResponseHandler callback) {
 		L.d("get url="+url);
-		get(url, callback, RestConstant.DEFAULT_RETRY_NUM);
+		get(url, callback, RestConstant.DEFAULT_RETRY_NUM,false);
 	}
 	
-	private static void get(String url,HttpResponseHandler callback,int retryNum) {
+	/**
+	 * 异步发起get请求
+	 * @param url
+	 * @param callback
+	 * @param useCookie
+	 * @throws RestException
+	 */
+	public static void get(String url,HttpResponseHandler callback,boolean useCookie) {
+		L.d("get url="+url);
+		get(url, callback, RestConstant.DEFAULT_RETRY_NUM,useCookie);
+	}
+	
+	private static void get(String url,HttpResponseHandler callback,int retryNum,boolean useCookie) {
 		RestClient client = null;
 		try {
 			client = new RestClient(url, RestConstant.METHOD_GET);
@@ -311,15 +325,28 @@ public class RestClient {
 				client.trustAllHosts();
 			}
 			
-			String body = null;
-			// frankswu : 
-			body = client.body();
-			callback.onSuccess(body);			
+			if (useCookie) {
+				 // Set cookies in requests
+			    CookieManager cookieManager = CookieManager.getInstance();
+			    String cookie = cookieManager.getCookie(url);
+			    if (cookie!=null) {
+			    	client.getConnection().setRequestProperty(RestConstant.COOKIE,cookie);
+					String body = client.body();
+					callback.onSuccess(body);
+					
+					List<String> cookieList = client.getConnection().getHeaderFields().get(RestConstant.SET_COOKIE);
+				    if (cookieList != null) {
+				        for (String cookieTemp : cookieList) {
+				            cookieManager.setCookie(url, cookieTemp);
+				        }
+				    }
+			    }
+			}
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
 			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
-				get(url, callback, --retryNum);
+				get(url, callback, --retryNum,useCookie);
 			} else {
 				callback.onFail(e);
 			}
@@ -426,8 +453,8 @@ public class RestClient {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}
-
 	}
+	
 	/**
 	 * 发起put请求
 	 * 

@@ -163,4 +163,8 @@ public class RestConstant {
 	public static int DEFAULT_RETRY_NUM = 3;
 	
 	public static final int SUCCESS = 200;
+	
+	public static final String COOKIE = "Cookie";
+	
+	public static final String SET_COOKIE = "Set-Cookie";
 }

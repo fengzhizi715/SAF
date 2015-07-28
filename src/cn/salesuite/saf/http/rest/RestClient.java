@@ -341,6 +341,9 @@ public class RestClient {
 				        }
 				    }
 			    }
+			} else {
+				String body = client.body();
+				callback.onSuccess(body);
 			}
 		} catch (RestException e) {
 			e.printStackTrace();

@@ -37,7 +37,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import android.webkit.CookieManager;
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.StringUtils;
 
@@ -297,22 +296,21 @@ public class RestClient {
 	 */
 	public static void get(String url,HttpResponseHandler callback) {
 		L.d("get url="+url);
-		get(url, callback, RestConstant.DEFAULT_RETRY_NUM,false);
+		get(url, null,callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
 	/**
 	 * 异步发起get请求
 	 * @param url
+	 * @param customizedHeader
 	 * @param callback
-	 * @param useCookie
-	 * @throws RestException
 	 */
-	public static void get(String url,HttpResponseHandler callback,boolean useCookie) {
+	public static void get(String url,Map<String, String> customizedHeader,HttpResponseHandler callback) {
 		L.d("get url="+url);
-		get(url, callback, RestConstant.DEFAULT_RETRY_NUM,useCookie);
+		get(url,customizedHeader, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
-	private static void get(String url,HttpResponseHandler callback,int retryNum,boolean useCookie) {
+	private static void get(String url,Map<String, String> customizedHeader,HttpResponseHandler callback,int retryNum) {
 		RestClient client = null;
 		try {
 			client = new RestClient(url, RestConstant.METHOD_GET);
@@ -325,31 +323,21 @@ public class RestClient {
 				client.trustAllHosts();
 			}
 			
-			if (useCookie) {
-				 // Set cookies in requests
-			    CookieManager cookieManager = CookieManager.getInstance();
-			    String cookie = cookieManager.getCookie(url);
-			    if (cookie!=null) {
-			    	client.getConnection().setRequestProperty(RestConstant.COOKIE,cookie);
-					String body = client.body();
-					callback.onSuccess(body);
-					
-					List<String> cookieList = client.getConnection().getHeaderFields().get(RestConstant.SET_COOKIE);
-				    if (cookieList != null) {
-				        for (String cookieTemp : cookieList) {
-				            cookieManager.setCookie(url, cookieTemp);
-				        }
-				    }
-			    }
-			} else {
-				String body = client.body();
-				callback.onSuccess(body);
+			if(customizedHeader != null) {
+				for (Map.Entry<String, String> item : customizedHeader.entrySet()) {
+					client.getConnection().setRequestProperty(item.getKey(),item.getValue());
+					L.i(item.getKey()+"="+item.getValue());
+				}
 			}
+			
+			String body = client.body();
+			Map<String, List<String>> heads = client.getConnection().getHeaderFields();
+			callback.onSuccess(body,heads);
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
 			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
-				get(url, callback, --retryNum,useCookie);
+				get(url,customizedHeader, callback, --retryNum);
 			} else {
 				callback.onFail(e);
 			}
@@ -402,7 +390,8 @@ public class RestClient {
 		try {
 			request.send(json);
 			String body = request.body();
-			callback.onSuccess(body);
+			Map<String, List<String>> heads = request.getConnection().getHeaderFields();
+			callback.onSuccess(body,heads);
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
@@ -439,7 +428,8 @@ public class RestClient {
 		try {
 			request = new RestClient(url, RestConstant.METHOD_POST).form(map);
 			String body = request.body();
-			callback.onSuccess(body);
+			Map<String, List<String>> heads = request.getConnection().getHeaderFields();
+			callback.onSuccess(body,heads);
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);

@@ -77,6 +77,16 @@ public class SAFUtils {
 	public static boolean isKitkatOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
+	
+	@TargetApi(20)
+	public static boolean isKitkatWatchOrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH;
+    }
+	
+	@TargetApi(21)
+	public static boolean isLOrHigher() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
 
 	public static boolean isWiFiActive(Context context) { 
 		WifiManager wm=null;

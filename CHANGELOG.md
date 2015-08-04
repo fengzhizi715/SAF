@@ -2,6 +2,13 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.16
+---
+2015-08-04
+ *  删除RestClient的BinaryResponseHandler
+ *  RestClient增加response的header支持
+ *  修复android L以后版本无法使用imageloader的bug
+
 Version 1.1.15
 ---
 2015-07-21

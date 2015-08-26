@@ -109,7 +109,7 @@ public class RestClient {
 	private String httpProxyHost; // 代理服务器的url
 	private int httpProxyPort;    // 代理服务器的端口
 
-	private int bufferSize = 8192;
+	private int bufferSize = 0x2000; // 8192
 	
 	private static SSLSocketFactory TRUSTED_FACTORY;
 	private static HostnameVerifier TRUSTED_VERIFIER;
@@ -409,6 +409,52 @@ public class RestClient {
 			}
 		}
 	
+	}
+
+	/**
+	 * 异步发起post请求
+	 * @param url
+	 * @param json
+	 * @param callback
+	 * @throws RestException
+	 */
+	public static void post(String url,JSONObject json,HttpResponseRetryHandler callback) throws RestException {
+		L.d("post url="+url+"\n"+"post body="+JSON.toJSONString(json));
+		RestClient request = new RestClient(url, RestConstant.METHOD_POST);
+		request.acceptJson().contentType("application/json");
+		request.acceptGzipEncoding().uncompress(true);
+		
+		if (url.startsWith("https")) {
+			//Accept all certificates
+			request.trustAllCerts();
+			//Accept all hostnames
+			request.trustAllHosts();
+		}
+		
+		int retryNum = callback.getRetryNum();
+		
+		try {
+			request.send(json);
+			String body = request.body();
+			Map<String, List<String>> heads = request.getConnection().getHeaderFields();
+			callback.onSuccess(body,heads);
+		} catch (RestException e) {
+			e.printStackTrace();
+			L.e(e.getErrorCode(),e);
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+				callback.retry();
+				retryNum--;
+			} else {
+				callback.onFail(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			L.e(e);
+			
+			if (StringUtils.isNotBlank(e.getMessage())) {
+				callback.onFail(new RestException(e.getMessage()));
+			}
+		}
 	}
 	
 	/**

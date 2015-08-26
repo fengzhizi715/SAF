@@ -13,6 +13,13 @@ public abstract class HttpResponseRetryHandler implements HttpResponseHandler,Ht
 	
 	private int retryNum = RestConstant.DEFAULT_RETRY_NUM;
 	
+	public HttpResponseRetryHandler(){
+	}
+	
+	public HttpResponseRetryHandler(int retryNum){
+		this.retryNum = retryNum;
+	}
+	
 	public int getRetryNum() {
 		return retryNum;
 	}

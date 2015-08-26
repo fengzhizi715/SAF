@@ -395,7 +395,7 @@ public class RestClient {
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
-			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum > 0) {
 				post(url, json, callback, --retryNum);
 			} else {
 				callback.onFail(e);
@@ -441,7 +441,7 @@ public class RestClient {
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
-			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum > 0) {
 				callback.retry();
 				retryNum--;
 			} else {

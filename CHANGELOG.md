@@ -2,6 +2,13 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.17
+---
+2015-08-28
+ *  增加HttpRetryStrategy接口
+ *  imageloader的线程数,由当前手机的cpu数量决定
+ *  增加新型的反射工具类
+
 Version 1.1.16
 ---
 2015-08-04

@@ -470,4 +470,12 @@ public class SAFUtils {
 			return 0;
 		}
 	}
+	
+	/**
+	 * 获取手机可用的cpu数
+	 * @return
+	 */
+	public static int getAvailableProcessors() {
+		return Runtime.getRuntime().availableProcessors();
+	}
 }

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.utils.BitmapUtils;
+import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.StringUtils;
 
 /**
@@ -41,7 +42,7 @@ public class ImageLoader {
 	public ImageLoader(Context context,int default_img_id){
     	memoryCache = new MemoryCache();
     	diskCache = new DiskLruImageCache(context);
-    	backgroundExecutor = new BackgroundExecutor(8);
+    	backgroundExecutor = new BackgroundExecutor(2*SAFUtils.getAvailableProcessors());
         stub_id = default_img_id;
         this.mContext = context;
     }
@@ -49,7 +50,7 @@ public class ImageLoader {
     public ImageLoader(Context context,int default_img_id,String fileDir){
     	memoryCache = new MemoryCache();
     	diskCache = new DiskLruImageCache(context,fileDir);
-    	backgroundExecutor = new BackgroundExecutor(8);
+    	backgroundExecutor = new BackgroundExecutor(2*SAFUtils.getAvailableProcessors());
         stub_id = default_img_id;
         this.mContext = context;
     }

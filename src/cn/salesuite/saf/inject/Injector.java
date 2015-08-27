@@ -40,6 +40,7 @@ import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
 import cn.salesuite.saf.inject.annotation.OnTouch;
+import cn.salesuite.saf.reflect.Reflect;
 import cn.salesuite.saf.utils.StringUtils;
 
 /**
@@ -416,8 +417,7 @@ public class Injector {
 	
 	private void injectIntoField(Field field, Object value) {
         try {
-            field.setAccessible(true);
-            field.set(target, value);
+        	Reflect.on(target).set(field, value);
         } catch (Exception e) {
             throw new InjectException("Could not inject into field " + field.getName() + " at taget [" + target.getClass() + "]", e);
         }
@@ -425,8 +425,7 @@ public class Injector {
 
 	private void injectListIntoField(Field field, Object[] value) {
         try {
-            field.setAccessible(true);
-            field.set(target, value);
+            Reflect.on(target).set(field, value);
         } catch (Exception e) {
             throw new InjectException("Could not inject into field " + field.getName(), e);
         }

@@ -5,6 +5,7 @@ import android.view.View;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.reflect.Reflect;
 import cn.salesuite.saf.utils.StringUtils;
 
 /**
@@ -75,11 +76,13 @@ public abstract class AbstractInjectedOnListener {
             for (Method m : methods) {
                 if (methodName.equals(m.getName())) {
                     try {
-                        m.setAccessible(true);
+//                        m.setAccessible(true);
                         if (postion == -1) {
-                            m.invoke(target,method,v);
+//                            m.invoke(target,method,v);
+                        	Reflect.on(target).call(methodName, v);
                         } else {
-                            m.invoke(target,method,v, postion, id);
+//                            m.invoke(target,method,v, postion, id);
+                        	Reflect.on(target).call(methodName, v, postion, id);
                         }
 
                     } catch (Exception e) {

@@ -457,7 +457,7 @@ public class Injector {
 		// frankswu add OnLongClick 
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
         
-        method.setAccessible(true);
+//        method.setAccessible(true);
         InjectedOnLongClickListener listener = new InjectedOnLongClickListener(target, method, invokeWithView);
 
         int[] ids = onLongClick.id();
@@ -487,7 +487,7 @@ public class Injector {
 		// frankswu : add OnItemClick 
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
         
-        method.setAccessible(true);
+//        method.setAccessible(true);
         InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView,onItemClick.before(),onItemClick.after());
         int[] ids = onItemClick.id();
         
@@ -516,7 +516,7 @@ public class Injector {
 		
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
         
-        method.setAccessible(true);
+//        method.setAccessible(true);
         //InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
         InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView,onClick.before(),onClick.after());
 
@@ -542,7 +542,7 @@ public class Injector {
 			Set<View> modifiedViews, Finder finder) {
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class,MotionEvent.class});
         
-        method.setAccessible(true);
+//        method.setAccessible(true);
         InjectedOnTouchListener listener = new InjectedOnTouchListener(target, method, invokeWithView);
 
         int[] ids = onTouch.id();

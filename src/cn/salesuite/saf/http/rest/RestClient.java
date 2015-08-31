@@ -336,8 +336,71 @@ public class RestClient {
 		} catch (RestException e) {
 			e.printStackTrace();
 			L.e(e.getErrorCode(),e);
-			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum != 0) {
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum > 0) {
 				get(url,customizedHeader, callback, --retryNum);
+			} else {
+				callback.onFail(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			L.e("get method error!", e);
+			
+			if (StringUtils.isNotBlank(e.getMessage())) {
+				callback.onFail(new RestException(e.getMessage()));
+			}
+		}
+	}
+	
+	/**
+	 * 异步发起get请求
+	 * @param url
+	 * @param json
+	 * @param callback
+	 * @throws RestException
+	 */
+	public static void get(String url,HttpResponseRetryHandler callback) throws RestException {
+		L.d("get url="+url);
+		get(url,null, callback);
+	}
+
+	/**
+	 * 异步发起get请求
+	 * @param url
+	 * @param json
+	 * @param callback
+	 * @throws RestException
+	 */
+	public static void get(String url,Map<String, String> customizedHeader,HttpResponseRetryHandler callback) throws RestException {
+		RestClient client = null;
+		
+		int retryNum = callback.getRetryNum();
+		try {
+			client = new RestClient(url, RestConstant.METHOD_GET);
+			client.acceptGzipEncoding().uncompress(true);
+			
+			if (url.startsWith("https")) {
+				//Accept all certificates
+				client.trustAllCerts();
+				//Accept all hostnames
+				client.trustAllHosts();
+			}
+			
+			if(customizedHeader != null) {
+				for (Map.Entry<String, String> item : customizedHeader.entrySet()) {
+					client.getConnection().setRequestProperty(item.getKey(),item.getValue());
+					L.i(item.getKey()+"="+item.getValue());
+				}
+			}
+			
+			String body = client.body();
+			Map<String, List<String>> heads = client.getConnection().getHeaderFields();
+			callback.onSuccess(body,heads);
+		} catch (RestException e) {
+			e.printStackTrace();
+			L.e(e.getErrorCode(),e);
+			if (RestException.RETRY_CONNECTION.equals(e.getErrorCode()) && retryNum > 0) {
+				callback.retry();
+				retryNum--;
 			} else {
 				callback.onFail(e);
 			}

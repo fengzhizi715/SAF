@@ -23,10 +23,15 @@ import android.util.Log;
  */
 public class NativeLibManager {
 
-    
     public static final String TAG = NativeLibManager.class.getSimpleName();
     public static final String ARCH_ARMEABI = "armeabi";
     public static final String ARCH_ARMEABI_V7A = "armeabi-v7a";
+    public static final String ARCH_ARMV8 = "arm64-v8a";
+    public static final String ARCH_X86 = "x86";
+    public static final String ARCH_X86_64 = "x86_64";
+    public static final String ARCH_MIPS = "mips";
+    public static final String ARCH_MIPS64 = "mips64";
+    
     public static String ARCH = System.getProperty("os.arch");
     
     public static void unPackSOFromApk(String apkPath,String toPath){

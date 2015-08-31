@@ -56,9 +56,11 @@ public abstract class AbstractInjectedOnListener {
         L.d(this.getClass().getSimpleName() +".target[" + target.getClass().getName() + "].method[" + method.getName() + "]");
         try {
             if (invokeWithViewParam) {
-                method.invoke(target, objs);
+//                method.invoke(target, objs);
+            	Reflect.on(target).call(method.getName(),objs);
             } else {
-                method.invoke(target);
+//                method.invoke(target);
+            	Reflect.on(target).call(method.getName());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

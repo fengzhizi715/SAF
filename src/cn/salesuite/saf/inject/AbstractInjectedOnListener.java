@@ -81,10 +81,10 @@ public abstract class AbstractInjectedOnListener {
 //                        m.setAccessible(true);
                         if (postion == -1) {
 //                            m.invoke(target,method,v);
-                        	Reflect.on(target).call(methodName, v);
+                        	Reflect.on(target).call(methodName,method,v);
                         } else {
 //                            m.invoke(target,method,v, postion, id);
-                        	Reflect.on(target).call(methodName, v, postion, id);
+                        	Reflect.on(target).call(methodName,method,v, postion, id);
                         }
 
                     } catch (Exception e) {

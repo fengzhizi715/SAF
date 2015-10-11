@@ -18,11 +18,7 @@ public class Lists {
 	 */
 	public static <T> boolean isBlank(List<T> list) {
 		
-		if (list==null || list.size()==0) {
-			return true;
-		} else {
-			return false;
-		}
+		return list==null || list.size()==0;
 	}
 
 	/**
@@ -32,10 +28,6 @@ public class Lists {
 	 */
 	public static <T> boolean isNoBlank(List<T> list) {
 		
-		if (list!=null && list.size()>0) {
-			return true;
-		} else {
-			return false;
-		}
+		return list!=null && list.size()>0;
 	}
 }

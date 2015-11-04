@@ -81,6 +81,14 @@ public class BitmapProcessor {
 		options.inPurgeable = true;
 		options.inDither = false;
 		options.inInputShareable = true;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		
+		// inNativeAlloc 是一个隐藏变量，需要使用特殊的方法设置。
+		try {
+            BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 		final BitmapConnection bitmapConnection = new BitmapConnection();
 		bitmapConnection.readStream(urlString,

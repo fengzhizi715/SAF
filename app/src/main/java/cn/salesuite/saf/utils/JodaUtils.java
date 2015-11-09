@@ -3,12 +3,12 @@
  */
 package cn.salesuite.saf.utils;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import org.joda.time.DateTime;
 
 /**
  * 使用Joda封装的日期帮助类，替换原先的DateHelper
@@ -227,7 +227,7 @@ public class JodaUtils {
 	
 	/**
 	 * 获取日期所在月份的最后一天
-	 * @param days
+	 * @param date
 	 * @return
 	 */
 	public static Date getMonthLastDay(Date date){

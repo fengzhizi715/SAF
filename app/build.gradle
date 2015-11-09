@@ -32,7 +32,6 @@ task clearJar(type: Delete) {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile project(':app')
     testCompile 'junit:junit:4.12'
     compile 'io.reactivex:rxandroid:1.0.1'
 }

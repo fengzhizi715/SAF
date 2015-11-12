@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava;
+package cn.salesuite.saf.rxjava.eventbus;
 
 import java.util.ArrayList;
 import java.util.List;

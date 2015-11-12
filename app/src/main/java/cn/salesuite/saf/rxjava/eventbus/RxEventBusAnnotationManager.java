@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava;
+package cn.salesuite.saf.rxjava.eventbus;
 
 import android.util.Log;
 
@@ -34,7 +34,7 @@ public class RxEventBusAnnotationManager {
 
         if (methods!=null && methods.length>0) {
             for (Method method:methods) {
-                if (method!=null && method.isAnnotationPresent(cn.salesuite.saf.rxjava.Subscribe.class)) {
+                if (method!=null && method.isAnnotationPresent(Subscribe.class)) {
                     try {
                         parserObservableEventAnnotations(method);
                     } catch (Exception e) {
@@ -52,8 +52,7 @@ public class RxEventBusAnnotationManager {
             throw new Exception("the method[" + method.getName() + "] must defined xxx(T object)");
         }
 
-        cn.salesuite.saf.rxjava.Subscribe subscribe = method.getAnnotation(cn.salesuite.saf
-                .rxjava.Subscribe.class);
+        Subscribe subscribe = method.getAnnotation(Subscribe.class);
         ThreadMode threadMode = subscribe.value();
 
         // 默认clazz参数类型

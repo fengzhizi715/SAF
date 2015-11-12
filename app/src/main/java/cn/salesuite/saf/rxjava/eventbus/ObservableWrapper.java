@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava;
+package cn.salesuite.saf.rxjava.eventbus;
 
 import rx.Observable;
 

@@ -1,6 +1,6 @@
 /*
  */
-package cn.salesuite.saf.rxjava;
+package cn.salesuite.saf.rxjava.eventbus;
 
 /**
  * 线程模式的枚举

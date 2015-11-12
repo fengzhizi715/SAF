@@ -8,7 +8,7 @@ import java.util.List;
 
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.reflect.Reflect;
-import cn.salesuite.saf.utils.Lists;
+import cn.salesuite.saf.utils.Preconditions;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -112,7 +112,7 @@ public class RxEventBusAnnotationManager {
     }
 
     public void clear() {
-        if (Lists.isNoBlank(registeredObservable)) {
+        if (Preconditions.isNotBlank(registeredObservable)) {
             for (ObservableWrapper observableWrapper : registeredObservable) {
                 RxEventBus.get().unregister(observableWrapper.key, observableWrapper.observable);
             }

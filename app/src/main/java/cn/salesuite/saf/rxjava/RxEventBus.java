@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cn.salesuite.saf.utils.Preconditions;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
@@ -46,7 +47,7 @@ public class RxEventBus {
         List<Subject> subjects = subjectMapper.get(tag);
         if (null != subjects) {
             subjects.remove((Subject) observable);
-            if (Lists.isBlank(subjects)) {
+            if (Preconditions.isBlank(subjects)) {
                 subjectMapper.remove(tag);
             }
         }
@@ -56,7 +57,7 @@ public class RxEventBus {
         String key = content.getClass().getName();
         List<Subject> subjectList = subjectMapper.get(key);
 
-        if (Lists.isNoBlank(subjectList)) {
+        if (Preconditions.isNotBlank(subjectList)) {
             for (Subject subject : subjectList) {
                 subject.onNext(content);
             }

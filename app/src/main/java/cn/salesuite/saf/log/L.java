@@ -3,12 +3,13 @@
  */
 package cn.salesuite.saf.log;
 
+import android.util.Log;
+
 import cn.salesuite.saf.app.SAFActivity;
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.app.SAFFragmentActivity;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.StringUtils;
-import android.util.Log;
 
 /**
  * 日志包装类
@@ -213,7 +214,7 @@ public class L {
 	/**
 	 * 
 	 * @param tag 自定义tag
-	 * @param msg
+	 * @param object
 	 */
 	public static void iWithTag(String tag,Object object) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
@@ -308,7 +309,7 @@ public class L {
 	/**
 	 * 
 	 * @param tag 自定义tag
-	 * @param msg
+	 * @param object
 	 */
 	public static void dWithTag(String tag,Object object) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {

@@ -92,7 +92,7 @@ public class SecondActivity extends ListActivity {
     }
 
     private Subscription startSubscribe(ImageView img, String url) {
-        return imageLoader.displayImageObservable(img, url,R.mipmap.ic_launcher).subscribe(new Action1<Data>() {
+        return imageLoader.displayImage(img, url,R.mipmap.ic_launcher).subscribe(new Action1<Data>() {
             @Override
             public void call(Data data) {
                 Log.i("SecondActivity", "bitmap size:" + data.bitmap.getHeight() * data

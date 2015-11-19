@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import cn.salesuite.saf.config.SAFConstant;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,12 +22,8 @@ public class DiskCacheObservable extends CacheObservable {
     Context mContext;
     File mCacheFile;
 
-    /** app存储目录/文件  可根据app的名称覆盖 默认使用saf作为文件名**/
-    public static String DIR = "/saf";
-    public static String CACHE_DIR = DIR + "/images";
-
     public DiskCacheObservable(Context mContext) {
-        this(mContext,CACHE_DIR);
+        this(mContext, SAFConstant.CACHE_DIR);
     }
 
     public DiskCacheObservable(Context mContext,String fileDir) {

@@ -31,7 +31,13 @@ public class RxImageLoader {
 
     private static final Map<Integer, String> cacheKeysMap = Collections.synchronizedMap(new HashMap<Integer, String>());
 
-    public Observable<Data> displayImageObservable(final ImageView imageView, final String url) {
+    /**
+     *
+     * @param imageView
+     * @param url
+     * @return
+     */
+    public Observable<Data> displayImage(final ImageView imageView, final String url) {
         if (imageView != null) {
             cacheKeysMap.put(imageView.hashCode(), url);
         }
@@ -67,7 +73,14 @@ public class RxImageLoader {
         });
     }
 
-    public Observable<Data> displayImageObservable(final ImageView imageView, final String url,int default_img_id) {
+    /**
+     *
+     * @param imageView
+     * @param url
+     * @param default_img_id 本地存放默认图片的资源id
+     * @return
+     */
+    public Observable<Data> displayImage(final ImageView imageView, final String url,int default_img_id) {
         if (imageView != null) {
             cacheKeysMap.put(imageView.hashCode(), url);
         }

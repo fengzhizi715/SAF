@@ -1,6 +1,5 @@
-package com.test.saf;
+package com.test.saf.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,19 +7,24 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.test.saf.R;
+import com.test.saf.Test2Event;
+import com.test.saf.TestEvent;
+import com.test.saf.app.BaseActivity;
+
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBusAnnotationManager;
 import cn.salesuite.saf.rxjava.eventbus.Subscribe;
 import cn.salesuite.saf.rxjava.eventbus.ThreadMode;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	private TextView text;
     private RxEventBusAnnotationManager manager;
     private static final String TAG = MainActivity.class.getName();
     
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 

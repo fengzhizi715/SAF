@@ -1,4 +1,4 @@
-package com.test.saf;
+package com.test.saf.activity;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.test.saf.R;
 
 import java.util.ArrayList;
 

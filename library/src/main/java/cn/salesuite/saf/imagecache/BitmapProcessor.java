@@ -3,13 +3,15 @@
  */
 package cn.salesuite.saf.imagecache;
 
-import java.io.InputStream;
-import java.net.ResponseCache;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import java.io.InputStream;
+import java.net.ResponseCache;
+
+import cn.salesuite.saf.utils.SAFUtils;
 
 /**
  * @author Tony Shen
@@ -83,12 +85,14 @@ public class BitmapProcessor {
 		options.inInputShareable = true;
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		
-		// inNativeAlloc 是一个隐藏变量，需要使用特殊的方法设置。
-		try {
-            BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		// inNativeAlloc 是一个隐藏变量，需要使用特殊的方法设置, 这个参数仅仅在4.0以下平台适用。
+		if (!SAFUtils.isICSOrHigher()) {
+			try {
+				BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options, true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 		final BitmapConnection bitmapConnection = new BitmapConnection();
 		bitmapConnection.readStream(urlString,

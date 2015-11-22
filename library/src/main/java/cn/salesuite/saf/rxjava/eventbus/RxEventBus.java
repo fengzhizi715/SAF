@@ -32,7 +32,7 @@ public class RxEventBus {
     public <T> Observable<T> register(Class<T> clazz) {
         String tag = clazz.getName();
         List<Subject> subjectList = subjectMapper.get(tag);
-        if (null == subjectList) {
+        if (Preconditions.isBlank(subjectList)) {
             subjectList = new ArrayList<>();
             subjectMapper.put(tag, subjectList);
         }
@@ -45,7 +45,7 @@ public class RxEventBus {
 
     public void unregister(String tag, Observable observable) {
         List<Subject> subjects = subjectMapper.get(tag);
-        if (null != subjects) {
+        if (Preconditions.isNotBlank(subjects)) {
             subjects.remove((Subject) observable);
             if (Preconditions.isBlank(subjects)) {
                 subjectMapper.remove(tag);

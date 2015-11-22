@@ -32,7 +32,7 @@ public class RxEventBusAnnotationManager {
     private void init() {
         Method[] methods = object.getClass().getDeclaredMethods();
 
-        if (methods!=null && methods.length>0) {
+        if (Preconditions.isNotBlank(methods)) {
             for (Method method:methods) {
                 if (method!=null && method.isAnnotationPresent(Subscribe.class)) {
                     try {

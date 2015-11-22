@@ -41,6 +41,7 @@ import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
 import cn.salesuite.saf.inject.annotation.OnTouch;
 import cn.salesuite.saf.reflect.Reflect;
+import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.StringUtils;
 
 /**
@@ -434,20 +435,24 @@ public class Injector {
 	private void bindMethods(Finder finder) {
         Method[] methods = clazz.getDeclaredMethods();
         Set<View> modifiedViews = new HashSet<View>();
-        for (final Method method : methods) {
-            Annotation[] annotations = method.getAnnotations();
-            for (Annotation annotation : annotations) {
-                if (annotation.annotationType() == OnClick.class) {
-                    bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
-                } else if (annotation.annotationType() == OnItemClick.class) {
+
+        if (Preconditions.isNotBlank(methods)) {
+            Annotation[] annotations = null;
+            for (final Method method : methods) {
+                annotations = method.getAnnotations();
+                for (Annotation annotation : annotations) {
+                    if (annotation.annotationType() == OnClick.class) {
+                        bindOnClickListener(method, (OnClick) annotation, modifiedViews ,finder);
+                    } else if (annotation.annotationType() == OnItemClick.class) {
 //                  frankswu add OnItemClick
-                	bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
-                } else if (annotation.annotationType() == OnLongClick.class) {
+                        bindOnItemClickListener(method, (OnItemClick) annotation, modifiedViews ,finder);
+                    } else if (annotation.annotationType() == OnLongClick.class) {
 //                  frankswu add OnLongClick
-                	bindOnLongClickListener(method, (OnLongClick) annotation, modifiedViews ,finder);
-                } else if (annotation.annotationType() == OnTouch.class) {
-                	bindOnTouchListener(method, (OnTouch) annotation, modifiedViews ,finder);
-                } 
+                        bindOnLongClickListener(method, (OnLongClick) annotation, modifiedViews ,finder);
+                    } else if (annotation.annotationType() == OnTouch.class) {
+                        bindOnTouchListener(method, (OnTouch) annotation, modifiedViews ,finder);
+                    }
+                }
             }
         }
 	}
@@ -456,8 +461,6 @@ public class Injector {
 			Set<View> modifiedViews, Finder finder) {
 		// frankswu add OnLongClick 
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
-        
-//        method.setAccessible(true);
         InjectedOnLongClickListener listener = new InjectedOnLongClickListener(target, method, invokeWithView);
 
         int[] ids = onLongClick.id();
@@ -465,10 +468,11 @@ public class Injector {
         if (ids==null) {
             throw new InjectException("onLongClick.id() not found for method " + method.getName());
         }
-        
+
+        View view = null;
         for (int id : ids) {
-            if (id != 0) {
-                View view = findView(method, id, finder);
+            if (id > 0) {
+                view = findView(method, id, finder);
                 if (view!=null) {
                     view.setOnLongClickListener(listener);
                 }
@@ -486,18 +490,16 @@ public class Injector {
 	private boolean bindOnItemClickListener(Method method, OnItemClick onItemClick, Set<View> modifiedViews, Finder finder) {
 		// frankswu : add OnItemClick 
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{AdapterView.class, View.class, int.class, long.class});
-        
-//        method.setAccessible(true);
         InjectedOnItemClickListener listener = new InjectedOnItemClickListener(target, method, invokeWithView,onItemClick.before(),onItemClick.after());
         int[] ids = onItemClick.id();
         
         if (ids==null) {
             throw new InjectException("OnItemClick.id() not found for method " + method.getName());
         }
-        
+
+        AdapterView<?> view = null;
         for (int id : ids) {
-            if (id != 0) {
-            	AdapterView<?> view = null;
+            if (id > 0) {
             	try {
                     view = (AdapterView<?>) findView(method, id, finder);
                     if (view!=null) {
@@ -515,9 +517,6 @@ public class Injector {
 	private boolean bindOnClickListener(final Method method, OnClick onClick, Set<View> modifiedViews, Finder finder) {
 		
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class});
-        
-//        method.setAccessible(true);
-        //InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView);
         InjectedOnClickListener listener = new InjectedOnClickListener(target, method, invokeWithView,onClick.before(),onClick.after());
 
         int[] ids = onClick.id();
@@ -525,10 +524,11 @@ public class Injector {
         if (ids==null) {
             throw new InjectException("onClick.id() not found for method " + method.getName());
         }
-        
+
+        View view = null;
         for (int id : ids) {
-            if (id != 0) {
-                View view = findView(method, id, finder);
+            if (id > 0) {
+                view = findView(method, id, finder);
                 if (view!=null) {
                     view.setOnClickListener(listener);
                 }
@@ -541,8 +541,6 @@ public class Injector {
 	private boolean bindOnTouchListener(Method method, OnTouch onTouch,
 			Set<View> modifiedViews, Finder finder) {
         boolean invokeWithView = checkInvokeWithView(method, new Class[]{View.class,MotionEvent.class});
-        
-//        method.setAccessible(true);
         InjectedOnTouchListener listener = new InjectedOnTouchListener(target, method, invokeWithView);
 
         int[] ids = onTouch.id();
@@ -550,10 +548,11 @@ public class Injector {
         if (ids==null) {
             throw new InjectException("onTouch.id() not found for method " + method.getName());
         }
-        
+
+        View view = null;
         for (int id : ids) {
-            if (id != 0) {
-                View view = findView(method, id, finder);
+            if (id > 0) {
+                view = findView(method, id, finder);
                 if (view!=null) {
                     view.setOnTouchListener(listener);
                 }

@@ -3,8 +3,8 @@
  */
 package cn.salesuite.saf.http.rest;
 
-import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
-import static java.net.Proxy.Type.HTTP;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -40,8 +40,8 @@ import javax.net.ssl.X509TrustManager;
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import static java.net.Proxy.Type.HTTP;
 
 /**
  * 使用HttpURLConnection实现http的get、post、put、delete方法</br>
@@ -354,7 +354,6 @@ public class RestClient {
 	/**
 	 * 异步发起get请求
 	 * @param url
-	 * @param json
 	 * @param callback
 	 * @throws RestException
 	 */
@@ -366,7 +365,7 @@ public class RestClient {
 	/**
 	 * 异步发起get请求
 	 * @param url
-	 * @param json
+	 * @param customizedHeader
 	 * @param callback
 	 * @throws RestException
 	 */
@@ -581,8 +580,7 @@ public class RestClient {
 
 	/**
 	 * 将response返回的stream封装成BufferedInputStream
-	 * 
-	 * @see #bufferSize(int)
+	 *
 	 * @return stream
 	 * @throws RestException
 	 */
@@ -967,7 +965,7 @@ public class RestClient {
 	/**
 	 * 将jsonString的内容写入post body
 	 * 
-	 * @param json
+	 * @param jsonString
 	 * @return RestClient
 	 * @throws RestException
 	 * @throws IOException 

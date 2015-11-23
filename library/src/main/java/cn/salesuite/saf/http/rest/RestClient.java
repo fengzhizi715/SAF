@@ -38,6 +38,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.StringUtils;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
@@ -323,7 +324,7 @@ public class RestClient {
 				client.trustAllHosts();
 			}
 			
-			if(customizedHeader != null) {
+			if(Preconditions.isNotBlank(customizedHeader)) {
 				for (Map.Entry<String, String> item : customizedHeader.entrySet()) {
 					client.getConnection().setRequestProperty(item.getKey(),item.getValue());
 					L.i(item.getKey()+"="+item.getValue());
@@ -384,7 +385,7 @@ public class RestClient {
 				client.trustAllHosts();
 			}
 			
-			if(customizedHeader != null) {
+			if(Preconditions.isNotBlank(customizedHeader)) {
 				for (Map.Entry<String, String> item : customizedHeader.entrySet()) {
 					client.getConnection().setRequestProperty(item.getKey(),item.getValue());
 					L.i(item.getKey()+"="+item.getValue());

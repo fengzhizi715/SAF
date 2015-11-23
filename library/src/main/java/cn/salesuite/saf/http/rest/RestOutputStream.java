@@ -17,6 +17,7 @@ import java.nio.charset.CharsetEncoder;
  *
  */
 public class RestOutputStream extends BufferedOutputStream{
+
 	private final CharsetEncoder encoder;
 
 	public RestOutputStream(OutputStream stream, String charset,

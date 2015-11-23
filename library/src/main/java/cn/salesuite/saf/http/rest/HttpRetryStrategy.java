@@ -11,7 +11,7 @@ package cn.salesuite.saf.http.rest;
 public interface HttpRetryStrategy {
 
 	/**
-	 * 执行重试的逻辑
+	 * 执行重试的逻辑,这些逻辑往往是比较特别的
 	 */
 	public void retry();
 }

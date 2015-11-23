@@ -8,6 +8,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.salesuite.saf.utils.Preconditions;
+
 /**
  * 构造url的builder，用法:
  * <pre>
@@ -48,14 +50,16 @@ public class UrlBuilder {
 		int index = urlFormat.indexOf("?");
 		if(index!=-1) {
 			String parameter = urlFormat.substring(index+1);
-			String[] params = parameter.split("&");  
-	        for (int i = 0; i < params.length; i++) {  
-	            String[] p = params[i].split("=");  
-	            if (p.length == 2) {
-	    			firstParameter = false;
-	    			break;
-	            }  
-	        }
+			String[] params = parameter.split("&");
+			if (Preconditions.isNotBlank(params)) {
+				for (int i = 0; i < params.length; i++) {
+					String[] p = params[i].split("=");
+					if (p.length == 2) {
+						firstParameter = false;
+						break;
+					}
+				}
+			}
 		}
 	}
     

@@ -3,17 +3,6 @@
  */
 package cn.salesuite.saf.inject;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -29,6 +18,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import cn.salesuite.saf.inject.annotation.InflateLayout;
 import cn.salesuite.saf.inject.annotation.InjectExtra;
 import cn.salesuite.saf.inject.annotation.InjectResource;
@@ -282,59 +283,63 @@ public class Injector {
 
 	private void injectFields(Finder finder) {
         Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
 
-            Annotation[] annotations = field.getAnnotations();
-            View view = null;
-            for (Annotation annotation : annotations) {
-                if (annotation.annotationType() == InjectView.class) {
-                    int id = ((InjectView) annotation).id();
-                    view = findViewByAnnotationId(id,field,finder);
-                    if (view == null) {
-                        throw new InjectException("View not found for member " + field.getName());
-                    }
-                    injectIntoField(field, view);
-                } else if (annotation.annotationType() == InjectViews.class) {
-                	String fieldTypeName = field.getType().getName();
-					// TODO frankswu add injectViews 
-                	if (fieldTypeName.startsWith("[L") || fieldTypeName.startsWith("java.util.List")) {
-                        int[] ids = ((InjectViews) annotation).ids();
-                        List<View> views = new ArrayList<View>();
-                        for (int id : ids) {
-                            view = findViewByAnnotationId(id,field,finder);
-                            if (view == null) {
-                                throw new InjectException("View not found for member " + field.getName()+", and id is " + id);
+        if (Preconditions.isNotBlank(fields)) {
+            for (Field field : fields) {
+
+                Annotation[] annotations = field.getAnnotations();
+                View view = null;
+                for (Annotation annotation : annotations) {
+                    if (annotation.annotationType() == InjectView.class) {
+                        int id = ((InjectView) annotation).id();
+                        view = findViewByAnnotationId(id,field,finder);
+                        if (view == null) {
+                            throw new InjectException("View not found for member " + field.getName());
+                        }
+                        injectIntoField(field, view);
+                    } else if (annotation.annotationType() == InjectViews.class) {
+                        String fieldTypeName = field.getType().getName();
+                        // TODO frankswu add injectViews
+                        if (fieldTypeName.startsWith("[L") || fieldTypeName.startsWith("java.util.List")) {
+                            int[] ids = ((InjectViews) annotation).ids();
+                            List<View> views = new ArrayList<View>();
+                            for (int id : ids) {
+                                view = findViewByAnnotationId(id,field,finder);
+                                if (view == null) {
+                                    throw new InjectException("View not found for member " + field.getName()+", and id is " + id);
+                                }
+                                views.add(view);
                             }
-                            views.add(view);
-    					}
-	                    if (fieldTypeName.startsWith("[L")) {
-	                    	View[] v = (View[]) Array.newInstance(field.getType().getComponentType(), views.size());
-		                    injectListIntoField(field, views.toArray(v));                	
-						} else if (fieldTypeName.startsWith("java.util.List")) {
-		                    injectIntoField(field, views);                	
-						}
-					} else {
-                        throw new InjectException("The View of InjectViews annotation " + field.getName()+" is not list or array !");
-					}
-                } else if (annotation.annotationType() == InjectResource.class) {
-                    Object ressource = findResource(field.getType(), field, (InjectResource) annotation);
-                    injectIntoField(field, ressource);
-                } else if (annotation.annotationType() == InjectSystemService.class) {
-                	String serviceName = ((InjectSystemService) annotation).value();
-                	Object service = context.getSystemService(serviceName);
-                    injectIntoField(field, service);
-                } else if (annotation.annotationType() == InjectExtra.class) {
-                    String extraKey = ((InjectExtra) annotation).key();
-                    // key 没有使用
-                    if (StringUtils.isBlank(extraKey)) {
-                        extraKey = field.getName();
-                    }
-                    setInjectExtra(field,extras,extraKey,annotation);
+                            if (fieldTypeName.startsWith("[L")) {
+                                View[] v = (View[]) Array.newInstance(field.getType()
+                                        .getComponentType(), views.size());
+                                injectListIntoField(field, views.toArray(v));
+                            } else if (fieldTypeName.startsWith("java.util.List")) {
+                                injectIntoField(field, views);
+                            }
+                        } else {
+                            throw new InjectException("The View of InjectViews annotation " + field.getName()+" is not list or array !");
+                        }
+                    } else if (annotation.annotationType() == InjectResource.class) {
+                        Object ressource = findResource(field.getType(), field, (InjectResource) annotation);
+                        injectIntoField(field, ressource);
+                    } else if (annotation.annotationType() == InjectSystemService.class) {
+                        String serviceName = ((InjectSystemService) annotation).value();
+                        Object service = context.getSystemService(serviceName);
+                        injectIntoField(field, service);
+                    } else if (annotation.annotationType() == InjectExtra.class) {
+                        String extraKey = ((InjectExtra) annotation).key();
+                        // key 没有使用
+                        if (StringUtils.isBlank(extraKey)) {
+                            extraKey = field.getName();
+                        }
+                        setInjectExtra(field,extras,extraKey,annotation);
 
-                } else if (annotation.annotationType() == InjectSupportFragment.class) {
-                    int id = ((InjectSupportFragment) annotation).id();
-                    Fragment fragment = findSupportFragment(field, id);
-                    injectIntoField(field, fragment);
+                    } else if (annotation.annotationType() == InjectSupportFragment.class) {
+                        int id = ((InjectSupportFragment) annotation).id();
+                        Fragment fragment = findSupportFragment(field, id);
+                        injectIntoField(field, fragment);
+                    }
                 }
             }
         }

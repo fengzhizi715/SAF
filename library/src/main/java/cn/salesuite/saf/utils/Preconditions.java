@@ -11,7 +11,7 @@ public class Preconditions {
 
     /**
      *  可以判断任何一个对象是否为空,包括List Map String 复杂对象等等,
-     *  就是对象是null也是安全的
+     *  只能判断对象,而不能判断基本数据类型
      * @param t
      * @param <T>
      * @return

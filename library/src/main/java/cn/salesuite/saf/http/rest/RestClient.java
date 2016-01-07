@@ -285,7 +285,7 @@ public class RestClient {
 	 * @throws RestException
 	 */
 	public static RestClient get(String url) throws RestException {
-		L.d("get url="+url);
+		L.d("get url=" + url);
 		return new RestClient(url, RestConstant.METHOD_GET);
 	}
 	
@@ -297,7 +297,7 @@ public class RestClient {
 	 */
 	public static void get(String url,HttpResponseHandler callback) {
 		L.d("get url="+url);
-		get(url, null,callback, RestConstant.DEFAULT_RETRY_NUM);
+		get(url, null, callback, RestConstant.DEFAULT_RETRY_NUM);
 	}
 	
 	/**
@@ -370,28 +370,28 @@ public class RestClient {
 	 * @param callback
 	 * @throws RestException
 	 */
-	public static void get(String url,Map<String, String> customizedHeader,HttpResponseRetryHandler callback) throws RestException {
+	public static void get(final String url, final Map<String, String> customizedHeader,final HttpResponseRetryHandler callback) throws RestException {
 		RestClient client = null;
-		
+
 		int retryNum = callback.getRetryNum();
 		try {
 			client = new RestClient(url, RestConstant.METHOD_GET);
 			client.acceptGzipEncoding().uncompress(true);
-			
+
 			if (url.startsWith("https")) {
 				//Accept all certificates
 				client.trustAllCerts();
 				//Accept all hostnames
 				client.trustAllHosts();
 			}
-			
+
 			if(Preconditions.isNotBlank(customizedHeader)) {
 				for (Map.Entry<String, String> item : customizedHeader.entrySet()) {
 					client.getConnection().setRequestProperty(item.getKey(),item.getValue());
 					L.i(item.getKey()+"="+item.getValue());
 				}
 			}
-			
+
 			String body = client.body();
 			Map<String, List<String>> heads = client.getConnection().getHeaderFields();
 			callback.onSuccess(body,heads);
@@ -407,7 +407,7 @@ public class RestClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 			L.e("get method error!", e);
-			
+
 			if (StringUtils.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}

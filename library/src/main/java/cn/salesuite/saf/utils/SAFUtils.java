@@ -3,13 +3,6 @@
  */
 package cn.salesuite.saf.utils;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -32,9 +25,17 @@ import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import cn.salesuite.saf.app.SAFApp;
 
 import com.alibaba.fastjson.JSON;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.salesuite.saf.app.SAFApp;
 
 /**
  * SAF的工具类
@@ -244,7 +245,7 @@ public class SAFUtils {
 	/**
 	 * 根据手机的分辨率从 sp 的单位 转成为 px(像素)
 	 * @param context
-	 * @param dpValue
+	 * @param spValue
 	 * @return
 	 */
 	public static int sp2px(Context context, float spValue) {
@@ -407,12 +408,13 @@ public class SAFUtils {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 判断经纬度是否在中国
-	 * @param mLocation
-	 * @return
-	 */
+	 * @param latitude
+	 * @param longitude
+     * @return
+     */
 	public static boolean positionInChina(double latitude,double longitude){
 		if(latitude>18.167 && latitude<53.55){
 			if(longitude>73.667 && longitude<135.033){

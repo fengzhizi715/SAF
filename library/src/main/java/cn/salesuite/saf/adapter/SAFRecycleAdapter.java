@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.salesuite.saf.utils.Preconditions;
+import rx.functions.Action3;
+import rx.functions.Func2;
 
 /**
  * Created by Tony Shen on 16/2/2.
@@ -17,14 +19,6 @@ public class SAFRecycleAdapter<T,VH extends Presenter<T>> extends RecyclerView.A
     protected Action3<VH, Integer, T> mOnBindViewHolder;
     protected Func2<ViewGroup, Integer, VH> mPresenter;
     private boolean onBindViewHolderSupered;
-
-    public interface Func2<T1, T2, R> {
-        R call(T1 t1, T2 t2);
-    }
-
-    public interface Action3<T1, T2, T3> {
-        void call(T1 t1, T2 t2, T3 t3);
-    }
 
     public SAFRecycleAdapter(List<T> list) {
         mList = list;

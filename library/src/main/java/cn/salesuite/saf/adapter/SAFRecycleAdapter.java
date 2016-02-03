@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.salesuite.saf.utils.Preconditions;
+
 /**
  * Created by Tony Shen on 16/2/2.
  */
@@ -64,9 +66,13 @@ public class SAFRecycleAdapter<T,VH extends Presenter<T>> extends RecyclerView.A
 
     @Override
     public void onBindViewHolder(VH viewHolder, int position) {
-        onBindViewHolderSupered = false;
-        onBindViewHolder(viewHolder, position, mList.get(position));
-        if (!onBindViewHolderSupered) throw new IllegalArgumentException("super.onBindViewHolder() not be called");
+
+        if (Preconditions.isNotBlank(mList) && mList.get(position)!=null) {
+            onBindViewHolderSupered = false;
+            onBindViewHolder(viewHolder, position, mList.get(position));
+            if (!onBindViewHolderSupered)
+                throw new IllegalArgumentException("super.onBindViewHolder() not be called");
+        }
     }
 
     public void onBindViewHolder(VH viewHolder, int position, T item) {

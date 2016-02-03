@@ -302,11 +302,7 @@ public class SAFUtils {
 	 * @return
 	 */
 	public static String printObject(Object obj) {
-		if(obj!=null) {
-			return JSON.toJSONString(obj);
-		} else {
-			return "{}"; // 对象为空，则打印出{}
-		}
+		return obj!=null?JSON.toJSONString(obj):"{}";
 	}
 
 	/**

@@ -181,7 +181,6 @@ public class Injector {
         }
     }
 
-
     public Injector(View view) {
         if (view == null) {
             throw new IllegalArgumentException("view may not be null");

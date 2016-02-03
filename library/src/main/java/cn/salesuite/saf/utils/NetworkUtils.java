@@ -51,7 +51,7 @@ public class NetworkUtils {
 	}
 	
 	/**
-	 * 获取wifi ip地址
+	 * 获取wifi ip地址,调用该方法需要android.permission.ACCESS_WIFI_STATE权限
 	 * 
 	 * @param mContext
 	 * @return

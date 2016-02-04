@@ -7,6 +7,9 @@ import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -21,10 +24,12 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.os.StatFs;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
@@ -33,6 +38,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.salesuite.saf.app.SAFApp;
@@ -86,8 +93,22 @@ public class SAFUtils {
 	
 	@TargetApi(21)
 	public static boolean isLOrHigher() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+	}
+
+	/**
+	 * api level 22是android 5.1
+	 * @return
+     */
+	@TargetApi(22)
+	public static boolean isLMR1OrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
+	}
+
+	@TargetApi(23)
+	public static boolean isMOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+	}
 
 	public static boolean isWiFiActive(Context context) { 
 		WifiManager wm=null;
@@ -155,6 +176,63 @@ public class SAFUtils {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 判断app是否处于前台,只使用了android 5.0以后
+	 * 通过使用UsageStatsManager获取，此方法是android5.0A之后提供的API
+	 * 必须：
+	 * 1. 此方法只在android5.0以上有效
+	 * 2. AndroidManifest中加入此权限<uses-permission xmlns:tools="http://schemas.android.com/tools" android:name="android.permission.PACKAGE_USAGE_STATS"
+	 * tools:ignore="ProtectedPermissions" />
+	 * 3. 打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾
+	 *
+	 * @param context     上下文参数
+	 * @param packageName 需要检查是否位于栈顶的App的包名
+	 * @return
+	 */
+	@TargetApi(21)
+	public static boolean queryUsageStats(Context context, String packageName) {
+		class RecentUseComparator implements Comparator<UsageStats> {
+			@Override
+			public int compare(UsageStats lhs, UsageStats rhs) {
+				return (lhs.getLastTimeUsed() > rhs.getLastTimeUsed()) ? -1 : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
+			}
+		}
+		RecentUseComparator mRecentComp = new RecentUseComparator();
+		long ts = System.currentTimeMillis();
+		UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService("usagestats");
+		List<UsageStats> usageStats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, ts - 1000 * 10, ts);
+		if (Preconditions.isBlank(usageStats)) {
+			if (!havaPermissionForTest(context)) {
+				Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intent);
+				Toast.makeText(context, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾", Toast.LENGTH_SHORT).show();
+			}
+			return false;
+		}
+		Collections.sort(usageStats, mRecentComp);
+		String currentTopPackage = usageStats.get(0).getPackageName();
+		return currentTopPackage.equals(packageName);
+	}
+
+	/**
+	 * 判断是否有用权限
+	 *
+	 * @param context 上下文参数
+	 */
+	@TargetApi(19)
+	private static boolean havaPermissionForTest(Context context) {
+		try {
+			PackageManager packageManager = context.getPackageManager();
+			ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+			AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+			int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+			return (mode == AppOpsManager.MODE_ALLOWED);
+		} catch (PackageManager.NameNotFoundException e) {
+			return true;
+		}
 	}
 	
 	/**

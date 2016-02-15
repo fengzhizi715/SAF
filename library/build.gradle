@@ -148,4 +148,16 @@ task buildAll(dependsOn: ['buildJar','buildCoreJar','buildAnnotationJar','buildO
 
 }
 
-defaultTasks 'buildAll'
+task javadoc(type: Javadoc) {
+
+    javadoc {
+        options.charSet = 'UTF-8'
+    }
+
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../library/build/outputs/javadoc/")
+    failOnError false
+}
+
+defaultTasks 'buildAll','javadoc'

@@ -2,6 +2,18 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.18
+---
+2016-02-15
+ *  修复底层的bug 优化代码
+ *  项目结构由原先的eclipse转变成android studio
+ *  增加工具类Preconditions
+ *  增加RxEventBus RxImageloader,这2个模块还处于试验阶段,不推荐使用
+ *  增加android5.0以后判断app是否处于前台的方法
+ *  增加cache类
+ *  增加SAFRecycleAdapter类
+ *  去掉原先插件化的类,打算重新设计这个模块
+
 Version 1.1.17
 ---
 2015-08-28

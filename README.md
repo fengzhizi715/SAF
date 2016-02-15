@@ -1,13 +1,12 @@
 SAF
 ===
 SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。  
-SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了3年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF  
-目前google code上的工程暂停维护，迁移到github上。它刚刚到1.1.x版本，肯定会存在各种各样的问题。遇到任何问题欢迎跟我的qq联系，qq：63067756
+SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF。  
+目前google code上的工程暂停维护，迁移到github上。它到了1.1.18版本，下一个版本不出意外会升级到1.2.0。
+目前已经增加了Rxjava作为依赖库,做了RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,下一个版本会进行改进。
+遇到任何问题欢迎跟我的qq联系，qq：63067756, 玩得开心:)
 
 ![](logo.png)
-
-saf的demo地址：
-https://github.com/frankswu/saf_android_demo
 
 
 主要功能
@@ -19,8 +18,8 @@ https://github.com/frankswu/saf_android_demo
 * [Dependency Injection](https://github.com/fengzhizi715/SAF#dependency-injection)
 * [Sqlite ORM](https://github.com/fengzhizi715/SAF#sqlite-orm)
 * [Router](https://github.com/fengzhizi715/SAF#router)
+* [Cache](https://github.com/fengzhizi715/SAF#cache)
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
-* [Plugin](https://github.com/fengzhizi715/SAF#plugin)
 
 SAFApp
 ===
@@ -448,7 +447,8 @@ Log.i("+++++++++++++++","list2.size()="+list2.size()); // 表示查询select * f
 
 Router
 ===
-类似于rails的router功能，Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数
+类似于rails的router功能，可以实现app的应用内跳转,包括Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 
+使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数
 
           Router.getInstance().setContext(getApplicationContext()); // 这一步是必须的，用于初始化Router
           Router.getInstance().map("user/:user/password/:password", SecondActivity.class);
@@ -497,14 +497,25 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 </pre></code>
 
 
+Cache
+===
+这是一个通用的Cache,可以存字符串 对象 JSON等等,操作起来十分便利,还可以设置缓存的过期时间.
+
+设置缓存数据：
+<pre><code>
+      Cache cache = Cache.get(this);
+      cache.put("key1", "test value");
+      cache.put("key2", "test value", 10);//保存10秒钟
+</pre></code>
+
+获取缓存数据：
+<pre><code>
+      Cache cache = Cache.get(this);
+      String value = cache.getString("key1");
+</pre></code>
+
 Utils
 ===
 包含了很多常用的工具类，比如日期操作、字符串操作、SAFUtil里包含各种乱七八糟的常用类等等。
-
-
-Plugin
-===
-[android-saf-plugin-demo](https://github.com/frankswu/android-saf-plugin-demo)
-基于SAF框架和androidPluginMgr的plugin实现
 
 

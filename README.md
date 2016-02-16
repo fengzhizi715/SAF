@@ -499,13 +499,13 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 
 Cache
 ===
-这是一个通用的Cache,可以存字符串 对象 JSON等等,操作起来十分便利,还可以设置缓存的过期时间.
+这是一个通用的Cache,可以保存字符串、对象、JSON等等,操作起来十分简单,还可以设置缓存的过期时间.
 
-设置缓存数据：
+保持缓存数据：
 <pre><code>
       Cache cache = Cache.get(this);
       cache.put("key1", "test value");
-      cache.put("key2", "test value", 10);//保存10秒钟
+      cache.put("key2", "test value", 10);//保存10秒钟，10秒后会过期
 </pre></code>
 
 获取缓存数据：

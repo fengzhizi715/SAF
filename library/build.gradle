@@ -39,7 +39,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.46.android'
     compile 'commons-codec:commons-codec:1.10'
     compile 'joda-time:joda-time:2.9'
-    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
 }
 
 task buildJar(dependsOn: ['compileReleaseSources'], type: Jar) {

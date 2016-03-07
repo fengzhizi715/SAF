@@ -3,10 +3,6 @@
  */
 package cn.salesuite.saf.utils;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +11,10 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 /**
  * @author Tony Shen
@@ -63,9 +63,9 @@ public class ViewUtils {
 
 	/**
 	 * 增加view的点击区域，当view是一张小图或者不方便点击时可采用此方法
-	 * 
+	 *
 	 * @param amount
-	 * @param delegate 
+	 * @param delegate
 	 */
 	public static void increaseHitRectBy(final int amount, final View delegate) {
 		increaseHitRectBy(amount, amount, amount, amount, delegate);

@@ -18,7 +18,7 @@ public class RxEventBus {
     private static RxEventBus instance;
 
     public static synchronized RxEventBus get() {
-        if (null == instance) {
+        if (instance == null) {
             instance = new RxEventBus();
         }
         return instance;

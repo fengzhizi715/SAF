@@ -6,6 +6,9 @@ package cn.salesuite.saf.utils;
 import rx.Observable;
 
 /**
+ * 使用方法:
+ * 		String s = null;
+ * 		Optional.ofNullable(s).orElse("default")); // 如果s为null,则显示default,否则显示s的值
  * @author Tony Shen
  *
  */

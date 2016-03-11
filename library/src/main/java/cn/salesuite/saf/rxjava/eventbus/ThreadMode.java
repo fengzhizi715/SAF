@@ -4,7 +4,7 @@ package cn.salesuite.saf.rxjava.eventbus;
 
 /**
  * 线程模式的枚举
- * @author Tony
+ * @author Tony Shen
  */
 public enum ThreadMode {
 
@@ -12,6 +12,6 @@ public enum ThreadMode {
 
     BackgroundThread, // 后台线程
 
-    IO                // io密集型线程
+    IO               // io密集型线程
 
 }

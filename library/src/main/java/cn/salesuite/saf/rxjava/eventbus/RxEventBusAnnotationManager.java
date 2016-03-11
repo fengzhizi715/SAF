@@ -70,13 +70,13 @@ public class RxEventBusAnnotationManager {
             registeredObservable = new ArrayList<ObservableWrapper>();
         }
 
-        Observable<T> observable = RxEventBus.get().register(clazz);
+        Observable<T> observable = RxEventBus.getInstance().register(clazz);
 
         registeredObservable.add(new ObservableWrapper(clazz.getName(), observable));
 
         Observable<T> schedulerObservable = null;
         switch (threadMode) {
-            case PostThread:
+            case PostThread: // MAIN_THREAD
                 schedulerObservable = observable.observeOn(AndroidSchedulers.mainThread());
                 break;
 
@@ -100,20 +100,19 @@ public class RxEventBusAnnotationManager {
         schedulerObservable.subscribe(new Action1<T>() {
             @Override
             public void call(T t) {
-             try {
-                 Reflect.on(object).call(method.getName(),t);
+                try {
+                    Reflect.on(object).call(method.getName(), t);
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
             }
         });
-
     }
 
     public void clear() {
         if (Preconditions.isNotBlank(registeredObservable)) {
             for (ObservableWrapper observableWrapper : registeredObservable) {
-                RxEventBus.get().unregister(observableWrapper.key, observableWrapper.observable);
+                RxEventBus.getInstance().unregister(observableWrapper.key, observableWrapper.observable);
             }
         }
     }

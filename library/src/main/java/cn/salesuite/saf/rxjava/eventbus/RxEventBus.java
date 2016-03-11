@@ -17,7 +17,7 @@ public class RxEventBus {
     private static final String TAG = RxEventBus.class.getSimpleName();
     private static RxEventBus instance;
 
-    public static synchronized RxEventBus get() {
+    public static synchronized RxEventBus getInstance() {
         if (instance == null) {
             instance = new RxEventBus();
         }

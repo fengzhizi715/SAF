@@ -6,10 +6,11 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 目前已经增加了Rxjava作为依赖库,做了RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,下一个版本会进行改进。
 遇到任何问题欢迎跟我的qq联系，qq：63067756, 玩得开心:)
 
+SAF通过gradle进行构建项目,在命令行中输入gradle,即可一键生成多种jar包.
+
 除了SAF自带的demo外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
 
 ![](logo.png)
-
 
 主要功能
 -----------------------------------

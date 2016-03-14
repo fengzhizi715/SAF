@@ -37,7 +37,7 @@ public class RxImageLoader {
      * @param url
      * @return
      */
-    public Observable<Data> displayImage(final ImageView imageView, final String url) {
+    public void displayImage(final ImageView imageView, final String url) {
         if (imageView != null) {
             cacheKeysMap.put(imageView.hashCode(), url);
         }
@@ -63,12 +63,17 @@ public class RxImageLoader {
                     });
         }
 
-        return source.doOnNext(new Action1<Data>() {
-
+        source.subscribe(new Action1<Data>(){
+            @Override
             public void call(Data data) {
                 if (imageView != null && url.equals(cacheKeysMap.get(imageView.hashCode()))) {
                     imageView.setImageBitmap(data.bitmap);
                 }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                clearMemCache();
             }
         });
     }
@@ -80,7 +85,7 @@ public class RxImageLoader {
      * @param default_img_id 本地存放默认图片的资源id
      * @return
      */
-    public Observable<Data> displayImage(final ImageView imageView, final String url,int default_img_id) {
+    public void displayImage(final ImageView imageView, final String url,int default_img_id) {
         if (imageView != null) {
             cacheKeysMap.put(imageView.hashCode(), url);
         }
@@ -108,12 +113,17 @@ public class RxImageLoader {
                     });
         }
 
-        return source.doOnNext(new Action1<Data>() {
-
+        source.subscribe(new Action1<Data>(){
+            @Override
             public void call(Data data) {
                 if (imageView != null && url.equals(cacheKeysMap.get(imageView.hashCode()))) {
                     imageView.setImageBitmap(data.bitmap);
                 }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                clearMemCache();
             }
         });
     }

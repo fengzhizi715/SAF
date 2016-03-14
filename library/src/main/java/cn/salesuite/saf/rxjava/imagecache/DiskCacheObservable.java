@@ -87,7 +87,10 @@ public class DiskCacheObservable extends CacheObservable {
                     } else {
                         format = Bitmap.CompressFormat.JPEG;
                     }
-                    data.bitmap.compress(format, 100, out);
+
+                    if (data.bitmap!=null) {
+                        data.bitmap.compress(format, 100, out);
+                    }
                     out.flush();
                     out.close();
                 } catch (IOException e) {

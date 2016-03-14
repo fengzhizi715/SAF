@@ -7,13 +7,17 @@ import java.io.File;
  */
 public class FileUtils {
 
+    public static boolean exists(File file) {
+        return file!=null && file.exists();
+    }
+
     /**
      * 判断是否文件
      * @param file
      * @return
      */
     public static boolean isFile(File file) {
-        return file!=null && file.exists() && file.isFile();
+        return exists(file) && file.isFile();
     }
 
     /**
@@ -22,6 +26,6 @@ public class FileUtils {
      * @return
      */
     public static boolean isDirectory(File file) {
-        return file!=null && file.exists() && file.isDirectory();
+        return exists(file) && file.isDirectory();
     }
 }

@@ -36,6 +36,26 @@ public class RxView {
 
     /**
      * 防止某个view重复点击
+     * <pre>
+     * <code>
+     * RxView.preventMultipleClicks(button).subscribe(new Observer<Object>() {
+     *      @Override
+     *      public void onCompleted() {
+     *         L.i("completed");
+     *      }
+     *
+     *     @Override
+     *      public void onError(Throwable e) {
+     *        L.i("error");
+     *      }
+     *
+     *      @Override
+     *     public void onNext(Object object) {
+     *        L.i("button clicked");
+     *     }
+     * });
+     * </code>
+     * </pre>
      * @param v
      * @return
      */

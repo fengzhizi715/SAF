@@ -1,6 +1,5 @@
 package com.test.saf.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.test.saf.Test2Event;
 import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
 
+import cn.salesuite.saf.aspects.annotation.Trace;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBusAnnotationManager;
 import cn.salesuite.saf.rxjava.eventbus.Subscribe;
@@ -30,19 +30,26 @@ public class MainActivity extends BaseActivity {
 
 		text = (TextView)findViewById(R.id.text);
 		manager = new RxEventBusAnnotationManager(this);
-		RxEventBus.get().post(new TestEvent());
+		RxEventBus.getInstance().post(new TestEvent());
 
 		text.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 //				RxEventBus.get().post(new Test2Event());
-				Intent i = new Intent(MainActivity.this,SecondActivity.class);
-				startActivity(i);
+				loadNext();
 			}
 		});
 	}
-	
+
+	@Trace
+//	@LogMethod
+	private void loadNext() {
+//		Intent i = new Intent(MainActivity.this,SecondActivity.class);
+//		startActivity(i);
+		Toast.makeText(MainActivity.this, "Test", Toast.LENGTH_SHORT).show();
+	}
+
 	@Subscribe
 	void onTest(TestEvent event) {
 		Log.i(TAG, "onTestEvent");

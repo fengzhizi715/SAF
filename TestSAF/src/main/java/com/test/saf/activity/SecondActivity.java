@@ -2,7 +2,6 @@ package com.test.saf.activity;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,10 +11,7 @@ import com.test.saf.R;
 
 import java.util.ArrayList;
 
-import cn.salesuite.saf.rxjava.imagecache.Data;
 import cn.salesuite.saf.rxjava.imagecache.RxImageLoader;
-import rx.functions.Action1;
-import rx.Subscription;
 
 /**
  * Created by Tony Shen on 15/11/13.
@@ -82,7 +78,8 @@ public class SecondActivity extends ListActivity {
                 holder = (ViewHolder) view.getTag();
             }
 
-            startSubscribe(holder.img, getItem(i));
+            imageLoader.displayImage(holder.img, getItem(i),R.mipmap.ic_launcher);
+//            startSubscribe(holder.img, getItem(i));
             return view;
         }
     }
@@ -91,13 +88,13 @@ public class SecondActivity extends ListActivity {
         public ImageView img;
     }
 
-    private Subscription startSubscribe(ImageView img, String url) {
-        return imageLoader.displayImage(img, url,R.mipmap.ic_launcher).subscribe(new Action1<Data>() {
-            @Override
-            public void call(Data data) {
-                Log.i("SecondActivity", "bitmap size:" + data.bitmap.getHeight() * data
-                        .bitmap.getWidth());
-            }
-        });
-    }
+//    private Subscription startSubscribe(ImageView img, String url) {
+//        return imageLoader.displayImage(img, url,R.mipmap.ic_launcher).subscribe(new Action1<Data>() {
+//            @Override
+//            public void call(Data data) {
+//                Log.i("SecondActivity", "bitmap size:" + data.bitmap.getHeight() * data
+//                        .bitmap.getWidth());
+//            }
+//        });
+//    }
 }

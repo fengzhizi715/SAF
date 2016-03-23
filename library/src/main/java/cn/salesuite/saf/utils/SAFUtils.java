@@ -43,6 +43,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import cn.salesuite.saf.app.SAFApp;
+import cn.salesuite.saf.reflect.Reflect;
 
 /**
  * SAF的工具类
@@ -553,5 +554,14 @@ public class SAFUtils {
 	 */
 	public static int getAvailableProcessors() {
 		return Runtime.getRuntime().availableProcessors();
+	}
+
+	/**
+	 * 获取全局的context
+	 * @return
+     */
+	@TargetApi(14)
+	public static Context getContext() {
+		return Reflect.on("android.app.ActivityThread").call("currentApplication").get();
 	}
 }

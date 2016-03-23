@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.METHOD;
 
 /**
+ * 由于CacheAspect需要api14以上才支持,所以同样的道理该注解也需要api14以上才支持
  * Created by Tony Shen on 16/3/23.
  */
 @Target({METHOD})

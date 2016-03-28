@@ -3,17 +3,17 @@
  */
 package cn.salesuite.saf.prefs;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import org.apache.commons.codec.binary.Base64;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 /**
  * @author Tony Shen
@@ -28,28 +28,28 @@ public class BasePrefs {
     protected BasePrefs(Context context, String prefsName) {
         prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
     }
-    
-    protected boolean getBoolean(String key, boolean defValue) {
+
+    public boolean getBoolean(String key, boolean defValue) {
         return prefs.getBoolean(key, defValue);
     }
-    
-    protected float getFloat(String key, float defValue) {
+
+    public float getFloat(String key, float defValue) {
         return prefs.getFloat(key, defValue);
     }
-    
-    protected int getInt(String key, int defValue) {
+
+    public int getInt(String key, int defValue) {
         return prefs.getInt(key, defValue);
     }
-    
-    protected long getLong(String key, long defValue) {
+
+    public long getLong(String key, long defValue) {
         return prefs.getLong(key, defValue);
     }
-    
-    protected String getString(String key, String defValue) {
+
+    public String getString(String key, String defValue) {
         return prefs.getString(key, defValue);
     }
-    
-    protected Object getObject(String key) {
+
+    public Object getObject(String key) {
 		try {
 			String stringBase64 = prefs.getString(key, "");
 			if (TextUtils.isEmpty(stringBase64))
@@ -65,37 +65,37 @@ public class BasePrefs {
 		return null;
     }
 
-    protected void putBoolean(String key, boolean v) {
+    public void putBoolean(String key, boolean v) {
         ensureEditorAvailability();
         editor.putBoolean(key, v);
         save();
     }
 
-    protected void putFloat(String key, float v) {
+    public void putFloat(String key, float v) {
         ensureEditorAvailability();
         editor.putFloat(key, v);
         save();
     }
 
-    protected void putInt(String key, int v) {
+    public void putInt(String key, int v) {
         ensureEditorAvailability();
         editor.putInt(key, v);
         save();
     }
 
-    protected void putLong(String key, long v) {
+    public void putLong(String key, long v) {
         ensureEditorAvailability();
         editor.putLong(key, v);
         save();
     }
 
-    protected void putString(String key, String v) {
+    public void putString(String key, String v) {
         ensureEditorAvailability();
         editor.putString(key, v);
         save();
     }
-    
-    protected void putObject(String key, Object obj) {
+
+    public void putObject(String key, Object obj) {
         ensureEditorAvailability();
         try {  
             ByteArrayOutputStream baos = new ByteArrayOutputStream();  

@@ -3,10 +3,6 @@
  */
 package cn.salesuite.saf.app;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
@@ -17,7 +13,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.view.WindowManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.imagecache.ImageLoader;
 import cn.salesuite.saf.utils.SAFUtils;
@@ -50,7 +50,6 @@ public class SAFApp extends Application {
 	
 	private int defaultImageId;
 	private String fileDir;
-	private WindowManager.LayoutParams wmlp = new WindowManager.LayoutParams();
 
 	/**
 	 * @see android.app.Application#onCreate()
@@ -152,9 +151,5 @@ public class SAFApp extends Application {
 	 */
 	public void setFileDir(String fileDir) {
 		this.fileDir = fileDir;
-	}
-	
-	public WindowManager.LayoutParams getLayoutParams() {
-		return wmlp;
 	}
 }

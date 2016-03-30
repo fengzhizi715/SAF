@@ -56,6 +56,17 @@ public class RxView {
      * });
      * </code>
      * </pre>
+     * 或者
+     * <pre>
+     * <code>
+     * RxView.preventMultipleClicks(button).subscribe(new Action1<View>() {
+     *      @Override
+     *      public void call(View view) {
+     *
+     *      }
+     * });
+     * </code>
+     * </pre>
      * @param v
      * @return
      */

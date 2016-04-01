@@ -1,11 +1,15 @@
 package cn.salesuite.saf.rxjava.view;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by Tony Shen on 16/3/7.
@@ -72,5 +76,23 @@ public class RxView {
      */
     public static Observable<View> preventMultipleClicks(View v) {
         return RxView.clicks(v).throttleFirst(1, TimeUnit.SECONDS);
+    }
+
+    public static Observable<String> text(EditText view) {
+        String currentText = String.valueOf(view.getText());
+        final BehaviorSubject<String> subject = BehaviorSubject.create(currentText);
+        view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                subject.onNext(editable.toString());
+            }
+        });
+        return subject;
     }
 }

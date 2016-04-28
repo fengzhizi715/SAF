@@ -363,7 +363,7 @@ OnItemClick
 Sqlite ORM
 ===
 顾名思义就是sqlite的orm框架，采用oop的方式简化对sqlite的操作。 </br>
-<font color="#FF0000">注意：在android studio2.0以后如果使用InstantRun功能，并且在android 5.0以上手机上调试会报错。强烈建议在调试时关闭InstantRun功能，release版本的app不会受到任何影响。</font>（参考：http://stackoverflow.com/questions/36572515/dexfile-in-2-0-versions-of-android-studio-and-gradle）</br>
+<font color="red">注意：在android studio2.0以后如果使用InstantRun功能，并且在android 5.0以上手机上调试会报错。强烈建议在调试时关闭InstantRun功能，release版本的app不会受到任何影响。</font>（参考：http://stackoverflow.com/questions/36572515/dexfile-in-2-0-versions-of-android-studio-and-gradle）</br>
 首先需要在AndroidManifest.xml中配上一些参数
 
         <!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表-->

@@ -2,7 +2,7 @@ SAF
 ===
 SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。  
 SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。2014年9月开始[frankswu](https://github.com/frankswu)加入跟我一起开发SAF。  
-目前google code上的工程暂停维护，迁移到github上。它到了1.1.18版本，下一个版本不出意外会升级到1.2.0。
+目前google code上的工程暂停维护，迁移到github上。它到了1.1.19版本，下一个版本肯定会是1.2.0。
 目前已经增加了Rxjava作为依赖库,做了RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,下一个版本会进行改进。
 遇到任何问题欢迎跟我的qq联系，qq：63067756, 玩得开心:)
 
@@ -15,6 +15,7 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 主要功能
 -----------------------------------
 * [SAFApp](https://github.com/fengzhizi715/SAF#safapp)
+* [New Annotation](https://github.com/fengzhizi715/SAF#new-annotation-without-reflection)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
 * [Image Cache](https://github.com/fengzhizi715/SAF#image-cache)
@@ -27,6 +28,10 @@ SAF已经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 SAFApp
 ===
 SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增加了一个可作为缓存存放app全局变量的session，一个ImageLoader，一个记录Activity的List。
+
+New annotation without reflection
+===
+
 
 Event Bus
 ===

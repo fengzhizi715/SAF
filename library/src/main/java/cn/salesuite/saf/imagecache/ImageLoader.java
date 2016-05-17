@@ -3,18 +3,19 @@
  */
 package cn.salesuite.saf.imagecache;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.utils.BitmapUtils;
 import cn.salesuite.saf.utils.SAFUtils;
@@ -41,7 +42,14 @@ public class ImageLoader {
 
 	public ImageLoader(Context context,int default_img_id){
     	memoryCache = new MemoryCache();
-    	diskCache = new DiskLruImageCache(context);
+
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(context)) {
+            diskCache = null;
+            enableDiskCache = false;
+        } else {
+            diskCache = new DiskLruImageCache(context);
+        }
+
     	backgroundExecutor = new BackgroundExecutor(2*SAFUtils.getAvailableProcessors());
         stub_id = default_img_id;
         this.mContext = context;
@@ -49,7 +57,14 @@ public class ImageLoader {
     
     public ImageLoader(Context context,int default_img_id,String fileDir){
     	memoryCache = new MemoryCache();
-    	diskCache = new DiskLruImageCache(context,fileDir);
+
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(context)) {
+            diskCache = null;
+            enableDiskCache = false;
+        } else {
+            diskCache = new DiskLruImageCache(context,fileDir);
+        }
+
     	backgroundExecutor = new BackgroundExecutor(2*SAFUtils.getAvailableProcessors());
         stub_id = default_img_id;
         this.mContext = context;

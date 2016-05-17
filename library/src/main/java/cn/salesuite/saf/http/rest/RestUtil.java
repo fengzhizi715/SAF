@@ -3,10 +3,10 @@
  */
 package cn.salesuite.saf.http.rest;
 
+import com.alibaba.fastjson.JSON;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.alibaba.fastjson.JSON;
 
 /**
  * @author Tony Shen

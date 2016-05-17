@@ -3,7 +3,9 @@
  */
 package cn.salesuite.saf.utils;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -25,6 +27,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.view.View;
@@ -51,6 +54,12 @@ import cn.salesuite.saf.reflect.Reflect;
  *
  */
 public class SAFUtils {
+
+//	private static final int REQUEST_EXTERNAL_STORAGE = 1;
+//	private static String[] PERMISSIONS_STORAGE = {
+//			Manifest.permission.READ_EXTERNAL_STORAGE,
+//			Manifest.permission.WRITE_EXTERNAL_STORAGE
+//	};
 	
 	public static boolean isFroyoOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
@@ -563,5 +572,22 @@ public class SAFUtils {
 	@TargetApi(14)
 	public static Context getContext() {
 		return Reflect.on("android.app.ActivityThread").call("currentApplication").get();
+	}
+
+	@TargetApi(23)
+	public static boolean verifyStoragePermissions(Context context) {
+		// Check if we have write permission
+		int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+//		if (permission != PackageManager.PERMISSION_GRANTED) {
+//			// We don't have permission so prompt the user
+//			ActivityCompat.requestPermissions(
+//					activity,
+//					PERMISSIONS_STORAGE,
+//					REQUEST_EXTERNAL_STORAGE
+//			);
+//		}
+
+		return permission == PackageManager.PERMISSION_GRANTED;
 	}
 }

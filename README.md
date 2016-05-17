@@ -35,7 +35,7 @@ New annotation without reflection
 
 
 | 注解名称        | 作用          | 备注          |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:| :-------------:|
 | @Async        |借助rxjava,异步执行app中的方法|       |
 | @Cacheable    |Spring Cache风格的Cache注解,将结果放于缓存中|只适用于android4.0以后|
 | @LogMethod    |将方法的入参和出参都打印出来,可以用于调试|       |

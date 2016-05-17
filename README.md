@@ -31,6 +31,13 @@ SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增
 
 New annotation without reflection
 ===
+新的注解，基于aspectj，而无再使用耗费性能的反射
+
+
+| 注解名称        | 作用          | 备注  |
+| ------------- |:-------------:| -----:|
+| @Async        |  |  |
+| @Cacheable    |       |    |
 
 
 Event Bus

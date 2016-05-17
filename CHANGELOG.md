@@ -2,6 +2,15 @@ SAF
 ===
 1.1.4之前的开发都是在google code上托管的，从1.1.4开始记录版本日志。
 
+Version 1.1.19
+---
+2016-05-17
+ *  针对android6.0的权限需求,imageloader做了修改
+ *  新增NoEmptyHashMap
+ *  优化RxImageLoader
+ *  新增aspectj的支持, 增加了@LogMethod @Trace @Cacheable @Safe @Async @Prefs 等注解,这些注解无需使用反射
+ *  新增RxAsyncTask
+
 Version 1.1.18
 ---
 2016-02-15

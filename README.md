@@ -36,11 +36,11 @@ New annotation without reflection
 
 | 注解名称        | 作用          | 备注  |
 | ------------- |:-------------:| -----:|
-| @Async        |               |       |
-| @Cacheable    |Spring Cache风格的注解,将结果放于缓存中|       |
-| @LogMethod    |               |       |
-| @Prefs        |               |       |
-| @Safe         |               |       |
+| @Async        |借助rxjava,异步执行app中的方法|       |
+| @Cacheable    |Spring Cache风格的Cache注解,将结果放于缓存中|       |
+| @LogMethod    |将方法的入参和出参都打印出来,可以用于调试|       |
+| @Prefs        |将方法的结果放入AppPrefs|只适用于android4.0以后|
+| @Safe         |可以安全地执行方法,而无需考虑会抛出运行时异常|       |
 | @Trace        |用于追踪某个方法花费的时间,可以用于性能调优的评判|       |
 
 Event Bus

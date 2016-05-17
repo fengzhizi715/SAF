@@ -36,9 +36,12 @@ New annotation without reflection
 
 | 注解名称        | 作用          | 备注  |
 | ------------- |:-------------:| -----:|
-| @Async        |  |  |
-| @Cacheable    |       |    |
-
+| @Async        |               |       |
+| @Cacheable    |               |       |
+| @LogMethod    |               |       |
+| @Prefs        |               |       |
+| @Safe         |               |       |
+| @Trace        |               |       |
 
 Event Bus
 ===

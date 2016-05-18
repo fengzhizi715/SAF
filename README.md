@@ -31,7 +31,8 @@ SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增
 
 New annotation without reflection
 ===
-新的注解，基于aspectj的AOP，而无需再使用耗费性能的反射
+新的注解，基于aspectj的AOP，而无需再使用耗费性能的反射.
+不过,需要在
 
 
 | 注解名称        | 作用          | 备注          |
@@ -52,6 +53,19 @@ New annotation without reflection
 	}
 </pre></code>
 
+
+@Cacheable的使用方法:
+
+	@Cacheable(key = "user")
+	private User initData() {
+
+		User user = new User();
+		user.userName = "tony";
+		user.password = "123456";
+		return user;
+	}
+
+这里的@Cacheable,实际上用到[Cache](https://github.com/fengzhizi715/SAF#cache),要获取Cache也很简单.
 
 Event Bus
 ===

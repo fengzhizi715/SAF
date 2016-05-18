@@ -31,7 +31,7 @@ SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增
 
 New annotation without reflection
 ===
-新的注解，基于aspectj，而无需再使用耗费性能的反射
+新的注解，基于aspectj的AOP，而无需再使用耗费性能的反射
 
 
 | 注解名称        | 作用          | 备注          |
@@ -39,9 +39,19 @@ New annotation without reflection
 | @Async        |借助rxjava,异步执行app中的方法|       |
 | @Cacheable    |Spring Cache风格的Cache注解,将结果放于缓存中|只适用于android4.0以后|
 | @LogMethod    |将方法的入参和出参都打印出来,可以用于调试|       |
-| @Prefs        |将方法的结果放入AppPrefs|只适用于android4.0以后|
-| @Safe         |可以安全地执行方法,而无需考虑会抛出运行时异常|       |
+| @Prefs        |将方法的结果放入AppPrefs中|只适用于android4.0以后|
+| @Safe         |可以安全地执行方法,而无需考虑是否会抛出运行时异常|       |
 | @Trace        |用于追踪某个方法花费的时间,可以用于性能调优的评判|       |
+
+@Async的使用方法:
+<pre><code>
+	@Async
+	private void useAsync() {
+		Log.e(TAG, " thread=" + Thread.currentThread().getId());
+		Log.e(TAG, "ui thread=" + Looper.getMainLooper().getThread().getId());
+	}
+</pre></code>
+
 
 Event Bus
 ===

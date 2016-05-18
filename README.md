@@ -32,7 +32,7 @@ SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增
 New annotation without reflection
 ===
 新的注解，基于aspectj的AOP，而无需再使用耗费性能的反射.
-不过,需要在
+不过,需要在build.gradle中配置一下aspectj
 
 
 | 注解名称        | 作用          | 备注          |

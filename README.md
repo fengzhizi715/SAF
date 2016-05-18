@@ -67,6 +67,25 @@ New annotation without reflection
 
 这里的@Cacheable,实际上用到[Cache](https://github.com/fengzhizi715/SAF#cache),要获取Cache也很简单.
 
+@Trace的使用方法:
+<pre><code>
+	@Trace
+	@Async
+	private void loadUser() {
+		Log.e(TAG, " thread=" + Thread.currentThread().getId());
+		Log.e(TAG, "ui thread=" + Looper.getMainLooper().getThread().getId());
+		Cache cache = Cache.get(this);
+		User user = (User) cache.getObject("user");
+		Toast.makeText(MainActivity.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
+	}
+</pre></code>
+将@Trace和@Async两个注解结合使用,可以看到loadUser()方法花费的时间.
+<pre><code>
+05-18 14:31:31.229 21190-21190/app.magicwindow.cn.testsaf I/MainActivity: MainActivity=loadUser() take [1ms]<br>
+05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity:  thread=14876<br>
+05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity: ui thread=1<br>
+</pre></code>
+
 Event Bus
 ===
 事件总线框架，类似于google guava、square otto的event bus。它是一种消息发布-订阅模式,它的工作机制类似于观察者模式，通过通知者去注册观察者，最后由通知者向观察者发布消息。

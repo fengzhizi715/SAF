@@ -2,6 +2,7 @@ package cn.salesuite.saf.rxjava.imagecache;
 
 import android.content.Context;
 
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -21,14 +22,23 @@ public class Sources {
     public Sources(Context mContext) {
         this.mContext = mContext;
         mMemoryCacheOvservable = new MemoryCacheOvservable();
-        mDiskCacheObservable = new DiskCacheObservable(mContext);
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(mContext)) {
+            mDiskCacheObservable = null;
+        } else {
+            mDiskCacheObservable = new DiskCacheObservable(mContext);
+        }
         mNetCacheObservable = new NetCacheObservable(mContext);
     }
 
     public Sources(Context mContext,String fileDir) {
         this.mContext = mContext;
         mMemoryCacheOvservable = new MemoryCacheOvservable();
-        mDiskCacheObservable = new DiskCacheObservable(mContext,fileDir);
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(mContext)) {
+            mDiskCacheObservable = null;
+        } else {
+            mDiskCacheObservable = new DiskCacheObservable(mContext,fileDir);
+        }
+
         mNetCacheObservable = new NetCacheObservable(mContext);
     }
 
@@ -37,21 +47,26 @@ public class Sources {
     }
 
     public Observable<Data> disk(String url) {
-        return mDiskCacheObservable.getObservable(url)
-                .filter(new Func1<Data, Boolean>() {
-                    public Boolean call(Data data) {
-                        if (data.bitmap != null) {
-                            return true;
+
+        if (mDiskCacheObservable!=null) {
+            return mDiskCacheObservable.getObservable(url)
+                    .filter(new Func1<Data, Boolean>() {
+                        public Boolean call(Data data) {
+                            if (data.bitmap != null) {
+                                return true;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                })
-                .doOnNext(new Action1<Data>() {
-                    public void call(Data data) {
-                        //save picture to disk
-                        mMemoryCacheOvservable.putData(data);
-                    }
-                });
+                    })
+                    .doOnNext(new Action1<Data>() {
+                        public void call(Data data) {
+                            //save picture to disk
+                            mMemoryCacheOvservable.putData(data);
+                        }
+                    });
+        }
+
+        return null;
     }
 
     public Observable<Data> network(String url) {

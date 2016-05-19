@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -22,11 +23,17 @@ public class RxImageLoader {
 
     public void init(Context mContext) {
         sources = new Sources(mContext);
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(mContext)) {
+            enableDiskCache = false;
+        }
     }
 
     public void init(Context mContext,String mFileDir) {
         sources = new Sources(mContext,mFileDir);
         fileDir = mFileDir;
+        if (SAFUtils.isMOrHigher() && !SAFUtils.verifyStoragePermissions(mContext)) {
+            enableDiskCache = false;
+        }
     }
 
     private static final Map<Integer, String> cacheKeysMap = Collections.synchronizedMap(new HashMap<Integer, String>());

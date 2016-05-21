@@ -1,5 +1,7 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
+import android.graphics.Bitmap;
+
 import rx.Observable;
 
 /**
@@ -7,5 +9,9 @@ import rx.Observable;
  */
 public abstract class CacheObservable {
 
-    public abstract Observable<Data> getObservable(String url);
+    public Observable<Data> observable;
+
+    public abstract void putData(Data data);
+
+    public abstract Bitmap cache(String info);
 }

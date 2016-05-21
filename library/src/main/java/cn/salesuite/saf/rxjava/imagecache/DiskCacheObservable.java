@@ -1,109 +1,112 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
-import cn.salesuite.saf.config.SAFConstant;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by Tony Shen on 15/11/13.
- */
 public class DiskCacheObservable extends CacheObservable {
+    private static DiskLruCache mCache = null;
+    private final static int IMAGE_QUANLITY = 100;
+    public DiskCacheObservable() {}
 
-    Context mContext;
-    File mCacheFile;
-
-    public DiskCacheObservable(Context mContext) {
-        this(mContext, SAFConstant.CACHE_DIR);
-    }
-
-    public DiskCacheObservable(Context mContext,String fileDir) {
-        this.mContext = mContext;
-        mCacheFile = getDiskCacheDir(mContext,fileDir);
-    }
-
-    private File getDiskCacheDir(final Context context, String fileDir) {
-        File cacheDir;
-        if (android.os.Environment.getExternalStorageState().equals(
-                android.os.Environment.MEDIA_MOUNTED))
-            cacheDir = new File(
-                    android.os.Environment.getExternalStorageDirectory(),fileDir);
-        else
-            cacheDir = context.getCacheDir();
-        if (!cacheDir.exists()) {
-            boolean b = cacheDir.mkdirs();
-            if (!b) {
-                cacheDir = context.getCacheDir();
-                if (!cacheDir.exists())
-                    cacheDir.mkdirs();
-            }
+    private File getDiskCacheDir(Context context, String uniqueName) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()
+            && context.getExternalCacheDir().canWrite()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
         }
-
-        return cacheDir;
+        return new File(cachePath + File.separator + uniqueName);
     }
 
-    @Override
-    public Observable<Data> getObservable(final String url) {
-        return Observable.create(new Observable.OnSubscribe<Data>() {
+    protected int getAppVersion(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    private static long mCacheSize = 50 * 1024 * 1024; // 50MB
+    private static final String DISK_CACHE_SUBDIR = "bitmap";
+
+    private DiskCacheObservable(Context context) {
+        if (context == null)
+            return;
+        try {
+            if (mCache == null) {
+                File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
+                if (!cacheDir.exists()) {
+                    cacheDir.mkdirs();
+                }
+                mCache = DiskLruCache.open(cacheDir, getAppVersion(context), 1, mCacheSize);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close() {
+        if (mCache != null)
+            try {
+                mCache.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    /**
+     * Create DiskCacheObservable
+     * @param context android application context
+     * @param key cache key
+     * @param cacheSize cache size, <= 0 for default size, 50MB
+     * @return
+     */
+    public static CacheObservable create(Context context, final String key, long cacheSize) {
+        final DiskCacheObservable instance = new DiskCacheObservable(context);
+        if (cacheSize > 0)
+            mCacheSize = cacheSize;
+        instance.observable = Observable.create(new Observable.OnSubscribe<Data>() {
             @Override
             public void call(Subscriber<? super Data> subscriber) {
-                File f = getFile(url);
-                Data data = new Data(f, url);
+                Bitmap ob = instance.cache(key);
+                Data data = new Data(ob, key);
                 subscriber.onNext(data);
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private File getFile(String url) {
-        url = url.replaceAll(File.separator, "-");
-        return new File(mCacheFile, url);
+        return instance;
     }
 
     /**
      * save pictures downloaded from net to disk
      * @param data data to be saved
      */
+    @Override
     public void putData(final Data data) {
         Observable.create(new Observable.OnSubscribe<Data>() {
             @Override
             public void call(Subscriber<? super Data> subscriber) {
-                File f = getFile(data.url);
-                OutputStream out = null;
-                try {
-                    out = new FileOutputStream(f);
-                    Bitmap.CompressFormat format;
-                    if (data.url.endsWith("png") || data.url.endsWith("PNG")) {
-                        format = Bitmap.CompressFormat.PNG;
-                    } else {
-                        format = Bitmap.CompressFormat.JPEG;
-                    }
-
-                    if (data.bitmap!=null) {
-                        data.bitmap.compress(format, 100, out);
-                    }
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (out != null) {
-                        try {
-                            out.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+                putDiskCache(data.url, data.bitmap);
 
                 if (!subscriber.isUnsubscribed()) {
                     subscriber.onNext(data);
@@ -113,7 +116,97 @@ public class DiskCacheObservable extends CacheObservable {
         }).subscribeOn(Schedulers.io()).subscribe();
     }
 
+    @Override
+    public Bitmap cache(String key) {
+        DiskLruCache.Snapshot snapShot = null;
+        if (mCache == null)
+            return null;
+        try {
+            snapShot = mCache.get(toMD5(key));
+        } catch (IOException e) {
+            return null;
+        }
+        if (snapShot != null) {
+            InputStream is = snapShot.getInputStream(0);
+            return BitmapFactory.decodeStream(is);
+        }
+
+        return null;
+    }
+
+    private boolean putDiskCache(String key, Bitmap bitmap) {
+        if (bitmap == null)
+            return false;
+
+        OutputStream out = null;
+        String ekey = toMD5(key);
+        DiskLruCache.Snapshot snapshot = null;
+        try {
+            snapshot = mCache.get(ekey);
+            if (snapshot == null) {
+                DiskLruCache.Editor editor = mCache.edit(ekey);
+                if (editor == null)
+                    return false;
+                out = editor.newOutputStream(0);
+                Bitmap.CompressFormat format;
+                if (key.equals("png") || key.endsWith("PNG")) {
+                    format = Bitmap.CompressFormat.PNG;
+                } else {
+                    format = Bitmap.CompressFormat.JPEG;
+                }
+                bitmap.compress(format, IMAGE_QUANLITY, out);
+                editor.commit();
+                mCache.flush();
+                out.close();
+            } else {
+                snapshot.getInputStream(0).close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null)
+                try {
+                    out.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+        }
+        return true;
+    }
+
+    public static String toMD5(String content) {
+        MessageDigest md = null;
+        String md5 = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(content.getBytes());
+            byte[] digests = md.digest();
+
+            int i;
+            StringBuilder sb = new StringBuilder("");
+            for (byte b : digests) {
+                i = b;
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    sb.append("0");
+                sb.append(Integer.toHexString(i));
+            }
+            md5 = sb.toString().substring(8, 24);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5;
+    }
+
+    /**
+     * 清空mCache
+     */
     public void clear() {
-        mCacheFile.delete();
+        try {
+            mCache.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -88,7 +88,7 @@ public class DiskCacheObservable extends CacheObservable {
      * @param cacheSize cache size, <= 0 for default size, 50MB
      * @return
      */
-    public static CacheObservable create(Context context, final String key, long cacheSize) {
+    public CacheObservable create(Context context, final String key, long cacheSize) {
         final DiskCacheObservable instance = new DiskCacheObservable(context);
         if (cacheSize > 0)
             mCacheSize = cacheSize;

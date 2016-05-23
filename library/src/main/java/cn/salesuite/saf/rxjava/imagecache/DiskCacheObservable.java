@@ -163,9 +163,9 @@ public class DiskCacheObservable extends CacheObservable {
                     return false;
                 out = new BufferedOutputStream(editor.newOutputStream(0), IO_BUFFER_SIZE);
                 Bitmap.CompressFormat format;
-                if (key.equals("png") || key.endsWith("PNG")) {
+                if (key.endsWith("png") || key.endsWith("PNG")) {
                     format = Bitmap.CompressFormat.PNG;
-                } else if(SAFUtils.isICSOrHigher() && key.equals("webp")){
+                } else if(SAFUtils.isICSOrHigher() && key.endsWith("webp")){
                     format = Bitmap.CompressFormat.WEBP;
                 } else {
                     format = Bitmap.CompressFormat.JPEG;

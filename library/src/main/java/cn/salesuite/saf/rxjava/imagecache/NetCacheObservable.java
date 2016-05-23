@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import cn.salesuite.saf.utils.IOUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -35,13 +36,7 @@ public class NetCacheObservable extends CacheObservable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
-                    if (inputStream != null) {
-                        try {
-                            inputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    IOUtils.closeQuietly(inputStream);
                 }
                 data = new Data(bitmap, url);
                 if(!subscriber.isUnsubscribed()) {

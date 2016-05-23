@@ -185,7 +185,7 @@ public class DiskCacheObservable extends CacheObservable {
         return true;
     }
 
-    public static String toMD5(String content) {
+    private String toMD5(String content) {
         MessageDigest md = null;
         String md5 = null;
         try {

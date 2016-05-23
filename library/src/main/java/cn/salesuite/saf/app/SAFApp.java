@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cn.salesuite.saf.config.SAFConstant;
-import cn.salesuite.saf.imagecache.ImageLoader;
+import cn.salesuite.saf.rxjava.imagecache.RxImageLoader;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.StringUtils;
 
@@ -45,7 +45,7 @@ public class SAFApp extends Application {
 	public String version;   // app的versionName
 	public int versionCode;  // app的versionCode
 
-	public ImageLoader imageLoader;
+	public RxImageLoader imageLoader;
 	private static SAFApp instance;
 	
 	private int defaultImageId;
@@ -72,15 +72,18 @@ public class SAFApp extends Application {
 
 		session = new HashMap<String, Object>();
 		activityManager = new ArrayList<Activity>();
-		if (fileDir!=null) {
-			imageLoader = new ImageLoader(instance,defaultImageId,fileDir);// 使用ImageLoader组件时,设置defaultImageId、fileDir
-		} else {
-			imageLoader = new ImageLoader(instance,defaultImageId);        // 使用ImageLoader组件时,设置defaultImageId
-		}
-		
-		if (!SAFUtils.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
-			imageLoader.setEnableDiskCache(false);
-		}
+//		if (fileDir!=null) {
+//			imageLoader = new ImageLoader(instance,defaultImageId,fileDir);// 使用ImageLoader组件时,设置defaultImageId、fileDir
+//		} else {
+//			imageLoader = new ImageLoader(instance,defaultImageId);        // 使用ImageLoader组件时,设置defaultImageId
+//		}
+//
+//		if (!SAFUtils.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
+//			imageLoader.setEnableDiskCache(false);
+//		}
+
+		imageLoader = new RxImageLoader();
+		imageLoader.init(instance);
 		
 		PackageManager manager = this.getPackageManager();
 		try {
@@ -132,7 +135,7 @@ public class SAFApp extends Application {
 			super.onTrimMemory(level);
 			
 			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
-				imageLoader.clearCache();
+				imageLoader.clearMemCache();
 			}
 		}
 	}

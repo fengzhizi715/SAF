@@ -3,8 +3,6 @@
  */
 package cn.salesuite.saf.app;
 
-import java.lang.ref.WeakReference;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentCallbacks2;
@@ -12,6 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import java.lang.ref.WeakReference;
+
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -85,7 +86,7 @@ public class SAFActivity extends Activity{
 			super.onTrimMemory(level);
 			
 			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
-				app.imageLoader.clearCache();
+				app.imageLoader.clearMemCache();
 			}
 		}
 	}

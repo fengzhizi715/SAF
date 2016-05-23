@@ -25,19 +25,20 @@ public class RxImageLoader {
 
     /**
      *
-     * @param imageView
      * @param url
+     * @param imageView
      */
-    public void displayImage(ImageView imageView, String url) {
-        displayImage(imageView,url,0);
+    public void displayImage(String url,ImageView imageView) {
+        displayImage(url,imageView,0);
     }
 
     /**
      *
-     * @param imageView
      * @param url
+     * @param imageView
+     * @param default_img_id
      */
-    public void displayImage(final ImageView imageView, final String url,int default_img_id) {
+    public void displayImage(final String url, final ImageView imageView, int default_img_id) {
 
         // 优先加载
         if (default_img_id>0) {

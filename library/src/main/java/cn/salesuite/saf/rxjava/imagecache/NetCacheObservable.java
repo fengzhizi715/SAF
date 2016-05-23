@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import cn.salesuite.saf.imagecache.PatchInputStream;
 import cn.salesuite.saf.utils.IOUtils;
 import rx.Observable;
 import rx.Subscriber;

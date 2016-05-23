@@ -1,6 +1,7 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -29,11 +30,11 @@ public class Sources {
         netCacheObservable = new NetCacheObservable();
     }
 
-    public ConnectableObservable<Data> getConnectableObservable(String url) {
+    public ConnectableObservable<Data> getConnectableObservable(String url, ImageView imageView) {
 
         memoryCacheObservable = (MemoryCacheObservable) memoryCacheObservable.create(url);
         diskCacheObservable = (DiskCacheObservable)diskCacheObservable.create(mContext, url, 0);
-        netCacheObservable = (NetCacheObservable) netCacheObservable.create(url);
+        netCacheObservable = (NetCacheObservable) netCacheObservable.create(url,imageView);
 
         return addCaches(memoryCacheObservable,diskCacheObservable,netCacheObservable);
     }

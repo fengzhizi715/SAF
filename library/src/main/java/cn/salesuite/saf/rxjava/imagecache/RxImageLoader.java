@@ -44,7 +44,7 @@ public class RxImageLoader {
             imageView.setImageResource(default_img_id);
         }
 
-        ConnectableObservable<Data> connectableObservable = getObservables(url);
+        ConnectableObservable<Data> connectableObservable = getObservables(url,imageView);
         connectableObservable.observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<Data>() {
                 @Override
@@ -69,13 +69,13 @@ public class RxImageLoader {
      * @param url the url for the img
      * @return the observable to load img
      */
-    private ConnectableObservable<Data> getObservables(final String url) {
+    private ConnectableObservable<Data> getObservables(final String url,ImageView imageView) {
         Bitmap bitmap = getBitmapFromCache(url);
         ConnectableObservable<Data> source;
         if (bitmap != null) {
             source = Observable.just(new Data(bitmap, url)).publish();
         } else {
-            source = sources.getConnectableObservable(url);
+            source = sources.getConnectableObservable(url,imageView);
         }
         return source;
     }

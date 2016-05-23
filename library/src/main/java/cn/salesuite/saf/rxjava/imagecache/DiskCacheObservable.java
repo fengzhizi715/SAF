@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import cn.salesuite.saf.utils.IOUtils;
 import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;
@@ -23,9 +24,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class DiskCacheObservable extends CacheObservable {
+
     private static DiskLruCache mCache = null;
     private final static int IMAGE_QUANLITY = 100;
-    public DiskCacheObservable() {}
+
+    public DiskCacheObservable() {
+    }
 
     private File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
@@ -38,7 +42,7 @@ public class DiskCacheObservable extends CacheObservable {
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    protected int getAppVersion(Context context) {
+    private int getAppVersion(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return info.versionCode;
@@ -170,12 +174,7 @@ public class DiskCacheObservable extends CacheObservable {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (out != null)
-                try {
-                    out.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+            IOUtils.closeQuietly(out);
         }
         return true;
     }

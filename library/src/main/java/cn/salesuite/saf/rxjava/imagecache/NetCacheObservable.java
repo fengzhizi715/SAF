@@ -13,6 +13,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/**
+ * Created by Tony Shen on 15/11/13.
+ */
 public class NetCacheObservable extends CacheObservable {
 
     public NetCacheObservable() {}

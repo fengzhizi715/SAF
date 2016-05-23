@@ -1,10 +1,12 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -134,6 +137,7 @@ public class DiskCacheObservable extends CacheObservable {
         return null;
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private boolean putDiskCache(String key, Bitmap bitmap) {
         if (bitmap == null)
             return false;
@@ -151,6 +155,8 @@ public class DiskCacheObservable extends CacheObservable {
                 Bitmap.CompressFormat format;
                 if (key.equals("png") || key.endsWith("PNG")) {
                     format = Bitmap.CompressFormat.PNG;
+                } else if(SAFUtils.isICSOrHigher() && key.equals("webp")){
+                    format = Bitmap.CompressFormat.WEBP;
                 } else {
                     format = Bitmap.CompressFormat.JPEG;
                 }

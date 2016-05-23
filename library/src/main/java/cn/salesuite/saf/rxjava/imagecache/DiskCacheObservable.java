@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Environment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +29,7 @@ public class DiskCacheObservable extends CacheObservable {
 
     private static DiskLruCache mCache = null;
     private final static int IMAGE_QUANLITY = 100;
+    private static final int IO_BUFFER_SIZE = 8 * 1024;
 
     public DiskCacheObservable() {
     }
@@ -135,7 +138,10 @@ public class DiskCacheObservable extends CacheObservable {
         }
         if (snapShot != null) {
             InputStream is = snapShot.getInputStream(0);
-            return BitmapFactory.decodeStream(is);
+            if (is!=null) {
+                BufferedInputStream buffIn = new BufferedInputStream(is, IO_BUFFER_SIZE);
+                return BitmapFactory.decodeStream(buffIn);
+            }
         }
 
         return null;
@@ -155,7 +161,7 @@ public class DiskCacheObservable extends CacheObservable {
                 DiskLruCache.Editor editor = mCache.edit(ekey);
                 if (editor == null)
                     return false;
-                out = editor.newOutputStream(0);
+                out = new BufferedOutputStream(editor.newOutputStream(0), IO_BUFFER_SIZE);
                 Bitmap.CompressFormat format;
                 if (key.equals("png") || key.endsWith("PNG")) {
                     format = Bitmap.CompressFormat.PNG;

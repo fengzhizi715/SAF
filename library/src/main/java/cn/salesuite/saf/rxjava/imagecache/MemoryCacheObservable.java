@@ -25,14 +25,11 @@ public class MemoryCacheObservable extends CacheObservable {
     private static LinkedHashMap<String, SoftReference<Bitmap>> mSoftCache; // 软引用缓存
 
     public MemoryCacheObservable() {
-        int cacheSize = (int) Runtime.getRuntime().maxMemory() / 4;
+        int cacheSize = (int) Runtime.getRuntime().maxMemory() / 8;
         mLruCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
-                if (value != null)
-                    return value.getRowBytes() * value.getHeight();
-                else
-                    return 0;
+                return (value!=null)?value.getRowBytes() * value.getHeight():0;
             }
 
             @Override

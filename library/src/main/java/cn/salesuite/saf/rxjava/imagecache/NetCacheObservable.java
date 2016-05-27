@@ -34,14 +34,19 @@ public class NetCacheObservable extends CacheObservable {
                     final URLConnection con = new URL(url).openConnection();
                     inputStream = new PatchInputStream(con.getInputStream());
                     BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inJustDecodeBounds = true;
+                    options.inJustDecodeBounds = true;
+                    byte[] bytes = IOUtils.readInputStream(inputStream);
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
                     options.inPurgeable = true;
                     options.inDither = false;
                     options.inInputShareable = true;
-                    JobOptions JobOptions = new JobOptions(imageView);
-                    options.inSampleSize = calculateInSampleSize(options,JobOptions.requestedWidth,JobOptions.requestedHeight);
+                    options.inPreferredConfig = Bitmap.Config.RGB_565;
 
-                    bitmap = BitmapFactory.decodeStream(inputStream,null,options);
+                    JobOptions jobOptions = new JobOptions(imageView);
+                    options.inSampleSize = calculateInSampleSize(options,jobOptions.requestedWidth,jobOptions.requestedHeight);
+                    options.inJustDecodeBounds = false;
+
+                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {

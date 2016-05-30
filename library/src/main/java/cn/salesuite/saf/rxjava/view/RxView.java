@@ -12,6 +12,7 @@ import rx.Subscriber;
 import rx.subjects.BehaviorSubject;
 
 /**
+ * 提供Observable化的View
  * Created by Tony Shen on 16/3/7.
  */
 public class RxView {

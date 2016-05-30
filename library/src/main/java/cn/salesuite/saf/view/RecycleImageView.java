@@ -1,6 +1,7 @@
 package cn.salesuite.saf.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -25,5 +26,14 @@ public class RecycleImageView extends ImageView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         setImageDrawable(null);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        try {
+            super.onDraw(canvas);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

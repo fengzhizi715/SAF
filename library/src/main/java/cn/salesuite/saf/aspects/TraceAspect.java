@@ -15,7 +15,7 @@ import cn.salesuite.saf.log.L;
 public class TraceAspect {
 
     @Around("execution(!synthetic * *(..)) && onTraceMethod()")
-    public Object doLogMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doTraceMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
         return traceMethod(joinPoint);
     }
 

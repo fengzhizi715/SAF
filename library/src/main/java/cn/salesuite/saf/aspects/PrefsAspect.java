@@ -22,7 +22,7 @@ import cn.salesuite.saf.utils.SAFUtils;
 public class PrefsAspect {
 
     @Around("execution(!synthetic * *(..)) && onPrefsMethod()")
-    public Object doLogMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doPrefsMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
         return prefsMethod(joinPoint);
     }
 

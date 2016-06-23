@@ -18,7 +18,7 @@ import cn.salesuite.saf.log.L;
 public class SafeAspect {
 
     @Around("execution(!synthetic * *(..)) && onSafe()")
-    public Object doLogMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doSafeMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
         return safeMethod(joinPoint);
     }
 

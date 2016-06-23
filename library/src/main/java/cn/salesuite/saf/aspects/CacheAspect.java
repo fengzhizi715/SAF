@@ -23,7 +23,7 @@ import cn.salesuite.saf.utils.SAFUtils;
 public class CacheAspect {
 
     @Around("execution(!synthetic * *(..)) && onCacheMethod()")
-    public Object doLogMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doCacheMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
         return cacheMethod(joinPoint);
     }
 

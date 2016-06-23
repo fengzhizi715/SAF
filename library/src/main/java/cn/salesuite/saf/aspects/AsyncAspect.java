@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
 public class AsyncAspect {
 
     @Around("execution(!synthetic * *(..)) && onAsyncMethod()")
-    public Object doLogMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object doAsyncMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
         return asyncMethod(joinPoint);
     }
 

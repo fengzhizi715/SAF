@@ -3,6 +3,7 @@
  */
 package cn.salesuite.saf.app;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
@@ -13,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +22,8 @@ import java.util.List;
 
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.rxjava.imagecache.RxImageLoader;
+import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
-import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * SAFApp是自定义的Application,session可作为缓存存放app的全局变量<br>
@@ -105,16 +107,31 @@ public class SAFApp extends Application {
 	 * 
 	 * @return
 	 */
+	@TargetApi(23)
 	private String getDeviceId() {
-		TelephonyManager mphonemanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = SAFConstant.SPECIAL_IMEI;
-		if (mphonemanger != null) {
-			imei = mphonemanger.getDeviceId();
+		String  imei = null;
+
+		if (SAFUtils.isMOrHigher()) {
+			if (getPackageManager().checkPermission(Manifest.permission.READ_PHONE_STATE,
+					getPackageName()) == PackageManager.PERMISSION_GRANTED) {
+				TelephonyManager mphonemanger = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE));
+				if (mphonemanger !=null) {
+					imei = mphonemanger.getDeviceId();
+				}
+			} else {
+				Log.e("SAFApp","no android.permission.READ_PHONE_STATE permission");
+			}
+		} else {
+			TelephonyManager mphonemanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+			if (mphonemanger != null) {
+				imei = mphonemanger.getDeviceId();
+			}
 		}
-		
-		if (StringUtils.isBlank(imei)) {
+
+		if (Preconditions.isBlank(imei)) {
 			imei = SAFConstant.SPECIAL_IMEI;
 		}
+
 		return imei;
 	}
 

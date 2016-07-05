@@ -8,11 +8,8 @@ import android.app.Activity;
 import android.content.ComponentCallbacks2;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-
-import java.lang.ref.WeakReference;
 
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
@@ -109,23 +106,5 @@ public class SAFFragmentActivity extends FragmentActivity{
 	 */
 	protected void toast(int resId) {
 		ToastUtils.showShort(this, resId);
-	}
-	
-	/**
-	 * 防止内部Handler类引起内存泄露
-	 * @author Tony Shen
-	 *
-	 */
-    public static class SafeHandler extends Handler{
-	    private final WeakReference<Activity> mActivity;
-	    public SafeHandler(Activity activity) {
-	        mActivity = new WeakReference<Activity>(activity);
-	    }
-	    @Override
-	    public void handleMessage(Message msg) {
-	        if(mActivity.get() == null) {
-	            return;
-	        }
-	    }
 	}
 }

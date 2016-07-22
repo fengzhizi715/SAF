@@ -3,12 +3,13 @@
  */
 package cn.salesuite.saf.orm;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
 import cn.salesuite.saf.orm.annotation.Column;
 
 /**
@@ -224,5 +225,12 @@ public class DBDomain {
 
 		return this.mId != null && (this.mTableInfo.getTableName().equals(other.mTableInfo.getTableName()))
 				&& (this.mId.equals(other.mId));
+	}
+
+	@Override
+	public int hashCode() {
+		int result = mId.hashCode();
+		result = 31 * result + mTableInfo.hashCode();
+		return result;
 	}
 }

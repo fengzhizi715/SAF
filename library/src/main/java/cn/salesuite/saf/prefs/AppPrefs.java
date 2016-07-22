@@ -3,6 +3,7 @@ package cn.salesuite.saf.prefs;
 import android.content.Context;
 
 /**
+ * 配合使用@Prefs
  * Created by Tony Shen on 16/3/28.
  */
 public class AppPrefs extends BasePrefs {

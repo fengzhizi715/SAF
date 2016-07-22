@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: "android-aspectj"
+apply plugin: "findbugs"
 
 android {
     compileSdkVersion 23
@@ -161,6 +162,27 @@ task javadoc(type: Javadoc) {
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     destinationDir = file("../library/build/outputs/javadoc/")
     failOnError false
+}
+
+task findbugs(type: FindBugs,dependsOn:'assembleDebug') {
+
+    ignoreFailures= true
+    effort= "default"
+    reportLevel= "high"
+    println( "$project.buildDir")
+    classes = files("$project.buildDir/intermediates/classes")
+    source= fileTree("src/main/java/")
+    classpath= files()
+    reports{
+        xml.enabled=false
+        html.enabled=true
+        xml {
+            destination "$project.buildDir/findbugs.xml"
+        }
+        html{
+            destination "$project.buildDir/findbugs.html"
+        }
+    }
 }
 
 defaultTasks 'buildAll','javadoc'

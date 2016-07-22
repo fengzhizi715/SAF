@@ -559,8 +559,8 @@ public class Cache {
                     saveTimeStr = saveTimeStr
                             .substring(1, saveTimeStr.length());
                 }
-                long saveTime = Long.valueOf(saveTimeStr);
-                long deleteAfter = Long.valueOf(strs[1]);
+                long saveTime = Long.parseLong(saveTimeStr);
+                long deleteAfter = Long.parseLong(strs[1]);
                 if (System.currentTimeMillis() > saveTime + deleteAfter * 1000) {
                     return true;
                 }

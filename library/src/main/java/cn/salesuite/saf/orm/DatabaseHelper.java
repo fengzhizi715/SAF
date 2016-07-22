@@ -3,6 +3,11 @@
  */
 package cn.salesuite.saf.orm;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,10 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import cn.salesuite.saf.utils.SAFUtils;
 
 /**
@@ -155,7 +156,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 			try {
 				for (String file : files) {
 					try {
-						final int version = Integer.valueOf(file.replace(".sql", ""));
+						int version = Integer.parseInt(file.replace(".sql", ""));
 
 						if (version > oldVersion && version <= newVersion) {
 							executeSqlScript(db, file);

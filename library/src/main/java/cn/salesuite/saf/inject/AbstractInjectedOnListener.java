@@ -56,10 +56,8 @@ public abstract class AbstractInjectedOnListener {
         L.d(this.getClass().getSimpleName() +".target[" + target.getClass().getName() + "].method[" + method.getName() + "]");
         try {
             if (invokeWithViewParam) {
-//                method.invoke(target, objs);
             	Reflect.on(target).call(method.getName(),objs);
             } else {
-//                method.invoke(target);
             	Reflect.on(target).call(method.getName());
             }
         } catch (Exception e) {
@@ -78,12 +76,9 @@ public abstract class AbstractInjectedOnListener {
             for (Method m : methods) {
                 if (methodName.equals(m.getName())) {
                     try {
-//                        m.setAccessible(true);
                         if (postion == -1) {
-//                            m.invoke(target,method,v);
                         	Reflect.on(target).call(methodName,method,v);
                         } else {
-//                            m.invoke(target,method,v, postion, id);
                         	Reflect.on(target).call(methodName,method,v, postion, id);
                         }
 

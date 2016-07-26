@@ -590,4 +590,25 @@ public class SAFUtils {
 
 		return permission == PackageManager.PERMISSION_GRANTED;
 	}
+
+	/**
+	 * 获取当前进程的名称
+	 * @param context
+	 * @return
+     */
+	public static String getProcessName(Context context) {
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+
+		if (Preconditions.isNotBlank(runningApps)) {
+			int myPid = android.os.Process.myPid();
+			for (ActivityManager.RunningAppProcessInfo proInfo : runningApps) {
+				if (proInfo!=null && proInfo.pid == myPid) {
+					return proInfo.processName;
+				}
+			}
+		}
+
+		return null;
+	}
 }

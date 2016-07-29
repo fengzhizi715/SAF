@@ -20,7 +20,7 @@ import cn.salesuite.saf.utils.ToastUtils;
  */
 public class SAFActivity extends Activity{
 
-	public static SAFApp app;
+	public SAFApp app;
 	public String TAG;
 	public int networkType;
 	public String networkName;

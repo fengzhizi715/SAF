@@ -1,5 +1,6 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
@@ -15,12 +16,22 @@ import rx.observables.ConnectableObservable;
 public class RxImageLoader {
     public static final String TAG = "RxImageLoader";
 
-    private static Context mContext = null;
-    private static Sources sources;
+    private Context mContext = null;
+    private Sources sources;
 
+    /**
+     * 初始化时 必须传Application,不能传activity的context和service的context
+     * @param context
+     */
     public void init(Context context) {
-        mContext = context;
-        sources = new Sources(mContext);
+
+        if (context instanceof Application) {
+            mContext = context;
+            sources = new Sources(mContext);
+        } else {
+            throw new IllegalArgumentException("Application needs to pass");
+        }
+
     }
 
     /**

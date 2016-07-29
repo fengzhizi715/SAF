@@ -30,6 +30,8 @@ public class DiskCacheObservable extends CacheObservable {
     private static DiskLruCache mCache = null;
     private final static int IMAGE_QUANLITY = 100;
     private static final int IO_BUFFER_SIZE = 8 * 1024;
+    private long mCacheSize = 50 * 1024 * 1024; // 50MB
+    private static final String DISK_CACHE_SUBDIR = "bitmap";
 
     public DiskCacheObservable() {
     }
@@ -55,8 +57,6 @@ public class DiskCacheObservable extends CacheObservable {
         return 1;
     }
 
-    private static long mCacheSize = 50 * 1024 * 1024; // 50MB
-    private static final String DISK_CACHE_SUBDIR = "bitmap";
 
     private DiskCacheObservable(Context context) {
         if (context == null)

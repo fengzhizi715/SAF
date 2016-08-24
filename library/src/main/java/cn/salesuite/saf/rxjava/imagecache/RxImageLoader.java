@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import cn.salesuite.saf.utils.Preconditions;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,6 +55,10 @@ public class RxImageLoader {
         // 优先加载
         if (default_img_id>0) {
             imageView.setImageResource(default_img_id);
+        }
+
+        if (Preconditions.isBlank(url)) {
+            return;
         }
 
         ConnectableObservable<Data> connectableObservable = getObservables(url,imageView);

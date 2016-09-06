@@ -75,10 +75,4 @@ public class Preconditions {
 
         return true;
     }
-
-    public static void checkNotNull(Object o, String message) {
-        if (o == null) {
-            throw new NullPointerException(message);
-        }
-    }
 }

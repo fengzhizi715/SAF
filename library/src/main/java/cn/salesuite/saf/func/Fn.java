@@ -1,5 +1,6 @@
 package cn.salesuite.saf.func;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.salesuite.saf.func.functions.Action1;
@@ -20,6 +21,17 @@ public class Fn {
                 func.call(t);
             }
         }
+    }
+
+    public static <T, R> List<R> map(Func1<? super T, ? extends R> func, List<T> list) {
+        List<R> r = new ArrayList<R>();
+        if (Preconditions.isNotBlank(list)) {
+            for (T l : list) {
+                r.add(func.call(l));
+            }
+        }
+
+        return r;
     }
 
     public static <T>T first(Predicate<? super T> p,

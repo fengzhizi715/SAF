@@ -8,30 +8,35 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Tony Shen on 16/3/28.
+ * Created by Tony Shen on 2016/11/9.
  */
-public abstract class RxAsyncTask {
+
+public abstract class RxAsyncTask<T> {
 
     private Dialog mDialog;
+    private SuccessHandler successHandler;
+    private FailedHandler failedHandler;
 
     public RxAsyncTask() {
+        this(null);
     }
 
     public RxAsyncTask(Dialog dialog) {
         this.mDialog = dialog;
+        execute();
     }
 
-    protected void onPreExecute() {
+    private void onPreExecute() {
         if (mDialog != null) {
             mDialog.show();
         }
     }
 
-    public void execute(final HttpResponseHandler callback) {
+    private void execute() {
         onPreExecute();
         createObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<T>() {
                     @Override
                     public void onCompleted() {
                         // no-op
@@ -44,26 +49,29 @@ public abstract class RxAsyncTask {
                             mDialog = null;
                         }
 
-                        if (e != null) {
-                            callback.onFail(e);
+                        if (e != null && failedHandler!=null) {
+                            failedHandler.onFail(e);
                         }
                     }
 
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(T t) {
                         if (mDialog != null) {
                             mDialog.dismiss();
                             mDialog = null;
                         }
-                        callback.onSuccess(s);
+
+                        if (successHandler!=null) {
+                            successHandler.onSuccess(t);
+                        }
                     }
                 });
     }
 
-    private Observable<String> createObservable(){
-        return Observable.create(new Observable.OnSubscribe<String>() {
+    private Observable<T> createObservable(){
+        return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void call(Subscriber<? super T> subscriber) {
 
                 subscriber.onNext(onExecute());
                 subscriber.onCompleted();
@@ -71,25 +79,29 @@ public abstract class RxAsyncTask {
         });
     }
 
+    public RxAsyncTask success(SuccessHandler successHandler) {
+        this.successHandler = successHandler;
+        return this;
+    }
+
+    public RxAsyncTask failed(FailedHandler failedHandler) {
+        this.failedHandler = failedHandler;
+        return this;
+    }
+
     /**
-     * 返回网络请求的结果
+     * 执行任务的结果
      * @return
      */
-    public abstract String onExecute();
+    public abstract T onExecute();
 
-    public interface HttpResponseHandler {
+    public interface SuccessHandler<T> {
 
-        /**
-         * http请求成功后，response转换成content
-         * @param content
-         */
-        void onSuccess(String content);
+        void onSuccess(T t);
+    }
 
-        /**
-         * http请求失败后，response转换成jsonString
-         *
-         * @param e
-         */
+    public interface FailedHandler {
+
         void onFail(Throwable e);
     }
 }

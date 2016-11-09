@@ -9,4 +9,5 @@
         android:theme="@style/AppTheme" >
     </application>
 
+    <permission android:name="android.permission.ACCESS_WIFI_STATE" />
 </manifest>

@@ -34,8 +34,8 @@ public class Fn {
         return r;
     }
 
-    public static <T>T first(Predicate<? super T> p,
-                             List<? extends T> list) {
+    public static <T> T first(Predicate<? super T> p,
+                              List<? extends T> list) {
 
         if (Preconditions.isNotBlank(list)) {
             for (T t : list) {

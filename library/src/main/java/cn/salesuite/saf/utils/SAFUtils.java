@@ -592,6 +592,26 @@ public class SAFUtils {
 	}
 
 	/**
+	 * 检查权限是否开启
+	 *
+	 * @param permission
+	 * @return true or false
+	 */
+	public static boolean checkPermissions(Context context, String permission) {
+
+		if (context==null) {
+			if (SAFUtils.isICSOrHigher()) {
+				context = getContext();
+			} else {
+				return false;
+			}
+		}
+
+		PackageManager localPackageManager = context.getApplicationContext().getPackageManager();
+		return localPackageManager.checkPermission(permission, context.getApplicationContext().getPackageName()) == PackageManager.PERMISSION_GRANTED;
+	}
+
+	/**
 	 * 获取当前进程的名称
 	 * @param context
 	 * @return

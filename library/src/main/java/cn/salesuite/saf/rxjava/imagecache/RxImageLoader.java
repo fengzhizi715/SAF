@@ -3,6 +3,7 @@ package cn.salesuite.saf.rxjava.imagecache;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import cn.salesuite.saf.utils.Preconditions;
@@ -24,7 +25,7 @@ public class RxImageLoader {
      * 初始化时 必须传Application,不能传activity的context和service的context
      * @param context
      */
-    public void init(Context context) {
+    public void init(@NonNull Context context) {
 
         if (context instanceof Application) {
             mContext = context;

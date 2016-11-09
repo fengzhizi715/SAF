@@ -12,54 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-
 /**
  * @author Tony Shen
  * 
  */
 public class ViewUtils {
-
-	/**
-	 * 设置view组件gone或者visible
-	 * 
-	 * @param view
-	 * @param gone
-	 * @return view
-	 */
-	public static <V extends View> V setGone(final V view, final boolean gone) {
-		if (view != null)
-			if (gone) {
-				if (GONE != view.getVisibility())
-					view.setVisibility(GONE);
-			} else {
-				if (VISIBLE != view.getVisibility())
-					view.setVisibility(VISIBLE);
-			}
-		return view;
-	}
-
-	/**
-	 * 设置view组件invisible或者visible
-	 * 
-	 * @param view
-	 * @param invisible
-	 * @return view
-	 */
-	public static <V extends View> V setInvisible(final V view,
-			final boolean invisible) {
-		if (view != null)
-			if (invisible) {
-				if (INVISIBLE != view.getVisibility())
-					view.setVisibility(INVISIBLE);
-			} else {
-				if (VISIBLE != view.getVisibility())
-					view.setVisibility(VISIBLE);
-			}
-		return view;
-	}
 
 	/**
 	 * 增加view的点击区域，当view是一张小图或者不方便点击时可采用此方法

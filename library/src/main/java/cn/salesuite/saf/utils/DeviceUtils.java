@@ -11,6 +11,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -37,7 +38,7 @@ public class DeviceUtils {
     private static final String FIRST_TAG = "0";   //此值代表首次启动
     private static final String NO_FIRST_TAG = "1";   //此值代表非首次启动
 
-    public static String getFingerPrinter(@Nullable Context context) {
+    public static String getFingerPrinter(@NonNull Context context) {
         StringBuilder fa = new StringBuilder();
         fa.append(getLocal());
         fa.append(getDevice());
@@ -77,7 +78,7 @@ public class DeviceUtils {
         return Arrays.toString(cpuInfo);
     }
 
-    public static String getNetGeneration(@Nullable Context context) {
+    public static String getNetGeneration(@NonNull Context context) {
         if (!SAFUtils.checkPermissions(context, "android.permission.ACCESS_NETWORK_STATE")) {
             return "";
         }
@@ -133,7 +134,7 @@ public class DeviceUtils {
      * @return device id
      */
     @SuppressLint("HardwareIds")
-    public static String getDeviceId(@Nullable Context context) {
+    public static String getDeviceId(@NonNull Context context) {
 
         if (context == null) {
             return "";
@@ -213,7 +214,7 @@ public class DeviceUtils {
     }
 
     //这个可获取到类似1080*1920
-    public static String getScreenSize(@Nullable Context context) {
+    public static String getScreenSize(@NonNull Context context) {
 
         String result = "";
         try {
@@ -271,7 +272,7 @@ public class DeviceUtils {
      * @param context context
      * @return package name
      */
-    public static String getPackageName(@Nullable Context context) {
+    public static String getPackageName(@NonNull Context context) {
         return context.getPackageName();
     }
 
@@ -282,7 +283,7 @@ public class DeviceUtils {
      * @param context context
      * @return package name
      */
-    public static String getAppName(@Nullable Context context) {
+    public static String getAppName(@NonNull Context context) {
         String appName = "";
         try {
             appName = (String) context.getPackageManager().getApplicationLabel(context.getApplicationInfo());
@@ -298,7 +299,7 @@ public class DeviceUtils {
      * @param context context
      * @return App Version
      */
-    public static String getAppVersion(@Nullable Context context) {
+    public static String getAppVersion(@NonNull Context context) {
         String result = "1.0";
         try {
             result = context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
@@ -315,7 +316,7 @@ public class DeviceUtils {
      * @param context context
      * @return Carrier
      */
-    public static String getCarrier(Context context) {
+    public static String getCarrier(@NonNull Context context) {
         String result = "";
         try {
             TelephonyManager manager = (TelephonyManager) context.getSystemService(Context
@@ -389,7 +390,7 @@ public class DeviceUtils {
      * @return Mac Address
      */
     @SuppressLint("HardwareIds")
-    public static String getMacAddress(@Nullable Context context) {
+    public static String getMacAddress(@NonNull Context context) {
 
         if (!SAFUtils.checkPermissions(context, "android.permission.ACCESS_WIFI_STATE")) {
             return "";

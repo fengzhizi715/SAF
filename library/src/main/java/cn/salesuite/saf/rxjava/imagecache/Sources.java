@@ -27,7 +27,7 @@ public class Sources {
         this.mContext = mContext;
         memoryCacheObservable = new MemoryCacheObservable();
         diskCacheObservable = new DiskCacheObservable(mContext);
-        netCacheObservable = new NetCacheObservable();
+        netCacheObservable = new NetCacheObservable(memoryCacheObservable);
     }
 
     public ConnectableObservable<Data> getConnectableObservable(String url, ImageView imageView) {

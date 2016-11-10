@@ -2,10 +2,15 @@ package cn.salesuite.saf.rxjava.imagecache;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 
 import java.lang.ref.SoftReference;
-import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
@@ -25,7 +30,8 @@ public class MemoryCacheObservable extends CacheObservable {
      */
     private static final int SOFT_CACHE_SIZE = 15; // 软引用缓存容量
     private static LruCache<String, Bitmap> mLruCache; // 硬引用缓存
-    private static LinkedHashMap<String, SoftReference<Bitmap>> mSoftCache; // 软引用缓存
+//    private static LinkedHashMap<String, SoftReference<Bitmap>> mSoftCache; // 软引用缓存
+    private Set<SoftReference<Bitmap>> mReusableBitmaps;
 
     public MemoryCacheObservable() {
         int cacheSize = (int) Runtime.getRuntime().maxMemory() / 8;
@@ -44,23 +50,12 @@ public class MemoryCacheObservable extends CacheObservable {
                         oldValue.recycle();
                     }
                 } else {
-                    mSoftCache.put(key, new SoftReference<Bitmap>(oldValue));
+                    mReusableBitmaps.add(new SoftReference<>(oldValue));
                 }
             }
         };
-        mSoftCache = new LinkedHashMap<String, SoftReference<Bitmap>>(
-                SOFT_CACHE_SIZE, 0.75f, true) {
-            private static final long serialVersionUID = 6040103833179403725L;
 
-            @Override
-            protected boolean removeEldestEntry(
-                    Entry<String, SoftReference<Bitmap>> eldest) {
-                if (size() > SOFT_CACHE_SIZE) {
-                    return true;
-                }
-                return false;
-            }
-        };
+        mReusableBitmaps = Collections.synchronizedSet(new HashSet<SoftReference<Bitmap>>());
     }
 
     /**
@@ -82,11 +77,90 @@ public class MemoryCacheObservable extends CacheObservable {
     }
 
     /**
+     * This method iterates through the reusable bitmaps, looking for one
+     * to use for inBitmap:
+     */
+    public Bitmap getBitmapFromReusableSet(BitmapFactory.Options options) {
+
+        Bitmap bitmap = null;
+
+        if (mReusableBitmaps != null && !mReusableBitmaps.isEmpty()) {
+            synchronized (this) {
+                final Iterator<SoftReference<Bitmap>> iterator = mReusableBitmaps.iterator();
+                Bitmap item;
+
+                while (iterator.hasNext()) {
+                    item = iterator.next().get();
+
+                    if (null != item && item.isMutable()) {
+                        if (canUseForInBitmap(item, options)) {
+                            bitmap = item;
+                            // 从reusable set中移除，避免再次被使用
+                            iterator.remove();
+                            Log.i(TAG, "Find reusable bitmap");
+                            break;
+                        }
+                    } else {
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+        return bitmap;
+    }
+
+    private boolean canUseForInBitmap(Bitmap candidate, BitmapFactory.Options targetOptions) {
+
+        if (SAFUtils.isKitkatOrHigher()) {
+
+            // From Android 4.4 (KitKat) onward we can re-use if the byte size of
+            // the new bitmap is smaller than the reusable bitmap candidate
+            // allocation byte count.
+            final int width = targetOptions.outWidth / targetOptions.inSampleSize;
+            final int height = targetOptions.outHeight / targetOptions.inSampleSize;
+
+            final int byteCount = width * height * getBytesPerPixel(candidate.getConfig());
+            return byteCount <= candidate.getAllocationByteCount();
+        } else {
+
+            return candidate.getWidth() == targetOptions.outWidth &&
+                    candidate.getHeight() == targetOptions.outHeight && targetOptions.inSampleSize == 1;
+        }
+    }
+
+    private int getBytesPerPixel(Bitmap.Config config) {
+        if (config == Bitmap.Config.ARGB_8888) {
+            return 4;
+        } else if (config == Bitmap.Config.RGB_565) {
+            return 2;
+        } else if (config == Bitmap.Config.ARGB_4444) {
+            return 2;
+        } else if (config == Bitmap.Config.ALPHA_8) {
+            return 1;
+        }
+        return 1;
+    }
+
+    /**
      * 清空lrucache和软引用缓存
      */
     public void clear() {
         mLruCache.evictAll();
-        mSoftCache.clear();
+        clearReusableBitmaps();
+    }
+
+    private void clearReusableBitmaps() {
+        if (mReusableBitmaps != null && !mReusableBitmaps.isEmpty()) {
+            synchronized (MemoryCacheObservable.class) {
+                final Iterator<SoftReference<Bitmap>> iterator = mReusableBitmaps.iterator();
+                Bitmap item;
+
+                while (iterator.hasNext()) {
+                    iterator.next().get().recycle();
+                }
+                mReusableBitmaps.clear();
+            }
+        }
     }
 
     /**
@@ -96,7 +170,6 @@ public class MemoryCacheObservable extends CacheObservable {
     public void remove(String url) {
         if (Preconditions.isNotBlank(url)) {
             mLruCache.remove(url);
-            mSoftCache.remove(url);
         }
     }
 

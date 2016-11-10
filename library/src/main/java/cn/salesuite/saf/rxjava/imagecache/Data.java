@@ -1,13 +1,6 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import cn.salesuite.saf.utils.FileUtils;
 
 /**
  * 封装Bitmap的Data对象
@@ -22,17 +15,6 @@ public class Data {
     public Data(Bitmap bitmap, String url) {
         this.bitmap = bitmap;
         this.url = url;
-    }
-
-    public Data(File f, String url) {
-        if (FileUtils.exists(f)) {
-            this.url = url;
-            try {
-                bitmap = BitmapFactory.decodeStream(new FileInputStream(f));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public boolean isAvailable() {

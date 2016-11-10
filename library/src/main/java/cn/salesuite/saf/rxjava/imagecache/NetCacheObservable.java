@@ -1,5 +1,6 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import cn.salesuite.saf.utils.IOUtils;
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,7 +22,11 @@ import rx.schedulers.Schedulers;
  */
 public class NetCacheObservable extends CacheObservable {
 
-    public NetCacheObservable() {}
+    private MemoryCacheObservable memoryCacheObservable;
+
+    public NetCacheObservable(MemoryCacheObservable memoryCacheObservable) {
+        this.memoryCacheObservable = memoryCacheObservable;
+    }
 
     public void create(final String url, final ImageView imageView) {
 
@@ -46,6 +52,9 @@ public class NetCacheObservable extends CacheObservable {
                     options.inSampleSize = calculateInSampleSize(options,jobOptions.requestedWidth,jobOptions.requestedHeight);
                     options.inJustDecodeBounds = false;
 
+                    if (SAFUtils.isHoneycombOrHigher()) {
+                        addInBitmapOptions(options);
+                    }
                     bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -73,7 +82,7 @@ public class NetCacheObservable extends CacheObservable {
 
     // Took from:
     // http://developer.android.com/training/displaying-bitmaps/load-bitmap.html
-    public static int calculateInSampleSize(
+    public int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -94,6 +103,25 @@ public class NetCacheObservable extends CacheObservable {
         }
 
         return inSampleSize;
+    }
+
+    /**
+     * 设置inBitmap属性
+     *
+     * @param options options
+     */
+    @TargetApi(11)
+    private BitmapFactory.Options addInBitmapOptions(BitmapFactory.Options options) {
+        options.inMutable = true;
+
+        if (memoryCacheObservable!=null) {
+            Bitmap inBitmap = memoryCacheObservable.getBitmapFromReusableSet(options);
+            if (inBitmap != null) {
+                options.inBitmap = inBitmap;
+            }
+        }
+
+        return options;
     }
 
     public static class JobOptions {

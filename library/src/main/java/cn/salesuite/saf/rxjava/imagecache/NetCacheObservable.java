@@ -22,9 +22,9 @@ public class NetCacheObservable extends CacheObservable {
 
     public NetCacheObservable() {}
 
-    public CacheObservable create(final String url, final ImageView imageView) {
-        final NetCacheObservable instance = new NetCacheObservable();
-        Observable observable = Observable.create(new Observable.OnSubscribe<Data>() {
+    public void create(final String url, final ImageView imageView) {
+
+        this.observable = Observable.create(new Observable.OnSubscribe<Data>() {
             @Override
             public void call(Subscriber<? super Data> subscriber) {
                 Data data;
@@ -59,8 +59,6 @@ public class NetCacheObservable extends CacheObservable {
                 }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        instance.observable = observable;
-        return instance;
     }
 
     @Override

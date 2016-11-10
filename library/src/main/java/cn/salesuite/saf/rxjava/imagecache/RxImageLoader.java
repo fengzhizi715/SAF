@@ -51,9 +51,9 @@ public class RxImageLoader {
      * @param imageView
      * @param default_img_id
      */
-    public void displayImage(final String url, final ImageView imageView, int default_img_id) {
+    public void displayImage(String url, final ImageView imageView, int default_img_id) {
 
-        // 优先加载
+        // 优先加载默认图片
         if (default_img_id>0) {
             imageView.setImageResource(default_img_id);
         }
@@ -87,7 +87,7 @@ public class RxImageLoader {
      * @param url the url for the img
      * @return the observable to load img
      */
-    private ConnectableObservable<Data> getObservables(final String url,ImageView imageView) {
+    private ConnectableObservable<Data> getObservables(String url,ImageView imageView) {
         Bitmap bitmap = getBitmapFromCache(url);
         ConnectableObservable<Data> source;
         if (bitmap != null) {
@@ -108,7 +108,10 @@ public class RxImageLoader {
         if (bm != null) return bm;
 
         bm = sources.diskCacheObservable.cache(url);
-        if (bm != null) return bm;
+        if (bm != null) {
+            sources.memoryCacheObservable.putData(new Data(bm,url));
+            return bm;
+        }
 
         return null;
     }

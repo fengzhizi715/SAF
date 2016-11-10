@@ -33,9 +33,6 @@ public class DiskCacheObservable extends CacheObservable {
     private long mCacheSize = 50 * 1024 * 1024; // 50MB
     private static final String DISK_CACHE_SUBDIR = "bitmap";
 
-    public DiskCacheObservable() {
-    }
-
     private File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()
@@ -58,7 +55,7 @@ public class DiskCacheObservable extends CacheObservable {
     }
 
 
-    private DiskCacheObservable(Context context) {
+    public DiskCacheObservable(Context context) {
         if (context == null)
             return;
         try {
@@ -89,22 +86,20 @@ public class DiskCacheObservable extends CacheObservable {
      * @param context android application context
      * @param key cache key
      * @param cacheSize cache size, <= 0 for default size, 50MB
-     * @return
      */
-    public CacheObservable create(Context context, final String key, long cacheSize) {
-        final DiskCacheObservable instance = new DiskCacheObservable(context);
+    public void create(Context context, final String key, long cacheSize) {
+
         if (cacheSize > 0)
             mCacheSize = cacheSize;
-        instance.observable = Observable.create(new Observable.OnSubscribe<Data>() {
+        this.observable = Observable.create(new Observable.OnSubscribe<Data>() {
             @Override
             public void call(Subscriber<? super Data> subscriber) {
-                Bitmap ob = instance.cache(key);
+                Bitmap ob = cache(key);
                 Data data = new Data(ob, key);
                 subscriber.onNext(data);
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        return instance;
     }
 
     /**

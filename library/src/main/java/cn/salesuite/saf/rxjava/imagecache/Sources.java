@@ -26,20 +26,20 @@ public class Sources {
     public Sources(Context mContext) {
         this.mContext = mContext;
         memoryCacheObservable = new MemoryCacheObservable();
-        diskCacheObservable = new DiskCacheObservable();
+        diskCacheObservable = new DiskCacheObservable(mContext);
         netCacheObservable = new NetCacheObservable();
     }
 
     public ConnectableObservable<Data> getConnectableObservable(String url, ImageView imageView) {
 
-        memoryCacheObservable = (MemoryCacheObservable) memoryCacheObservable.create(url);
-        diskCacheObservable = (DiskCacheObservable)diskCacheObservable.create(mContext, url, 0);
-        netCacheObservable = (NetCacheObservable) netCacheObservable.create(url,imageView);
+        memoryCacheObservable.create(url);
+        diskCacheObservable.create(mContext, url, 0);
+        netCacheObservable.create(url,imageView);
 
         return addCaches(memoryCacheObservable,diskCacheObservable,netCacheObservable);
     }
 
-    public ConnectableObservable<Data> addCaches(final CacheObservable... observables) {
+    private ConnectableObservable<Data> addCaches(final CacheObservable... observables) {
 
         if (Preconditions.isNotBlank(observables)) {
             ArrayList<Observable<Data>> list = new ArrayList<>();

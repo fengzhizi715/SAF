@@ -6,6 +6,7 @@ import android.support.v4.util.LruCache;
 import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
 
+import cn.salesuite.saf.utils.Preconditions;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -68,18 +69,19 @@ public class MemoryCacheObservable extends CacheObservable {
      * @param url
      */
     public void remove(String url) {
-        mLruCache.remove(url);
-        mSoftCache.remove(url);
+        if (Preconditions.isNotBlank(url)) {
+            mLruCache.remove(url);
+            mSoftCache.remove(url);
+        }
     }
 
     /**
      * Create MemoryCacheObservable
      * @param key  for Cache
-     * @return Observable
      */
-    public CacheObservable create(final String key) {
-        final MemoryCacheObservable instance = new MemoryCacheObservable();
-        instance.observable = Observable.create(new Observable.OnSubscribe<Data>() {
+    public void create(final String key) {
+
+        this.observable = Observable.create(new Observable.OnSubscribe<Data>() {
             @Override
             public void call(Subscriber<? super Data> subscriber) {
                 if (!subscriber.isUnsubscribed()) {
@@ -88,7 +90,6 @@ public class MemoryCacheObservable extends CacheObservable {
                 }
             }
         });
-        return instance;
     }
 
     @Override
@@ -102,9 +103,7 @@ public class MemoryCacheObservable extends CacheObservable {
 
     @Override
     public Bitmap cache(String url) {
-        if (mLruCache ==  null)
-            return null;
-        return mLruCache.get(url);
+        return mLruCache == null ? null : mLruCache.get(url);
     }
 
 }

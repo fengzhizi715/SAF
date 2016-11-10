@@ -1,5 +1,6 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
@@ -7,6 +8,7 @@ import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
 
 import cn.salesuite.saf.utils.Preconditions;
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -30,15 +32,20 @@ public class MemoryCacheObservable extends CacheObservable {
         mLruCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
-                return (value!=null)?value.getRowBytes() * value.getHeight():0;
+                final int bitmapSize = getBitmapSize(value);
+                return bitmapSize == 0 ? 1 : bitmapSize;
             }
 
             @Override
             protected void entryRemoved(boolean evicted, String key,
                                         Bitmap oldValue, Bitmap newValue) {
-                if (oldValue != null)
-                    // 硬引用缓存容量满的时候，会根据LRU算法把最近没有被使用的图片转入此软引用缓存
+                if(evicted){
+                    if(oldValue != null && !oldValue.isRecycled()){
+                        oldValue.recycle();
+                    }
+                } else {
                     mSoftCache.put(key, new SoftReference<Bitmap>(oldValue));
+                }
             }
         };
         mSoftCache = new LinkedHashMap<String, SoftReference<Bitmap>>(
@@ -54,6 +61,24 @@ public class MemoryCacheObservable extends CacheObservable {
                 return false;
             }
         };
+    }
+
+    /**
+     * @param value a bitmap
+     * @return size of bitmap
+     */
+    @TargetApi(19)
+    private int getBitmapSize(Bitmap value) {
+
+        if (value == null) {
+            return 0;
+        }
+
+        if (SAFUtils.isKitkatOrHigher()) {
+            return value.getAllocationByteCount();
+        }
+
+        return value.getHeight() * value.getRowBytes();
     }
 
     /**
@@ -94,7 +119,7 @@ public class MemoryCacheObservable extends CacheObservable {
 
     @Override
     public void putData(Data data) {
-        if (data!=null && data.bitmap != null) {
+        if (data!=null && data.isAvailable()) {
             synchronized (mLruCache) {
                 mLruCache.put(data.url, data.bitmap);
             }

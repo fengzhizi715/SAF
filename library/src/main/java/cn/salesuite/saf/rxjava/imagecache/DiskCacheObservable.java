@@ -96,8 +96,11 @@ public class DiskCacheObservable extends CacheObservable {
             public void call(Subscriber<? super Data> subscriber) {
                 Bitmap ob = cache(key);
                 Data data = new Data(ob, key);
-                subscriber.onNext(data);
-                subscriber.onCompleted();
+
+                if(!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(data);
+                    subscriber.onCompleted();
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }

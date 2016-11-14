@@ -3,9 +3,12 @@
  */
 package cn.salesuite.saf.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -21,14 +24,26 @@ public class SAFFragment extends Fragment {
 	public Activity mContext;
     
     public String TAG;
-    
+
+	/**
+	 * Deprecated on API 23
+	 * @param activity
+     */
 	@Override
     public void onAttach(Activity activity) {
 		super.onAttach(activity);
-        this.mContext = activity;
+		if (!SAFUtils.isMOrHigher()) {
+			this.mContext = activity;
+		}
     }
-	
-    @Override
+
+	@TargetApi(23)
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		this.mContext = (Activity) context;
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         

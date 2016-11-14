@@ -5,6 +5,11 @@ package cn.salesuite.saf.log;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
+
 import cn.salesuite.saf.app.SAFActivity;
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.app.SAFFragmentActivity;
@@ -208,7 +213,8 @@ public class L {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
 			if(object!=null) {
-				Log.i(TAG, SAFUtils.printObject(object));
+				String s = getMethodNames();
+				Log.i(TAG, String.format(s,SAFUtils.printObject(object)));
 			}
 		}
 	}
@@ -331,6 +337,21 @@ public class L {
 			
 			if(object!=null) {
 				Log.d(TAG, prefix+"="+SAFUtils.printObject(object));
+			}
+		}
+	}
+
+	public static void json(Map map) {
+		if(map!=null) {
+
+			try {
+				JSONObject jsonObject = new JSONObject(map);
+				String message = jsonObject.toString(LoggerPrinter.JSON_INDENT);
+				message = message.replaceAll("\n","\n║ ");
+				String s = getMethodNames();
+				System.out.println(String.format(s,message));
+			} catch (JSONException e) {
+				e("Invalid Json");
 			}
 		}
 	}

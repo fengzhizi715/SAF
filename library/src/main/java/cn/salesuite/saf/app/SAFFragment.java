@@ -40,7 +40,10 @@ public class SAFFragment extends Fragment {
 	@TargetApi(23)
 	public void onAttach(Context context) {
 		super.onAttach(context);
-		this.mContext = (Activity) context;
+
+		if (context instanceof Activity){
+			this.mContext = (Activity) context;
+		}
 	}
 
 	@Override

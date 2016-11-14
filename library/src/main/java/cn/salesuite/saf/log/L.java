@@ -147,7 +147,9 @@ public class L {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
 			if(StringUtils.isNotBlank(msg)) {
-				Log.i(TAG, msg);
+
+				String s = getMethodNames();
+				Log.i(TAG, String.format(s,msg));
 			}
 		}
 	}
@@ -331,5 +333,35 @@ public class L {
 				Log.d(TAG, prefix+"="+SAFUtils.printObject(object));
 			}
 		}
+	}
+
+	private static String getMethodNames() {
+		StackTraceElement[] sElements = Thread.currentThread().getStackTrace();
+
+		int stackOffset = LoggerPrinter.getStackOffset(sElements);
+
+		stackOffset++;
+		StringBuilder builder = new StringBuilder();
+		builder.append(LoggerPrinter.TOP_BORDER).append("\r\n")
+				// 添加当前线程名
+				.append("║ " + "Thread: " + Thread.currentThread().getName()).append("\r\n")
+				.append(LoggerPrinter.MIDDLE_BORDER).append("\r\n")
+				// 添加类名、方法名、行数
+				.append("║ ")
+				.append(sElements[stackOffset].getClassName())
+				.append(".")
+				.append(sElements[stackOffset].getMethodName())
+				.append(" ")
+				.append(" (")
+				.append(sElements[stackOffset].getFileName())
+				.append(":")
+				.append(sElements[stackOffset].getLineNumber())
+				.append(")")
+				.append("\r\n")
+				.append(LoggerPrinter.MIDDLE_BORDER).append("\r\n")
+				// 添加打印的日志信息
+				.append("║ ").append("%s").append("\r\n")
+				.append(LoggerPrinter.BOTTOM_BORDER).append("\r\n");
+		return builder.toString();
 	}
 }

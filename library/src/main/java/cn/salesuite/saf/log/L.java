@@ -25,7 +25,7 @@ import cn.salesuite.saf.utils.StringUtils;
  */
 public class L {
 	
-	public static enum LogLevel {
+	public enum LogLevel {
 		ERROR {
 			public int getValue() {
 				return 0;
@@ -48,7 +48,7 @@ public class L {
 		};
 
 		public abstract int getValue();
-	};
+	}
 	
 	private static String TAG = "SAF_L";
 	

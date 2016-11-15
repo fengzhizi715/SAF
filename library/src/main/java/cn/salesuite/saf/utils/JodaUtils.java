@@ -110,7 +110,7 @@ public class JodaUtils {
 	 * @param pattern
 	 * @return
 	 */
-	public static final Date parseDate(String strDate, String pattern){
+	public static Date parseDate(String strDate, String pattern){
 		SimpleDateFormat df = null;
 		Date date = null;
 		df = new SimpleDateFormat(pattern);
@@ -126,7 +126,7 @@ public class JodaUtils {
 	 * @param date
 	 * @return formated date by yyyy-MM-dd
 	 */
-	public static final String formatDate(Date date) {
+	public static String formatDate(Date date) {
 		return format(date,"yyyy-MM-dd");
 	}
 	
@@ -135,7 +135,7 @@ public class JodaUtils {
 	 * @param date
 	 * @return formated date by yyyy-MM-dd HH:mm:ss
 	 */
-	public static final String formatDateTime(Date date) {
+	public static String formatDateTime(Date date) {
 		return format(date,"yyyy-MM-dd HH:mm:ss");
 	}
     
@@ -144,7 +144,7 @@ public class JodaUtils {
 	 * @param pattern: Date format pattern
 	 * @return
 	 */
-	public static final String format(Date date, String pattern) {
+	public static String format(Date date, String pattern) {
 		if(date==null) return null;
 		
 		return new DateTime(date).toString(pattern);
@@ -158,7 +158,7 @@ public class JodaUtils {
 	 * @param seconds
 	 * @return original+day+hour+minutes+seconds
 	 */
-	public static final Date addTime(Date original,int days, int hours, int minutes, int seconds){
+	public static Date addTime(Date original,int days, int hours, int minutes, int seconds){
 		if(original==null) return null;
 		
 		return new DateTime(original).plusDays(days).plusHours(hours).plusMinutes(minutes).plusSeconds(seconds).toDate();
@@ -182,25 +182,25 @@ public class JodaUtils {
 		return new DateTime(original).plusWeeks(weeks).toDate();
 	}
 	
-	public static final Date addDay(Date original,int days){
+	public static Date addDay(Date original,int days){
 		if(original==null) return null;
 		
 		return new DateTime(original).plusDays(days).toDate();
 	}
 	
-	public static final Date addHour(Date original, int hours){
+	public static Date addHour(Date original, int hours){
 		if(original==null) return null;
 
 		return new DateTime(original).plusHours(hours).toDate();
 	}
 	
-	public static final Date addMinute(Date original, int minutes){
+	public static Date addMinute(Date original, int minutes){
 		if(original==null) return null;
 		
 		return new DateTime(original).plusMinutes(minutes).toDate();
 	}
 	
-	public static final Date addSecond(Date original, int second){
+	public static Date addSecond(Date original, int second){
 		if(original==null) return null;
 		
 		return new DateTime(original).plusSeconds(second).toDate();

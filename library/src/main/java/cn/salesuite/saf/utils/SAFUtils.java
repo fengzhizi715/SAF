@@ -5,7 +5,6 @@ package cn.salesuite.saf.utils;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -180,7 +179,7 @@ public class SAFUtils {
 		ArrayList<RunningServiceInfo> runningService = (ArrayList<RunningServiceInfo>) myManager
 				.getRunningServices(30);
 		for (int i = 0; i < runningService.size(); i++) {
-			String serName = runningService.get(i).service.getClassName().toString();
+			String serName  = runningService.get(i).service.getClassName().toString();
 			if (serName.equals(serviceName)) {
 				return true;
 			}

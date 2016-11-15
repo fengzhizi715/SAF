@@ -14,7 +14,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [SAFApp](https://github.com/fengzhizi715/SAF#safapp)
 * [New Annotation](https://github.com/fengzhizi715/SAF#new-annotation-without-reflection)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
@@ -26,9 +25,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [L](https://github.com/fengzhizi715/SAF#)
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
 
-SAFApp
-===
-SAFApp其实不能算是一个完整的模块，SAFApp继承了Application。增加了一个可作为缓存存放app全局变量的session，一个ImageLoader，一个记录Activity的List。
 
 New annotation without reflection
 ===

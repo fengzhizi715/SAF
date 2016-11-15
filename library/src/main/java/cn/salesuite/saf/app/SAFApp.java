@@ -17,7 +17,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.salesuite.saf.config.SAFConstant;
@@ -36,7 +35,6 @@ import cn.salesuite.saf.utils.SAFUtils;
  */
 public class SAFApp extends Application {
 
-	public HashMap<String, Object> session;
 	public String root = "/sdcard";
 
 	public List<Activity> activityManager;
@@ -65,7 +63,6 @@ public class SAFApp extends Application {
 	public void init() {
 		instance = this;
 
-		session = new HashMap<String, Object>();
 		activityManager = new ArrayList<Activity>();
 //		if (fileDir!=null) {
 //			imageLoader = new ImageLoader(instance,defaultImageId,fileDir);// 使用ImageLoader组件时,设置defaultImageId、fileDir

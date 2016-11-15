@@ -63,7 +63,7 @@ public class StringUtils {
 		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'a', 'b', 'c', 'd', 'e', 'f' };
 		try {
-			byte[] strTemp = s.getBytes();
+			byte[] strTemp = s.getBytes("UTF-8");
 			// 使用MD5创建MessageDigest对象
 			MessageDigest mdTemp = MessageDigest.getInstance("MD5");
 			mdTemp.update(strTemp);

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -188,7 +189,7 @@ public class DiskCacheObservable extends CacheObservable {
         String md5 = null;
         try {
             md = MessageDigest.getInstance("MD5");
-            md.update(content.getBytes());
+            md.update(content.getBytes("UTF-8"));
             byte[] digests = md.digest();
 
             int i;
@@ -203,6 +204,8 @@ public class DiskCacheObservable extends CacheObservable {
             }
             md5 = sb.toString().substring(8, 24);
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return md5;

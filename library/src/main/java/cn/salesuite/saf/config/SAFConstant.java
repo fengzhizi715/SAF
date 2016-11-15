@@ -18,8 +18,8 @@ public class SAFConstant {
 	public static int default_img_id;
 	
 	/** app存储目录/文件  可根据app的名称覆盖 默认使用saf作为文件名**/
-	public static String DIR = "/saf";
-	public static String CACHE_DIR = DIR + "/images";
+	public static final String DIR = "/saf";
+	public static final String CACHE_DIR = DIR + "/images";
 
 	public final static String CHINA_CARRIER_UNKNOWN = "0";
 	public final static String CHINA_MOBILE = "1";

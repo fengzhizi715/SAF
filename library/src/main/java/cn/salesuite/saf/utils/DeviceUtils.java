@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -102,6 +101,7 @@ public class DeviceUtils {
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
                     case TelephonyManager.NETWORK_TYPE_IDEN:
                         result = SAFConstant.NETWORK_2G;
+                        break;
                     case TelephonyManager.NETWORK_TYPE_UMTS:
                     case TelephonyManager.NETWORK_TYPE_EVDO_0:
                     case TelephonyManager.NETWORK_TYPE_EVDO_A:
@@ -112,12 +112,16 @@ public class DeviceUtils {
                     case TelephonyManager.NETWORK_TYPE_EHRPD:
                     case TelephonyManager.NETWORK_TYPE_HSPAP:
                         result = SAFConstant.NETWORK_3G;
+                        break;
                     case TelephonyManager.NETWORK_TYPE_LTE:
                         result = SAFConstant.NETWORK_4G;
+                        break;
                     case TelephonyManager.NETWORK_TYPE_UNKNOWN:
                         result = SAFConstant.NETWORK_4G;
+                        break;
                     default:
                         result = SAFConstant.NETWORK_2G;
+                        break;
                 }
             }
         } catch (Exception ignored) {

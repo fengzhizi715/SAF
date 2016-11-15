@@ -465,7 +465,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			L.e(e);
+			L.json(e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
@@ -512,7 +512,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			L.e(e);
+			L.json(e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
@@ -549,7 +549,7 @@ public class RestClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			L.e(e);
+			L.json(e);
 			
 			if (StringUtils.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));

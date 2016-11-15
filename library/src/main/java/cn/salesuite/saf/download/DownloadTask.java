@@ -1,5 +1,14 @@
 package cn.salesuite.saf.download;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,14 +18,6 @@ import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.util.Log;
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.SAFUtils;
 
@@ -171,7 +172,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 			downloadSize = progress[0];
 			downloadPercent = (downloadSize + previousFileSize) * 100 / totalSize;
 			networkSpeed = downloadSize / totalTime;
-			L.dWithTag(TAG, toString());
+			L.d(TAG, toString());
 			if (listener != null)
 				listener.updateProcess(this);
 		}
@@ -191,7 +192,7 @@ public class DownloadTask extends AsyncTask<Void, Integer, Long> {
 		if (exception != null) {
 			Log.v(TAG, "Download failed.", exception);
 		}
-		L.dWithTag(TAG, "finish:"+toString());
+		L.d(TAG, "finish:"+toString());
 		if (listener != null)
 			listener.finishDownload(this);
 	}

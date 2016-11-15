@@ -12,6 +12,7 @@ import java.util.List;
 import cn.salesuite.saf.inject.Injector;
 
 /**
+ * 老的写法，推荐使用SAFRecyclerAdapter
  * @author Tony Shen
  *
  */
@@ -98,11 +99,8 @@ public abstract class SAFAdapter<T> extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		if (mList!=null) {
-			return mList.size();
-		}
 
-		return 0;
+		return mList != null ? mList.size() : 0;
 	}
 
 	@Override

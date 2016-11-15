@@ -27,10 +27,7 @@ public class SAFRecyclerAdapter<T,VH extends Presenter<T>> extends RecyclerView.
     @Override
     public int getItemCount() {
 
-        if (mList!=null) {
-            return mList.size();
-        }
-        return 0;
+        return mList!=null?mList.size():0;
     }
 
     public List<T> getList() {

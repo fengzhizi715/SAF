@@ -514,8 +514,7 @@ public class SAFUtils {
 	public static boolean hasSdcard() {
 		
 		String status = Environment.getExternalStorageState();
-		
-		return status.equals(Environment.MEDIA_MOUNTED)?true:false;
+		return Environment.MEDIA_MOUNTED.equals(status);
 	}
 	
 	/**

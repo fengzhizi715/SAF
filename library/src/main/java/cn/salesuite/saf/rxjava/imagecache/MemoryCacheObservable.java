@@ -192,7 +192,7 @@ public class MemoryCacheObservable extends CacheObservable {
 
     @Override
     public void putData(Data data) {
-        if (data!=null && data.isAvailable()) {
+        if (DataUtils.isAvailable(data)) {
             synchronized (mLruCache) {
                 mLruCache.put(data.url, data.bitmap);
             }

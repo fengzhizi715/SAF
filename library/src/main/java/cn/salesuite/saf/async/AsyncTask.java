@@ -1,5 +1,12 @@
 package cn.salesuite.saf.async;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Process;
+import android.util.Log;
+import android.widget.ListView;
+
 import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -15,14 +22,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.Process;
-import android.util.Log;
-import android.widget.ListView;
-
 /**
+ * 推荐使用RxAsyncTask替换AsyncTask
  * @author shcaoyamin
  * 2015年3月11日
  * 基本Android原生系统的全版本AynscTask
@@ -34,7 +35,7 @@ import android.widget.ListView;
  * <li>3. 支持子线程建立并执行{@link AsyncTask}，{@link #onPostExecute(Object)}方法一定会在主线程执行</li>
  * </ul>
  */
-
+@Deprecated
 public abstract class AsyncTask<Params, Progress, Result> {
 	private static final String LOG_TAG = "AsyncTask";
 

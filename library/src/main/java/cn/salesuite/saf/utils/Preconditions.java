@@ -61,7 +61,7 @@ public class Preconditions {
         return !isBlank(t);
     }
 
-    public static boolean isNotBlank(Object... objects) {
+    public static boolean isNotBlanks(Object... objects) {
 
         if (objects==null) {
             return false;

@@ -22,8 +22,6 @@ public class SAFActivity extends Activity{
 
 	public SAFApp app;
 	public String TAG;
-	public int networkType;
-	public String networkName;
     protected Handler mHandler = new SafeHandler(this);
 	
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,138 +1,68 @@
 package com.test.saf.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.test.saf.R;
-import com.test.saf.Test2Event;
-import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
-
-import cn.salesuite.saf.aspects.annotation.Async;
-import cn.salesuite.saf.aspects.annotation.Cacheable;
-import cn.salesuite.saf.aspects.annotation.Trace;
-import cn.salesuite.saf.cache.Cache;
-import cn.salesuite.saf.http.rest.RestClient;
-import cn.salesuite.saf.log.L;
-import cn.salesuite.saf.rxjava.RxAsyncTask;
-import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
-import cn.salesuite.saf.rxjava.eventbus.RxEventBusAnnotationManager;
-import cn.salesuite.saf.rxjava.eventbus.Subscribe;
-import cn.salesuite.saf.rxjava.eventbus.ThreadMode;
-import cn.salesuite.saf.utils.SAFUtils;
 
 public class MainActivity extends BaseActivity {
 
-	private TextView text;
-    private RxEventBusAnnotationManager manager;
-    private static final String TAG = MainActivity.class.getName();
+	private DrawerLayout drawerLayout;
+	private View content;
+	private RecyclerView recyclerView;
+	private NavigationView navigationView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		text = (TextView)findViewById(R.id.text);
-		manager = new RxEventBusAnnotationManager(this);
-		RxEventBus.getInstance().post(new TestEvent());
+		initFab();
+		initToolbar();
+		setupDrawerLayout();
 
-		text.setOnClickListener(new View.OnClickListener(){
+		content = findViewById(R.id.content);
+	}
 
-			@Override
-			public void onClick(View v) {
-//				RxEventBus.get().post(new Test2Event());
-		        Intent i = new Intent(MainActivity.this,SecondActivity.class);
-		        startActivity(i);
-//				loadUser();
+	private void initFab() {
+		findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) {
+				Snackbar.make(content, "FAB Clicked", Snackbar.LENGTH_SHORT).show();
 			}
 		});
-
-		initData();
-
-//		try {
-//			ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript",this);
-////			String result  = (String) engine.eval("2+2");
-////			Toast.makeText(this,"result="+result,Toast.LENGTH_SHORT).show();
-//			String json = "{\n" +
-//					"    \"className\": \"com.test.saf.activity.User\",\n" +
-//					"    \"method\": \"\",\n" +
-//					"    \"field\": \"userName\",\n" +
-//					"    \"fieldValue\": \"arron\"\n" +
-//					"}";
-//			Object result = engine.executeJava(json);
-//			Toast.makeText(this,"result="+SAFUtils.printObject(result),Toast.LENGTH_SHORT).show();
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
 	}
 
-	@Cacheable(key = "user")
-	private User initData() {
+	private void initToolbar() {
+		final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		final ActionBar actionBar = getSupportActionBar();
 
-		User user = new User();
-		user.userName = "tony";
-		user.password = "123456";
-		L.json(user);
-		return user;
-	}
-
-//	private void initData() {
-//		TestTask task = new TestTask();
-//		task.success(new RxAsyncTask.SuccessHandler<String>() {
-//			@Override
-//			public void onSuccess(String content) {
-//				L.i(content);
-//			}
-//		}).failed(new RxAsyncTask.FailedHandler() {
-//			@Override
-//			public void onFail(Throwable e) {
-//				L.i("error="+e.getMessage());
-//			}
-//		});
-//	}
-
-	@Trace
-	@Async
-	private void loadUser() {
-		Log.e(TAG, " thread=" + Thread.currentThread().getId());
-		Log.e(TAG, "ui thread=" + Looper.getMainLooper().getThread().getId());
-		Cache cache = Cache.get(this);
-		User user = (User) cache.getObject("user");
-		Toast.makeText(MainActivity.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
-	}
-
-	@Subscribe
-	void onTest(TestEvent event) {
-//		Log.i(TAG, "onTestEvent");
-		L.i("onTestEvent");
-		Toast.makeText(MainActivity.this, "onTestEvent", Toast.LENGTH_SHORT).show();
-	}
-
-	@Subscribe(value= ThreadMode.BackgroundThread)
-	void onTest2(Test2Event event) {
-		Log.i(TAG, "onTest2Event");
-		Toast.makeText(getApplication(), "onTest2Event", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (manager!=null) {
-			manager.clear();
+		if (actionBar != null) {
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
 
-	class TestTask extends RxAsyncTask<String> {
+	private void setupDrawerLayout() {
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-		public String onExecute() {
-
-			return RestClient.get("http://open.tuhaoliuliang.cn/getUrl?pkg=com.meinv.app&appVersion=1.0&apiVersion=1.0&platform=android&channel=wechat").body();
-		}
+		navigationView = (NavigationView) findViewById(R.id.navigation_view);
+		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+			@Override public boolean onNavigationItemSelected(MenuItem menuItem) {
+				Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+				menuItem.setChecked(true);
+				drawerLayout.closeDrawers();
+				return true;
+			}
+		});
 	}
 
 }

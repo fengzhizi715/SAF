@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import cn.salesuite.saf.app.SAFActivity;
+import cn.salesuite.saf.app.SAFAppCompatActivity;
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.app.SAFFragmentActivity;
 import cn.salesuite.saf.utils.Preconditions;
@@ -59,6 +60,10 @@ public class L {
 	}
 	
 	public static void init(SAFFragmentActivity activity) {
+		TAG = activity.TAG;
+	}
+
+	public static void init(SAFAppCompatActivity activity) {
 		TAG = activity.TAG;
 	}
 	

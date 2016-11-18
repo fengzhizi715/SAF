@@ -3,6 +3,7 @@ package cn.salesuite.saf.app;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +20,16 @@ public class SAFAppCompatActivity extends AppCompatActivity {
 
     public SAFApp app;
     public String TAG;
+    protected Context mContext;
     protected Handler mHandler = new SafeHandler(this);
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         app = (SAFApp) this.getApplication();
+
+        mContext = this;
+
         TAG = SAFUtils.makeLogTag(this.getClass());
         addActivityToManager(this);
     }

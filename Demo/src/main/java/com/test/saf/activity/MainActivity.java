@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,8 @@ import android.view.View;
 
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
+import com.test.saf.fragment.HomeFragment;
+import com.test.saf.menu.MenuManager;
 
 import cn.salesuite.saf.inject.annotation.InjectView;
 
@@ -32,12 +35,16 @@ public class MainActivity extends BaseActivity {
 	@InjectView
 	Toolbar toolbar;
 
+	private MenuManager menuManager;
+	private Fragment mContent;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		initViews();
+		initData();
 	}
 
 	private void initViews() {
@@ -52,6 +59,16 @@ public class MainActivity extends BaseActivity {
 				return true;
 			}
 		});
+	}
+
+	private void initData() {
+
+		if (mContent == null) {
+			menuManager = MenuManager.getInstance(getSupportFragmentManager());
+			mContent = new HomeFragment();
+		}
+
+		getSupportFragmentManager().beginTransaction().add(R.id.content_frame,mContent, MenuManager.MenuType.HOME.getTitle()).commit();
 	}
 
 	private void initFab() {

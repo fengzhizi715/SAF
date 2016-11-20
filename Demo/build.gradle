@@ -3,7 +3,7 @@ apply plugin: "android-aspectj"
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '25'
     //兼容API 23干掉了httpClient，手动加入httpClient库,或者将org.apache.http.legacy.jar放到lib文件中
     useLibrary 'org.apache.http.legacy'
 

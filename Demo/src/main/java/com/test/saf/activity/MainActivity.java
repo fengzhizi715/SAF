@@ -54,11 +54,7 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-				if (menuItem.getTitle().equals(MenuManager.MenuType.HOME.getTitle())) {
-					menuManager.show(MenuManager.MenuType.HOME);
-				} else if (menuItem.getTitle().equals(MenuManager.MenuType.ANNOTATION.getTitle())) {
-					menuManager.show(MenuManager.MenuType.ANNOTATION);
-				}
+				showMenu(menuItem);
 				Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
 				menuItem.setChecked(true);
 				drawerLayout.closeDrawers();
@@ -93,6 +89,15 @@ public class MainActivity extends BaseActivity {
 		if (actionBar != null) {
 			actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+	}
+
+	public void showMenu(MenuItem menuItem) {
+
+		if (menuItem.getTitle().equals(MenuManager.MenuType.HOME.getTitle())) {
+			menuManager.show(MenuManager.MenuType.HOME);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.ANNOTATION.getTitle())) {
+			menuManager.show(MenuManager.MenuType.ANNOTATION);
 		}
 	}
 

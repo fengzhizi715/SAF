@@ -2,9 +2,12 @@
     <string name="app_name">SAFDemo</string>
     <string name="action_settings">Settings</string>
 
-    <string name="home">Home</string>
-    <string name="favourite">Favourite</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="more">More</string>
-    <string name="settings">Settings</string>
+    <string name="home">SAF介绍</string>
+    <string name="favourite">通用注解</string>
+    <string name="downloaded">Event Bus</string>
+    <string name="more">图片加载</string>
+    <string name="settings">Sqlite ORM</string>
+    <string name="router">Router</string>
+    <string name="cache">Cache</string>
+    <string name="log">日志框架L</string>
 </resources>

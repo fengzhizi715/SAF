@@ -55,6 +55,7 @@ public class MainActivity extends BaseActivity {
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 
 				showMenu(menuItem);
+				toolbar.setTitle(menuItem.getTitle());
 				Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
 				menuItem.setChecked(true);
 				drawerLayout.closeDrawers();

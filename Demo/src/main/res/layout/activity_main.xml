@@ -1,7 +1,6 @@
-<android.support.v4.widget.DrawerLayout
-    android:id="@+id/drawer_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,11 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/content_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -27,15 +21,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="scroll|enterAlways|snap" />
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.AppBarLayout>
 
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            android:layout_gravity="bottom|end"
-            style="@style/FabStyle"/>
+            style="@style/FabStyle"
+            android:layout_gravity="bottom|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -45,6 +44,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer"/>
+        app:menu="@menu/drawer" />
 
 </android.support.v4.widget.DrawerLayout>

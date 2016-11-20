@@ -50,12 +50,5 @@ public class GeneralAnnotationFragment extends BaseFragment {
         data.add("@Trace");
         adapter = new AnnoAdapter(mContext,data);
         listview.setAdapter(adapter);
-        listview.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 }

@@ -53,6 +53,12 @@ public class MainActivity extends BaseActivity {
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+				if (menuItem.getTitle().equals(MenuManager.MenuType.HOME.getTitle())) {
+					menuManager.show(MenuManager.MenuType.HOME);
+				} else if (menuItem.getTitle().equals(MenuManager.MenuType.ANNOTATION.getTitle())) {
+					menuManager.show(MenuManager.MenuType.ANNOTATION);
+				}
 				Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
 				menuItem.setChecked(true);
 				drawerLayout.closeDrawers();

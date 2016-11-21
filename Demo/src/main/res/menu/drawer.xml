@@ -21,45 +21,45 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/drawer_home"
+            android:id="@+id/drawer_saf"
             android:checked="true"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/home"/>
+            android:icon="@drawable/menu_safinfo"
+            android:title="@string/saf"/>
 
         <item
-            android:id="@+id/drawer_favourite"
-            android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="@string/favourite"/>
+            android:id="@+id/drawer_anno"
+            android:icon="@drawable/menu_general_anno"
+            android:title="@string/general_anno"/>
 
         <item
-        android:id="@+id/drawer_downloaded"
-        android:icon="@drawable/ic_file_download_black_24dp"
-        android:title="@string/downloaded"/>
+        android:id="@+id/drawer_eventbus"
+        android:icon="@drawable/menu_eventbus"
+        android:title="@string/eventbus"/>
 
         <item
-            android:id="@+id/drawer_more"
-            android:icon="@drawable/ic_more_horiz_black_24dp"
-            android:title="@string/more"/>
+            android:id="@+id/drawer_imageloader"
+            android:icon="@drawable/menu_imageloader"
+            android:title="@string/imageloader"/>
 
         <item
-            android:id="@+id/drawer_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/settings"/>
+            android:id="@+id/drawer_sqlite"
+            android:icon="@drawable/menu_sqlite_orm"
+            android:title="@string/sqlite"/>
 
 
         <item
             android:id="@+id/drawer_router"
-            android:icon="@drawable/ic_file_download_black_24dp"
+            android:icon="@drawable/menu_router"
             android:title="@string/router"/>
 
         <item
             android:id="@+id/drawer_cache"
-            android:icon="@drawable/ic_more_horiz_black_24dp"
+            android:icon="@drawable/menu_cache"
             android:title="@string/cache"/>
 
         <item
             android:id="@+id/drawer_log"
-            android:icon="@drawable/ic_settings_black_24dp"
+            android:icon="@drawable/menu_log"
             android:title="@string/log"/>
 
     </group>

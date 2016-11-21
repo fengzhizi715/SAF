@@ -25,6 +25,6 @@
     <color name="primary">#00BCD4</color>
     <color name="primary_dark">#0097A7</color>
     <color name="accent">#FFEB3B</color>
-    <color name="accent_translucent">#80FFEB3B</color>
+    <color name="accent_translucent">#4390ac</color>
     <color name="accent_bright">#FFF493</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.test.saf.app;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.log.L;
@@ -11,6 +12,7 @@ import cn.salesuite.saf.log.L;
 public class BaseFragment extends SAFFragment{
 
     protected DemoApp app;
+    protected FragmentManager fmgr;
 
     public BaseFragment() {
     }
@@ -20,6 +22,7 @@ public class BaseFragment extends SAFFragment{
         super.onCreate(savedInstanceState);
 
         app = DemoApp.getInstance();
+        fmgr = getFragmentManager();
 
         L.init(this);
     }

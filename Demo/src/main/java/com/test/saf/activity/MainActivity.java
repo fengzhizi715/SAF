@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,6 +17,7 @@ import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.fragment.HomeFragment;
 import com.test.saf.menu.MenuManager;
+import com.test.saf.utils.DoubleClickExitUtils;
 
 import cn.salesuite.saf.inject.annotation.InjectView;
 
@@ -37,6 +40,7 @@ public class MainActivity extends BaseActivity {
 
 	private MenuManager menuManager;
 	private Fragment mContent;
+	private DoubleClickExitUtils doubleClickExitHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 
 		initViews();
-		initData();
+		initData(savedInstanceState);
 	}
 
 	private void initViews() {
@@ -64,7 +68,13 @@ public class MainActivity extends BaseActivity {
 		});
 	}
 
-	private void initData() {
+	private void initData(Bundle savedInstanceState) {
+
+		doubleClickExitHelper = new DoubleClickExitUtils(this);
+
+		if (savedInstanceState != null) {
+			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+		}
 
 		if (mContent == null) {
 			menuManager = MenuManager.getInstance(getSupportFragmentManager());
@@ -91,6 +101,14 @@ public class MainActivity extends BaseActivity {
 			actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				drawerLayout.openDrawer(Gravity.LEFT,true);
+			}
+		});
 	}
 
 	public void showMenu(MenuItem menuItem) {
@@ -102,4 +120,14 @@ public class MainActivity extends BaseActivity {
 		}
 	}
 
+	//重写物理按键的返回逻辑(实现返回键跳转到上一页)
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		//用户触摸返回键
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			doubleClickExitHelper.onKeyDown(keyCode, event);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

@@ -8,6 +8,8 @@ import com.test.saf.R;
 import com.test.saf.fragment.GeneralAnnotationFragment;
 import com.test.saf.fragment.HomeFragment;
 
+import cn.salesuite.saf.log.L;
+
 /**
  * Created by tony on 2016/11/20.
  */
@@ -60,6 +62,7 @@ public class MenuManager {
 
 
     public boolean show(MenuType type) {
+        L.i(curType.getTitle());
         if (curType == type) {
             return true;
         } else {
@@ -91,7 +94,7 @@ public class MenuManager {
             default:
                 break;
         }
-        fragmentManager.beginTransaction().add(R.id.content_frame, fragment, type.getTitle()).commit();
+        fragmentManager.beginTransaction().add(R.id.content_frame, fragment, type.getTitle()).commitAllowingStateLoss();
         return fragment;
     }
 

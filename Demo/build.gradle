@@ -28,10 +28,18 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'org.aspectj:aspectjrt:1.8.+'
     compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.zzhoujay.richtext:richtext:2.2.2'
     compile project(':library')
 }

@@ -1,12 +1,15 @@
 package com.test.saf.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.test.saf.R;
+import com.test.saf.activity.AnnotationActivity;
 import com.test.saf.adapter.AnnoAdapter;
 import com.test.saf.app.BaseFragment;
 
@@ -27,7 +30,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
     AnnoAdapter adapter;
 
-    List<String> data;
+    List<String> data = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
     private void initData() {
 
-        data = new ArrayList<String>();
+        data.clear();
         data.add("@Async");
         data.add("@Cacheable");
         data.add("@LogMethod");
@@ -50,5 +53,16 @@ public class GeneralAnnotationFragment extends BaseFragment {
         data.add("@Trace");
         adapter = new AnnoAdapter(mContext,data);
         listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String annotationName = data.get(position);
+
+                Intent i = new Intent(mContext, AnnotationActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

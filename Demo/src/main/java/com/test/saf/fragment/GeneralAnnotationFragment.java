@@ -1,16 +1,14 @@
 package com.test.saf.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.test.saf.R;
-import com.test.saf.activity.AnnotationActivity;
-import com.test.saf.adapter.AnnoAdapter;
+import com.test.saf.adapter.AnnotationAdapter;
 import com.test.saf.app.BaseFragment;
 
 import java.util.ArrayList;
@@ -26,9 +24,7 @@ import cn.salesuite.saf.inject.annotation.InjectView;
 public class GeneralAnnotationFragment extends BaseFragment {
 
     @InjectView
-    ListView listview;
-
-    AnnoAdapter adapter;
+    RecyclerView recyclerview;
 
     List<String> data = new ArrayList<String>();
 
@@ -51,19 +47,11 @@ public class GeneralAnnotationFragment extends BaseFragment {
         data.add("@Prefs");
         data.add("@Safe");
         data.add("@Trace");
-        adapter = new AnnoAdapter(mContext,data);
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                String annotationName = data.get(position);
-
-                Intent i = new Intent(mContext, AnnotationActivity.class);
-                i.putExtra(AnnotationActivity.ANNO_NAME,annotationName);
-                startActivity(i);
-            }
-        });
+        recyclerview.setLayoutManager(new LinearLayoutManager(mContext));//这里用线性显示 类似于listview
+        recyclerview.setAdapter(new AnnotationAdapter(mContext,data));
+        recyclerview.getLayoutManager().setAutoMeasureEnabled(true);
+        recyclerview.setNestedScrollingEnabled(false);
+        recyclerview.setHasFixedSize(false);
     }
 }

@@ -52,15 +52,15 @@ New annotation without reflection
 
 
 @Cacheable的使用方法:
-
+<pre><code>
 	@Cacheable(key = "user")
 	private User initData() {
-
 		User user = new User();
 		user.userName = "tony";
 		user.password = "123456";
 		return user;
 	}
+</pre></code>
 
 这里的@Cacheable,实际上用到[Cache](https://github.com/fengzhizi715/SAF#cache),要获取Cache也很简单.
 

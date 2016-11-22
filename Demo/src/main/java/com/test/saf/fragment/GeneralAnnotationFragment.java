@@ -61,6 +61,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
                 String annotationName = data.get(position);
 
                 Intent i = new Intent(mContext, AnnotationActivity.class);
+                i.putExtra(AnnotationActivity.ANNO_NAME,annotationName);
                 startActivity(i);
             }
         });

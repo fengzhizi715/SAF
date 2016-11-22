@@ -117,6 +117,18 @@ public class MainActivity extends BaseActivity {
 			menuManager.show(MenuManager.MenuType.HOME);
 		} else if (menuItem.getTitle().equals(MenuManager.MenuType.ANNOTATION.getTitle())) {
 			menuManager.show(MenuManager.MenuType.ANNOTATION);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.EVENTBUS.getTitle())) {
+			menuManager.show(MenuManager.MenuType.EVENTBUS);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.IMAGELOADER.getTitle())) {
+			menuManager.show(MenuManager.MenuType.IMAGELOADER);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.SQLITE.getTitle())) {
+			menuManager.show(MenuManager.MenuType.SQLITE);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.ROUTER.getTitle())) {
+			menuManager.show(MenuManager.MenuType.ROUTER);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.CACHE.getTitle())) {
+			menuManager.show(MenuManager.MenuType.CACHE);
+		} else if (menuItem.getTitle().equals(MenuManager.MenuType.LOG.getTitle())) {
+			menuManager.show(MenuManager.MenuType.LOG);
 		}
 	}
 

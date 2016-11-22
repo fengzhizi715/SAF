@@ -5,10 +5,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.test.saf.R;
+import com.test.saf.fragment.CacheFragment;
+import com.test.saf.fragment.EventBusFragment;
 import com.test.saf.fragment.GeneralAnnotationFragment;
 import com.test.saf.fragment.HomeFragment;
-
-import cn.salesuite.saf.log.L;
+import com.test.saf.fragment.ImageLoaderFragment;
+import com.test.saf.fragment.LogFragment;
+import com.test.saf.fragment.RouterFragment;
+import com.test.saf.fragment.SqliteORMFragment;
 
 /**
  * Created by tony on 2016/11/20.
@@ -23,7 +27,13 @@ public class MenuManager {
     public enum MenuType {
 
         HOME("SAF介绍",false),
-        ANNOTATION("通用注解",true);
+        ANNOTATION("通用注解",true),
+        EVENTBUS("Event Bus",true),
+        IMAGELOADER("图片加载",true),
+        SQLITE("Sqlite ORM",true),
+        ROUTER("Router",true),
+        CACHE("Cache",true),
+        LOG("日志框架L",true);
 
         public final String title;
         public final boolean removed;
@@ -62,7 +72,6 @@ public class MenuManager {
 
 
     public boolean show(MenuType type) {
-        L.i(curType.getTitle());
         if (curType == type) {
             return true;
         } else {
@@ -91,6 +100,32 @@ public class MenuManager {
 
             case ANNOTATION:
                 fragment = new GeneralAnnotationFragment();
+                break;
+
+            case EVENTBUS:
+                fragment = new EventBusFragment();
+                break;
+
+            case IMAGELOADER:
+                fragment = new ImageLoaderFragment();
+                break;
+
+            case SQLITE:
+                fragment = new SqliteORMFragment();
+                break;
+
+            case ROUTER:
+                fragment = new RouterFragment();
+                break;
+
+            case CACHE:
+                fragment = new CacheFragment();
+                break;
+
+            case LOG:
+                fragment = new LogFragment();
+                break;
+
             default:
                 break;
         }

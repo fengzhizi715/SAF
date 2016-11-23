@@ -88,7 +88,8 @@ public class MainActivity extends BaseActivity {
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Snackbar.make(content, "FAB Clicked", Snackbar.LENGTH_SHORT).show();
+				MenuManager.MenuType curType = menuManager.getCurType();
+				Snackbar.make(content, curType.getTitle()+" Clicked", Snackbar.LENGTH_SHORT).show();
 			}
 		});
 	}

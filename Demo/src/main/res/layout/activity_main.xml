@@ -42,6 +42,7 @@
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
+            app:layout_behavior="com.test.saf.behavior.ScrollAwareFABBehavior"
             android:id="@+id/fab"
             style="@style/FabStyle"
             android:layout_gravity="bottom|end" />

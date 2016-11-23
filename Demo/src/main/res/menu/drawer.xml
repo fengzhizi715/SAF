@@ -32,9 +32,9 @@
             android:title="@string/general_anno"/>
 
         <item
-        android:id="@+id/drawer_eventbus"
-        android:icon="@drawable/menu_eventbus"
-        android:title="@string/eventbus"/>
+            android:id="@+id/drawer_eventbus"
+            android:icon="@drawable/menu_eventbus"
+            android:title="@string/eventbus"/>
 
         <item
             android:id="@+id/drawer_imageloader"

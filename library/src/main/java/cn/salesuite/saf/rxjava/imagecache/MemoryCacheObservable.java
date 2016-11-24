@@ -153,7 +153,6 @@ public class MemoryCacheObservable extends CacheObservable {
         if (mReusableBitmaps != null && !mReusableBitmaps.isEmpty()) {
             synchronized (MemoryCacheObservable.class) {
                 final Iterator<SoftReference<Bitmap>> iterator = mReusableBitmaps.iterator();
-                Bitmap item;
 
                 while (iterator.hasNext()) {
                     iterator.next().get().recycle();
@@ -191,11 +190,9 @@ public class MemoryCacheObservable extends CacheObservable {
     }
 
     @Override
-    public void putData(Data data) {
+    public synchronized void putData(Data data) {
         if (DataUtils.isAvailable(data)) {
-            synchronized (mLruCache) {
-                mLruCache.put(data.url, data.bitmap);
-            }
+            mLruCache.put(data.url, data.bitmap);
         }
     }
 

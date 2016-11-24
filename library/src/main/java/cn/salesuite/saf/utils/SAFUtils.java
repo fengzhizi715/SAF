@@ -45,6 +45,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import cn.salesuite.saf.app.SAFApp;
+import cn.salesuite.saf.func.Fn;
+import cn.salesuite.saf.func.functions.Predicate;
 import cn.salesuite.saf.reflect.Reflect;
 
 /**
@@ -564,7 +566,7 @@ public class SAFUtils {
 	}
 
 	/**
-	 * 获取全局的context
+	 * 获取全局的context，也就是Application Context
 	 * @return
      */
 	@TargetApi(14)
@@ -618,15 +620,17 @@ public class SAFUtils {
 		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
 
-		if (Preconditions.isNotBlank(runningApps)) {
-			int myPid = android.os.Process.myPid();
-			for (ActivityManager.RunningAppProcessInfo proInfo : runningApps) {
-				if (proInfo!=null && proInfo.pid == myPid) {
-					return proInfo.processName;
-				}
-			}
-		}
+		final int myPid = android.os.Process.myPid();
 
-		return null;
+		ActivityManager.RunningAppProcessInfo proInfo = Fn.first(new Predicate<ActivityManager.RunningAppProcessInfo>(){
+
+			@Override
+			public boolean accept(ActivityManager.RunningAppProcessInfo proInfo) {
+
+				return proInfo!=null && proInfo.pid == myPid;
+			}
+		},runningApps);
+
+		return proInfo!=null?proInfo.processName:null;
 	}
 }

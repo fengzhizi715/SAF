@@ -10,7 +10,6 @@ public class Data {
 
     public Bitmap bitmap;
     public String url;
-    private boolean isAvailable;
 
     public Data(Bitmap bitmap, String url) {
         this.bitmap = bitmap;
@@ -18,7 +17,7 @@ public class Data {
     }
 
     public boolean isAvailable() {
-        isAvailable = url != null && bitmap != null;
-        return isAvailable;
+
+        return url != null && bitmap != null;
     }
 }

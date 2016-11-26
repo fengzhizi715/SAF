@@ -15,6 +15,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 主要功能
 -----------------------------------
 * [New Annotation](https://github.com/fengzhizi715/SAF#new-annotation-without-reflection)
+* [RxAsyncTask](https://github.com/fengzhizi715/SAF#rxasynctask)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
 * [Image Cache](https://github.com/fengzhizi715/SAF#image-cache)
@@ -82,6 +83,29 @@ New annotation without reflection
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity:  thread=14876<br>
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity: ui thread=1<br>
 </pre></code>
+
+RxAsyncTask
+===========
+可以替换android自带的AsyncTask，只需实现onExecute()即可。
+<pre><code>
+     new RxAsyncTask<String>(){
+
+            @Override
+            public String onExecute() {
+                return RestClient.get("https://api.github.com/users/fengzhizi715").body();
+            }
+        }.success(new RxAsyncTask.SuccessHandler<String>() {
+            @Override
+            public void onSuccess(String content) {
+                L.json(content);
+            }
+        }).failed(new RxAsyncTask.FailedHandler() {
+            @Override
+            public void onFail(Throwable e) {
+                L.e("error="+e.getMessage());
+            }
+        });
+</pre><code>
 
 Event Bus
 ===

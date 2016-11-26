@@ -13,8 +13,11 @@ import android.webkit.WebViewClient;
 import com.test.saf.R;
 import com.test.saf.app.BaseFragment;
 
+import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.inject.Injector;
 import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.rxjava.RxAsyncTask;
 
 /**
  * Created by tony on 2016/11/20.
@@ -32,10 +35,10 @@ public class HomeFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         Injector.injectInto(this, v);
 
-//        progDailog = ProgressDialog.show(mContext, "Loading","Please wait...", true);
-//        progDailog.setCancelable(false);
-//
-//        initViews();
+        progDailog = ProgressDialog.show(mContext, "Loading","Please wait...", true);
+        progDailog.setCancelable(false);
+
+        initViews();
 
         return v;
     }

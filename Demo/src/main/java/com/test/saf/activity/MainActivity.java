@@ -1,14 +1,12 @@
 package com.test.saf.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,9 +31,6 @@ public class MainActivity extends BaseActivity {
 	NavigationView navigationView;
 
 	@InjectView
-	FloatingActionButton fab;
-
-	@InjectView
 	Toolbar toolbar;
 
 	private MenuManager menuManager;
@@ -48,11 +43,10 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 
 		initViews();
-		initData(savedInstanceState);
+		initData();
 	}
 
 	private void initViews() {
-		initFab();
 		initToolbar();
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
@@ -60,21 +54,19 @@ public class MainActivity extends BaseActivity {
 
 				showMenu(menuItem);
 				toolbar.setTitle(menuItem.getTitle());
-				Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
 				menuItem.setChecked(true);
-				drawerLayout.closeDrawers();
+
+				if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+					drawerLayout.closeDrawer(GravityCompat.START);
+				}
 				return true;
 			}
 		});
 	}
 
-	private void initData(Bundle savedInstanceState) {
+	private void initData() {
 
 		doubleClickExitHelper = new DoubleClickExitUtils(this);
-
-		if (savedInstanceState != null) {
-			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
-		}
 
 		if (mContent == null) {
 			menuManager = MenuManager.getInstance(getSupportFragmentManager());
@@ -82,16 +74,6 @@ public class MainActivity extends BaseActivity {
 		}
 
 		getSupportFragmentManager().beginTransaction().add(R.id.content_frame,mContent, MenuManager.MenuType.HOME.getTitle()).commit();
-	}
-
-	private void initFab() {
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				MenuManager.MenuType curType = menuManager.getCurType();
-				Snackbar.make(content, curType.getTitle()+" Clicked", Snackbar.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 	private void initToolbar() {
@@ -107,29 +89,40 @@ public class MainActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				drawerLayout.openDrawer(Gravity.LEFT,true);
+				drawerLayout.openDrawer(GravityCompat.START);
 			}
 		});
 	}
 
-	public void showMenu(MenuItem menuItem) {
+	private void showMenu(MenuItem menuItem) {
 
-		if (menuItem.getTitle().equals(MenuManager.MenuType.HOME.getTitle())) {
-			menuManager.show(MenuManager.MenuType.HOME);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.ANNOTATION.getTitle())) {
-			menuManager.show(MenuManager.MenuType.ANNOTATION);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.EVENTBUS.getTitle())) {
-			menuManager.show(MenuManager.MenuType.EVENTBUS);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.IMAGELOADER.getTitle())) {
-			menuManager.show(MenuManager.MenuType.IMAGELOADER);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.SQLITE.getTitle())) {
-			menuManager.show(MenuManager.MenuType.SQLITE);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.ROUTER.getTitle())) {
-			menuManager.show(MenuManager.MenuType.ROUTER);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.CACHE.getTitle())) {
-			menuManager.show(MenuManager.MenuType.CACHE);
-		} else if (menuItem.getTitle().equals(MenuManager.MenuType.LOG.getTitle())) {
-			menuManager.show(MenuManager.MenuType.LOG);
+		switch (menuItem.getItemId()) {
+			case R.id.drawer_saf:
+				menuManager.show(MenuManager.MenuType.HOME);
+				break;
+			case R.id.drawer_anno:
+				menuManager.show(MenuManager.MenuType.ANNOTATION);
+				break;
+			case R.id.drawer_eventbus:
+				menuManager.show(MenuManager.MenuType.EVENTBUS);
+				break;
+			case R.id.drawer_imageloader:
+				menuManager.show(MenuManager.MenuType.IMAGELOADER);
+				break;
+			case R.id.drawer_sqlite:
+				menuManager.show(MenuManager.MenuType.SQLITE);
+				break;
+			case R.id.drawer_router:
+				menuManager.show(MenuManager.MenuType.ROUTER);
+				break;
+			case R.id.drawer_cache:
+				menuManager.show(MenuManager.MenuType.CACHE);
+				break;
+			case R.id.drawer_log:
+				menuManager.show(MenuManager.MenuType.LOG);
+				break;
+			default:
+				break;
 		}
 	}
 

@@ -86,10 +86,10 @@ New annotation without reflection
 
 RxAsyncTask
 ===========
-可以替换android自带的AsyncTask，只需实现onExecute()即可。
+可以替换android自带的AsyncTask，底层使用rxjava，开发者只需实现onExecute()即可。
+支持链式调用。success()方法是必须的。
 <pre><code>
      new RxAsyncTask<String>(){
-
             @Override
             public String onExecute() {
                 return RestClient.get("https://api.github.com/users/fengzhizi715").body();

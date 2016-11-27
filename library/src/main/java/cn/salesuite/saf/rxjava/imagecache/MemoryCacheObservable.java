@@ -25,12 +25,7 @@ public class MemoryCacheObservable extends CacheObservable {
 
     private static final String TAG = "MemoryCacheOvservable";
 
-    /**
-     * 从内存读取数据速度是最快的，为了更大限度使用内存，这里使用了两层缓存。 硬引用缓存不会轻易被回收，用来保存常用数据，不常用的转入软引用缓存。
-     */
-    private static final int SOFT_CACHE_SIZE = 15; // 软引用缓存容量
     private static LruCache<String, Bitmap> mLruCache; // 硬引用缓存
-//    private static LinkedHashMap<String, SoftReference<Bitmap>> mSoftCache; // 软引用缓存
     private Set<SoftReference<Bitmap>> mReusableBitmaps;
 
     public MemoryCacheObservable() {

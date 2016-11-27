@@ -2,6 +2,7 @@ package com.test.saf.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,6 +66,12 @@ public class GeneralAnnotationFragment extends BaseFragment {
                     i.putExtra(AnnotationActivity.ANNO_NAME,annotationName);
                     mContext.startActivity(i);
             }
+
+            @Override
+            public void onLongPress(RecyclerView.ViewHolder holder, int position) {
+            }
         });
+        recyclerview.addItemDecoration(new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL));
     }
 }

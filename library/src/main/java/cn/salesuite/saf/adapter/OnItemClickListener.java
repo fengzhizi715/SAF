@@ -12,17 +12,13 @@ import android.view.View;
 
 public abstract class OnItemClickListener implements RecyclerView.OnItemTouchListener {
 
-
     private GestureDetectorCompat mGestureDetector;
     private RecyclerView recyclerView;
 
-
     public OnItemClickListener(RecyclerView view) {
         this.recyclerView = view;
-
         mGestureDetector = new GestureDetectorCompat(recyclerView.getContext(), new ItemTouchHelperGestureListener());
     }
-
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -42,8 +38,7 @@ public abstract class OnItemClickListener implements RecyclerView.OnItemTouchLis
 
     public abstract void onItemClick(RecyclerView.ViewHolder holder, int position);
 
-    public void onLongPress(RecyclerView.ViewHolder holder, int position) {
-    }
+    public abstract void onLongPress(RecyclerView.ViewHolder holder, int position);
 
     class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override

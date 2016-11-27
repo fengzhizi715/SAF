@@ -157,6 +157,7 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
 异步调用get方法：
 
+```Java
           RestClient.get(url,new HttpResponseHandler(){
               
               public void onSuccess(String content) {
@@ -168,18 +169,21 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 						
 			  }
           });
+ ```
 
 
 同步调用post方法：post body内容为json
 
+```Java
           RestClient client = RestClient.post(url);
           client.acceptJson().contentType("application/json", null);
           client.send(jsonString); // jsonString是已经由json对象转换成string类型
           String body = client.body();
-
+```
 
 异步调用post方法：post body内容为json
 
+```Java
           RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
         
              public void onSuccess(String content) {
@@ -191,10 +195,11 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 			 }
         
            });
-
+```
 
 异步调用post方法：以form形式传递数据
 
+```Java
           RestClient.post(urlString, map, new HttpResponseHandler(){
 
               @Override
@@ -207,6 +212,7 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 			    }
                                         
           });
+```
 
 
 Image Cache
@@ -214,10 +220,10 @@ Image Cache
 图片缓存模块包括2级缓存，内存中的cache和sd卡上存放在文件中的cache。
 
 图片缓存模块通过ImageLoader进行图片加载。 如果app中使用了SAFApp，则无须创建新的ImageLoader就可以使用。     
-<pre><code>
+```Java
           // 第一个参数是图片的url，第二个参数是ImageView对象，第三个参数是默认图片
           imageLoader.displayImage(url, imageView ,R.drawable.defalut_icon);
-</pre></code>
+```
 
 
 Dependency Injection
@@ -237,6 +243,7 @@ Inject View
 ---
 Inject View可以简化组件的查找注册，包括android自带的组件和自定义组件。在使用Inject View之前，我们会这样写代码
 
+```Java
           public class MainActivity extends Activity {
                 
                 private ImageView imageView;
@@ -249,10 +256,12 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                   imageView = (ImageView) findViewById(R.id.imageview);
                 }
            }
+ ```
 
 
 在使用Inject View之后，会这样写代码
 
+```Java
           public class MainActivity extends Activity {
                     
                 @InjectView(id= R.id.imageview)
@@ -266,9 +275,11 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                    Injector.injectInto(this);
                 }
           }
+```
 
-约定大于配置的写法，无需写(id= R.id.imageview)
+约定大于配置的写法，如果Layout中id的名字imageview跟Activity中控件的名字imageview完全一样，那么无需写(id= R.id.imageview)
 
+```Java
           public class MainActivity extends Activity {
                     
                 @InjectView
@@ -282,9 +293,11 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                    Injector.injectInto(this);
                 }
           }
+```
 
 目前，@InjectView可用于Activity、Dialog、Fragment,Adapter(ViewHolder)中。在Activity和Dialog用法相似，在Fragment和Adapter中用法有一点区别。
 
+```Java
           public class DemoFragment extends Fragment {
 
                    @InjectView(id=R.id.title)
@@ -307,9 +320,12 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
           
                   ......
            }
+```
 
 Inject Views
 ---
+
+```Java
           public class MainActivity extends Activity {
                     
                 @InjectViews(ids={R.id.imageView1,R.id.imageView2})
@@ -323,11 +339,13 @@ Inject Views
                    Injector.injectInto(this);
                 }
           }
+ ```
 
 
 Inject Extra
 ---
 
+```Java
          /**
           * MainActivity传递数据给SecondActivity
           * Intent i = new Intent(MainActivity.this,SecondActivity.class);                                               
@@ -355,10 +373,12 @@ Inject Extra
                    Log.i("++++++++++++","hello="+SAFUtil.printObject(hello)); // 该方法用于打印对象
               }
           }
+```
 
 InflateLayout
 ---
 
+```Java
         /**
          * @author Tony Shen
          *
@@ -376,18 +396,20 @@ InflateLayout
 		         super(context);
 	         }
         }
+```
 
 
 在Activity、Fragment中的写法:
-<pre><code> 	
+```Java	
          MyView myView = Injector.build(mContext, MyView.class);
-</pre></code>
+```
 
 
 OnClick
 ---
 @OnClick 可以在Activity、Fragment、Dialog、View中使用，支持多个组件绑定同一个方法。
 
+```Java
      public class AddCommentFragment extends BaseFragment {
     
          @Override
@@ -424,10 +446,11 @@ OnClick
 	    
 	    ....
     }
+```
 
 OnItemClick
 ---
-<pre><code> 
+```Java 
 	@OnItemClick(id=R.id.listview)
 	void itemClickListView(AdapterView<?> parent, View view,
 			int position, long id) {
@@ -439,7 +462,7 @@ OnItemClick
 		i.putExtras(bundle);
 		startActivity(i);
 	}
-</pre></code>
+```
 
 
 Sqlite ORM
@@ -448,6 +471,7 @@ Sqlite ORM
 <strong>注意：在android studio2.0以后如果使用InstantRun功能，并且在android 5.0以上手机上调试会报错。强烈建议在调试时关闭InstantRun功能，release版本的app不会受到任何影响。</strong>（参考：http://stackoverflow.com/questions/36572515/dexfile-in-2-0-versions-of-android-studio-and-gradle）</br>
 首先需要在AndroidManifest.xml中配上一些参数
 
+```Java
         <!-- 表示在com.example.testsaf.db这个package下的类都是db的domain，一个类对应db里的一张表-->
         <meta-data
             android:name="DOMAIN_PACKAGE"
@@ -462,6 +486,7 @@ Sqlite ORM
          <meta-data
             android:name="DB_VERSION"
             android:value="1" />
+```
 
 
 使用orm框架需要初始化DBManager，需要在Applicaion中完成。SAF中的SAFApp，没有初始化DBManager，如果需要使用SAFApp可以重写一个Application继承SAFApp，并初始化DBManager。

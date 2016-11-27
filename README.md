@@ -43,17 +43,17 @@ New annotation without reflection
 | @Trace        |用于追踪某个方法花费的时间,可以用于性能调优的评判|       |
 
 @Async的使用方法:
-<pre><code>
+```Java
 	@Async
 	private void useAsync() {
 		Log.e(TAG, " thread=" + Thread.currentThread().getId());
 		Log.e(TAG, "ui thread=" + Looper.getMainLooper().getThread().getId());
 	}
-</pre></code>
+```
 
 
 @Cacheable的使用方法:
-<pre><code>
+```Java
 	@Cacheable(key = "user")
 	private User initData() {
 		User user = new User();
@@ -61,12 +61,12 @@ New annotation without reflection
 		user.password = "123456";
 		return user;
 	}
-</pre></code>
+```
 
 这里的@Cacheable,实际上用到[Cache](https://github.com/fengzhizi715/SAF#cache),要获取Cache也很简单.
 
 @Trace的使用方法:
-<pre><code>
+```Java
 	@Trace
 	@Async
 	private void loadUser() {
@@ -76,20 +76,20 @@ New annotation without reflection
 		User user = (User) cache.getObject("user");
 		Toast.makeText(MainActivity.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
 	}
-</pre></code>
+```
 将@Trace和@Async两个注解结合使用,可以看到loadUser()方法花费的时间.
-<pre><code>
+```Java
 05-18 14:31:31.229 21190-21190/app.magicwindow.cn.testsaf I/MainActivity: MainActivity=loadUser() take [1ms]<br>
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity:  thread=14876<br>
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity: ui thread=1<br>
-</pre></code>
+```
 
 
 RxAsyncTask
 ===
 可以替换android自带的AsyncTask，底层使用rxjava，开发者只需实现onExecute()即可。
 支持链式调用。success()方法是必须的。
-<pre><code>
+```Java
      new RxAsyncTask<String>(){
             @Override
             public String onExecute() {
@@ -106,7 +106,7 @@ RxAsyncTask
                 L.e("error="+e.getMessage());
             }
         });
-</pre><code>
+```
 
 
 Event Bus
@@ -116,13 +116,14 @@ Event Bus
 Event Bus解耦了asyncTask、handler、thread、broadcast等组件。使用Event bus可以轻松地跨多个Fragment进行通讯。
 
 它用法很简单，在Activity或者Fragment中使用，其中event是一个简单的POJO<br />
-<pre><code>
+```Java
 // 退出系统的事件
 eventBus.post(new LogoutEvent());
-</pre></code>
+```
 
 回调事件，同样在Activity或者Fragment中定义好。回调方法名可以随便定义，参数须要和event一一对应。并且在方法名前加上注解Subscribe
 
+```Java
          /**
           * 退出整个app
           * @param event
@@ -130,9 +131,11 @@ eventBus.post(new LogoutEvent());
           @Subscribe
           public void onLogoutEvent(LogoutEvent event) {
           }
+```
           
           
-@Subscribe可以使用枚举<br />
+@Subscribe可以使用枚举
+
 ```Java
          /**
           * 使用ThreadMode.BackgroundThread枚举，表示在后台线程运行，不在主线程中运行。
@@ -140,18 +143,18 @@ eventBus.post(new LogoutEvent());
           */
           @Subscribe(ThreadMode.BackgroundThread)
           public void onBackendFresh(BackendFreshEvent event) {
-          
           }
 ```
 
 使用枚举BackgroundThread时，如果在回调方法中需要更新ui，则必须要配合handler使用。 在不使用枚举的情况下，@Subscribe会默认使用PostThread，表示回调方法会在主线程中运行。 如果在一个Activity中存在多个Fragment，并且在Activity或者在Fragment中存在订阅同一event的回调方法。如果发出event的请求时，这些回调方法都会起作用。
 
 
-RestClient
+Rest Client
 ===
 Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 这个模块没有基于apache httpclient，完全基于jdk中的HttpURLConnection。
 
 同步调用get方法：
+
 ```Java
           RestClient client = RestClient.get(url);<p>
           String body = client.body();
@@ -161,7 +164,7 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
 ```Java
           RestClient.get(url,new HttpResponseHandler(){
-              
+
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
               }

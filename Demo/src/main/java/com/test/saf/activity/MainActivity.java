@@ -18,14 +18,12 @@ import com.test.saf.menu.MenuManager;
 import com.test.saf.utils.DoubleClickExitUtils;
 
 import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.saf.utils.Preconditions;
 
 public class MainActivity extends BaseActivity {
 
 	@InjectView(id=R.id.drawer_layout)
 	DrawerLayout drawerLayout;
-
-	@InjectView
-	View content;
 
 	@InjectView(id = R.id.navigation_view)
 	NavigationView navigationView;
@@ -52,8 +50,10 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 
+				if (Preconditions.isNotBlank(menuItem.getTitle())) {
+					toolbar.setTitle(menuItem.getTitle());
+				}
 				showMenu(menuItem);
-				toolbar.setTitle(menuItem.getTitle());
 				menuItem.setChecked(true);
 
 				if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

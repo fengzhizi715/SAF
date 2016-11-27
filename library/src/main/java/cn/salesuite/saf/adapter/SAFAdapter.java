@@ -16,6 +16,7 @@ import cn.salesuite.saf.inject.Injector;
  * @author Tony Shen
  *
  */
+@Deprecated
 public abstract class SAFAdapter<T> extends BaseAdapter {
 
 	protected List<T> mList = null;

@@ -1,15 +1,11 @@
 package com.test.saf.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.test.saf.R;
-import com.test.saf.activity.AnnotationActivity;
 
 import java.util.List;
 
@@ -36,13 +32,8 @@ public class AnnotationAdapter extends SAFRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    protected void bindCustomViewHolder(SAFViewHolder holder, int position) {
         ((NormalTextViewHolder)holder).name.setText((String)mList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mList == null ? 0 : mList.size();
     }
 
     public class NormalTextViewHolder extends SAFViewHolder {
@@ -52,16 +43,6 @@ public class AnnotationAdapter extends SAFRecyclerAdapter {
 
         public NormalTextViewHolder(ViewGroup parent, @LayoutRes int resId) {
             super(parent, resId);
-            getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String annotationName = (String) mList.get(getLayoutPosition());
-                    Intent i = new Intent(mContext,AnnotationActivity.class);
-                    i.putExtra(AnnotationActivity.ANNO_NAME,annotationName);
-                    mContext.startActivity(i);
-                }
-            });
         }
     }
 }

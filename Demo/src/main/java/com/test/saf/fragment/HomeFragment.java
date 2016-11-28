@@ -13,11 +13,8 @@ import android.webkit.WebViewClient;
 import com.test.saf.R;
 import com.test.saf.app.BaseFragment;
 
-import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.inject.Injector;
 import cn.salesuite.saf.inject.annotation.InjectView;
-import cn.salesuite.saf.log.L;
-import cn.salesuite.saf.rxjava.RxAsyncTask;
 
 /**
  * Created by tony on 2016/11/20.

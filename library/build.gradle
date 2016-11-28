@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: "android-aspectj"
 apply plugin: "findbugs"
 
+def cfg = rootProject.ext.configuration // 配置
+def VERSION_NAME = cfg.saf_version_name
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25"

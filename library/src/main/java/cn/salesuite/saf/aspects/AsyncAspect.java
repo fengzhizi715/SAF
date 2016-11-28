@@ -19,17 +19,16 @@ import rx.schedulers.Schedulers;
 public class AsyncAspect {
 
     @Around("execution(!synthetic * *(..)) && onAsyncMethod()")
-    public Object doAsyncMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
-        return asyncMethod(joinPoint);
+    public void doAsyncMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+        asyncMethod(joinPoint);
     }
 
     @Pointcut("@within(cn.salesuite.saf.aspects.annotation.Async)||@annotation(cn.salesuite.saf.aspects.annotation.Async)")
     public void onAsyncMethod() {
     }
 
-    private Object asyncMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
+    private void asyncMethod(final ProceedingJoinPoint joinPoint) throws Throwable {
 
-        Object result = null;
         Observable.create(new Observable.OnSubscribe<Object>() {
 
             @Override
@@ -43,6 +42,5 @@ public class AsyncAspect {
                 Looper.loop();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
-        return result;
     }
 }

@@ -1,5 +1,7 @@
 package cn.salesuite.saf.permissions;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
@@ -25,21 +26,24 @@ import rx.subjects.PublishSubject;
 public class PermissionGuard {
 
     private static final int REQUEST_ID = 128;
-    private FragmentActivity mActivity;
+    private Context mContext;
+    private Activity mActivity;
     private Fragment mFragment;
     private PublishSubject<Integer> publishSubject;
     private boolean onPermissonsResult = false;
     private Subscription subscription;
 
-    public PermissionGuard(@NonNull FragmentActivity activity) {
+    public PermissionGuard(Context context, Activity activity) {
+        this.mContext = context;
         this.mActivity = activity;
         publishSubject = PublishSubject.create();
     }
 
-//    public PermissionGuard(@NonNull Fragment fragment) {
-//        this.mFragment = fragment;
-//        publishSubject = PublishSubject.create();
-//    }
+    public PermissionGuard(Context context,Fragment fragment) {
+        this.mContext = context;
+        this.mFragment = fragment;
+        publishSubject = PublishSubject.create();
+    }
 
     @UiThread
     public void requestPermission(@NonNull Runnable runnable, @NonNull  String... permissions) {
@@ -60,7 +64,7 @@ public class PermissionGuard {
 
         ArrayList<String> rationalePermissions = shouldShowRequestPermissionRationale(permissions);
         if (rationalePermissions.size() > 0) {
-            new AlertDialog.Builder(mActivity).setMessage("test")
+            new AlertDialog.Builder(mContext).setMessage("test")
                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -82,7 +86,7 @@ public class PermissionGuard {
 
     private boolean isPermissionsGranted(String[] permissions) {
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(mActivity, permission) == PackageManager.PERMISSION_DENIED) {
+            if (ContextCompat.checkSelfPermission(mContext, permission) == PackageManager.PERMISSION_DENIED) {
                 return false;
             }
         }
@@ -95,15 +99,28 @@ public class PermissionGuard {
     private ArrayList<String> shouldShowRequestPermissionRationale(String[] permissions) {
         ArrayList<String> rationalePermissions = new ArrayList<>();
         for (String permission : permissions) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission)) {
-                rationalePermissions.add(permission);
+
+            if (mActivity!=null) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission)) {
+                    rationalePermissions.add(permission);
+                }
+            } else if (mFragment != null) {
+                if (mFragment.shouldShowRequestPermissionRationale(permission)) {
+                    rationalePermissions.add(permission);
+                }
             }
+
         }
         return rationalePermissions;
     }
 
     private void requestPermission(@NonNull String[] permissions, @NonNull final Runnable runnable, @Nullable final Runnable deniedRunnable) {
-        ActivityCompat.requestPermissions(mActivity, permissions, REQUEST_ID);
+        if (mActivity!=null) {
+            ActivityCompat.requestPermissions(mActivity, permissions, REQUEST_ID);
+        } else {
+            mFragment.requestPermissions(permissions, REQUEST_ID);
+        }
+
         subscription = publishSubject.subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer v) {

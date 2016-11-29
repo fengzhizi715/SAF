@@ -2,7 +2,11 @@ package cn.salesuite.saf.permissions;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageItemInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import org.aspectj.lang.JoinPoint;
 
@@ -24,5 +28,16 @@ public class Permissions {
 
     public static boolean isPermissionGranted(Context context, String permission){
         return new PermissionProvider(context, null).isPermissionGranted(permission);
+    }
+
+    private static String getPermissionLabel(@NonNull Context context, @NonNull String permissionName) {
+        try {
+            PermissionInfo permissionInfo = context.getPackageManager().getPermissionInfo(permissionName, 0);
+            PackageItemInfo groupInfo = context.getPackageManager().getPermissionGroupInfo(permissionInfo.group, 0);
+            CharSequence permissionGroupLabel = groupInfo.loadLabel(context.getPackageManager());
+            return permissionGroupLabel.toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

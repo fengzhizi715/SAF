@@ -14,5 +14,5 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 @Target({METHOD})
 public @interface Permission {
 
-    String value();
+    String[] value();
 }

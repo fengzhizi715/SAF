@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
@@ -15,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
@@ -33,20 +33,20 @@ public class PermissionGuard {
     private boolean onPermissonsResult = false;
     private Subscription subscription;
 
-    public PermissionGuard(Context context, Activity activity) {
+    public PermissionGuard(@NonNull Context context,@NonNull Activity activity) {
         this.mContext = context;
         this.mActivity = activity;
         publishSubject = PublishSubject.create();
     }
 
-    public PermissionGuard(Context context,Fragment fragment) {
+    public PermissionGuard(@NonNull Context context,@NonNull Fragment fragment) {
         this.mContext = context;
         this.mFragment = fragment;
         publishSubject = PublishSubject.create();
     }
 
     @UiThread
-    public void requestPermission(@NonNull Runnable runnable, @NonNull  String... permissions) {
+    public void requestPermission(@NonNull Runnable runnable, @NonNull String... permissions) {
         requestPermission(runnable, null, permissions);
     }
 
@@ -57,7 +57,7 @@ public class PermissionGuard {
      */
     @UiThread
     public void requestPermission(@NonNull final Runnable runnable, @Nullable final Runnable deniedRunnable, @NonNull final String... permissions) {
-        if (Build.VERSION.SDK_INT < 23  || isPermissionsGranted(permissions)) {
+        if (!SAFUtils.isMOrHigher()  || isPermissionsGranted(permissions)) {
             runnable.run();
             return;
         }
@@ -111,6 +111,7 @@ public class PermissionGuard {
             }
 
         }
+
         return rationalePermissions;
     }
 

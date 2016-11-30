@@ -75,7 +75,9 @@ public class RxImageLoader {
 
                 @Override
                 public void onNext(Data data) {
-                    imageView.setImageBitmap(data.bitmap);
+                    if (data!=null && data.bitmap!=null && !data.bitmap.isRecycled()) {
+                        imageView.setImageBitmap(data.bitmap);
+                    }
                 }
             });
         connectableObservable.connect();

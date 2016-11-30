@@ -87,7 +87,7 @@ public class MemoryCacheObservable extends CacheObservable {
                 while (iterator.hasNext()) {
                     item = iterator.next().get();
 
-                    if (null != item && item.isMutable()) {
+                    if (item!=null && item.isMutable()) {
                         if (canUseForInBitmap(item, options)) {
                             bitmap = item;
                             // 从reusable set中移除，避免再次被使用
@@ -149,8 +149,14 @@ public class MemoryCacheObservable extends CacheObservable {
             synchronized (MemoryCacheObservable.class) {
                 final Iterator<SoftReference<Bitmap>> iterator = mReusableBitmaps.iterator();
 
+                Bitmap item = null;
                 while (iterator.hasNext()) {
-                    iterator.next().get().recycle();
+                    item = iterator.next().get();
+
+                    if (item!=null && !item.isRecycled()) {
+//                        item.recycle();
+                        item = null;
+                    }
                 }
                 mReusableBitmaps.clear();
             }

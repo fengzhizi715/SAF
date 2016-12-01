@@ -1,7 +1,7 @@
 package com.test.saf.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,63 +15,49 @@ import com.test.saf.app.BaseActivity;
 import cn.salesuite.saf.aspects.annotation.Async;
 import cn.salesuite.saf.aspects.annotation.Cacheable;
 import cn.salesuite.saf.aspects.annotation.Trace;
-import cn.salesuite.saf.cache.Cache;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.permissions.PermissionGuard;
+import cn.salesuite.saf.permissions.PermissionGuardAware;
 import cn.salesuite.saf.rxjava.RxAsyncTask;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBusAnnotationManager;
 import cn.salesuite.saf.rxjava.eventbus.Subscribe;
 import cn.salesuite.saf.rxjava.eventbus.ThreadMode;
-import cn.salesuite.saf.utils.SAFUtils;
 
 /**
  * Created by Tony Shen on 2016/11/18.
  */
 
-public class MainActivity2 extends BaseActivity {
+public class MainActivity2 extends BaseActivity implements PermissionGuardAware {
 
     private TextView text;
     private RxEventBusAnnotationManager manager;
     private static final String TAG = MainActivity.class.getName();
+    private PermissionGuard permissionGuard;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         text = (TextView)findViewById(R.id.text);
         manager = new RxEventBusAnnotationManager(this);
         RxEventBus.getInstance().post(new TestEvent());
+        permissionGuard = new PermissionGuard(mContext,this);
 
         text.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-//				RxEventBus.getInstance().post(new Test2Event());
-//		        Intent i = new Intent(MainActivity.this,SecondActivity.class);
-//		        startActivity(i);
-                loadUser();
+				RxEventBus.getInstance().post(new Test2Event());
+		        Intent i = new Intent(MainActivity2.this,SecondActivity.class);
+		        startActivity(i);
+//                loadUser();
             }
         });
 
-        initData();
-
-//		try {
-//			ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript",this);
-////			String result  = (String) engine.eval("2+2");
-////			Toast.makeText(this,"result="+result,Toast.LENGTH_SHORT).show();
-//			String json = "{\n" +
-//					"    \"className\": \"com.test.saf.activity.User\",\n" +
-//					"    \"method\": \"\",\n" +
-//					"    \"field\": \"userName\",\n" +
-//					"    \"fieldValue\": \"arron\"\n" +
-//					"}";
-//			Object result = engine.executeJava(json);
-//			Toast.makeText(this,"result="+SAFUtils.printObject(result),Toast.LENGTH_SHORT).show();
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
+//        initData();
     }
 
     @Cacheable(key = "user")
@@ -80,7 +66,6 @@ public class MainActivity2 extends BaseActivity {
         User user = new User();
         user.userName = "tony";
         user.password = "123456";
-        L.json(user);
         return user;
     }
 
@@ -102,11 +87,11 @@ public class MainActivity2 extends BaseActivity {
     @Trace
     @Async
     private void loadUser() {
-        L.e(" thread=" + Thread.currentThread().getId());
-        L.e("ui thread=" + Looper.getMainLooper().getThread().getId());
-        Cache cache = Cache.get(this);
-        User user = (User) cache.getObject("user");
-        Toast.makeText(MainActivity2.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
+//        L.e(" thread=" + Thread.currentThread().getId());
+//        L.e("ui thread=" + Looper.getMainLooper().getThread().getId());
+//        Cache cache = Cache.get(this);
+//        User user = (User) cache.getObject("user");
+//        Toast.makeText(MainActivity2.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe
@@ -128,6 +113,13 @@ public class MainActivity2 extends BaseActivity {
         if (manager!=null) {
             manager.clear();
         }
+
+        app.imageLoader.clearMemCache();
+    }
+
+    @Override
+    public PermissionGuard getPermissionGuard() {
+        return permissionGuard;
     }
 
     class TestTask extends RxAsyncTask<String> {
@@ -137,4 +129,11 @@ public class MainActivity2 extends BaseActivity {
             return RestClient.get("http://open.tuhaoliuliang.cn/getUrl?pkg=com.meinv.app&appVersion=1.0&apiVersion=1.0&platform=android&channel=wechat").body();
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+//                                           @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        permissionGuard.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 }

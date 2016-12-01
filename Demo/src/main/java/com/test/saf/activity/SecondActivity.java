@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SecondActivity extends ListActivity {
 
     ArrayList<String> contents = new ArrayList<>();
+    private ViewHolder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class SecondActivity extends ListActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            final ViewHolder holder;
+
             if (view == null) {
                 holder = new ViewHolder();
                 view = View.inflate(SecondActivity.this, R.layout.cell_second, null);

@@ -21,6 +21,8 @@ import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.inject.Injector;
 import cn.salesuite.saf.inject.annotation.InjectView;
 
+import static rx.schedulers.Schedulers.test;
+
 /**
  * Created by tony on 2016/11/20.
  */
@@ -69,6 +71,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
             @Override
             public void onLongPress(RecyclerView.ViewHolder holder, int position) {
+                test();
             }
         });
         recyclerview.addItemDecoration(new DividerItemDecoration(

@@ -18,6 +18,6 @@ public class Data {
 
     public boolean isAvailable() {
 
-        return url != null && bitmap != null;
+        return url != null && bitmap != null && !bitmap.isRecycled();
     }
 }

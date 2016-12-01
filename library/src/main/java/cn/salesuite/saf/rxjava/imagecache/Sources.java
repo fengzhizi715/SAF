@@ -27,7 +27,7 @@ public class Sources {
         this.mContext = mContext;
         memoryCacheObservable = new MemoryCacheObservable();
         diskCacheObservable = new DiskCacheObservable(mContext);
-        netCacheObservable = new NetCacheObservable(memoryCacheObservable);
+        netCacheObservable = new NetCacheObservable(memoryCacheObservable,mContext);
     }
 
     public ConnectableObservable<Data> getConnectableObservable(String url, ImageView imageView) {
@@ -51,7 +51,7 @@ public class Sources {
             ConnectableObservable<Data> connectableObservable = Observable.concat(Observable.from(list)).first(new Func1<Data, Boolean>() {
                 @Override
                 public Boolean call(Data data) {
-                    return (data != null && data.isAvailable());
+                    return DataUtils.isAvailable(data);
                 }
             }).publish();
 
@@ -68,8 +68,10 @@ public class Sources {
 
                 @Override
                 public void onNext(Data data) {
-                    for(CacheObservable t: observables) {
-                        t.putData(data);
+                    if (DataUtils.isAvailable(data)) {
+                        for(CacheObservable t: observables) {
+                            t.putData(data);
+                        }
                     }
                 }
             });

@@ -75,7 +75,7 @@ public class RxImageLoader {
 
                 @Override
                 public void onNext(Data data) {
-                    if (data!=null && data.bitmap!=null && !data.bitmap.isRecycled()) {
+                    if (DataUtils.isAvailable(data)) {
                         imageView.setImageBitmap(data.bitmap);
                     }
                 }

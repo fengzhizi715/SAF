@@ -1,12 +1,15 @@
 package cn.salesuite.saf.rxjava.imagecache;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -23,9 +26,13 @@ import rx.schedulers.Schedulers;
 public class NetCacheObservable extends CacheObservable {
 
     private MemoryCacheObservable memoryCacheObservable;
+    private Context mContext;
+    private static final int DEFAULT_DENSITY = 240;
+    private static final float SCALE_FACTOR = 0.75f;
 
-    public NetCacheObservable(MemoryCacheObservable memoryCacheObservable) {
+    public NetCacheObservable(MemoryCacheObservable memoryCacheObservable, Context context) {
         this.memoryCacheObservable = memoryCacheObservable;
+        this.mContext = context;
     }
 
     public void create(final String url, final ImageView imageView) {
@@ -48,9 +55,30 @@ public class NetCacheObservable extends CacheObservable {
                     options.inInputShareable = true;
                     options.inPreferredConfig = Bitmap.Config.RGB_565;
 
-                    JobOptions jobOptions = new JobOptions(imageView);
-                    options.inSampleSize = calculateInSampleSize(options,jobOptions.requestedWidth,jobOptions.requestedHeight);
+                    options.inSampleSize = calculateInSampleSize(options,imageView.getWidth(),imageView.getHeight());
                     options.inJustDecodeBounds = false;
+                    if (Build.VERSION.SDK_INT <= 10) {
+                        Field field = null;
+                        try {
+                            field = BitmapFactory.Options.class.getDeclaredField("inNativeAlloc");
+                            field.setAccessible(true);
+                            field.setBoolean(options, true);
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (mContext!=null) {
+                        int displayDensityDpi = mContext.getResources().getDisplayMetrics().densityDpi;
+                        float displayDensity = mContext.getResources().getDisplayMetrics().density;
+                        if (displayDensityDpi > DEFAULT_DENSITY && displayDensity > 1.5f) {
+                            int density = (int) (displayDensityDpi * SCALE_FACTOR);
+                            options.inDensity = density;
+                            options.inTargetDensity = density;
+                        }
+                    }
 
                     if (SAFUtils.isHoneycombOrHigher()) {
                         addInBitmapOptions(options);
@@ -112,34 +140,15 @@ public class NetCacheObservable extends CacheObservable {
      */
     @TargetApi(11)
     private BitmapFactory.Options addInBitmapOptions(BitmapFactory.Options options) {
-        options.inMutable = true;
 
         if (memoryCacheObservable!=null) {
             Bitmap inBitmap = memoryCacheObservable.getBitmapFromReusableSet(options);
-            if (inBitmap != null) {
+            if (inBitmap != null && !inBitmap.isRecycled()) {
                 options.inBitmap = inBitmap;
+                options.inMutable = true;
             }
         }
 
         return options;
-    }
-
-    public static class JobOptions {
-
-        public int requestedWidth;
-        public int requestedHeight;
-
-        public JobOptions() {
-            this(0, 0);
-        }
-
-        public JobOptions(final ImageView imgView) {
-            this(imgView.getWidth(), imgView.getHeight());
-        }
-
-        public JobOptions(final int requestedWidth, final int requestedHeight) {
-            this.requestedWidth = requestedWidth;
-            this.requestedHeight = requestedHeight;
-        }
     }
 }

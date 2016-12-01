@@ -127,20 +127,27 @@ public class DiskCacheObservable extends CacheObservable {
 
     @Override
     public Bitmap cache(String key) {
-        DiskLruCache.Snapshot snapShot = null;
+
         if (mCache == null)
             return null;
+
+        DiskLruCache.Snapshot snapShot = null;
+        InputStream is = null;
         try {
             snapShot = mCache.get(toMD5(key));
+            if (snapShot != null) {
+                is = snapShot.getInputStream(0);
+                if (is!=null) {
+                    BufferedInputStream buffIn = new BufferedInputStream(is, IO_BUFFER_SIZE);
+                    return BitmapFactory.decodeStream(buffIn);
+                }
+            }
         } catch (IOException e) {
             return null;
-        }
-        if (snapShot != null) {
-            InputStream is = snapShot.getInputStream(0);
-            if (is!=null) {
-                BufferedInputStream buffIn = new BufferedInputStream(is, IO_BUFFER_SIZE);
-                return BitmapFactory.decodeStream(buffIn);
-            }
+        } catch (OutOfMemoryError e) {
+            return null;
+        } finally {
+            IOUtils.closeQuietly(is);
         }
 
         return null;

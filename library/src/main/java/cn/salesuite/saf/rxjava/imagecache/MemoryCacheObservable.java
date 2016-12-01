@@ -42,7 +42,7 @@ public class MemoryCacheObservable extends CacheObservable {
                                         Bitmap oldValue, Bitmap newValue) {
                 if(evicted){
                     if(oldValue != null && !oldValue.isRecycled()){
-                        oldValue.recycle();
+                        oldValue = null;
                     }
                 } else {
                     mReusableBitmaps.add(new SoftReference<>(oldValue));
@@ -154,7 +154,6 @@ public class MemoryCacheObservable extends CacheObservable {
                     item = iterator.next().get();
 
                     if (item!=null && !item.isRecycled()) {
-//                        item.recycle();
                         item = null;
                     }
                 }

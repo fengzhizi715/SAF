@@ -179,7 +179,6 @@ public class DiskCacheObservable extends CacheObservable {
                 bitmap.compress(format, IMAGE_QUANLITY, out);
                 editor.commit();
                 mCache.flush();
-                out.close();
             } else {
                 snapshot.getInputStream(0).close();
             }

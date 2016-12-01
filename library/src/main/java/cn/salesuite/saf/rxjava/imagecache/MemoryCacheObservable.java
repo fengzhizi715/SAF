@@ -3,7 +3,6 @@ package cn.salesuite.saf.rxjava.imagecache;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import java.lang.ref.SoftReference;
@@ -25,12 +24,12 @@ public class MemoryCacheObservable extends CacheObservable {
 
     private static final String TAG = "MemoryCacheOvservable";
 
-    private static LruCache<String, Bitmap> mLruCache; // 硬引用缓存
+    private static OptimizedLruCache<String, Bitmap> mLruCache; // 硬引用缓存
     private Set<SoftReference<Bitmap>> mReusableBitmaps;
 
     public MemoryCacheObservable() {
         int cacheSize = (int) Runtime.getRuntime().maxMemory() / 8;
-        mLruCache = new LruCache<String, Bitmap>(cacheSize) {
+        mLruCache = new OptimizedLruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
                 final int bitmapSize = getBitmapSize(value);

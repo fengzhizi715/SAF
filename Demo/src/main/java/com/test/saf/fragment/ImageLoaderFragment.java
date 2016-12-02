@@ -2,6 +2,7 @@ package com.test.saf.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.test.saf.R;
+import com.test.saf.activity.ImageDetailActivity;
 import com.test.saf.adapter.DividerGridItemDecoration;
 import com.test.saf.adapter.ImageLoaderAdapter;
 import com.test.saf.app.BaseFragment;
@@ -19,6 +21,7 @@ import com.test.saf.domain.MMPicsResponse;
 
 import java.io.IOException;
 
+import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
@@ -80,6 +83,27 @@ public class ImageLoaderFragment extends BaseFragment {
                 if (faMenu.isOpened()) {
                     faMenu.close(true);
                 }
+            }
+        });
+
+        recyclerview.addOnItemTouchListener(new OnItemClickListener(recyclerview){
+
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder holder, int position) {
+                if (respnose != null && Preconditions.isNotBlank(respnose.tngou)) {
+                    MMPicsResponse.Pic pic =respnose.tngou.get(position);
+                    if (pic!=null && Preconditions.isNotBlank(pic.img)) {
+                        Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                        intent.putExtra("image", pic.img);//非必须
+                        startActivity(intent);
+                        mContext.overridePendingTransition(0, 0);
+                    }
+                }
+            }
+
+            @Override
+            public void onLongPress(RecyclerView.ViewHolder holder, int position) {
+
             }
         });
     }

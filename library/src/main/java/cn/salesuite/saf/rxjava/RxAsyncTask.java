@@ -34,7 +34,8 @@ public abstract class RxAsyncTask<T> {
 
     private void execute() {
         onPreExecute();
-        createObservable().subscribeOn(Schedulers.io())
+        createObservable()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<T>() {
                     @Override

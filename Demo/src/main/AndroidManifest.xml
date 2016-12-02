@@ -28,6 +28,10 @@
         </activity>
 
         <activity
+            android:name=".activity.ImageDetailActivity" >
+        </activity>
+
+        <activity
             android:name=".activity.SecondActivity" >
         </activity>
     </application>

@@ -38,8 +38,8 @@ public class ImageLoaderAdapter extends SAFRecyclerAdapter {
     protected void bindCustomViewHolder(SAFViewHolder holder, int position) {
         MMPicsResponse.Pic item = (MMPicsResponse.Pic) mList.get(position);
         if (item!=null) {
-            String picUrl = "http://tnfs.tngou.net/image"+item.img;
-            DemoApp.getInstance().imageLoader.displayImage(picUrl,((ImageLoaderAdapter.ViewHolder)holder).image);
+            String picUrl = "http://tnfs.tngou.net/image"+item.img+"_400x400";
+            DemoApp.getInstance().imageLoader.displayImage(picUrl,((ImageLoaderAdapter.ViewHolder)holder).image,R.drawable.default_girl);
             ((ViewHolder)holder).title.setText(item.title);
         }
     }

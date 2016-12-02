@@ -30,4 +30,8 @@ public abstract class SAFRecyclerAdapter <M, VH extends SAFViewHolder> extends R
 
         return mList == null ? 0 : mList.size();
     }
+
+    public List<M> getList() {
+        return mList;
+    }
 }

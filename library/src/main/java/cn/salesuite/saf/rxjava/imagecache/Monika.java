@@ -12,22 +12,17 @@ import android.content.Context;
 public class Monika {
 
     public static void with(Context context) {
-
     }
 
     public static void with(Activity activity) {
-
     }
 
     public static void with(Fragment fragment) {
-
     }
 
     public static void with(android.support.v4.app.Fragment fragment) {
-
     }
 
     public static void with(android.support.v4.app.FragmentActivity activity) {
-
     }
 }

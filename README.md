@@ -14,7 +14,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [New Annotation](https://github.com/fengzhizi715/SAF#new-annotation-without-reflection)
+* [General Annotation](https://github.com/fengzhizi715/SAF#general-annotation)
 * [RxAsyncTask](https://github.com/fengzhizi715/SAF#rxasynctask)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
@@ -27,9 +27,9 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
 
 
-New annotation without reflection
+General annotation
 ===
-新的注解，基于aspectj的AOP，而无需再使用耗费性能的反射.
+通用注解，也是新的注解，基于aspectj的AOP，无需使用耗费性能的反射.
 不过,需要在build.gradle中配置一下aspectj
 
 
@@ -77,7 +77,7 @@ New annotation without reflection
 		Toast.makeText(MainActivity.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
 	}
 ```
-将@Trace和@Async两个注解结合使用,可以看到loadUser()方法花费的时间.
+将@Trace和@Async两个注解结合使用,可以看到调用loadUser()方法花费的时间.
 ```Java
 05-18 14:31:31.229 21190-21190/app.magicwindow.cn.testsaf I/MainActivity: MainActivity=loadUser() take [1ms]<br>
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity:  thread=14876<br>
@@ -87,7 +87,7 @@ New annotation without reflection
 
 RxAsyncTask
 ===
-可以替换android自带的AsyncTask，底层使用rxjava，无需关心线程池的问题，开发者只需实现onExecute()即可。
+它完全可以替代android sdk中自带的AsyncTask，底层使用rxjava从而无需关心线程池的问题，开发者只需实现onExecute()即可。
 它支持链式调用。
 ```Java
      new RxAsyncTask<String>(){
@@ -151,12 +151,13 @@ eventBus.post(new LogoutEvent());
 
 Rest Client
 ===
-Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 这个模块没有基于apache httpclient，完全基于jdk中的HttpURLConnection。
+Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 
+这个模块没有基于apache httpclient，完全使用jdk中的HttpURLConnection。
 
 同步调用get方法：
 
 ```Java
-          RestClient client = RestClient.get(url);<p>
+          RestClient client = RestClient.get(url);
           String body = client.body();
 ```
 
@@ -627,7 +628,7 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 
 Cache
 ===
-这是一个通用的Cache,可以保存字符串、对象、JSON等等,操作起来十分简单,还可以设置缓存的过期时间.
+这是一个通用的Cache,可以保存String、对象、JSON等等,操作起来十分简单,支持设置缓存的过期时间.
 
 保持缓存数据：
 ```Java
@@ -671,7 +672,7 @@ SAF的日志框架，极简的日志风格
 ╚════════════════════════════════════════════════════════════════════════════════════════
 ```
 
-json方法打印的日志风格如下：
+json方法可以将String、Map、对象打印成json风格，具体可以参照下图：
 ![](L_json.png)
 
 Utils

@@ -87,8 +87,8 @@ New annotation without reflection
 
 RxAsyncTask
 ===
-可以替换android自带的AsyncTask，底层使用rxjava，开发者只需实现onExecute()即可。
-支持链式调用。success()方法是必须的。
+可以替换android自带的AsyncTask，底层使用rxjava，无需关心线程池的问题，开发者只需实现onExecute()即可。
+它支持链式调用。
 ```Java
      new RxAsyncTask<String>(){
             @Override

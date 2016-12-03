@@ -20,6 +20,7 @@ import com.test.saf.app.BaseFragment;
 import com.test.saf.domain.MMPicsResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.http.rest.RestClient;
@@ -45,6 +46,9 @@ public class ImageLoaderFragment extends BaseFragment {
 
     @InjectView
     FloatingActionButton fab1;
+
+    @InjectView
+    FloatingActionButton fab2;
 
     MMPicsResponse respnose;
 
@@ -74,6 +78,36 @@ public class ImageLoaderFragment extends BaseFragment {
 
                 page++;
 
+                // 封装url
+                UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
+                urlBuilder.parameter("page", page);
+                String url = urlBuilder.buildUrl();
+
+                newGetPicTask(url);
+
+                if (faMenu.isOpened()) {
+                    faMenu.close(true);
+                }
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (page<=1) {
+                    toast("前一批无美女，老板要么换下一批？");
+
+                    if (faMenu.isOpened()) {
+                        faMenu.close(true);
+                    }
+
+                    return;
+                }
+
+                page--;
+
+                // 封装url
                 UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
                 urlBuilder.parameter("page", page);
                 String url = urlBuilder.buildUrl();
@@ -94,7 +128,7 @@ public class ImageLoaderFragment extends BaseFragment {
                     MMPicsResponse.Pic pic =respnose.tngou.get(position);
                     if (pic!=null && Preconditions.isNotBlank(pic.img)) {
                         Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                        intent.putExtra("image", pic.img);//非必须
+                        intent.putExtra("image", pic.img);
                         startActivity(intent);
                         mContext.overridePendingTransition(0, 0);
                     }

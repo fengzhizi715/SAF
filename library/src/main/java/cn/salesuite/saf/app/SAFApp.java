@@ -64,16 +64,6 @@ public class SAFApp extends Application {
 		instance = this;
 
 		activityManager = new ArrayList<Activity>();
-//		if (fileDir!=null) {
-//			imageLoader = new ImageLoader(instance,defaultImageId,fileDir);// 使用ImageLoader组件时,设置defaultImageId、fileDir
-//		} else {
-//			imageLoader = new ImageLoader(instance,defaultImageId);        // 使用ImageLoader组件时,设置defaultImageId
-//		}
-//
-//		if (!SAFUtils.hasSdcard()) { // 当手机没有装sd卡时，图片只缓存在内存中
-//			imageLoader.setEnableDiskCache(false);
-//		}
-
 		imageLoader = new RxImageLoader();
 		imageLoader.init(instance);
 		

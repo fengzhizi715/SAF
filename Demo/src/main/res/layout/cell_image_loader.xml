@@ -7,8 +7,8 @@
     <ImageView
         android:layout_centerInParent="true"
         android:id="@+id/image"
-        android:layout_width="240dp"
-        android:layout_height="240dp"/>
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
 
     <TextView
         android:id="@+id/title"

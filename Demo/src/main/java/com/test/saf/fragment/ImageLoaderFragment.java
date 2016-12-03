@@ -20,7 +20,6 @@ import com.test.saf.app.BaseFragment;
 import com.test.saf.domain.MMPicsResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.http.rest.RestClient;

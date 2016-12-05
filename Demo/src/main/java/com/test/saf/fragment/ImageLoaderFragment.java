@@ -17,9 +17,12 @@ import com.test.saf.activity.ImageDetailActivity;
 import com.test.saf.adapter.DividerGridItemDecoration;
 import com.test.saf.adapter.ImageLoaderAdapter;
 import com.test.saf.app.BaseFragment;
+import com.test.saf.config.Config;
 import com.test.saf.domain.MMPicsResponse;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
 
 import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.http.rest.RestClient;
@@ -143,11 +146,17 @@ public class ImageLoaderFragment extends BaseFragment {
 
     private void initData() {
 
+        if (mCache.getObject(Config.FIRST_PICS)!=null) {
+            recyclerview.setLayoutManager(new GridLayoutManager(mContext,2));
+            recyclerview.setAdapter(new ImageLoaderAdapter(mContext, (List<MMPicsResponse.Pic>) mCache.getObject(Config.FIRST_PICS)));
+            recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
+        }
+
         String url = "http://www.tngou.net/tnfs/api/news";
         newGetPicTask(url);
     }
 
-    private void newGetPicTask(String url) {
+    private void newGetPicTask(final String url) {
 
         if (progDailog != null && !progDailog.isShowing()) {
             progDailog = ProgressDialog.show(mContext, "Loading", "Please wait...", true);
@@ -164,6 +173,10 @@ public class ImageLoaderFragment extends BaseFragment {
                                 recyclerview.setLayoutManager(new GridLayoutManager(mContext,2));
                                 recyclerview.setAdapter(new ImageLoaderAdapter(mContext, respnose.tngou));
                                 recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
+
+                                if ("http://www.tngou.net/tnfs/api/news".equals(url)) {
+                                    mCache.put(Config.FIRST_PICS,(Serializable) respnose.tngou);
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

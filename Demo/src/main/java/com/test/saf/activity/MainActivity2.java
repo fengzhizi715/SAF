@@ -1,7 +1,7 @@
 package com.test.saf.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -12,14 +12,10 @@ import com.test.saf.Test2Event;
 import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
 
-import cn.salesuite.saf.aspects.annotation.Async;
-import cn.salesuite.saf.aspects.annotation.Cacheable;
-import cn.salesuite.saf.aspects.annotation.Trace;
-import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.permissions.Permission;
 import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.permissions.PermissionGuardAware;
-import cn.salesuite.saf.rxjava.RxAsyncTask;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBusAnnotationManager;
 import cn.salesuite.saf.rxjava.eventbus.Subscribe;
@@ -50,53 +46,44 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
 
             @Override
             public void onClick(View v) {
-				RxEventBus.getInstance().post(new Test2Event());
-		        Intent i = new Intent(MainActivity2.this,SecondActivity.class);
-		        startActivity(i);
+//				RxEventBus.getInstance().post(new Test2Event());
+//		        Intent i = new Intent(MainActivity2.this,SecondActivity.class);
+//		        startActivity(i);
 //                loadUser();
+
+                openCamera(v);
             }
         });
 
 //        initData();
     }
 
-    @Cacheable(key = "user")
-    private User initData() {
+    @Permission(android.Manifest.permission.CAMERA)
+    private void openCamera(View v) {
 
-        User user = new User();
-        user.userName = "tony";
-        user.password = "123456";
-        return user;
     }
 
-//	private void initData() {
-//		TestTask task = new TestTask();
-//		task.success(new RxAsyncTask.SuccessHandler<String>() {
-//			@Override
-//			public void onSuccess(String content) {
-//				L.i(content);
-//			}
-//		}).failed(new RxAsyncTask.FailedHandler() {
-//			@Override
-//			public void onFail(Throwable e) {
-//				L.i("error="+e.getMessage());
-//			}
-//		});
-//	}
+//    @Cacheable(key = "user")
+//    private User initData() {
+//
+//        User user = new User();
+//        user.userName = "tony";
+//        user.password = "123456";
+//        return user;
+//    }
 
-    @Trace
-    @Async
-    private void loadUser() {
+//    @Trace
+//    @Async
+//    private void loadUser() {
 //        L.e(" thread=" + Thread.currentThread().getId());
 //        L.e("ui thread=" + Looper.getMainLooper().getThread().getId());
 //        Cache cache = Cache.get(this);
 //        User user = (User) cache.getObject("user");
 //        Toast.makeText(MainActivity2.this, SAFUtils.printObject(user), Toast.LENGTH_SHORT).show();
-    }
+//    }
 
     @Subscribe
     void onTest(TestEvent event) {
-//		Log.i(TAG, "onTestEvent");
         L.i("onTestEvent");
         Toast.makeText(MainActivity2.this, "onTestEvent", Toast.LENGTH_SHORT).show();
     }
@@ -113,8 +100,6 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
         if (manager!=null) {
             manager.clear();
         }
-
-        app.imageLoader.clearMemCache();
     }
 
     @Override
@@ -122,18 +107,10 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
         return permissionGuard;
     }
 
-    class TestTask extends RxAsyncTask<String> {
-
-        public String onExecute() {
-
-            return RestClient.get("http://open.tuhaoliuliang.cn/getUrl?pkg=com.meinv.app&appVersion=1.0&apiVersion=1.0&platform=android&channel=wechat").body();
-        }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionGuard.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        permissionGuard.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
 }

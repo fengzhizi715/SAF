@@ -32,10 +32,10 @@ public class HomeFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         Injector.injectInto(this, v);
 
-//        progDailog = ProgressDialog.show(mContext, "Loading","Please wait...", true);
-//        progDailog.setCancelable(false);
-//
-//        initViews();
+        progDailog = ProgressDialog.show(mContext, "Loading","Please wait...", true);
+        progDailog.setCancelable(false);
+
+        initViews();
 
         return v;
     }

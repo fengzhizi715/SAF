@@ -17,8 +17,11 @@ import com.test.saf.fragment.HomeFragment;
 import com.test.saf.menu.MenuManager;
 import com.test.saf.utils.DoubleClickExitUtils;
 
-import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.saf.utils.Preconditions;
+
+//import cn.salesuite.saf.inject.annotation.Injector;
 
 public class MainActivity extends BaseActivity {
 
@@ -28,7 +31,7 @@ public class MainActivity extends BaseActivity {
 	@InjectView(id = R.id.navigation_view)
 	NavigationView navigationView;
 
-	@InjectView
+	@InjectView(id=R.id.toolbar)
 	Toolbar toolbar;
 
 	private MenuManager menuManager;
@@ -40,6 +43,7 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		Injector.bind(this);
 		initViews();
 		initData();
 	}

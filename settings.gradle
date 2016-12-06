@@ -1,1 +1,1 @@
-include ':library', 'Demo'
+include ':library', ':saf-compiler', ':saf-annotations', ':saf-injectview', 'Demo'

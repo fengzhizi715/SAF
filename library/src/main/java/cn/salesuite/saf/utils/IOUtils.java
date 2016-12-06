@@ -34,7 +34,9 @@ public class IOUtils {
 		byte[] buffer = new byte[BUFFER_SIZE];
 		int len = 0;
 		while( (len = inStream.read(buffer)) !=-1 ){
-			outSteam.write(buffer, 0, len);
+			if (len!=0) {
+				outSteam.write(buffer, 0, len);
+			}
 		}
 		outSteam.close();
 		inStream.close();

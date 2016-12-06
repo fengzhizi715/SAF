@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Injector.bind(this);
+		Injector.injectInto(this);
 		initViews();
 		initData();
 	}

@@ -8,7 +8,7 @@ import android.app.Activity;
 
 public class Injector {
 
-    public static void bind(Activity activity){
+    public static void injectInto(Activity activity){
         String clsName = activity.getClass().getName();
         try {
             Class<?> viewBindingClass = Class.forName(clsName + "$$ViewBinder");

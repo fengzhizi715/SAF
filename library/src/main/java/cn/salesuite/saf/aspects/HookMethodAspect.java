@@ -9,7 +9,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.HookMethod;
+import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.reflect.Reflect;
+import cn.salesuite.saf.reflect.ReflectException;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**
@@ -23,7 +25,8 @@ public class HookMethodAspect {
         hookMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.HookMethod)||@annotation(cn.salesuite.saf.aspects.annotation.HookMethod)")
+    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.HookMethod)||@annotation(cn.salesuite" +
+            ".saf.aspects.annotation.HookMethod)")
     public void onHookMethod() {
     }
 
@@ -36,13 +39,23 @@ public class HookMethodAspect {
         String afterMethod = hookMethod.afterMethod();
 
         if (Preconditions.isNotBlank(beforeMethod)) {
-            Reflect.on(joinPoint.getTarget()).call(beforeMethod);
+            try {
+                Reflect.on(joinPoint.getTarget()).call(beforeMethod);
+            } catch (ReflectException e) {
+                e.printStackTrace();
+                L.e("no method "+beforeMethod);
+            }
         }
 
         joinPoint.proceed();
 
         if (Preconditions.isNotBlank(afterMethod)) {
-            Reflect.on(joinPoint.getTarget()).call(afterMethod);
+            try {
+                Reflect.on(joinPoint.getTarget()).call(afterMethod);
+            } catch (ReflectException e) {
+                e.printStackTrace();
+                L.e("no method "+afterMethod);
+            }
         }
     }
 }

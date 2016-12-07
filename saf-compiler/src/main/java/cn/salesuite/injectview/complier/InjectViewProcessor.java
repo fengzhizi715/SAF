@@ -52,7 +52,7 @@ public class InjectViewProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
         types.add(InjectView.class.getCanonicalName());
-//        types.add(OnClick.class.getCanonicalName());
+        types.add(OnClick.class.getCanonicalName());
         return types;
     }
 

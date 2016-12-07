@@ -17,9 +17,9 @@ import com.test.saf.app.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.saf.adapter.OnItemClickListener;
-import cn.salesuite.saf.inject.Injector;
-import cn.salesuite.saf.inject.annotation.InjectView;
 
 import static rx.schedulers.Schedulers.test;
 
@@ -29,7 +29,7 @@ import static rx.schedulers.Schedulers.test;
 
 public class GeneralAnnotationFragment extends BaseFragment {
 
-    @InjectView
+    @InjectView(id=R.id.recyclerview)
     RecyclerView recyclerview;
 
     List<String> data = new ArrayList<String>();

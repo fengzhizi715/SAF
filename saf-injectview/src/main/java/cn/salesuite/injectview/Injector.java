@@ -2,7 +2,7 @@ package cn.salesuite.injectview;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 /**
@@ -48,15 +48,25 @@ public class Injector {
 
 
     public static void injectInto(Activity activity){
-        inject(activity, activity);
+        inject(activity, activity,Finder.ACTIVITY);
     }
 
-    private static void inject(Context context, Object target) {
-        String className = context.getClass().getName();
+    /**
+     * 在fragment中使用注解
+     * @param fragment
+     * @param v
+     * @return
+     */
+    public static void injectInto(Fragment fragment, View v) {
+        inject(fragment,v,Finder.FRAGMENT);
+    }
+
+    private static void inject(Object host, Object source,Finder finder) {
+        String className = host.getClass().getName();
         try {
             Class<?> finderClass = Class.forName(className + "$$ViewBinder");
             ViewBinder viewBinder = (ViewBinder) finderClass.newInstance();
-            viewBinder.inject(context, target, Finder.ACTIVITY);
+            viewBinder.inject(host, source, finder);
         } catch (Exception e) {
             throw new RuntimeException("Unable to inject for " + className, e);
         }

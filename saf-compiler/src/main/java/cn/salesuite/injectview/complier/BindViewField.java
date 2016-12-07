@@ -23,8 +23,8 @@ public class BindViewField {
         }
 
         mFieldElement = (VariableElement) element;
-        InjectView bindView = mFieldElement.getAnnotation(InjectView.class);
-        mResId = bindView.id();
+        InjectView injectView = mFieldElement.getAnnotation(InjectView.class);
+        mResId = injectView.id();
 
         if (mResId < 0) {
             throw new IllegalArgumentException(

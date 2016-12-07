@@ -1,7 +1,6 @@
 package cn.salesuite.injectview.complier;
 
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,15 +21,13 @@ import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
 import cn.salesuite.injectview.annotations.InjectView;
+import cn.salesuite.injectview.annotations.OnClick;
 
 /**
  * Created by Tony Shen on 2016/12/6.
  */
 @AutoService(Processor.class)
 public class InjectViewProcessor extends AbstractProcessor {
-
-    private static final ClassName VIEW_BINDER = ClassName.get("cn.salesuite.injectview", "ViewBinder");
-
 
     /**
      * 使用 Google 的 auto-service 库可以自动生成 META-INF/services/javax.annotation.processing.Processor 文件
@@ -75,7 +72,7 @@ public class InjectViewProcessor extends AbstractProcessor {
 
         try {
             processBindView(roundEnv);
-//            processOnClick(roundEnv);
+            processOnClick(roundEnv);
         } catch (IllegalArgumentException e) {
             error(e.getMessage());
             return true; // stop process
@@ -101,13 +98,13 @@ public class InjectViewProcessor extends AbstractProcessor {
         }
     }
 
-//    private void processOnClick(RoundEnvironment roundEnv) {
-//        for (Element element : roundEnv.getElementsAnnotatedWith(OnClick.class)) {
-//            AnnotatedClass annotatedClass = getAnnotatedClass(element);
-//            OnClickMethod method = new OnClickMethod(element);
-//            annotatedClass.addMethod(method);
-//        }
-//    }
+    private void processOnClick(RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(OnClick.class)) {
+            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            OnClickMethod method = new OnClickMethod(element);
+            annotatedClass.addMethod(method);
+        }
+    }
 
     private AnnotatedClass getAnnotatedClass(Element element) {
         TypeElement classElement = (TypeElement) element.getEnclosingElement();

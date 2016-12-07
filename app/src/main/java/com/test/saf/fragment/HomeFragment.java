@@ -13,8 +13,9 @@ import android.webkit.WebViewClient;
 import com.test.saf.R;
 import com.test.saf.app.BaseFragment;
 
-import cn.salesuite.saf.inject.Injector;
-import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectView;
+
 
 /**
  * Created by tony on 2016/11/20.
@@ -22,7 +23,7 @@ import cn.salesuite.saf.inject.annotation.InjectView;
 
 public class HomeFragment extends BaseFragment {
 
-    @InjectView
+    @InjectView(id=R.id.webview)
     WebView webview;
 
     ProgressDialog progDailog;

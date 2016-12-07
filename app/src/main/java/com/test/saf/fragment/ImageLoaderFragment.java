@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.test.saf.R;
 import com.test.saf.activity.ImageDetailActivity;
@@ -24,12 +23,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectView;
+import cn.salesuite.injectview.annotations.OnClick;
 import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
-import cn.salesuite.saf.inject.Injector;
-import cn.salesuite.saf.inject.annotation.InjectView;
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.rxjava.RxAsyncTask;
 import cn.salesuite.saf.utils.Preconditions;
@@ -40,17 +40,11 @@ import cn.salesuite.saf.utils.Preconditions;
 
 public class ImageLoaderFragment extends BaseFragment {
 
-    @InjectView
+    @InjectView(id=R.id.recyclerview)
     RecyclerView recyclerview;
 
     @InjectView(id=R.id.menu_labels_right)
     FloatingActionMenu faMenu;
-
-    @InjectView
-    FloatingActionButton fab1;
-
-    @InjectView
-    FloatingActionButton fab2;
 
     MMPicsResponse respnose;
 
@@ -74,54 +68,6 @@ public class ImageLoaderFragment extends BaseFragment {
         progDailog = ProgressDialog.show(mContext, "Loading", "Please wait...", true);
         progDailog.setCancelable(false);
 
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                page++;
-
-                // 封装url
-                UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
-                urlBuilder.parameter("page", page);
-                String url = urlBuilder.buildUrl();
-
-                newGetPicTask(url);
-
-                if (faMenu.isOpened()) {
-                    faMenu.close(true);
-                }
-            }
-        });
-
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (page<=1) {
-                    toast("前一批无美女，老板要么换下一批？");
-
-                    if (faMenu.isOpened()) {
-                        faMenu.close(true);
-                    }
-
-                    return;
-                }
-
-                page--;
-
-                // 封装url
-                UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
-                urlBuilder.parameter("page", page);
-                String url = urlBuilder.buildUrl();
-
-                newGetPicTask(url);
-
-                if (faMenu.isOpened()) {
-                    faMenu.close(true);
-                }
-            }
-        });
-
         recyclerview.addOnItemTouchListener(new OnItemClickListener(recyclerview){
 
             @Override
@@ -142,6 +88,49 @@ public class ImageLoaderFragment extends BaseFragment {
 
             }
         });
+    }
+
+
+    @OnClick(id={R.id.fab1})
+    void clickFab1() {
+        page++;
+
+        // 封装url
+        UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
+        urlBuilder.parameter("page", page);
+        String url = urlBuilder.buildUrl();
+
+        newGetPicTask(url);
+
+        if (faMenu.isOpened()) {
+            faMenu.close(true);
+        }
+    }
+
+    @OnClick(id={R.id.fab2})
+    void clickFab2() {
+        if (page<=1) {
+            toast("前一批无美女，老板要么换下一批？");
+
+            if (faMenu.isOpened()) {
+                faMenu.close(true);
+            }
+
+            return;
+        }
+
+        page--;
+
+        // 封装url
+        UrlBuilder urlBuilder = new UrlBuilder("http://www.tngou.net/tnfs/api/list");
+        urlBuilder.parameter("page", page);
+        String url = urlBuilder.buildUrl();
+
+        newGetPicTask(url);
+
+        if (faMenu.isOpened()) {
+            faMenu.close(true);
+        }
     }
 
     private void initData() {

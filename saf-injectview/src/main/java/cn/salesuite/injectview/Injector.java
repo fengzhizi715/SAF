@@ -46,7 +46,10 @@ public class Injector {
         public abstract View findById(Object source, int id);
     }
 
-
+    /**
+     * 在Activity中使用注解
+     * @param activity
+     */
     public static void injectInto(Activity activity){
         inject(activity, activity,Finder.ACTIVITY);
     }

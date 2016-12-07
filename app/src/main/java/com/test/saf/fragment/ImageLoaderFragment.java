@@ -90,7 +90,6 @@ public class ImageLoaderFragment extends BaseFragment {
         });
     }
 
-
     @OnClick(id={R.id.fab1})
     void clickFab1() {
         page++;

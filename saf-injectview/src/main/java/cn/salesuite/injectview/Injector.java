@@ -64,6 +64,16 @@ public class Injector {
         inject(fragment,v,Finder.FRAGMENT);
     }
 
+    /**
+     * 在adapter中使用注解
+     * @param obj
+     * @param v
+     * @return
+     */
+    public static void injectInto(Object obj,View v) {
+        inject(obj, v,Finder.VIEW_HOLDER);
+    }
+
     private static void inject(Object host, Object source,Finder finder) {
         String className = host.getClass().getName();
         try {

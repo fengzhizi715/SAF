@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
 	@InjectView(id = R.id.navigation_view)
 	NavigationView navigationView;
 
-	@InjectView(id=R.id.toolbar)
+	@InjectView(id = R.id.toolbar)
 	Toolbar toolbar;
 
 	private MenuManager menuManager;

@@ -18,8 +18,6 @@ public class Preconditions {
      */
     public static <T> boolean isBlank(T t) {
 
-        boolean result = false;
-
         if (t==null) {
             return true;
         }
@@ -46,7 +44,7 @@ public class Preconditions {
             }
 
             for (int i = 0; i < strLen; i++) {
-                if ((Character.isWhitespace(((String)t).charAt(i)) == false)) {
+                if (!Character.isWhitespace(((String) t).charAt(i))) {
                     return false;
                 }
             }
@@ -54,7 +52,7 @@ public class Preconditions {
             return true;
         }
 
-        return result;
+        return false;
     }
 
     public static <T> boolean isNotBlank(T t) {

@@ -5,5 +5,7 @@ package cn.salesuite.injectview;
  */
 
 public interface ViewBinder<T> {
-    void bind(T target);
+
+
+    void inject(T host, Object target, Injector.Finder finder);
 }

@@ -13,14 +13,4 @@ import java.lang.annotation.Target;
 public @interface InjectExtra {
 
     String key() default "";
-
-//    int defaultInt() default 0;
-//
-//    boolean defaultBoolean() default false;
-//
-//    String defaultString() default "";
-//
-//    double defaultDouble() default 0.0;
-//
-//    long defaultLong() default 0L;
 }

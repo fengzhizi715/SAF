@@ -38,14 +38,36 @@ public class Injector {
 
                     Object value = extras != null ? extras.get(key) : null;
 
+                    Field field = null;
+                    try {
+                        field = source.getClass().getDeclaredField(fieldName);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (value==null) {
+                        if (field.getType().getName().equals(java.lang.Integer.class.getName())
+                                || field.getType().getName().equals("int")) {
+                            value = 0;
+                        } else if (field.getType().getName().equals(java.lang.Boolean.class.getName())
+                                || field.getType().getName().equals("boolean")) {
+                            value = false;
+                        } else if (field.getType().getName().equals(java.lang.String.class.getName())) {
+                            value = "";
+                        } else if (field.getType().getName().equals(java.lang.Long.class.getName())
+                                || field.getType().getName().equals("long")) {
+                            value = 0L;
+                        } else if (field.getType().getName().equals(java.lang.Double.class.getName())
+                                || field.getType().getName().equals("double")) {
+                            value = 0.0;
+                        }
+                    }
+
                     if (value != null) {
                         try {
-                            Field field = source.getClass().getDeclaredField(fieldName);
                             field.setAccessible(true);
                             field.set(source,value);
                             return field.get(source);
-                        } catch (NoSuchFieldException e) {
-                            e.printStackTrace();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }

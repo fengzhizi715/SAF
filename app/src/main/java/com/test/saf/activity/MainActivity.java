@@ -21,8 +21,6 @@ import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.saf.utils.Preconditions;
 
-//import cn.salesuite.saf.inject.annotation.Injector;
-
 public class MainActivity extends BaseActivity {
 
 	@InjectView(id=R.id.drawer_layout)

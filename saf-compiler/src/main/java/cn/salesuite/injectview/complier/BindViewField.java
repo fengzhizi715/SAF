@@ -28,7 +28,7 @@ public class BindViewField {
 
         if (mResId < 0) {
             throw new IllegalArgumentException(
-                    String.format("value() in %s for field %s is not valid !", InjectView.class.getSimpleName(),
+                    String.format("id() in %s for field %s is not valid !", InjectView.class.getSimpleName(),
                             mFieldElement.getSimpleName()));
         }
     }

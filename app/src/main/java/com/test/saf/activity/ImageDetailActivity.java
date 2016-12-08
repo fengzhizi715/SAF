@@ -23,6 +23,9 @@ public class ImageDetailActivity extends BaseActivity {
     @InjectExtra(key="image")
     String url;
 
+    @InjectExtra(key="user")
+    User user;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +37,7 @@ public class ImageDetailActivity extends BaseActivity {
         setContentView(imageView);
 
         Injector.injectInto(this);
-        
+
         if (Preconditions.isNotBlank(url)) {
             url = "http://tnfs.tngou.net/image"+url;
             app.imageLoader.displayImage(url, imageView, R.drawable.default_girl);

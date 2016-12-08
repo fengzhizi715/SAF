@@ -75,23 +75,24 @@ public class AnnotatedClass {
 
         if (mMethods.size() > 0) {
             injectMethodBuilder.addStatement("$T listener", TypeUtil.ANDROID_ON_CLICK_LISTENER);
-        }
-        for (OnClickMethod method : mMethods) {
-            // declare OnClickListener anonymous class
-            TypeSpec listener = TypeSpec.anonymousClassBuilder("")
-                    .addSuperinterface(TypeUtil.ANDROID_ON_CLICK_LISTENER)
-                    .addMethod(MethodSpec.methodBuilder("onClick")
-                            .addAnnotation(Override.class)
-                            .addModifiers(Modifier.PUBLIC)
-                            .returns(TypeName.VOID)
-                            .addParameter(TypeUtil.ANDROID_VIEW, "view")
-                            .addStatement("host.$N()", method.getMethodName())
-                            .build())
-                    .build();
-            injectMethodBuilder.addStatement("listener = $L ", listener);
-            for (int id : method.ids) {
-                // set listeners
-                injectMethodBuilder.addStatement("finder.findById(source, $L).setOnClickListener(listener)", id);
+
+            for (OnClickMethod method : mMethods) {
+                // declare OnClickListener anonymous class
+                TypeSpec listener = TypeSpec.anonymousClassBuilder("")
+                        .addSuperinterface(TypeUtil.ANDROID_ON_CLICK_LISTENER)
+                        .addMethod(MethodSpec.methodBuilder("onClick")
+                                .addAnnotation(Override.class)
+                                .addModifiers(Modifier.PUBLIC)
+                                .returns(TypeName.VOID)
+                                .addParameter(TypeUtil.ANDROID_VIEW, "view")
+                                .addStatement("host.$N()", method.getMethodName())
+                                .build())
+                        .build();
+                injectMethodBuilder.addStatement("listener = $L ", listener);
+                for (int id : method.ids) {
+                    // set listeners
+                    injectMethodBuilder.addStatement("finder.findById(source, $L).setOnClickListener(listener)", id);
+                }
             }
         }
 

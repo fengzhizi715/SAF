@@ -38,6 +38,7 @@ General annotation
 | @Async        |借助rxjava,异步执行app中的方法|       |
 | @Cacheable    |Spring Cache风格的Cache注解,将结果放于缓存中|只适用于android4.0以后|
 | @LogMethod    |将方法的入参和出参都打印出来,可以用于调试|       |
+| @HookMethod   |可以在调用某个方法之前、以及之后进行hook|比较适合埋点的场景，可以跟任何自定义注解配合使用|
 | @Prefs        |将方法返回的结果放入AppPrefs中|只适用于android4.0以后|
 | @Safe         |可以安全地执行方法,而无需考虑是否会抛出运行时异常|       |
 | @Trace        |用于追踪某个方法花费的时间,可以用于性能调优的评判|       |
@@ -84,7 +85,16 @@ General annotation
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity: ui thread=1<br>
 ```
 
+@ HookMethod的使用方法:
 
+不写beforeMethod和afterMethod，则相当于没有使用@HookMethod
+beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()之前执行和之后执行。目前还不支持在beforeMethod和afterMethod中传递参数。
+```Java
+   @HookMethod(beforeMethod="dosthbeforeMethod",afterMethod="dosthafterMethod")
+   void doSomething() {
+   
+   }
+```
 RxAsyncTask
 ===
 它完全可以替代android sdk中自带的AsyncTask，底层使用rxjava从而无需关心线程池的问题，开发者只需实现onExecute()即可。

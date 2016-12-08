@@ -20,18 +20,16 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
+import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.OnClick;
 
 /**
+ * 使用 Google 的 auto-service 库可以自动生成 META-INF/services/javax.annotation.processing.Processor 文件
  * Created by Tony Shen on 2016/12/6.
  */
 @AutoService(Processor.class)
 public class InjectViewProcessor extends AbstractProcessor {
-
-    /**
-     * 使用 Google 的 auto-service 库可以自动生成 META-INF/services/javax.annotation.processing.Processor 文件
-     */
 
     private Filer mFiler; //文件相关的辅助类
     private Elements mElementUtils; //元素相关的辅助类
@@ -53,6 +51,7 @@ public class InjectViewProcessor extends AbstractProcessor {
         Set<String> types = new LinkedHashSet<>();
         types.add(InjectView.class.getCanonicalName());
         types.add(OnClick.class.getCanonicalName());
+        types.add(InjectExtra.class.getCanonicalName());
         return types;
     }
 
@@ -71,7 +70,8 @@ public class InjectViewProcessor extends AbstractProcessor {
         mAnnotatedClassMap.clear();
 
         try {
-            processBindView(roundEnv);
+            processInjectView(roundEnv);
+            processInjectExtra(roundEnv);
             processOnClick(roundEnv);
         } catch (IllegalArgumentException e) {
             error(e.getMessage());
@@ -90,11 +90,22 @@ public class InjectViewProcessor extends AbstractProcessor {
         return true;
     }
 
-    private void processBindView(RoundEnvironment roundEnv) throws IllegalArgumentException {
+    private void processInjectView(RoundEnvironment roundEnv) throws IllegalArgumentException {
         for (Element element : roundEnv.getElementsAnnotatedWith(InjectView.class)) {
             AnnotatedClass annotatedClass = getAnnotatedClass(element);
             BindViewField field = new BindViewField(element);
             annotatedClass.addField(field);
+        }
+    }
+
+    private void processInjectExtra(RoundEnvironment roundEnv) {
+        Set<Element> set = (Set<Element>) roundEnv.getElementsAnnotatedWith(InjectExtra.class);
+        if (set != null && set.size()>0) {
+            for (Element element:set) {
+                AnnotatedClass annotatedClass = getAnnotatedClass(element);
+                ExtraField field = new ExtraField(element);
+                annotatedClass.addExtraField(field);
+            }
         }
     }
 

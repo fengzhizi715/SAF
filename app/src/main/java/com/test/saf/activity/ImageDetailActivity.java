@@ -8,6 +8,8 @@ import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.ui.SmoothImageView;
 
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**
@@ -17,6 +19,8 @@ import cn.salesuite.saf.utils.Preconditions;
 public class ImageDetailActivity extends BaseActivity {
 
     SmoothImageView imageView;
+
+    @InjectExtra(key="image")
     String url;
 
     @Override
@@ -29,7 +33,8 @@ public class ImageDetailActivity extends BaseActivity {
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         setContentView(imageView);
 
-        url = getIntent().getStringExtra("image");
+        Injector.injectInto(this);
+        
         if (Preconditions.isNotBlank(url)) {
             url = "http://tnfs.tngou.net/image"+url;
             app.imageLoader.displayImage(url, imageView, R.drawable.default_girl);

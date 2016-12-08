@@ -2,8 +2,12 @@ package cn.salesuite.injectview;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Tony Shen on 2016/12/6.
@@ -22,6 +26,33 @@ public class Injector {
             @Override
             public View findById(Object source, int id) {
                 return ((Activity) source).findViewById(id);
+            }
+
+            @Override
+            public Object getExtra(Object source, String key, String fieldName) {
+
+                Intent intent = ((Activity) source).getIntent();
+
+                if (intent != null) {
+                    Bundle extras = intent.getExtras();
+
+                    Object value = extras != null ? extras.get(key) : null;
+
+                    if (value != null) {
+                        try {
+                            Field field = source.getClass().getDeclaredField(fieldName);
+                            field.setAccessible(true);
+                            field.set(source,value);
+                            return field.get(source);
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                return null;
             }
         },
         FRAGMENT {
@@ -44,6 +75,10 @@ public class Injector {
         };
 
         public abstract View findById(Object source, int id);
+
+        public Object getExtra(Object source, String key, String fieldName) {
+            return null;
+        }
     }
 
     /**

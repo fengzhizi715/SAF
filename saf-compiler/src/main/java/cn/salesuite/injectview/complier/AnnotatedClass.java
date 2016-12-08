@@ -22,14 +22,17 @@ public class AnnotatedClass {
 
     public TypeElement mClassElement;
     public List<BindViewField> mFields;
+    public List<ExtraField> mExtraFields;
     public List<OnClickMethod> mMethods;
     public Elements mElementUtils;
 
     public AnnotatedClass(TypeElement classElement, Elements elementUtils) {
         this.mClassElement = classElement;
-        this.mFields = new ArrayList<>();
-        this.mMethods = new ArrayList<>();
         this.mElementUtils = elementUtils;
+        this.mFields = new ArrayList<>();
+        this.mExtraFields = new ArrayList<>();
+        this.mMethods = new ArrayList<>();
+
     }
 
     public String getFullClassName() {
@@ -40,13 +43,17 @@ public class AnnotatedClass {
         mFields.add(field);
     }
 
+    public void addExtraField(ExtraField extraField) {
+        mExtraFields.add(extraField);
+    }
+
     public void addMethod(OnClickMethod method) {
         mMethods.add(method);
     }
 
     public JavaFile generateFinder() {
 
-        // method inject(final T host, Object source, Provider provider)
+        // method inject(final T host, Object source, FINDER finder)
         MethodSpec.Builder injectMethodBuilder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
@@ -58,6 +65,12 @@ public class AnnotatedClass {
             // find views
             injectMethodBuilder.addStatement("host.$N = ($T)(finder.findById(source, $L))", field.getFieldName(),
                     ClassName.get(field.getFieldType()), field.getResId());
+        }
+
+        for (ExtraField field : mExtraFields) {
+            // find extra
+            injectMethodBuilder.addStatement("host.$N = ($T)(finder.getExtra(source, $L, $L))", field.getFieldName(),
+                    ClassName.get(field.getFieldType()), "\""+field.getKey()+"\"","\""+field.getFieldName()+"\"");
         }
 
         if (mMethods.size() > 0) {

@@ -23,9 +23,6 @@ public class ImageDetailActivity extends BaseActivity {
     @InjectExtra(key="image")
     String url;
 
-    @InjectExtra(key="user")
-    User user;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

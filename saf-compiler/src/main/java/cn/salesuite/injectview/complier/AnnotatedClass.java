@@ -22,6 +22,7 @@ public class AnnotatedClass {
 
     public TypeElement mClassElement;
     public List<BindViewField> mFields;
+    public List<BindViewFields> mFieldss;
     public List<ExtraField> mExtraFields;
     public List<OnClickMethod> mMethods;
     public Elements mElementUtils;
@@ -30,6 +31,7 @@ public class AnnotatedClass {
         this.mClassElement = classElement;
         this.mElementUtils = elementUtils;
         this.mFields = new ArrayList<>();
+        this.mFieldss = new ArrayList<>();
         this.mExtraFields = new ArrayList<>();
         this.mMethods = new ArrayList<>();
 
@@ -41,6 +43,10 @@ public class AnnotatedClass {
 
     public void addField(BindViewField field) {
         mFields.add(field);
+    }
+
+    public void addFields(BindViewFields field) {
+        mFieldss.add(field);
     }
 
     public void addExtraField(ExtraField extraField) {
@@ -62,9 +68,57 @@ public class AnnotatedClass {
                 .addParameter(TypeUtil.FINDER, "finder");
 
         for (BindViewField field : mFields) {
-            // find views
+            // find view
             injectMethodBuilder.addStatement("host.$N = ($T)(finder.findById(source, $L))", field.getFieldName(),
                     ClassName.get(field.getFieldType()), field.getResId());
+        }
+
+        for (BindViewFields field:mFieldss) {
+            // find views
+            String fieldTypeName = field.getFieldType().toString();
+
+            if (fieldTypeName.startsWith("java.util.List")) {
+                int[] ids = field.getResIds();
+
+                injectMethodBuilder.addStatement("host.$N = new $T<>()", field.getFieldName(),TypeUtil.ARRAY_LIST);
+
+                int first = fieldTypeName.indexOf("<");
+                if (first == -1) continue;
+
+                int last = fieldTypeName.lastIndexOf(">");
+                if (last == -1) continue;
+
+                String clazz = fieldTypeName.substring(first+1,last);
+                int dot = clazz.lastIndexOf(".");
+
+                if (dot == -1) continue;
+
+                String packageName = clazz.substring(0,dot);
+                String simpleName = clazz.substring(dot+1);
+                int length = ids.length;
+                ClassName className = ClassName.get(packageName,simpleName);
+                for (int i=0;i<length;i++) {
+                    injectMethodBuilder.addStatement("host.$N.add(($T)(finder.findById(source, $L)))",field.getFieldName(), className,ids[i]);
+                }
+            } else if (fieldTypeName.endsWith("[]")){
+                int[] ids = field.getResIds();
+                int length = ids.length;
+                int first = fieldTypeName.indexOf("[");
+                String clazz = fieldTypeName.substring(0,first);
+
+                int dot = clazz.lastIndexOf(".");
+
+                if (dot == -1) continue;
+                String packageName = clazz.substring(0,dot);
+                String simpleName = clazz.substring(dot+1);
+                ClassName className = ClassName.get(packageName,simpleName);
+                injectMethodBuilder.addStatement("host.$N = new $T[$L]", field.getFieldName(),className,length);
+
+                for (int i =0;i<length;i++) {
+                    injectMethodBuilder.addStatement("host.$N[$L] = ($T)(finder.findById(source, $L))",field.getFieldName(), i, className,ids[i]);
+                }
+            }
+
         }
 
         for (ExtraField field : mExtraFields) {

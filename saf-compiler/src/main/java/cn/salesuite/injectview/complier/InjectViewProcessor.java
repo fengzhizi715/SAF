@@ -22,6 +22,7 @@ import javax.tools.Diagnostic;
 
 import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.injectview.annotations.InjectView;
+import cn.salesuite.injectview.annotations.InjectViews;
 import cn.salesuite.injectview.annotations.OnClick;
 
 /**
@@ -50,6 +51,7 @@ public class InjectViewProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
         types.add(InjectView.class.getCanonicalName());
+        types.add(InjectViews.class.getCanonicalName());
         types.add(OnClick.class.getCanonicalName());
         types.add(InjectExtra.class.getCanonicalName());
         return types;
@@ -71,6 +73,7 @@ public class InjectViewProcessor extends AbstractProcessor {
 
         try {
             processInjectView(roundEnv);
+            processInjectViews(roundEnv);
             processInjectExtra(roundEnv);
             processOnClick(roundEnv);
         } catch (IllegalArgumentException e) {
@@ -95,6 +98,14 @@ public class InjectViewProcessor extends AbstractProcessor {
             AnnotatedClass annotatedClass = getAnnotatedClass(element);
             BindViewField field = new BindViewField(element);
             annotatedClass.addField(field);
+        }
+    }
+
+    private void processInjectViews(RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(InjectViews.class)) {
+            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            BindViewFields field = new BindViewFields(element);
+            annotatedClass.addFields(field);
         }
     }
 

@@ -12,8 +12,9 @@ import com.test.saf.Test2Event;
 import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
 
+import cn.salesuite.injectview.Injector;
+import cn.salesuite.injectview.annotations.InjectViews;
 import cn.salesuite.saf.log.L;
-import cn.salesuite.saf.permissions.Permission;
 import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.permissions.PermissionGuardAware;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
@@ -27,7 +28,8 @@ import cn.salesuite.saf.rxjava.eventbus.ThreadMode;
 
 public class MainActivity2 extends BaseActivity implements PermissionGuardAware {
 
-    private TextView text;
+    @InjectViews(ids={R.id.text})
+    TextView[] text;
     private RxEventBusAnnotationManager manager;
     private static final String TAG = MainActivity.class.getName();
     private PermissionGuard permissionGuard;
@@ -37,12 +39,12 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        text = (TextView)findViewById(R.id.text);
+        Injector.injectInto(this);
         manager = new RxEventBusAnnotationManager(this);
         RxEventBus.getInstance().post(new TestEvent());
         permissionGuard = new PermissionGuard(mContext,this);
 
-        text.setOnClickListener(new View.OnClickListener(){
+        text[0].setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -58,9 +60,9 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
 //        initData();
     }
 
-    @Permission(android.Manifest.permission.CAMERA)
+//    @Permission(android.Manifest.permission.CAMERA)
     private void openCamera(View v) {
-
+toast("1111");
     }
 
 //    @Cacheable(key = "user")

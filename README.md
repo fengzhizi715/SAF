@@ -16,6 +16,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 -----------------------------------
 * [General Annotation](https://github.com/fengzhizi715/SAF#general-annotation)
 * [RxAsyncTask](https://github.com/fengzhizi715/SAF#rxasynctask)
+* [Permissions](https://github.com/fengzhizi715/SAF#permissions)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
 * [Image Cache](https://github.com/fengzhizi715/SAF#image-cache)
@@ -87,7 +88,7 @@ General annotation
 
 @ HookMethod的使用方法:
 
-不写beforeMethod和afterMethod，则相当于没有使用@HookMethod
+不写beforeMethod和afterMethod，则相当于没有使用@HookMethod<br>
 beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()之前执行和之后执行。目前还不支持在beforeMethod和afterMethod中传递参数。
 ```Java
    @HookMethod(beforeMethod="dosthbeforeMethod",afterMethod="dosthafterMethod")
@@ -118,6 +119,8 @@ RxAsyncTask
         });
 ```
 
+Permissions
+===
 
 Event Bus
 ===

@@ -30,8 +30,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 General annotation
 ===
-通用注解，也是新的注解，基于aspectj的AOP，无需使用耗费性能的反射.
-不过,需要在build.gradle中配置一下aspectj
+通用注解，也是区别于[Dependency Injection](https://github.com/fengzhizi715/SAF#dependency-injection)新的注解，基于aspectj的AOP，无需使用耗费性能的反射.不过,需要在build.gradle中配置一下aspectj
 
 
 | 注解名称        | 作用          | 备注          |
@@ -252,7 +251,7 @@ Dependency Injection
 Dependency Injection是依赖注入的意思，简称DI。
 
 SAF中的依赖注入已经发展到第二个版本，由原先的运行时注解替换成编译时注解，底层依赖Square javapoet和Google auto-service。
-其实ButterKnife已经足够强大了，为何还要再做一套呢？因为这个模块更加轻量级。
+其实，ButterKnife已经足够强大了，为何还要再做一套呢？因为这个模块更加轻量级。
 
 SAF中的DI包括以下几个方面：
 * Inject View ：简化组件的查找注册，目前支持约定大于配置，如果代码中的组件名称跟layout中要注入的组件id相同，则无需写(id=R.id.xxxx)

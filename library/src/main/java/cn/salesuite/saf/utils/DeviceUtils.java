@@ -19,6 +19,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -60,10 +61,23 @@ public class DeviceUtils {
         String str2 = "";
         String[] cpuInfo = {"", ""};
         String[] arrayOfString;
+        BufferedReader localBufferedReader = null;
         try {
-            FileReader fr = new FileReader(str1);
-            BufferedReader localBufferedReader = new BufferedReader(fr, 8192);
+            File file = new File(str1);
+            if(!file.exists()){
+                return "";
+            }
+            FileReader fr = new FileReader(file);
+            //防止fr为空
+            if (Preconditions.isBlank(fr)) {
+                return "";
+            }
+            localBufferedReader = new BufferedReader(fr, 8192);
             str2 = localBufferedReader.readLine();
+            //防止str2为空
+            if (Preconditions.isBlank(str2)) {
+                return "";
+            }
             arrayOfString = str2.split("\\s+");
             for (int i = 2; i < arrayOfString.length; i++) {
                 cpuInfo[0] = cpuInfo[0] + arrayOfString[i] + " ";
@@ -73,6 +87,8 @@ public class DeviceUtils {
             cpuInfo[1] += arrayOfString[2];
             localBufferedReader.close();
         } catch (IOException ignored) {
+        } finally {
+            IOUtils.closeQuietly(localBufferedReader);
         }
         return Arrays.toString(cpuInfo);
     }

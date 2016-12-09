@@ -34,7 +34,6 @@ public class AnnotatedClass {
         this.mFieldss = new ArrayList<>();
         this.mExtraFields = new ArrayList<>();
         this.mMethods = new ArrayList<>();
-
     }
 
     public String getFullClassName() {
@@ -73,9 +72,10 @@ public class AnnotatedClass {
                     ClassName.get(field.getFieldType()), field.getResId());
         }
 
+        String fieldTypeName = null;
         for (BindViewFields field:mFieldss) {
             // find views
-            String fieldTypeName = field.getFieldType().toString();
+            fieldTypeName = field.getFieldType().toString();
 
             if (fieldTypeName.startsWith("java.util.List")) {
                 int[] ids = field.getResIds();
@@ -90,7 +90,6 @@ public class AnnotatedClass {
 
                 String clazz = fieldTypeName.substring(first+1,last);
                 int dot = clazz.lastIndexOf(".");
-
                 if (dot == -1) continue;
 
                 String packageName = clazz.substring(0,dot);
@@ -104,11 +103,13 @@ public class AnnotatedClass {
                 int[] ids = field.getResIds();
                 int length = ids.length;
                 int first = fieldTypeName.indexOf("[");
+                if (first == -1) continue;
+
                 String clazz = fieldTypeName.substring(0,first);
 
                 int dot = clazz.lastIndexOf(".");
-
                 if (dot == -1) continue;
+
                 String packageName = clazz.substring(0,dot);
                 String simpleName = clazz.substring(dot+1);
                 ClassName className = ClassName.get(packageName,simpleName);

@@ -39,12 +39,13 @@ General annotation
 | @Async        |借助rxjava,异步执行app中的方法|       |
 | @Cacheable    |Spring Cache风格的Cache注解,将结果放于缓存中|只适用于android4.0以后|
 | @LogMethod    |将方法的入参和出参都打印出来,可以用于调试|       |
-| @HookMethod   |可以在调用某个方法之前、以及之后进行hook|比较适合埋点的场景，可以跟任何自定义注解配合使用|
+| @HookMethod   |可以在调用某个方法之前、以及之后进行hook|比较适合埋点的场景，可以单独使用也可以跟任何自定义注解配合使用|
 | @Prefs        |将方法返回的结果放入AppPrefs中|只适用于android4.0以后|
 | @Safe         |可以安全地执行方法,而无需考虑是否会抛出运行时异常|       |
 | @Trace        |用于追踪某个方法花费的时间,可以用于性能调优的评判|       |
 
 @Async的使用方法:
+---
 ```Java
 	@Async
 	private void useAsync() {
@@ -53,8 +54,8 @@ General annotation
 	}
 ```
 
-
 @Cacheable的使用方法:
+---
 ```Java
 	@Cacheable(key = "user")
 	private User initData() {
@@ -68,6 +69,7 @@ General annotation
 这里的@Cacheable,实际上用到[Cache](https://github.com/fengzhizi715/SAF#cache),要获取Cache也很简单.
 
 @Trace的使用方法:
+---
 ```Java
 	@Trace
 	@Async
@@ -86,14 +88,14 @@ General annotation
 05-18 14:31:31.231 21190-22033/app.magicwindow.cn.testsaf E/com.test.saf.activity.MainActivity: ui thread=1
 ```
 
-@ HookMethod的使用方法:
-
+@HookMethod的使用方法:
+---
 不写beforeMethod和afterMethod，则相当于没有使用@HookMethod<br>
 beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()之前执行和之后执行。目前还不支持在beforeMethod和afterMethod中传递参数。
 ```Java
    @HookMethod(beforeMethod="dosthbeforeMethod",afterMethod="dosthafterMethod")
    void doSomething() {
-   
+
    }
 ```
 RxAsyncTask
@@ -145,8 +147,8 @@ eventBus.post(new LogoutEvent());
           public void onLogoutEvent(LogoutEvent event) {
           }
 ```
-          
-          
+
+
 @Subscribe可以使用枚举
 
 ```Java
@@ -164,7 +166,7 @@ eventBus.post(new LogoutEvent());
 
 Rest Client
 ===
-Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。 
+Rest Client模块提供了http的get、post、put、delete方法。这个模块还不是很完善，只是适应自身项目需要，未来会不断增加新的功能。
 这个模块没有基于apache httpclient，完全使用jdk中的HttpURLConnection。
 
 同步调用get方法：
@@ -182,10 +184,10 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
               public void onSuccess(String content) {
                 // content为http请求成功后返回的response
               }
-              
+
              @Override
 			 public void onFail(RestException exception){
-						
+
 			  }
           });
  ```
@@ -204,15 +206,15 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
 
 ```Java
           RestClient.post(url,json,new HttpResponseHandler(){ // json对应的是fastjson的JSONObject对象
-        
+
              public void onSuccess(String content) {
              }
-                
+
              @Override
 			 public void onFail(RestException exception){
-						
+
 			 }
-        
+
            });
 ```
 
@@ -225,11 +227,11 @@ Rest Client模块提供了http的get、post、put、delete方法。这个模块�
               public void onSuccess(String content) {
 
               }
-                
+
               @Override
 			   public void onFail(RestException exception){
 			    }
-                                        
+
           });
 ```
 
@@ -264,13 +266,13 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
 
 ```Java
           public class MainActivity extends Activity {
-                
+
                 private ImageView imageView;
-                
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
-                  
+
                   setContentView(R.layout.activity_main);
                   imageView = (ImageView) findViewById(R.id.imageview);
                 }
@@ -282,14 +284,14 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
 
 ```Java
           public class MainActivity extends Activity {
-                    
+
                 @InjectView(id= R.id.imageview)
                 private ImageView imageView;
-                    
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                    super.onCreate(savedInstanceState);
-                      
+
                    setContentView(R.layout.activity_main);
                    Injector.injectInto(this);
                 }
@@ -300,14 +302,14 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
 
 ```Java
           public class MainActivity extends Activity {
-                    
+
                 @InjectView
                 private ImageView imageview;
-                    
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                    super.onCreate(savedInstanceState);
-                      
+
                    setContentView(R.layout.activity_main);
                    Injector.injectInto(this);
                 }
@@ -330,13 +332,13 @@ Inject View可以简化组件的查找注册，包括android自带的组件和�
                           View v = inflater.inflate(R.layout.fragment_demo, container, false);
 
                           Injector.injectInto(this,v); // 和Activity使用的区别之处在这里
-          
+
                           initViews();
                           initData();
-          
+
                           return v;
                    }
-          
+
                   ......
            }
 ```
@@ -346,14 +348,14 @@ Inject Views
 
 ```Java
           public class MainActivity extends Activity {
-                    
+
                 @InjectViews(ids={R.id.imageView1,R.id.imageView2})
                 private List<ImageView> imageviews;
-                    
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                    super.onCreate(savedInstanceState);
-                      
+
                    setContentView(R.layout.activity_main);
                    Injector.injectInto(this);
                 }
@@ -380,13 +382,13 @@ Inject Extra
 
                @InjectExtra(key="test")
                private String testStr;
-        
+
                @InjectExtra(key="test_object")
                private Hello hello;
-        
+
                protected void onCreate(Bundle savedInstanceState) {
                    super.onCreate(savedInstanceState);
-                
+
                    Injector.injectInto(this);
                    Log.i("++++++++++++","testStr="+testStr);
                    Log.i("++++++++++++","hello="+SAFUtil.printObject(hello)); // 该方法用于打印对象
@@ -407,10 +409,10 @@ InflateLayout
 
               @InjectView(id = R.id.textview1)
 	          public TextView view1;
-    
+
               @InjectView(id = R.id.textview2)
 	          public TextView view2;
-	
+
 	         public MyView(Context context) {
 		         super(context);
 	         }
@@ -419,7 +421,7 @@ InflateLayout
 
 
 在Activity、Fragment中的写法:
-```Java	
+```Java
          MyView myView = Injector.build(mContext, MyView.class);
 ```
 
@@ -430,7 +432,7 @@ OnClick
 
 ```Java
      public class AddCommentFragment extends BaseFragment {
-    
+
          @Override
          public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -443,7 +445,7 @@ OnClick
 
              return v;
         }
-    
+
 	    @OnClick(id={R.id.left_menu,R.id.btn_comment_cancel}, after = "pointClickView")
 	    void clickLeftMenu() {
 		    popBackStack();
@@ -453,7 +455,7 @@ OnClick
         L.d("pointClickView");
         ....
       }
-	
+
 	    @OnClick(id=R.id.btn_comment_send)
 	    void clickCommentSend() {
             if (StringHelper.isBlank(commentEdit.getText().toString())) {
@@ -462,14 +464,14 @@ OnClick
                AsyncTaskExecutor.executeAsyncTask(new AddCommentTask(showDialog(mContext)));
             }
 	    }
-	    
+
 	    ....
     }
 ```
 
 OnItemClick
 ---
-```Java 
+```Java
 	@OnItemClick(id=R.id.listview)
 	void itemClickListView(AdapterView<?> parent, View view,
 			int position, long id) {
@@ -495,12 +497,12 @@ Sqlite ORM
         <meta-data
             android:name="DOMAIN_PACKAGE"
             android:value="com.example.testsaf.db" />
-        
+
         <!-- 表示db的名称-->
         <meta-data
             android:name="DB_NAME"
             android:value="testsaf.db" />
- 
+
          <!-- 表示db的版本号-->
          <meta-data
             android:name="DB_VERSION"
@@ -522,7 +524,7 @@ Sqlite ORM
                    super.onCreate();
                    DBManager.initialize(this);
                 }
-  
+
            }
 ```
 
@@ -530,20 +532,20 @@ db的domain使用是也是基于注解
 
 ```Java
           /**
-           * 
+           *
            * 表示sqlite中autocomplete表的属性
            * @author Tony Shen
-           * 
+           *
            */
           @Table(name="autocomplete")
           public class Autocomplete extends DBDomain{
 
               @Column(name="key_words",length=20,notNull=true)
               public String KEY_WORDS;
-        
+
               @Column(name="key_type",length=20,notNull=true)
               public String KEY_TYPE;
-        
+
               @Column(name="key_reference",length=80)
               public String KEY_REFERENCE;
           }
@@ -576,15 +578,15 @@ db的操作很简单
 ```Java
 List list = new Autocomplete().executeQuery("select * from autocomplete where KEY_WORDS = 'testtest'");
 Log.i("+++++++++++++++","list.size()="+list.size());  // 根据sql条件查询
-                
+
 List list2 = new Autocomplete().executeQuery("select * from autocomplete where KEY_WORDS = ? and Id = ?","testtest","1");
 Log.i("+++++++++++++++","list2.size()="+list2.size()); // 表示查询select * from autocomplete where KEY_WORDS = 'testtest' and Id = '1'
-``` 
+```
 
 
 Router
 ===
-类似于rails的router功能，可以实现app的应用内跳转,包括Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。 
+类似于rails的router功能，可以实现app的应用内跳转,包括Activity之间、Fragment之间可以轻易实现相互跳转，并传递参数。
 使用Activity跳转必须在Application中做好router的映射。 我们会做这样的映射，表示从某个Activity跳转到另一个Activity需要传递user、password2个参数
 ```Java
           Router.getInstance().setContext(getApplicationContext()); // 这一步是必须的，用于初始化Router

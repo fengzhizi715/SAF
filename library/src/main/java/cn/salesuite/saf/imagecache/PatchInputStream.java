@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.rxjava.imagecache;
+package cn.salesuite.saf.imagecache;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

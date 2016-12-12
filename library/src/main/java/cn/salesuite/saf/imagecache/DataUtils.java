@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava.imagecache;
+package cn.salesuite.saf.imagecache;
 
 /**
  * Created by Tony Shen on 2016/11/15.

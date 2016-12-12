@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava.imagecache;
+package cn.salesuite.saf.imagecache;
 
 import android.annotation.TargetApi;
 import android.content.Context;

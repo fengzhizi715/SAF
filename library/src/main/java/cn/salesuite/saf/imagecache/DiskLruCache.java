@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cn.salesuite.saf.rxjava.imagecache;
+package cn.salesuite.saf.imagecache;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

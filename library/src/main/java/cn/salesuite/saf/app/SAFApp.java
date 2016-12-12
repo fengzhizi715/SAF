@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.salesuite.saf.config.SAFConstant;
-import cn.salesuite.saf.rxjava.imagecache.RxImageLoader;
+import cn.salesuite.saf.imagecache.RxImageLoader;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 

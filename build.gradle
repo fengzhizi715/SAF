@@ -1,3 +1,5 @@
+import proguard.gradle.ProGuardTask
+
 // Top-level build file where you can add configuration options common to all sub-projects/module
 ext {
     configuration = [
@@ -30,7 +32,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.uphyca.gradle:gradle-android-aspectj-plugin:0.9.+'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         // NOTE: Do not place your application dependencies here; they belong
@@ -47,3 +49,131 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+//genera aar
+
+Properties properties = new Properties()
+
+File localPropertiesFile = project.rootProject.file("local.properties");
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+File projectPropertiesFile = project.rootProject.file("project.properties");
+if (projectPropertiesFile.exists()) {
+    properties.load(projectPropertiesFile.newDataInputStream())
+}
+//def androidJarDir = properties.getProperty('sdk.dir') + '/platforms/android-23/android.jar'
+
+// read properties
+def library = properties.getProperty("project.library")
+def annotations = properties.getProperty("project.saf-annotations")
+def compiler = properties.getProperty("project.saf-compiler")
+def injectview = properties.getProperty("project.injectview")
+def classPath = properties.getProperty("project.class.path")
+
+//需打包的资源所在的路径集
+def libraryPath = [project.findProject(library).buildDir.absolutePath + classPath];
+def compilerPath = [project.findProject(compiler).buildDir.absolutePath + classPath];
+def annotationsPath = [project.findProject(annotations).buildDir.absolutePath + classPath];
+def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + classPath];
+
+task buildLibrary(type: Jar) {
+
+    archiveName = 'library.jar'
+
+    //初始化资源路径集
+    from libraryPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/saf/**/*.class"
+    destinationDir = file('build/outputs/' + library)
+}
+
+task buildAnnotations( type: Jar) {
+
+    archiveName = 'annotations.jar'
+
+    //初始化资源路径集
+    from annotationsPath
+    println("aaron annotationsPath = " + annotationsPath)
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/saf/**/*.class"
+    destinationDir = file('build/outputs/' + annotations)
+}
+
+
+task buildCompiler( type: Jar) {
+
+    archiveName = 'compiler.jar'
+
+    //初始化资源路径集
+    from compilerPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/saf/**/*.class"
+    destinationDir = file('build/outputs/' + compiler)
+}
+
+
+task buildInjectview( type: Jar) {
+
+    archiveName = 'injectView.jar'
+
+    //初始化资源路径集
+    from injectviewPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/saf/**/*.class"
+    destinationDir = file('build/outputs/' + injectview)
+}
+//
+task buildSAF(type: Jar) {
+
+    archiveName = 'SAF.jar'
+
+    //初始化资源路径集
+    from libraryPath, annotationsPath, compilerPath, injectviewPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/saf/**/*.class"
+    destinationDir = file('build/outputs/')
+}
+
+//生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
+task generaAllJar(dependsOn: ['buildLibrary','buildAnnotations', 'buildCompiler', 'buildInjectview', 'buildSAF']) {
+    logger.info("all build finish!");
+}
+
+defaultTasks 'buildSAFAll'

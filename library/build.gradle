@@ -48,7 +48,7 @@ dependencies {
     compile 'org.aspectj:aspectjrt:1.8.+'
 }
 
-task buildJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-all-'+VERSION_NAME+'.jar'
 
@@ -68,7 +68,7 @@ task buildJar(dependsOn: ['compileReleaseSources'], type: Jar) {
     destinationDir = file('build/outputs')
 }
 
-task buildCoreJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildCoreJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-core-'+VERSION_NAME+'.jar'
 
@@ -93,7 +93,7 @@ task buildCoreJar(dependsOn: ['compileReleaseSources'], type: Jar) {
     destinationDir = file('build/outputs')
 }
 
-task buildAnnotationJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildAnnotationJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-annotation-'+VERSION_NAME+'.jar'
 
@@ -107,7 +107,7 @@ task buildAnnotationJar(dependsOn: ['compileReleaseSources'], type: Jar) {
     destinationDir = file('build/outputs')
 }
 
-task buildOrmJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildOrmJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-orm-'+VERSION_NAME+'.jar'
 
@@ -121,7 +121,7 @@ task buildOrmJar(dependsOn: ['compileReleaseSources'], type: Jar) {
     destinationDir = file('build/outputs')
 }
 
-task buildHttpJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildHttpJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-http-'+VERSION_NAME+'.jar'
 
@@ -135,7 +135,7 @@ task buildHttpJar(dependsOn: ['compileReleaseSources'], type: Jar) {
     destinationDir = file('build/outputs')
 }
 
-task buildRouterJar(dependsOn: ['compileReleaseSources'], type: Jar) {
+task buildRouterJar(dependsOn: ['assembleRelease'], type: Jar) {
 
     archiveName = 'SAF-router-'+VERSION_NAME+'.jar'
 

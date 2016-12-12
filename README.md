@@ -20,7 +20,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
 * [Image Cache(use rxjava)](https://github.com/fengzhizi715/SAF#image-cache)
-* [Dependency Injection](https://github.com/fengzhizi715/SAF#dependency-injection)
+* [Dependency Injection(use apt)](https://github.com/fengzhizi715/SAF#dependency-injection)
 * [Sqlite ORM](https://github.com/fengzhizi715/SAF#sqlite-orm)
 * [Router](https://github.com/fengzhizi715/SAF#router)
 * [Cache](https://github.com/fengzhizi715/SAF#cache)
@@ -100,7 +100,7 @@ beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()�
 RxAsyncTask
 ===
 它完全可以替代android sdk中自带的AsyncTask，底层使用rxjava从而无需关心线程池的问题，开发者只需实现onExecute()即可。
-它支持链式调用。
+它支持链式调用，支持重试机制retry()。
 ```Java
      new RxAsyncTask<String>(){
             @Override

@@ -1,5 +1,3 @@
-import proguard.gradle.ProGuardTask
-
 // Top-level build file where you can add configuration options common to all sub-projects/module
 ext {
     configuration = [
@@ -111,7 +109,7 @@ task buildAnnotations( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/injectview/**/*.class"
     destinationDir = file('build/outputs/' + annotations)
 }
 
@@ -130,7 +128,7 @@ task buildCompiler( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/injectview/**/*.class"
     destinationDir = file('build/outputs/' + compiler)
 }
 
@@ -149,7 +147,7 @@ task buildInjectview( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/injectview/**/*.class"
     destinationDir = file('build/outputs/' + injectview)
 }
 //
@@ -167,7 +165,7 @@ task buildSAF(type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/saf/**/*.class","cn/salesuite/injectview/**/*.class"
     destinationDir = file('build/outputs/')
 }
 
@@ -176,4 +174,4 @@ task generaAllJar(dependsOn: ['buildLibrary','buildAnnotations', 'buildCompiler'
     logger.info("all build finish!");
 }
 
-defaultTasks 'buildSAFAll'
+defaultTasks 'generaAllJar'

@@ -175,4 +175,4 @@ task generaAllJar(dependsOn: ['buildLibrary','buildAnnotations', 'buildCompiler'
     logger.info("all build finish!");
 }
 
-ddefaultTasks 'generaAllJar'
+defaultTasks 'generaAllJar'

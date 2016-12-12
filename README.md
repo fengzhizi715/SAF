@@ -1,14 +1,14 @@
 SAF
 ===
-SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app提供了基础性组件。  
+SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app开发提供了基础性组件。  
 SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。  
-目前google code上的工程暂停维护，迁移到github上。它到了1.1.19版本，下一个版本肯定会是1.2.0。
-目前已经增加了Rxjava作为依赖库,做了RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,下一个版本会进行改进。
+目前google code上的工程早已暂停维护，全部迁移到github上。它到了1.1.19版本，下一个版本肯定会是1.2.0。
+目前已经增加了Rxjava作为依赖库,新增RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,新版本会进行改进。
 遇到任何问题欢迎跟我联系，qq: 63067756/wechat: fengzhizi715, 玩得开心:)
 
 我也觉得SAF越来越大了,怎么办呢? 好在SAF通过gradle进行构建项目,在命令行中输入gradle,即可一键生成多种jar包.
 
-除了SAF自带的demo外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
+除了SAF自带的demo app外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
 
 ![](logo.png)
 
@@ -90,7 +90,7 @@ General annotation
 @HookMethod的使用方法:
 ---
 不写beforeMethod和afterMethod，则相当于没有使用@HookMethod<br>
-beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()之前执行和之后执行。目前还不支持在beforeMethod和afterMethod中传递参数。
+beforeMethod和afterMethod对应的都是方法名，分别表示在调用doSomething()之前执行和之后执行。目前还不支持在beforeMethod和afterMethod中传递参数。
 ```Java
    @HookMethod(beforeMethod="dosthbeforeMethod",afterMethod="dosthafterMethod")
    void doSomething() {
@@ -99,7 +99,7 @@ beforeMethod和afterMethod都是方法名，分别表示在调用doSomething()�
 ```
 RxAsyncTask
 ===
-它完全可以替代android sdk中自带的AsyncTask，底层使用rxjava从而无需关心线程池的问题，开发者只需实现onExecute()即可。
+它完全可以替代android sdk中自带的AsyncTask使用，底层使用rxjava从而无需关心线程池的问题，开发者只需实现onExecute()即可。
 它支持链式调用，支持重试机制retry()。
 ```Java
      new RxAsyncTask<String>(){
@@ -699,6 +699,6 @@ Utils
 
 Contributors
 ===
-1. [frankswu](https://github.com/frankswu) 完善老版本的Inject框架
+1. [frankswu](https://github.com/frankswu) 完善老版本的Inject框架和Router框架
 2. [ymcao](https://github.com/ymcao) 增加AsyncTask替换android系统的AsyncTask
 3. [aaron](https://github.com/snailflying) 修改build.gradle，支持多个module合并到一个jar包。

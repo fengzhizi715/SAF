@@ -71,11 +71,12 @@ def annotations = properties.getProperty("project.saf-annotations")
 def compiler = properties.getProperty("project.saf-compiler")
 def injectview = properties.getProperty("project.injectview")
 def classPath = properties.getProperty("project.class.path")
+def javaClassPath = properties.getProperty("project.java.class.path")
 
 //需打包的资源所在的路径集
 def libraryPath = [project.findProject(library).buildDir.absolutePath + classPath];
-def compilerPath = [project.findProject(compiler).buildDir.absolutePath + classPath];
-def annotationsPath = [project.findProject(annotations).buildDir.absolutePath + classPath];
+def compilerPath = [project.findProject(compiler).buildDir.absolutePath + javaClassPath];
+def annotationsPath = [project.findProject(annotations).buildDir.absolutePath + javaClassPath];
 def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + classPath];
 
 task buildLibrary(type: Jar) {
@@ -92,7 +93,7 @@ task buildLibrary(type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/**/*.class"
     destinationDir = file('build/outputs/' + library)
 }
 
@@ -111,7 +112,7 @@ task buildAnnotations( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/**/*.class"
     destinationDir = file('build/outputs/' + annotations)
 }
 
@@ -130,7 +131,7 @@ task buildCompiler( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/**/*.class"
     destinationDir = file('build/outputs/' + compiler)
 }
 
@@ -149,7 +150,7 @@ task buildInjectview( type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/**/*.class"
     destinationDir = file('build/outputs/' + injectview)
 }
 //
@@ -167,7 +168,7 @@ task buildSAF(type: Jar) {
     exclude "**/R\$*.class"
 
     //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
+    include "cn/salesuite/**/*.class"
     destinationDir = file('build/outputs/')
 }
 

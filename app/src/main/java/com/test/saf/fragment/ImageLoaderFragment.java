@@ -152,6 +152,7 @@ public class ImageLoaderFragment extends BaseFragment {
         }
 
         new GetPicTask(url,progDailog)
+                .retry(3)
                 .success(new RxAsyncTask.SuccessHandler<String>() {
                     @Override
                     public void onSuccess(String content) {
@@ -175,7 +176,7 @@ public class ImageLoaderFragment extends BaseFragment {
             public void onFail(Throwable e) {
                 L.e(e.getMessage());
             }
-        });
+        }).start();
     }
 
     class GetPicTask extends RxAsyncTask<String> {

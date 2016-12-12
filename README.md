@@ -117,7 +117,7 @@ RxAsyncTask
             public void onFail(Throwable e) {
                 L.e("error="+e.getMessage());
             }
-        });
+        }).start();
 ```
 
 Permissions

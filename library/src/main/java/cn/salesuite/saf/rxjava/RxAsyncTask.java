@@ -5,6 +5,7 @@ import android.app.Dialog;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -16,6 +17,7 @@ public abstract class RxAsyncTask<T> {
     private Dialog mDialog;
     private SuccessHandler successHandler;
     private FailedHandler failedHandler;
+    private int retryCount = 3;
 
     public RxAsyncTask() {
         this(null);
@@ -23,7 +25,6 @@ public abstract class RxAsyncTask<T> {
 
     public RxAsyncTask(Dialog dialog) {
         this.mDialog = dialog;
-        execute();
     }
 
     private void onPreExecute() {
@@ -34,42 +35,75 @@ public abstract class RxAsyncTask<T> {
 
     private void execute() {
         onPreExecute();
-        createObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<T>() {
-                    @Override
-                    public void onCompleted() {
-                        // no-op
-                    }
+        Observable<T> observable = createObservable();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mDialog != null) {
-                            mDialog.dismiss();
-                            mDialog = null;
-                        }
+        if (retryCount > 0) {
+            observable.retryWhen(new RetryWithDelay(retryCount, 1000))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<T>() {
+                        @Override
+                        public void call(T t) {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
+                            }
 
-                        if (e != null && failedHandler!=null) {
-                            failedHandler.onFail(e);
+                            if (successHandler != null) {
+                                successHandler.onSuccess(t);
+                            }
                         }
-                    }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
+                            }
 
-                    @Override
-                    public void onNext(T t) {
-                        if (mDialog != null) {
-                            mDialog.dismiss();
-                            mDialog = null;
+                            if (throwable != null && failedHandler != null) {
+                                failedHandler.onFail(throwable);
+                            }
                         }
+                    });
+        } else {
+            observable
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<T>() {
+                        @Override
+                        public void call(T t) {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
+                            }
 
-                        if (successHandler!=null) {
-                            successHandler.onSuccess(t);
+                            if (successHandler != null) {
+                                successHandler.onSuccess(t);
+                            }
                         }
-                    }
-                });
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
+                            }
+
+                            if (throwable != null && failedHandler != null) {
+                                failedHandler.onFail(throwable);
+                            }
+                        }
+                    });
+        }
+
     }
 
-    private Observable<T> createObservable(){
+    public void start(){
+        execute();
+    }
+
+    private Observable<T> createObservable() {
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {
@@ -90,8 +124,14 @@ public abstract class RxAsyncTask<T> {
         return this;
     }
 
+    public RxAsyncTask retry(int retryCount) {
+        this.retryCount = retryCount;
+        return this;
+    }
+
     /**
      * 执行任务的结果
+     *
      * @return
      */
     public abstract T onExecute();

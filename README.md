@@ -645,7 +645,7 @@ Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentO
 
 Cache
 ===
-这是一个通用的Cache,可以保存String、对象、JSON等等,操作起来十分简单,支持设置缓存的过期时间.
+这是一个通用的Cache,可以保存String、对象、JSON等等,操作起来十分简单,支持设置缓存的过期时间。保存Cache的过程也可以使用@Cacheable
 
 保持缓存数据：
 ```Java
@@ -701,4 +701,4 @@ Contributors
 ===
 1. [frankswu](https://github.com/frankswu) 完善老版本的Inject框架
 2. [ymcao](https://github.com/ymcao) 增加AsyncTask替换android系统的AsyncTask
-3. [aaron](https://github.com/snailflying) 修改build.gradle，支持多个moudle合并到一个jar包。
+3. [aaron](https://github.com/snailflying) 修改build.gradle，支持多个module合并到一个jar包。

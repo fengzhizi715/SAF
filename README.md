@@ -14,12 +14,12 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [General Annotation](https://github.com/fengzhizi715/SAF#general-annotation)
-* [RxAsyncTask](https://github.com/fengzhizi715/SAF#rxasynctask)
+* [General Annotation(use aspectj)](https://github.com/fengzhizi715/SAF#general-annotation)
+* [RxAsyncTask(use rxjava)](https://github.com/fengzhizi715/SAF#rxasynctask)
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
-* [Image Cache](https://github.com/fengzhizi715/SAF#image-cache)
+* [Image Cache(use rxjava)](https://github.com/fengzhizi715/SAF#image-cache)
 * [Dependency Injection](https://github.com/fengzhizi715/SAF#dependency-injection)
 * [Sqlite ORM](https://github.com/fengzhizi715/SAF#sqlite-orm)
 * [Router](https://github.com/fengzhizi715/SAF#router)

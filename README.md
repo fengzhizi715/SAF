@@ -35,7 +35,7 @@ General annotation
 
 RxAsyncTask
 ===
-[`RxAsyncTask`](docs/docs/rxasynctask.md)
+[`RxAsyncTask`](docs/rxasynctask.md)
 
 Permissions
 ===

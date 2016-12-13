@@ -14,8 +14,8 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [General Annotation(use aspectj)](https://github.com/fengzhizi715/SAF#general-annotation)
-* [RxAsyncTask(use rxjava)](https://github.com/fengzhizi715/SAF#rxasynctask)
+* [General Annotation(use aspectj)](docs/general_annotation.md)
+* [RxAsyncTask(use rxjava)](docs/rxasynctask.md)
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions)
 * [Event Bus](https://github.com/fengzhizi715/SAF#event-bus)
 * [Rest Client](https://github.com/fengzhizi715/SAF#rest-client)
@@ -27,15 +27,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [L](https://github.com/fengzhizi715/SAF#l)
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
 
-
-General annotation
-===
-[`通用注解`](docs/general_annotation.md)
-
-
-RxAsyncTask
-===
-[`RxAsyncTask`](docs/rxasynctask.md)
 
 Permissions
 ===

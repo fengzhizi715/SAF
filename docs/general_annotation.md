@@ -1,4 +1,4 @@
-通用注解，也是区别于[Dependency Injection](https://github.com/fengzhizi715/SAF#dependency-injection)新的注解，基于aspectj的AOP，无需使用耗费性能的反射.不过,需要在build.gradle中配置一下aspectj
+通用注解，也是区别于[Dependency Injection](docs/general_annotation.md)新的注解，基于aspectj的AOP，无需使用耗费性能的反射.不过,需要在build.gradle中配置一下aspectj
 
 
 | 注解名称        | 作用          | 备注          |

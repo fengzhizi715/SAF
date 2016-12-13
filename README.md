@@ -19,33 +19,22 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions)
 * [Event Bus](docs/event_bus.md)
 * [Rest Client](docs/rest_client.md)
-* [Image Cache(use rxjava)](https://github.com/fengzhizi715/SAF#image-cache)
+* [Image Cache(use rxjava)](docs/image_cache.md)
 * [Dependency Injection(use apt)](docs/dependency_injection.md)
 * [Sqlite ORM](docs/sqlite_orm.md)
 * [Router](docs/router.md)
 * [Cache](docs/cache.md)
-* [L](https://github.com/fengzhizi715/SAF#l)
-* [Utils](https://github.com/fengzhizi715/SAF#utils)
+* [L](docs/l.md)
+* [Utils](docs/utils.md)
 
 
 Permissions
 ===
 
 
-Image Cache
-===
-图片缓存模块包括2级缓存，内存中的cache和sd卡上存放在文件中的cache。
-
-图片缓存模块通过ImageLoader进行图片加载。 如果app中使用了SAFApp，则无须创建新的ImageLoader就可以使用。     
-```Java
-          // 第一个参数是图片的url，第二个参数是ImageView对象，第三个参数是默认图片
-          imageLoader.displayImage(url, imageView ,R.drawable.defalut_icon);
-```
-
-
 Utils
 ===
-包含了很多常用的工具类，比如日期操作、字符串操作、SAFUtil里包含各种乱七八糟的常用类等等。
+
 
 ChangeLog
 ===

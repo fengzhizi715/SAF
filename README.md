@@ -23,7 +23,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Dependency Injection(use apt)](https://github.com/fengzhizi715/SAF#dependency-injection)
 * [Sqlite ORM](https://github.com/fengzhizi715/SAF#sqlite-orm)
 * [Router](https://github.com/fengzhizi715/SAF#router)
-* [Cache](https://github.com/fengzhizi715/SAF#cache)
+* [Cache](docs/cache.md)
 * [L](https://github.com/fengzhizi715/SAF#l)
 * [Utils](https://github.com/fengzhizi715/SAF#utils)
 
@@ -508,24 +508,6 @@ Router.getInstance().openFragment(new FragmentOptions(getFragmentManager(),new F
 当然在Fragment之间跳转可以传递参数
 ```Java
 Router.getInstance().openFragment("user/fengzhizi715/password/715",new FragmentOptions(getFragmentManager(),new Fragment2()), R.id.content_frame);
-```
-
-
-Cache
-===
-这是一个通用的Cache,可以保存String、对象、JSON等等,操作起来十分简单,支持设置缓存的过期时间。保存Cache的过程也可以使用@Cacheable
-
-保持缓存数据：
-```Java
-      Cache cache = Cache.get(this);
-      cache.put("key1", "test value");
-      cache.put("key2", "test value", 10);//保存10秒钟，10秒后会过期
-```
-
-获取缓存数据：
-```Java
-      Cache cache = Cache.get(this);
-      String value = cache.getString("key1");
 ```
 
 

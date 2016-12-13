@@ -25,4 +25,4 @@ SAF的日志框架，极简的日志风格
 ```
 
 json方法可以将String、Map、对象打印成json风格，具体可以参照下图：
-![](images/L_json.png)
+![](https://github.com/fengzhizi715/SAF/blob/master/images/L_json.png)

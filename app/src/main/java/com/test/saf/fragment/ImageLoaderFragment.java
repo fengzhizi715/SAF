@@ -27,11 +27,11 @@ import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.OnClick;
 import cn.salesuite.saf.adapter.OnItemClickListener;
+import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
 import cn.salesuite.saf.log.L;
-import cn.salesuite.saf.rxjava.RxAsyncTask;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**

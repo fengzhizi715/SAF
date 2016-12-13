@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava;
+package cn.salesuite.saf.async;
 
 import android.app.Dialog;
 

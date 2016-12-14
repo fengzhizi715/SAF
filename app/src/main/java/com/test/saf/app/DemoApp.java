@@ -1,8 +1,6 @@
 package com.test.saf.app;
 
-import com.test.saf.activity.ImageDetailActivity;
-
-import cn.salesuite.router.Router;
+import cn.salesuite.router.RouterManager;
 import cn.salesuite.saf.app.SAFApp;
 
 /**
@@ -26,9 +24,6 @@ public class DemoApp extends SAFApp {
 
     private void initData() {
 
-//        RouterManager.init(this);// 这一步是必须的，用于初始化Router
-
-        Router.getInstance().setContext(mInstance);
-        Router.getInstance().map("imageDetail/:image", ImageDetailActivity.class);
+        RouterManager.init(this);// 这一步是必须的，用于初始化Router
     }
 }

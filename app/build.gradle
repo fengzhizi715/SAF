@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: "android-aspectj"
+//apply plugin: "android-aspectj"
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -39,7 +40,7 @@ allprojects {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'org.aspectj:aspectjrt:1.8.+'
+//    compile 'org.aspectj:aspectjrt:1.8.+'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'us.feras.mdv:markdownview:1.1.0'

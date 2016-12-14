@@ -1,6 +1,5 @@
 package com.test.saf.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.saf.R;
-import com.test.saf.activity.AnnotationActivity;
 import com.test.saf.adapter.AnnotationAdapter;
 import com.test.saf.app.BaseFragment;
 
@@ -19,6 +17,7 @@ import java.util.List;
 
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
+import cn.salesuite.router.Router;
 import cn.salesuite.saf.adapter.OnItemClickListener;
 
 /**
@@ -61,10 +60,8 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder holder, int position) {
-                    String annotationName = (String) data.get(position);
-                    Intent i = new Intent(mContext,AnnotationActivity.class);
-                    i.putExtra(AnnotationActivity.ANNO_NAME,annotationName);
-                    mContext.startActivity(i);
+                String annotationName = (String) data.get(position);
+                Router.getInstance().open("annotationName/"+annotationName);
             }
 
             @Override

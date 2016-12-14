@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 
+import cn.salesuite.router.annotations.RouterRule;
 import cn.salesuite.saf.inject.annotation.InjectExtra;
 import cn.salesuite.saf.inject.annotation.InjectView;
 import cn.salesuite.saf.utils.Preconditions;
@@ -14,7 +15,7 @@ import us.feras.mdv.MarkdownView;
 /**
  * Created by Tony Shen on 2016/11/22.
  */
-
+@RouterRule(url={"annotationName/:anno_name"})
 public class AnnotationActivity extends BaseActivity {
 
     @InjectView

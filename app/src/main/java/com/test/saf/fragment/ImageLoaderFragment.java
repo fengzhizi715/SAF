@@ -2,6 +2,7 @@ package com.test.saf.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.test.saf.R;
+import com.test.saf.activity.ImageDetailActivity;
 import com.test.saf.adapter.DividerGridItemDecoration;
 import com.test.saf.adapter.ImageLoaderAdapter;
 import com.test.saf.app.BaseFragment;
@@ -24,7 +26,6 @@ import java.util.List;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.OnClick;
-import cn.salesuite.router.Router;
 import cn.salesuite.saf.adapter.OnItemClickListener;
 import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
@@ -74,12 +75,10 @@ public class ImageLoaderFragment extends BaseFragment {
                 if (respnose != null && Preconditions.isNotBlank(respnose.tngou)) {
                     MMPicsResponse.Pic pic =respnose.tngou.get(position);
                     if (pic!=null && Preconditions.isNotBlank(pic.img)) {
-//                        Intent intent = new Intent(mContext, ImageDetailActivity.class);
-//                        intent.putExtra("image", pic.img);
-//                        startActivity(intent);
-//                        mContext.overridePendingTransition(0, 0);
-
-                        Router.getInstance().open("imageDetail/"+pic.img);
+                        Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                        intent.putExtra("image", pic.img);
+                        startActivity(intent);
+                        mContext.overridePendingTransition(0, 0);
                     }
                 }
             }

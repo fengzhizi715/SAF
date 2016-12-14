@@ -18,7 +18,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
-import javax.tools.Diagnostic;
 
 import cn.salesuite.base.Utils;
 import cn.salesuite.injectview.annotations.InjectExtra;
@@ -78,16 +77,16 @@ public class InjectViewProcessor extends AbstractProcessor {
             processInjectExtra(roundEnv);
             processOnClick(roundEnv);
         } catch (IllegalArgumentException e) {
-            error(e.getMessage());
+            Utils.error(mMessager,e.getMessage());
             return true; // stop process
         }
 
         for (AnnotatedClass annotatedClass : mAnnotatedClassMap.values()) {
             try {
-                info("Generating file for %s", annotatedClass.getFullClassName());
+                Utils.info(mMessager,"Generating file for %s", annotatedClass.getFullClassName());
                 annotatedClass.generateFinder().writeTo(mFiler);
             } catch (IOException e) {
-                error("Generate file failed, reason: %s", e.getMessage());
+                Utils.error(mMessager,"Generate file failed, reason: %s", e.getMessage());
                 return true;
             }
         }
@@ -169,24 +168,16 @@ public class InjectViewProcessor extends AbstractProcessor {
 
         if (!Utils.isPublic(annotatedClass)) {
             String message = String.format("Classes annotated with %s must be public.", annotationName);
-            error(message);
+            Utils.error(mMessager,message);
             return false;
         }
 
         if (Utils.isAbstract(annotatedClass)) {
             String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
-            error(message);
+            Utils.error(mMessager,message);
             return false;
         }
 
         return true;
-    }
-
-    private void error(String msg, Object... args) {
-        mMessager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args));
-    }
-
-    private void info(String msg, Object... args) {
-        mMessager.printMessage(Diagnostic.Kind.NOTE, String.format(msg, args));
     }
 }

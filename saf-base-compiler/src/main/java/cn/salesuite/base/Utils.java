@@ -1,6 +1,8 @@
 package cn.salesuite.base;
 
+import javax.annotation.processing.Messager;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.PUBLIC;
@@ -29,5 +31,16 @@ public class Utils {
      */
     public static boolean isAbstract(TypeElement annotatedClass) {
         return annotatedClass.getModifiers().contains(ABSTRACT);
+    }
+
+
+    public static void error(Messager messager, String msg, Object... args) {
+        if (messager!=null)
+            messager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args));
+    }
+
+    public static void info(Messager messager, String msg, Object... args) {
+        if (messager!=null)
+            messager.printMessage(Diagnostic.Kind.NOTE, String.format(msg, args));
     }
 }

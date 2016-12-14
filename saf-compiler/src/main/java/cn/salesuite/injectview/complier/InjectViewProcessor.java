@@ -20,6 +20,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
+import cn.salesuite.base.Utils;
 import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.InjectViews;

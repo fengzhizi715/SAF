@@ -1,4 +1,4 @@
-package cn.salesuite.injectview.complier;
+package cn.salesuite.base;
 
 import javax.lang.model.element.TypeElement;
 

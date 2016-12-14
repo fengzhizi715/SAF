@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.route;
+package cn.salesuite.router;
 
 /**
  * @author Tony Shen

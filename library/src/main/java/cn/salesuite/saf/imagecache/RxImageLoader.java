@@ -109,7 +109,10 @@ public class RxImageLoader {
         Bitmap bm = sources.memoryCacheObservable.cache(url);
         if (bm != null) return bm;
 
-        bm = sources.diskCacheObservable.cache(url);
+        if (sources.diskCacheObservable!=null) {
+            bm = sources.diskCacheObservable.cache(url);
+        }
+
         if (bm != null) {
             sources.memoryCacheObservable.putData(new Data(bm,url));
             return bm;
@@ -133,7 +136,9 @@ public class RxImageLoader {
     public void clearAllCache() {
         if (sources!=null) {
             sources.memoryCacheObservable.clear();
-            sources.diskCacheObservable.clear();
+            if (sources.diskCacheObservable!=null) {
+                sources.diskCacheObservable.clear();
+            }
         }
     }
 }

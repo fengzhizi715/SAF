@@ -1,11 +1,11 @@
 /**
  * 
  */
-package cn.salesuite.saf.route;
-
-import java.util.Map;
+package cn.salesuite.router;
 
 import android.app.Activity;
+
+import java.util.Map;
 
 /**
  * @author Tony Shen

@@ -10,12 +10,13 @@ import com.test.saf.ui.SmoothImageView;
 
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectExtra;
+import cn.salesuite.router.annotations.RouterRule;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * Created by Tony Shen on 2016/12/2.
  */
-
+@RouterRule(url={"imageDetail/:image"})
 public class ImageDetailActivity extends BaseActivity {
 
     SmoothImageView imageView;

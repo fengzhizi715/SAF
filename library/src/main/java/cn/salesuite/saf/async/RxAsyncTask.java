@@ -99,6 +99,9 @@ public abstract class RxAsyncTask<T> {
 
     }
 
+    /**
+     * 所有的task都必须执行这个方法，否则无法运行
+     */
     public void start(){
         execute();
     }

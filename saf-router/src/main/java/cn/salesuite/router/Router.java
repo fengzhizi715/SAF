@@ -1,11 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.route;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+package cn.salesuite.router;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.LruCache;
-import cn.salesuite.saf.route.RouterParameter.RouterOptions;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 要使用Router功能时，必须在application中做好router的映射<br>
@@ -43,7 +42,7 @@ public class Router {
 	
 	private Context context;
 	private LruCache<String, RouterParameter> cachedRoutes = new LruCache<String, RouterParameter>(DEFAULT_CACHE_SIZE); // 缓存跳转的参数
-	private final Map<String, RouterOptions> routes = new HashMap<String, RouterOptions>();                             // 存放Intent之间跳转的route
+	private final Map<String, RouterParameter.RouterOptions> routes = new HashMap<String, RouterParameter.RouterOptions>();                             // 存放Intent之间跳转的route
 	
 	private static final Router router = new Router();
 	
@@ -70,9 +69,9 @@ public class Router {
 		this.map(format, clazz, null);
 	}
 
-	public void map(String format, Class<? extends Activity> clazz,RouterOptions options) {
+	public void map(String format, Class<? extends Activity> clazz,RouterParameter.RouterOptions options) {
 		if (options == null) {
-			options = new RouterOptions();
+			options = new RouterParameter.RouterOptions();
 		}
 		options.clazz = clazz;
 		this.routes.put(format, options);
@@ -202,7 +201,7 @@ public class Router {
 		}
 		
 		RouterParameter param = parseUrl(url);
-		RouterOptions options = param.routerOptions;
+		RouterParameter.RouterOptions options = param.routerOptions;
 		
 		Intent intent = this.parseRouterParameter(param);
 		if (intent == null) {
@@ -229,7 +228,7 @@ public class Router {
 		}
 	}
 	
-	public void openFragment(FragmentOptions fragmentOptions,int containerViewId) {
+	public void openFragment(FragmentOptions fragmentOptions, int containerViewId) {
 		if (!(fragmentOptions != null
 				&& fragmentOptions.mFragmentInstnace != null
 				&& fragmentOptions.fragmentManager != null))
@@ -293,7 +292,7 @@ public class Router {
 	}
 
 	private Intent parseRouterParameter(RouterParameter param) {
-		RouterOptions options = param.routerOptions;
+		RouterParameter.RouterOptions options = param.routerOptions;
 		Intent intent = new Intent();
 
 		for (Entry<String, String> entry : param.openParams.entrySet()) {
@@ -312,11 +311,11 @@ public class Router {
 
 		String[] givenParts = url.split("/");
 
-		RouterOptions openOptions = null;
+		RouterParameter.RouterOptions openOptions = null;
 		RouterParameter openParams = null;
-		for (Entry<String, RouterOptions> entry : this.routes.entrySet()) {
+		for (Entry<String, RouterParameter.RouterOptions> entry : this.routes.entrySet()) {
 			String routerUrl = entry.getKey();
-			RouterOptions routerOptions = entry.getValue();
+			RouterParameter.RouterOptions routerOptions = entry.getValue();
 			String[] routerParts = routerUrl.split("/");
 
 			if (routerParts.length != givenParts.length) {

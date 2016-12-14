@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.route;
+package cn.salesuite.router;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

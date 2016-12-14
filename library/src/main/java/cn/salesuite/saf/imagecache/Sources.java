@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import cn.salesuite.saf.utils.Preconditions;
+import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -26,22 +27,27 @@ public class Sources {
     public Sources(Context mContext) {
         this.mContext = mContext;
         memoryCacheObservable = new MemoryCacheObservable();
-        diskCacheObservable = new DiskCacheObservable(mContext);
+        if (SAFUtils.hasSdcard()) {
+            diskCacheObservable = new DiskCacheObservable(mContext);
+        }
         netCacheObservable = new NetCacheObservable(memoryCacheObservable,mContext);
     }
 
     public ConnectableObservable<Data> getConnectableObservable(String url, ImageView imageView) {
 
         memoryCacheObservable.create(url);
-        diskCacheObservable.create(mContext, url, 0);
+        if (diskCacheObservable!=null)
+            diskCacheObservable.create(mContext, url, 0);
         netCacheObservable.create(url,imageView);
 
-        return addCaches(memoryCacheObservable,diskCacheObservable,netCacheObservable);
+        if (diskCacheObservable!=null) {
+            return addCaches(memoryCacheObservable,diskCacheObservable,netCacheObservable);
+        }
+        return addCaches(memoryCacheObservable,netCacheObservable);
     }
 
     private ConnectableObservable<Data> addCaches(final CacheObservable... observables) {
 
-        // TODO: 可能这块要修改
         if (Preconditions.isNotBlank(observables)) {
             ArrayList<Observable<Data>> list = new ArrayList<>();
 

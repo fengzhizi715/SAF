@@ -1,1 +1,1 @@
-include ':library', ':saf-injectview-compiler', ':saf-injectview-annotations', ':saf-injectview', ':saf-base-complier', 'app'
+include ':library', ':saf-injectview-compiler', ':saf-injectview-annotations', ':saf-injectview', ':saf-base-compiler', 'app'

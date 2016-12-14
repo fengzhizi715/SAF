@@ -65,6 +65,7 @@ if (projectPropertiesFile.exists()) {
 
 // read properties
 def library = properties.getProperty("project.library")
+def baseCompiler = properties.getProperty("project.saf-base-compiler")
 def annotations = properties.getProperty("project.saf-injectview-annotations")
 def compiler = properties.getProperty("project.saf-injectview-compiler")
 def injectview = properties.getProperty("project.injectview")
@@ -75,6 +76,7 @@ def VERSION_NAME = cfg.saf_version_name
 
 //需打包的资源所在的路径集
 def libraryPath = [project.findProject(library).buildDir.absolutePath + classPath];
+def baseCompilerPath = [project.findProject(baseCompiler).buildDir.absolutePath + javaClassPath];
 def compilerPath = [project.findProject(compiler).buildDir.absolutePath + javaClassPath];
 def annotationsPath = [project.findProject(annotations).buildDir.absolutePath + javaClassPath];
 def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + classPath];
@@ -158,7 +160,7 @@ task buildInjectAnnotations( type: Jar) {
     archiveName = 'SAF-inject-annotations'+VERSION_NAME+'.jar'
 
     //初始化资源路径集
-    from annotationsPath, compilerPath, injectviewPath
+    from baseCompilerPath, annotationsPath, compilerPath, injectviewPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"

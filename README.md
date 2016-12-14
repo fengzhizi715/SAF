@@ -10,7 +10,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 除了SAF自带的demo app外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
 
-![](images/logo.png)
+![](logo.png)
 
 主要功能
 -----------------------------------

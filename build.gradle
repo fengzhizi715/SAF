@@ -8,7 +8,7 @@ ext {
 //            targetSdk        : 23,
 //            version_code     : 1,
 //            version_name     : "0.0.1",
-saf_version_name:"1.1.19"
+              saf_version_name:"1.1.19"
     ]
 
 //    libraries = [
@@ -65,8 +65,8 @@ if (projectPropertiesFile.exists()) {
 
 // read properties
 def library = properties.getProperty("project.library")
-def annotations = properties.getProperty("project.saf-annotations")
-def compiler = properties.getProperty("project.saf-compiler")
+def annotations = properties.getProperty("project.saf-injectview-annotations")
+def compiler = properties.getProperty("project.saf-injectview-compiler")
 def injectview = properties.getProperty("project.injectview")
 def classPath = properties.getProperty("project.class.path")
 def javaClassPath = properties.getProperty("project.java.class.path")

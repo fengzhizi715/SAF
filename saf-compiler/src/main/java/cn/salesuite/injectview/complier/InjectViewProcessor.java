@@ -95,7 +95,10 @@ public class InjectViewProcessor extends AbstractProcessor {
 
     private void processInjectView(RoundEnvironment roundEnv) throws IllegalArgumentException {
         for (Element element : roundEnv.getElementsAnnotatedWith(InjectView.class)) {
-            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectView");
+            if (annotatedClass==null)
+                continue;
+
             BindViewField field = new BindViewField(element);
             annotatedClass.addField(field);
         }
@@ -103,7 +106,10 @@ public class InjectViewProcessor extends AbstractProcessor {
 
     private void processInjectViews(RoundEnvironment roundEnv) {
         for (Element element : roundEnv.getElementsAnnotatedWith(InjectViews.class)) {
-            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectViews");
+            if (annotatedClass==null)
+                continue;
+
             BindViewFields field = new BindViewFields(element);
             annotatedClass.addFields(field);
         }
@@ -113,7 +119,10 @@ public class InjectViewProcessor extends AbstractProcessor {
         Set<Element> set = (Set<Element>) roundEnv.getElementsAnnotatedWith(InjectExtra.class);
         if (set != null && set.size()>0) {
             for (Element element:set) {
-                AnnotatedClass annotatedClass = getAnnotatedClass(element);
+                AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectExtra");
+                if (annotatedClass==null)
+                    continue;
+
                 ExtraField field = new ExtraField(element);
                 annotatedClass.addExtraField(field);
             }
@@ -122,14 +131,23 @@ public class InjectViewProcessor extends AbstractProcessor {
 
     private void processOnClick(RoundEnvironment roundEnv) {
         for (Element element : roundEnv.getElementsAnnotatedWith(OnClick.class)) {
-            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            AnnotatedClass annotatedClass = getAnnotatedClass(element,"@OnClick");
+            if (annotatedClass==null)
+                continue;
+
             OnClickMethod method = new OnClickMethod(element);
             annotatedClass.addMethod(method);
         }
     }
 
-    private AnnotatedClass getAnnotatedClass(Element element) {
+    private AnnotatedClass getAnnotatedClass(Element element,String annotationName) {
         TypeElement classElement = (TypeElement) element.getEnclosingElement();
+
+        //检测是否是支持的注解类型，如果不是里面会报错
+        if (!isValidClass(classElement,annotationName)) {
+            return null;
+        }
+
         String fullClassName = classElement.getQualifiedName().toString();
         AnnotatedClass annotatedClass = mAnnotatedClassMap.get(fullClassName);
         if (annotatedClass == null) {
@@ -137,6 +155,23 @@ public class InjectViewProcessor extends AbstractProcessor {
             mAnnotatedClassMap.put(fullClassName, annotatedClass);
         }
         return annotatedClass;
+    }
+
+    private boolean isValidClass(TypeElement annotatedClass,String annotationName) {
+
+        if (!Utils.isPublic(annotatedClass)) {
+            String message = String.format("Classes annotated with %s must be public.", annotationName);
+            error(message, annotatedClass);
+            return false;
+        }
+
+        if (Utils.isAbstract(annotatedClass)) {
+            String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
+            error(message, annotatedClass);
+            return false;
+        }
+
+        return true;
     }
 
     private void error(String msg, Object... args) {

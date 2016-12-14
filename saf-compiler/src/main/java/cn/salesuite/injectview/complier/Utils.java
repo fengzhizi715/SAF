@@ -17,7 +17,7 @@ public class Utils {
      * @param annotatedClass 需要判断的类
      * @return 如果是public的返回true，其他返回false
      */
-    static boolean isPublic(TypeElement annotatedClass) {
+    public static boolean isPublic(TypeElement annotatedClass) {
         return annotatedClass.getModifiers().contains(PUBLIC);
     }
 
@@ -27,7 +27,7 @@ public class Utils {
      * @param annotatedClass 需要判断的类
      * @return 如果是abstract的返回true，其他返回false
      */
-    static boolean isAbstract(TypeElement annotatedClass) {
+    public static boolean isAbstract(TypeElement annotatedClass) {
         return annotatedClass.getModifiers().contains(ABSTRACT);
     }
 }

@@ -94,23 +94,28 @@ public class InjectViewProcessor extends AbstractProcessor {
     }
 
     private void processInjectView(RoundEnvironment roundEnv) throws IllegalArgumentException {
+
+        AnnotatedClass annotatedClass = null;
+        BindViewField field = null;
         for (Element element : roundEnv.getElementsAnnotatedWith(InjectView.class)) {
-            AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectView");
+            annotatedClass = getAnnotatedClass(element,"@InjectView");
             if (annotatedClass==null)
                 continue;
 
-            BindViewField field = new BindViewField(element);
+            field = new BindViewField(element);
             annotatedClass.addField(field);
         }
     }
 
     private void processInjectViews(RoundEnvironment roundEnv) {
+        AnnotatedClass annotatedClass = null;
+        BindViewFields field = null;
         for (Element element : roundEnv.getElementsAnnotatedWith(InjectViews.class)) {
-            AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectViews");
+            annotatedClass = getAnnotatedClass(element,"@InjectViews");
             if (annotatedClass==null)
                 continue;
 
-            BindViewFields field = new BindViewFields(element);
+            field = new BindViewFields(element);
             annotatedClass.addFields(field);
         }
     }
@@ -118,12 +123,14 @@ public class InjectViewProcessor extends AbstractProcessor {
     private void processInjectExtra(RoundEnvironment roundEnv) {
         Set<Element> set = (Set<Element>) roundEnv.getElementsAnnotatedWith(InjectExtra.class);
         if (set != null && set.size()>0) {
+            AnnotatedClass annotatedClass = null;
+            ExtraField field = null;
             for (Element element:set) {
-                AnnotatedClass annotatedClass = getAnnotatedClass(element,"@InjectExtra");
+                annotatedClass = getAnnotatedClass(element,"@InjectExtra");
                 if (annotatedClass==null)
                     continue;
 
-                ExtraField field = new ExtraField(element);
+                field = new ExtraField(element);
                 annotatedClass.addExtraField(field);
             }
         }
@@ -161,13 +168,13 @@ public class InjectViewProcessor extends AbstractProcessor {
 
         if (!Utils.isPublic(annotatedClass)) {
             String message = String.format("Classes annotated with %s must be public.", annotationName);
-            error(message, annotatedClass);
+            error(message);
             return false;
         }
 
         if (Utils.isAbstract(annotatedClass)) {
             String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
-            error(message, annotatedClass);
+            error(message);
             return false;
         }
 

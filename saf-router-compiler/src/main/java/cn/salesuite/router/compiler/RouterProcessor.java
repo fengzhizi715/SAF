@@ -90,20 +90,30 @@ public class RouterProcessor extends AbstractProcessor {
                 .addParameter(TypeUtils.CONTEXT,"context");
 
         routerInitBuilder.addStatement("$T.getInstance().setContext(context)",TypeUtils.ROUTER);
+        routerInitBuilder.addStatement("$T options = null",TypeUtils.ROUTER_OPTIONS);
 
         for(Element element : elements){
             TypeElement classElement = (TypeElement) element;
 
             // 检测是否是支持的注解类型，如果不是里面会报错
             if (!Utils.isValidClass(mMessager,classElement,"@RouterRule")) {
-                return null;
+                continue;
             }
 
             RouterRule routerRule = element.getAnnotation(RouterRule.class);
             String [] routerUrls = routerRule.url();
+            int enterAnim = routerRule.enterAnim();
+            int exitAnim = routerRule.exitAnim();
             if(routerUrls != null){
                 for(String routerUrl : routerUrls){
-                    routerInitBuilder.addStatement("$T.getInstance().map($S, $T.class)",TypeUtils.ROUTER, routerUrl, ClassName.get((TypeElement) element));
+                    if (enterAnim>0 && exitAnim>0) {
+                        routerInitBuilder.addStatement("options = new $T()",TypeUtils.ROUTER_OPTIONS);
+                        routerInitBuilder.addStatement("options.enterAnim = "+enterAnim);
+                        routerInitBuilder.addStatement("options.exitAnim = "+exitAnim);
+                        routerInitBuilder.addStatement("$T.getInstance().map($S, $T.class,options)",TypeUtils.ROUTER, routerUrl, ClassName.get((TypeElement) element));
+                    } else {
+                        routerInitBuilder.addStatement("$T.getInstance().map($S, $T.class)",TypeUtils.ROUTER, routerUrl, ClassName.get((TypeElement) element));
+                    }
                 }
             }
         }

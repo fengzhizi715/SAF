@@ -15,4 +15,8 @@ public @interface RouterRule {
 
     /** activity对应url */
     String[] url();
+
+    int enterAnim() default 0;
+
+    int exitAnim() default 0;
 }

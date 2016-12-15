@@ -151,7 +151,7 @@ public class InjectViewProcessor extends AbstractProcessor {
         TypeElement classElement = (TypeElement) element.getEnclosingElement();
 
         //检测是否是支持的注解类型，如果不是里面会报错
-        if (!isValidClass(classElement,annotationName)) {
+        if (!Utils.isValidClass(mMessager,classElement,annotationName)) {
             return null;
         }
 
@@ -162,22 +162,5 @@ public class InjectViewProcessor extends AbstractProcessor {
             mAnnotatedClassMap.put(fullClassName, annotatedClass);
         }
         return annotatedClass;
-    }
-
-    private boolean isValidClass(TypeElement annotatedClass,String annotationName) {
-
-        if (!Utils.isPublic(annotatedClass)) {
-            String message = String.format("Classes annotated with %s must be public.", annotationName);
-            Utils.error(mMessager,message);
-            return false;
-        }
-
-        if (Utils.isAbstract(annotatedClass)) {
-            String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
-            Utils.error(mMessager,message);
-            return false;
-        }
-
-        return true;
     }
 }

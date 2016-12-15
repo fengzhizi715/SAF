@@ -18,7 +18,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
@@ -93,8 +92,11 @@ public class RouterProcessor extends AbstractProcessor {
         routerInitBuilder.addStatement("$T.getInstance().setContext(context)",TypeUtils.ROUTER);
 
         for(Element element : elements){
-            if(element.getKind() != ElementKind.CLASS){
+            TypeElement classElement = (TypeElement) element;
 
+            // 检测是否是支持的注解类型，如果不是里面会报错
+            if (!Utils.isValidClass(mMessager,classElement,"@RouterRule")) {
+                return null;
             }
 
             RouterRule routerRule = element.getAnnotation(RouterRule.class);
@@ -112,23 +114,6 @@ public class RouterProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addMethod(routerInitMethod)
                 .build();
-    }
-
-    private boolean isValidClass(TypeElement annotatedClass,String annotationName) {
-
-        if (!Utils.isPublic(annotatedClass)) {
-            String message = String.format("Classes annotated with %s must be public.", annotationName);
-            Utils.error(mMessager,message);
-            return false;
-        }
-
-        if (Utils.isAbstract(annotatedClass)) {
-            String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
-            Utils.error(mMessager,message);
-            return false;
-        }
-
-        return true;
     }
 
 }

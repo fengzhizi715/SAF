@@ -33,7 +33,6 @@ public class Utils {
         return annotatedClass.getModifiers().contains(ABSTRACT);
     }
 
-
     public static void error(Messager messager, String msg, Object... args) {
         if (messager!=null)
             messager.printMessage(Diagnostic.Kind.ERROR, String.format(msg, args));
@@ -42,5 +41,22 @@ public class Utils {
     public static void info(Messager messager, String msg, Object... args) {
         if (messager!=null)
             messager.printMessage(Diagnostic.Kind.NOTE, String.format(msg, args));
+    }
+
+    public static boolean isValidClass(Messager messager, TypeElement annotatedClass,String annotationName) {
+
+        if (!isPublic(annotatedClass)) {
+            String message = String.format("Classes annotated with %s must be public.", annotationName);
+            error(messager,message);
+            return false;
+        }
+
+        if (isAbstract(annotatedClass)) {
+            String message = String.format("Classes annotated with %s must not be abstract.", annotationName);
+            error(messager,message);
+            return false;
+        }
+
+        return true;
     }
 }

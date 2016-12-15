@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: "android-aspectj"
+//apply plugin: "android-aspectj"
+apply plugin: 'com.hujiang.android-aspectjx'
 apply plugin: "findbugs"
 
 def cfg = rootProject.ext.configuration // 配置

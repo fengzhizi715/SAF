@@ -46,6 +46,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'org.aspectj:aspectjrt:1.8.+'
+    compile project(':saf-utils')
 }
 
 task buildJar(dependsOn: ['assembleRelease'], type: Jar) {

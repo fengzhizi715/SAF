@@ -594,4 +594,25 @@ public class SAFUtils {
 
 		return proInfo!=null?proInfo.processName:null;
 	}
+
+	/**
+	 * 获取SD 卡内存
+	 * @return
+	 */
+	public static long getAvailableSD() {
+		if (!hasSdcard())
+			return 0;
+
+		String storageDirectory = Environment.getExternalStorageDirectory().toString();
+
+		try {
+			StatFs stat = new StatFs(storageDirectory);
+			long avaliableSize = ((long) stat.getAvailableBlocks() * (long) stat
+					.getBlockSize());
+			return avaliableSize;
+		} catch (RuntimeException ex) {
+			return 0;
+		}
+	}
+
 }

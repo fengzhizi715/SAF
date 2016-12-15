@@ -77,6 +77,9 @@ def routerAnnotations = properties.getProperty("project.saf-router-annotations")
 def routerCompiler = properties.getProperty("project.saf-router-compiler")
 def router = properties.getProperty("project.router")
 
+// utils
+def utils = properties.getProperty("project.utils")
+
 def classPath = properties.getProperty("project.class.path")
 def javaClassPath = properties.getProperty("project.java.class.path")
 def cfg = rootProject.ext.configuration // 配置
@@ -93,6 +96,26 @@ def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + cl
 def routerCompilerPath = [project.findProject(routerCompiler).buildDir.absolutePath + javaClassPath];
 def routerAnnotationsPath = [project.findProject(routerAnnotations).buildDir.absolutePath + javaClassPath];
 def routerPath = [project.findProject(router).buildDir.absolutePath + classPath];
+
+def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
+
+task buildUtils( type: Jar) {
+
+    archiveName = 'SAF-utils-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from utilsPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
 
 task buildInjectAnnotations( type: Jar) {
 
@@ -135,7 +158,7 @@ task buildSAF(type: Jar) {
     archiveName = 'SAF-all-'+VERSION_NAME+'.jar'
 
     //初始化资源路径集
-    from libraryPath,baseCompilerPath, injectviewAnnotationsPath, injectviewCompilerPath, injectviewPath, routerAnnotationsPath, routerCompilerPath, routerPath
+    from utilsPath,libraryPath,baseCompilerPath, injectviewAnnotationsPath, injectviewCompilerPath, injectviewPath, routerAnnotationsPath, routerCompilerPath, routerPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -149,7 +172,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildInjectAnnotations','buildRouter','buildSAF']) {
+task generaAllJar(dependsOn: ['buildUtils','buildInjectAnnotations','buildRouter','buildSAF']) {
     logger.info("all build finish!");
 }
 

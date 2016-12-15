@@ -4,6 +4,7 @@
 package cn.salesuite.saf.utils;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,8 +12,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import cn.salesuite.saf.async.AsyncTask;
 
 /**
  * 推荐使用RxAsyncTask替换AsyncTask
@@ -54,24 +53,6 @@ public class AsyncTaskExecutor {
     @SuppressLint("NewApi")
     public static <Params, Progress, Result> AsyncTask<Params, Progress, Result>
     executeAsyncTask(AsyncTask<Params, Progress, Result> task,
-    		Params... params) {
-    	if (SAFUtils.isHoneycombOrHigher()) {
-    		task.executeOnExecutor(concurrentExecutor, params);
-    	} else {
-    		task.execute(params);
-    	}
-    	return task;
-    }
-    
-    /**
-     * Concurrently executes AsyncTask on any Android version
-     * @param task to execute
-     * @param params for task
-     * @return executing AsyncTask 
-     */
-    @SuppressLint("NewApi") 
-    public static <Params, Progress, Result> android.os.AsyncTask<Params, Progress, Result> 
-    executeAsyncTask(android.os.AsyncTask<Params, Progress, Result> task,
     		Params... params) {
     	if (SAFUtils.isHoneycombOrHigher()) {
     		task.executeOnExecutor(concurrentExecutor, params);

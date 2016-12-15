@@ -44,7 +44,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.salesuite.saf.app.SAFApp;
 import cn.salesuite.saf.func.Fn;
 import cn.salesuite.saf.func.functions.Predicate;
 import cn.salesuite.saf.reflect.Reflect;
@@ -520,44 +519,6 @@ public class SAFUtils {
 	}
 	
 	/**
-	 * 获取手机可用的内存空间 
-	 * 返回单位 G  如  “1.5GB”
-	 * 
-	 * @return
-	 */
-	public static String getAvailableSDRomString() {
-		if (!hasSdcard())
-			return "0";
-		
-		File path = Environment.getExternalStorageDirectory();
-		StatFs stat = new StatFs(path.getPath());
-		long blockSize = stat.getBlockSize();
-		long availableBlocks = stat.getAvailableBlocks();
-		return Formatter.formatFileSize(SAFApp.getInstance().getApplicationContext(), availableBlocks
-				* blockSize);
-	}
-	
-	/**
-	 * 获取SD 卡内存
-	 * @return
-	 */
-	public static long getAvailableSD() {
-		if (!hasSdcard())
-			return 0;
-		
-		String storageDirectory = Environment.getExternalStorageDirectory().toString();
-
-		try {
-			StatFs stat = new StatFs(storageDirectory);
-			long avaliableSize = ((long) stat.getAvailableBlocks() * (long) stat
-					.getBlockSize());
-			return avaliableSize;
-		} catch (RuntimeException ex) {
-			return 0;
-		}
-	}
-	
-	/**
 	 * 获取手机可用的cpu数
 	 * @return
 	 */
@@ -618,14 +579,14 @@ public class SAFUtils {
      */
 	public static String getProcessName(Context context) {
 		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+		List<RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
 
 		final int myPid = android.os.Process.myPid();
 
-		ActivityManager.RunningAppProcessInfo proInfo = Fn.first(new Predicate<ActivityManager.RunningAppProcessInfo>(){
+		RunningAppProcessInfo proInfo = Fn.first(new Predicate<RunningAppProcessInfo>(){
 
 			@Override
-			public boolean accept(ActivityManager.RunningAppProcessInfo proInfo) {
+			public boolean accept(RunningAppProcessInfo proInfo) {
 
 				return proInfo!=null && proInfo.pid == myPid;
 			}

@@ -3,12 +3,12 @@
  */
 package cn.salesuite.saf.utils;
 
-import java.lang.reflect.Field;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import java.lang.reflect.Field;
 
 /**
  * 通过反射获取资源文件的帮助类<br>

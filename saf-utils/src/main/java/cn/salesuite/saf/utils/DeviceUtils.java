@@ -27,8 +27,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
-import cn.salesuite.saf.config.SAFConstant;
-
 /**
  * Created by Tony Shen on 2016/11/9.
  */
@@ -37,6 +35,18 @@ public class DeviceUtils {
 
     private static final String FIRST_TAG = "0";   //此值代表首次启动
     private static final String NO_FIRST_TAG = "1";   //此值代表非首次启动
+
+    public final static String CHINA_CARRIER_UNKNOWN = "0";
+    public final static String CHINA_MOBILE = "1";
+    public final static String CHINA_UNICOM = "2";
+    public final static String CHINA_TELECOM = "3";
+    public final static String CHINA_TIETONG = "4";
+
+    public final static String NETWORK_WIFI = "0";
+    public final static String NETWORK_2G = "1";
+    public final static String NETWORK_3G = "2";
+    public final static String NETWORK_4G = "3";
+    public final static String NO_NETWORK = "-1";
 
     public static String getFingerPrinter(@NonNull Context context) {
         StringBuilder fa = new StringBuilder();
@@ -97,7 +107,7 @@ public class DeviceUtils {
         if (!SAFUtils.checkPermissions(context, "android.permission.ACCESS_NETWORK_STATE")) {
             return "";
         }
-        String result = SAFConstant.NO_NETWORK;
+        String result = NO_NETWORK;
         try {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService
                     (Context.CONNECTIVITY_SERVICE);
@@ -105,7 +115,7 @@ public class DeviceUtils {
 
             if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() ==
                     NetworkInfo.State.CONNECTED) {
-                result = SAFConstant.NETWORK_WIFI;
+                result = NETWORK_WIFI;
             }
             if (networkInfo != null && networkInfo.isAvailable()) {
                 TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(
@@ -116,7 +126,7 @@ public class DeviceUtils {
                     case TelephonyManager.NETWORK_TYPE_CDMA:
                     case TelephonyManager.NETWORK_TYPE_1xRTT:
                     case TelephonyManager.NETWORK_TYPE_IDEN:
-                        result = SAFConstant.NETWORK_2G;
+                        result = NETWORK_2G;
                         break;
                     case TelephonyManager.NETWORK_TYPE_UMTS:
                     case TelephonyManager.NETWORK_TYPE_EVDO_0:
@@ -127,16 +137,16 @@ public class DeviceUtils {
                     case TelephonyManager.NETWORK_TYPE_EVDO_B:
                     case TelephonyManager.NETWORK_TYPE_EHRPD:
                     case TelephonyManager.NETWORK_TYPE_HSPAP:
-                        result = SAFConstant.NETWORK_3G;
+                        result = NETWORK_3G;
                         break;
                     case TelephonyManager.NETWORK_TYPE_LTE:
-                        result = SAFConstant.NETWORK_4G;
+                        result = NETWORK_4G;
                         break;
                     case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                        result = SAFConstant.NETWORK_4G;
+                        result = NETWORK_4G;
                         break;
                     default:
-                        result = SAFConstant.NETWORK_2G;
+                        result = NETWORK_2G;
                         break;
                 }
             }
@@ -353,15 +363,15 @@ public class DeviceUtils {
 
                 if (imsi.startsWith("46000") || imsi.startsWith("46002") || imsi.startsWith("46007")) {
                     //中国移动
-                    result = SAFConstant.CHINA_MOBILE;
+                    result = CHINA_MOBILE;
                 } else if (imsi.startsWith("46001") || imsi.startsWith("46006")) {
                     //中国联通
-                    result = SAFConstant.CHINA_UNICOM;
+                    result = CHINA_UNICOM;
                 } else if (imsi.startsWith("46003") || imsi.startsWith("46005")) {
                     //中国电信
-                    result = SAFConstant.CHINA_TELECOM;
+                    result = CHINA_TELECOM;
                 } else if (imsi.startsWith("46020")) {
-                    result = SAFConstant.CHINA_TIETONG;
+                    result = CHINA_TIETONG;
                 } else {
                     result = carryByOperator(manager);
                 }
@@ -379,17 +389,17 @@ public class DeviceUtils {
         if ("46000".equals(operatorString) || "46002".equals(operatorString) || "46007".equals
                 (operatorString)) {
             //中国移动
-            return SAFConstant.CHINA_MOBILE;
+            return CHINA_MOBILE;
         } else if ("46001".equals(operatorString) || "46006".equals(operatorString)) {
             //中国联通
-            return SAFConstant.CHINA_UNICOM;
+            return CHINA_UNICOM;
         } else if ("46003".equals(operatorString) || "46005".equals(operatorString)) {
             //中国电信
-            return SAFConstant.CHINA_TELECOM;
+            return CHINA_TELECOM;
         } else if ("46020".equals(operatorString)) {
-            return SAFConstant.CHINA_TIETONG;
+            return CHINA_TIETONG;
         } else {
-            return SAFConstant.CHINA_CARRIER_UNKNOWN;
+            return CHINA_CARRIER_UNKNOWN;
         }
     }
 

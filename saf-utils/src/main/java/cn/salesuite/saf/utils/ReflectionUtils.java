@@ -3,12 +3,13 @@
  */
 package cn.salesuite.saf.utils;
 
+import android.content.Context;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import android.content.Context;
 import dalvik.system.DexFile;
 
 /**

@@ -50,26 +50,14 @@ public class L {
 	
 	public static LogLevel logLevel = LogLevel.DEBUG; // 日志的等级，可以进行配置，最好在Application中进行全局的配置
 	
-//	public static void init (SAFActivity activity) {
-//		TAG = activity.TAG;
-//	}
-//
-//	public static void init(SAFFragmentActivity activity) {
-//		TAG = activity.TAG;
-//	}
-//
-//	public static void init(SAFAppCompatActivity activity) {
-//		TAG = activity.TAG;
-//	}
-//
-//	public static void init(SAFFragment fragment) {
-//		TAG = fragment.TAG;
-//	}
-	
 	public static void init(Class<?> clazz) {
 		TAG = clazz.getSimpleName();
 	}
 
+	/**
+	 * 支持用户自己传tag，可扩展性更好
+	 * @param tag
+     */
 	public static void init(String tag) {
 		TAG = tag;
 	}

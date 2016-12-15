@@ -32,7 +32,7 @@ public class SAFAppCompatActivity extends AppCompatActivity {
         mContext = this;
 
         TAG = SAFUtils.makeLogTag(this.getClass());
-        L.i(TAG);
+        L.init(TAG);
         addActivityToManager(this);
     }
 

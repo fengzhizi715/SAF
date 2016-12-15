@@ -35,7 +35,7 @@ public class SAFFragmentActivity extends FragmentActivity{
 		mContext = this;
 
 		TAG = SAFUtils.makeLogTag(this.getClass());
-		L.i(TAG);
+		L.init(TAG);
 		addActivityToManager(this);
 	}
 	

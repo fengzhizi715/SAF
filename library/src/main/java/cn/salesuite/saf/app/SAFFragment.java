@@ -52,7 +52,7 @@ public class SAFFragment extends Fragment {
 		super.onCreate(savedInstanceState);
         
         TAG = SAFUtils.makeLogTag(this.getClass());
-		L.i(TAG);
+		L.init(TAG);
 	}
     
 	/**

@@ -39,7 +39,6 @@ import javax.net.ssl.X509TrustManager;
 
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.Preconditions;
-import cn.salesuite.saf.utils.StringUtils;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static java.net.Proxy.Type.HTTP;
@@ -346,7 +345,7 @@ public class RestClient {
 			e.printStackTrace();
 			L.e("get method error!", e);
 			
-			if (StringUtils.isNotBlank(e.getMessage())) {
+			if (Preconditions.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}
@@ -408,7 +407,7 @@ public class RestClient {
 			e.printStackTrace();
 			L.e("get method error!", e);
 
-			if (StringUtils.isNotBlank(e.getMessage())) {
+			if (Preconditions.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}
@@ -467,7 +466,7 @@ public class RestClient {
 			e.printStackTrace();
 			L.json(e);
 			
-			if (StringUtils.isNotBlank(e.getMessage())) {
+			if (Preconditions.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}
@@ -514,7 +513,7 @@ public class RestClient {
 			e.printStackTrace();
 			L.json(e);
 			
-			if (StringUtils.isNotBlank(e.getMessage())) {
+			if (Preconditions.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}
@@ -551,7 +550,7 @@ public class RestClient {
 			e.printStackTrace();
 			L.json(e);
 			
-			if (StringUtils.isNotBlank(e.getMessage())) {
+			if (Preconditions.isNotBlank(e.getMessage())) {
 				callback.onFail(new RestException(e.getMessage()));
 			}
 		}

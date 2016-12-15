@@ -152,98 +152,6 @@ public class StringUtils {
 	}
 	
 	/**
-	 * 判断字符串是否为空
-	 * @param str
-	 * @return
-	 */
-	public static boolean isEmpty(String str) {
-        return str == null || str.length() == 0;
-	}
-	
-	/**
-	 * 判断字符数不为空
-	 * @param str
-	 * @return
-	 */
-	public static boolean isNotEmpty(String str){
-        return !StringUtils.isEmpty(str);
-    }
-	
-    /**
-     * <p>Checks if a String is whitespace, empty ("") or null.</p>
-     *
-     * <pre>
-     * StringHelper.isBlank(null)      = true
-     * StringHelper.isBlank("")        = true
-     * StringHelper.isBlank(" ")       = true
-     * StringHelper.isBlank("bob")     = false
-     * StringHelper.isBlank("  bob  ") = false
-     * </pre>
-     *
-     * @param obj  the String to check, may be null
-     * @return <code>true</code> if the String is null, empty or whitespace
-     */
-    public static boolean isBlank(Object obj) {
-    	if (null == obj) {
-    		return true;
-    	}
-    	String str = obj.toString();
-        int strLen;
-        if ((strLen = str.length()) == 0) {
-            return true;
-        }
-        for (int i = 0; i < strLen; i++) {
-            if ((Character.isWhitespace(str.charAt(i)) == false)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * <p>Checks if a String is whitespace, empty ("") or null.</p>
-     *
-     * <pre>
-     * StringHelper.isNotBlank(null)      = false
-     * StringHelper.isNotBlank("")        = false
-     * StringHelper.isNotBlank(" ")       = false
-     * StringHelper.isNotBlank("bob")     = true
-     * StringHelper.isNotBlank("  bob  ") = true
-     * </pre>
-     * 
-     * @param obj the String to check, may be not null
-     * @return
-     */
-    public static boolean isNotBlank(Object obj) {
-    	return !StringUtils.isBlank(obj);
-    }
-    
-    public static boolean isNotBlank(Object... objs) {
-    	if (objs == null || objs.length==0) {
-    		return false;
-    	}
-
-		for (Object obj:objs) {
-			if (isNotBlank(obj)) {
-				continue;
-			} else {
-				return false;
-			}
-		}
-
-		return true;
-    }
-	
-	/**
-	 * 如果str字符串为null,返回为"";如果字符串不为空,返回原来的字符串
-	 * @param str
-	 * @return
-	 */
-	public static String nullToBlank(String str) {
-		return (str == null ? "" : str);
-	}
-	
-	/**
 	 * 求两个字符串数组的并集，利用set的元素唯一性  
 	 * @param arr1
 	 * @param arr2
@@ -360,56 +268,10 @@ public class StringUtils {
      * @return
      */
     public static String htmlEscapeCharsToString(String html) {
-        if (isEmpty(html)) {
+        if (Preconditions.isBlank(html)) {
             return html;
-        } else {
-            return html.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&").replaceAll("&quot;","\"");
         }
-    }
-    
-	/**
-	 * 判断字符串是否为数字,可以判断正数、负数、int、float、double
-	 * @param str
-	 * @return
-	 */
-	public static boolean isNumeric(String str) {
-		Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$"); 
-		return pattern.matcher(str).matches();
-	}
-	
-    public static boolean isNumber(String str) {
-        if (isLong(str)) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("(-)?(\\d*)\\.{0,1}(\\d*)");
-        Matcher isNum = pattern.matcher(str);
-        if (!isNum.matches()) {
-            return false;
-        }
-        return true;
-    }
-    
-    public static boolean isLong(String str) {
-        if ("0".equals(str.trim())) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("^[^0]\\d*");
-        Matcher isNum = pattern.matcher(str);
-        if (!isNum.matches()) {
-            return false;
-        }
-        return true;
-    }
 
-    public static boolean isFloat(String str) {
-        if (isLong(str)) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("\\d*\\.{1}\\d+");
-        Matcher isNum = pattern.matcher(str);
-        if (!isNum.matches()) {
-            return false;
-        }
-        return true;
+        return html.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&amp;", "&").replaceAll("&quot;","\"");
     }
 }

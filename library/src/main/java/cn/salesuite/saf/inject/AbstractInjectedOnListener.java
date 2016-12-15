@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.reflect.Reflect;
-import cn.salesuite.saf.utils.StringUtils;
+import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * @author frankswu
@@ -41,12 +41,12 @@ public abstract class AbstractInjectedOnListener {
         this.target = target;
         this.method = method;
         this.invokeWithViewParam = invokeWithViewParam;
-        if (StringUtils.isNotBlank(beforeMethodName)) {
+        if (Preconditions.isNotBlank(beforeMethodName)) {
             hasBeforeMethodName = true;
             this.beforeMethodName = beforeMethodName;
         }
         
-        if (StringUtils.isNotBlank(afterMethodName)) {
+        if (Preconditions.isNotBlank(afterMethodName)) {
             hasAfterMethodName = true;
             this.afterMethodName = afterMethodName;
         }

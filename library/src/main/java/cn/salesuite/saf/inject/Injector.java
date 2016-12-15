@@ -329,7 +329,7 @@ public class Injector {
                     } else if (annotation.annotationType() == InjectExtra.class) {
                         String extraKey = ((InjectExtra) annotation).key();
                         // key 没有使用
-                        if (StringUtils.isBlank(extraKey)) {
+                        if (Preconditions.isBlank(extraKey)) {
                             extraKey = field.getName();
                         }
                         setInjectExtra(field,extras,extraKey,annotation);

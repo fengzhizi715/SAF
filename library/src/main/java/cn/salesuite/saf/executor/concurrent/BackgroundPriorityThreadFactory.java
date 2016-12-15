@@ -3,11 +3,11 @@
  */
 package cn.salesuite.saf.executor.concurrent;
 
+import android.os.Process;
+
 import java.util.concurrent.ThreadFactory;
 
-import cn.salesuite.saf.utils.StringUtils;
-
-import android.os.Process;
+import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * 使用该类时，app需要增加权限：&ltuses-permission android:name="android.permission.RAISED_THREAD_PRIORITY"/>
@@ -28,7 +28,7 @@ public class BackgroundPriorityThreadFactory implements ThreadFactory {
 	@Override
 	public Thread newThread(Runnable r) {
 		
-		if (StringUtils.isNotBlank(threadName)) {
+		if (Preconditions.isNotBlank(threadName)) {
 			return new Thread(r,threadName) {
 				@Override
 				public void run() {

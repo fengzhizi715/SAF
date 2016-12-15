@@ -70,7 +70,7 @@ public class ViewUtils {
 	public static boolean checkBtnEnable(EditText... editTexts) {
 		boolean enable = true;
 		for (EditText each : editTexts) {
-			if (StringUtils.isBlank(each.getText())) {
+			if (Preconditions.isBlank(each.getText())) {
 				enable = false;
 				break;
 			}

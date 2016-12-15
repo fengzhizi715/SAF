@@ -11,13 +11,8 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-import cn.salesuite.saf.app.SAFActivity;
-import cn.salesuite.saf.app.SAFAppCompatActivity;
-import cn.salesuite.saf.app.SAFFragment;
-import cn.salesuite.saf.app.SAFFragmentActivity;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
-import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * 日志包装类
@@ -55,30 +50,34 @@ public class L {
 	
 	public static LogLevel logLevel = LogLevel.DEBUG; // 日志的等级，可以进行配置，最好在Application中进行全局的配置
 	
-	public static void init (SAFActivity activity) {
-		TAG = activity.TAG;
-	}
-	
-	public static void init(SAFFragmentActivity activity) {
-		TAG = activity.TAG;
-	}
-
-	public static void init(SAFAppCompatActivity activity) {
-		TAG = activity.TAG;
-	}
-	
-	public static void init(SAFFragment fragment) {
-		TAG = fragment.TAG;
-	}
+//	public static void init (SAFActivity activity) {
+//		TAG = activity.TAG;
+//	}
+//
+//	public static void init(SAFFragmentActivity activity) {
+//		TAG = activity.TAG;
+//	}
+//
+//	public static void init(SAFAppCompatActivity activity) {
+//		TAG = activity.TAG;
+//	}
+//
+//	public static void init(SAFFragment fragment) {
+//		TAG = fragment.TAG;
+//	}
 	
 	public static void init(Class<?> clazz) {
 		TAG = clazz.getSimpleName();
+	}
+
+	public static void init(String tag) {
+		TAG = tag;
 	}
 	
 	public static void e(String msg) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 
 				String s = getMethodNames();
 				Log.e(TAG, String.format(s,msg));
@@ -89,7 +88,7 @@ public class L {
 	public static void e(String msg,Throwable tr) {
 		if (LogLevel.ERROR.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 				Log.e(TAG, msg,tr);
 			}
 		}
@@ -98,7 +97,7 @@ public class L {
 	public static void w(String msg) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 
 				String s = getMethodNames();
 				Log.w(TAG, String.format(s,msg));
@@ -109,7 +108,7 @@ public class L {
 	public static void w(String msg,Throwable tr) {
 		if (LogLevel.WARN.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 				Log.w(TAG, msg,tr);
 			}
 		}
@@ -118,7 +117,7 @@ public class L {
 	public static void i(String msg) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 
 				String s = getMethodNames();
 				Log.i(TAG, String.format(s,msg));
@@ -145,7 +144,7 @@ public class L {
 	public static void i(String msg,Throwable tr) {
 		if (LogLevel.INFO.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 				Log.i(TAG, msg,tr);
 			}
 		}
@@ -154,7 +153,7 @@ public class L {
 	public static void d(String msg) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 
 				String s = getMethodNames();
 				Log.d(TAG, String.format(s,msg));
@@ -170,7 +169,7 @@ public class L {
 	public static void d(String tag,String msg) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 
 				String s = getMethodNames();
 				Log.d(tag, String.format(s,msg));
@@ -181,7 +180,7 @@ public class L {
 	public static void d(String msg,Throwable tr) {
 		if (LogLevel.DEBUG.getValue() <= logLevel.getValue()) {
 			
-			if(StringUtils.isNotBlank(msg)) {
+			if(Preconditions.isNotBlank(msg)) {
 				Log.d(TAG, msg,tr);
 			}
 		}

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -34,6 +35,7 @@ public class SAFActivity extends Activity{
 		mContext = this;
 
 		TAG = SAFUtils.makeLogTag(this.getClass());
+		L.i(TAG);
 		addActivityToManager(this);
 	}
 	

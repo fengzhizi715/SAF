@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -31,6 +32,7 @@ public class SAFAppCompatActivity extends AppCompatActivity {
         mContext = this;
 
         TAG = SAFUtils.makeLogTag(this.getClass());
+        L.i(TAG);
         addActivityToManager(this);
     }
 

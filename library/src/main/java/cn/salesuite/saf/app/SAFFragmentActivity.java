@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -34,6 +35,7 @@ public class SAFFragmentActivity extends FragmentActivity{
 		mContext = this;
 
 		TAG = SAFUtils.makeLogTag(this.getClass());
+		L.i(TAG);
 		addActivityToManager(this);
 	}
 	

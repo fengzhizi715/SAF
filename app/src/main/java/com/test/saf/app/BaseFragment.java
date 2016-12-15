@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 
 import cn.salesuite.saf.app.SAFFragment;
 import cn.salesuite.saf.cache.Cache;
-import cn.salesuite.saf.log.L;
 
 /**
  * Created by Tony Shen on 15/11/19.
@@ -26,7 +25,6 @@ public class BaseFragment extends SAFFragment{
         app = DemoApp.getInstance();
         fmgr = getFragmentManager();
 
-        L.init(this);
         mCache = Cache.get(mContext);
     }
 }

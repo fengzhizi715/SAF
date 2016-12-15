@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 
@@ -51,6 +52,7 @@ public class SAFFragment extends Fragment {
 		super.onCreate(savedInstanceState);
         
         TAG = SAFUtils.makeLogTag(this.getClass());
+		L.i(TAG);
 	}
     
 	/**

@@ -14,6 +14,8 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
+import cn.salesuite.base.TypeUtils;
+
 /**
  * Created by Tony Shen on 2016/12/7.
  */
@@ -64,7 +66,7 @@ public class AnnotatedClass {
                 .addAnnotation(Override.class)
                 .addParameter(TypeName.get(mClassElement.asType()), "host", Modifier.FINAL)
                 .addParameter(TypeName.OBJECT, "source")
-                .addParameter(TypeUtil.FINDER, "finder");
+                .addParameter(TypeUtils.FINDER, "finder");
 
         for (BindViewField field : mFields) {
             // find view
@@ -80,7 +82,7 @@ public class AnnotatedClass {
             if (fieldTypeName.startsWith("java.util.List")) {
                 int[] ids = field.getResIds();
 
-                injectMethodBuilder.addStatement("host.$N = new $T<>()", field.getFieldName(),TypeUtil.ARRAY_LIST);
+                injectMethodBuilder.addStatement("host.$N = new $T<>()", field.getFieldName(), TypeUtils.ARRAY_LIST);
 
                 int first = fieldTypeName.indexOf("<");
                 if (first == -1) continue;
@@ -129,17 +131,17 @@ public class AnnotatedClass {
         }
 
         if (mMethods.size() > 0) {
-            injectMethodBuilder.addStatement("$T listener", TypeUtil.ANDROID_ON_CLICK_LISTENER);
+            injectMethodBuilder.addStatement("$T listener", TypeUtils.ANDROID_ON_CLICK_LISTENER);
 
             for (OnClickMethod method : mMethods) {
                 // declare OnClickListener anonymous class
                 TypeSpec listener = TypeSpec.anonymousClassBuilder("")
-                        .addSuperinterface(TypeUtil.ANDROID_ON_CLICK_LISTENER)
+                        .addSuperinterface(TypeUtils.ANDROID_ON_CLICK_LISTENER)
                         .addMethod(MethodSpec.methodBuilder("onClick")
                                 .addAnnotation(Override.class)
                                 .addModifiers(Modifier.PUBLIC)
                                 .returns(TypeName.VOID)
-                                .addParameter(TypeUtil.ANDROID_VIEW, "view")
+                                .addParameter(TypeUtils.ANDROID_VIEW, "view")
                                 .addStatement("host.$N()", method.getMethodName())
                                 .build())
                         .build();
@@ -154,7 +156,7 @@ public class AnnotatedClass {
         // generate whole class
         TypeSpec finderClass = TypeSpec.classBuilder(mClassElement.getSimpleName() + "$$ViewBinder")
                 .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ParameterizedTypeName.get(TypeUtil.VIEW_BINDER, TypeName.get(mClassElement.asType())))
+                .addSuperinterface(ParameterizedTypeName.get(TypeUtils.VIEW_BINDER, TypeName.get(mClassElement.asType())))
                 .addMethod(injectMethodBuilder.build())
                 .build();
 

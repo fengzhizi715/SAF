@@ -22,6 +22,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
+import cn.salesuite.base.TypeUtils;
 import cn.salesuite.base.Utils;
 import cn.salesuite.router.annotations.RouterRule;
 

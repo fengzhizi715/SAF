@@ -80,6 +80,9 @@ def router = properties.getProperty("project.router")
 // utils
 def utils = properties.getProperty("project.utils")
 
+// log
+def log = properties.getProperty("project.log")
+
 def classPath = properties.getProperty("project.class.path")
 def javaClassPath = properties.getProperty("project.java.class.path")
 def cfg = rootProject.ext.configuration // 配置
@@ -98,6 +101,26 @@ def routerAnnotationsPath = [project.findProject(routerAnnotations).buildDir.abs
 def routerPath = [project.findProject(router).buildDir.absolutePath + classPath];
 
 def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
+
+def logPath = [project.findProject(log).buildDir.absolutePath + classPath];
+
+task buildLog( type: Jar) {
+
+    archiveName = 'SAF-log-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from logPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
 
 task buildUtils( type: Jar) {
 
@@ -176,7 +199,7 @@ task buildSAF(type: Jar) {
     archiveName = 'SAF-'+VERSION_NAME+'.jar'
 
     //初始化资源路径集
-    from utilsPath,libraryPath
+    from logPath,utilsPath,libraryPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -190,7 +213,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouter','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouter','buildSAF']) {
     logger.info("all build finish!");
 }
 

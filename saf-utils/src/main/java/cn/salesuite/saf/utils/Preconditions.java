@@ -36,20 +36,8 @@ public class Preconditions {
                 return true;
             }
         } else if (t instanceof String) {
-            int strLen;
 
-            strLen = ((String)t).length();
-            if (strLen == 0) {
-                return true;
-            }
-
-            for (int i = 0; i < strLen; i++) {
-                if (!Character.isWhitespace(((String) t).charAt(i))) {
-                    return false;
-                }
-            }
-
-            return true;
+            return ((String) t).length() == 0;
         }
 
         return false;

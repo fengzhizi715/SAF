@@ -155,6 +155,7 @@ task buildInjectCompiler( type: Jar) {
 
     //只导入资源路径集下的部分资源
     include "cn/salesuite/**/*.class"
+    include "META-INF/services/javax.annotation.processing.Processor"
     destinationDir = file('build/outputs/')
 }
 

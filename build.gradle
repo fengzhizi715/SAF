@@ -177,12 +177,31 @@ task buildInjectAnnotations( type: Jar) {
     destinationDir = file('build/outputs/')
 }
 
-task buildRouter( type: Jar) {
+task buildRouterCompiler( type: Jar) {
 
-    archiveName = 'SAF-router-'+VERSION_NAME+'.jar'
+    archiveName = 'SAF-router-compiler-'+VERSION_NAME+'.jar'
 
     //初始化资源路径集
-    from baseCompilerPath, routerAnnotationsPath, routerCompilerPath, routerPath
+    from baseCompilerPath, routerCompilerPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    include "META-INF/services/javax.annotation.processing.Processor"
+    destinationDir = file('build/outputs/')
+}
+
+task buildRouterAnnotations( type: Jar) {
+
+    archiveName = 'SAF-router-annotations-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from  routerAnnotationsPath, routerPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -214,7 +233,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouter','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
     logger.info("all build finish!");
 }
 

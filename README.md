@@ -14,18 +14,18 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [General Annotation(use aspectj)](docs/general_annotation.md)
-* [RxAsyncTask(use rxjava)](docs/rxasynctask.md)
-* [Permissions](https://github.com/fengzhizi715/SAF#permissions)
-* [Event Bus](docs/event_bus.md)
-* [Rest Client](docs/rest_client.md)
-* [Image Cache(use rxjava)](docs/image_cache.md)
-* [Dependency Injection(use apt)](docs/dependency_injection.md)
-* [Sqlite ORM](docs/sqlite_orm.md)
-* [Router](docs/router.md)
-* [Cache](docs/cache.md)
-* [L](docs/l.md)
-* [Utils](docs/utils.md)
+* [General Annotation(use aspectj)](docs/general_annotation.md) 通用的注解
+* [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
+* [Permissions](https://github.com/fengzhizi715/SAF#permissions) android6.0 以后的权限操作
+* [Event Bus](docs/event_bus.md) 事件总线
+* [Rest Client](docs/rest_client.md) 网络框架
+* [Image Cache(use rxjava)](docs/image_cache.md) 图片加载框架
+* [Dependency Injection(use apt)](docs/dependency_injection.md) 依赖注入
+* [Sqlite ORM](docs/sqlite_orm.md) 数据库操作框架
+* [Router](docs/router.md) Activity、Fragment的路由框架
+* [Cache](docs/cache.md) 缓存框架
+* [L](docs/l.md) 日志框架
+* [Utils](docs/utils.md) 各种工具类
 
 
 Permissions

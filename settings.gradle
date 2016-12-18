@@ -1,1 +1,1 @@
-include ':library', ':saf-injectview-compiler', ':saf-injectview-annotations', ':saf-injectview', ':saf-base-compiler', ':saf-router-annotations', ':saf-router-compiler', ':saf-router', ':saf-utils', ':saf-log', 'app'
+include ':library', ':saf-injectview-compiler', ':saf-injectview-annotations', ':saf-injectview', ':saf-base-compiler', ':saf-router-annotations', ':saf-router-compiler', ':saf-router', ':saf-utils', ':saf-log', ':saf-cache', 'app'

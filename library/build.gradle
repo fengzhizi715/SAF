@@ -48,6 +48,7 @@ dependencies {
     compile 'org.aspectj:aspectjrt:1.8.+'
     compile project(':saf-utils')
     compile project(':saf-log')
+    compile project(':saf-cache')
 }
 
 task buildJar(dependsOn: ['assembleRelease'], type: Jar) {

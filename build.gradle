@@ -67,6 +67,7 @@ if (projectPropertiesFile.exists()) {
 // read properties
 def library = properties.getProperty("project.library")
 def baseCompiler = properties.getProperty("project.saf-base-compiler")
+
 // injectview
 def injectviewAnnotations = properties.getProperty("project.saf-injectview-annotations")
 def injectviewCompiler = properties.getProperty("project.saf-injectview-compiler")
@@ -76,6 +77,9 @@ def injectview = properties.getProperty("project.injectview")
 def routerAnnotations = properties.getProperty("project.saf-router-annotations")
 def routerCompiler = properties.getProperty("project.saf-router-compiler")
 def router = properties.getProperty("project.router")
+
+// cache
+def cache = properties.getProperty("project.cache")
 
 // utils
 def utils = properties.getProperty("project.utils")
@@ -100,9 +104,29 @@ def routerCompilerPath = [project.findProject(routerCompiler).buildDir.absoluteP
 def routerAnnotationsPath = [project.findProject(routerAnnotations).buildDir.absolutePath + javaClassPath];
 def routerPath = [project.findProject(router).buildDir.absolutePath + classPath];
 
+def cachePath = [project.findProject(cache).buildDir.absolutePath + classPath];
+
 def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
 
 def logPath = [project.findProject(log).buildDir.absolutePath + classPath];
+
+task buildCache( type: Jar) {
+
+    archiveName = 'SAF-cache-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from cachePath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
 
 task buildLog( type: Jar) {
 
@@ -233,7 +257,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
+task generaAllJar(dependsOn: ['buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
     logger.info("all build finish!");
 }
 

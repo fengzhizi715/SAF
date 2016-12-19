@@ -12,6 +12,10 @@ public class Preconditions {
     /**
      *  可以判断任何一个对象是否为空,包括List Map String 复杂对象等等,
      *  只能判断对象,而不能判断基本数据类型
+     *  Preconditions.isBlank("")  true
+     *  Preconditions.isBlank(" ")  true
+     *  Preconditions.isBlank(null)  true
+     *  Preconditions.isBlank("null")  false
      * @param t
      * @param <T>
      * @return
@@ -37,7 +41,11 @@ public class Preconditions {
             }
         } else if (t instanceof String) {
 
-            return ((String) t).length() == 0;
+            String str = (String)t;
+            if (str.length()==0) return true;
+
+            str = str.trim();
+            if (str.length()==0) return true;
         }
 
         return false;

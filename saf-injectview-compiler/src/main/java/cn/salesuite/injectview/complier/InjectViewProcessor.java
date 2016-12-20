@@ -97,26 +97,32 @@ public class InjectViewProcessor extends AbstractProcessor {
 
         AnnotatedClass annotatedClass = null;
         BindViewField field = null;
-        for (Element element : roundEnv.getElementsAnnotatedWith(InjectView.class)) {
-            annotatedClass = getAnnotatedClass(element,"@InjectView");
-            if (annotatedClass==null)
-                continue;
+        Set<Element> set = (Set<Element>) roundEnv.getElementsAnnotatedWith(InjectView.class);
+        if (set!=null && set.size()>0) {
+            for (Element element : set) {
+                annotatedClass = getAnnotatedClass(element,"@InjectView");
+                if (annotatedClass==null)
+                    continue;
 
-            field = new BindViewField(element);
-            annotatedClass.addField(field);
+                field = new BindViewField(element);
+                annotatedClass.addField(field);
+            }
         }
     }
 
     private void processInjectViews(RoundEnvironment roundEnv) {
         AnnotatedClass annotatedClass = null;
         BindViewFields field = null;
-        for (Element element : roundEnv.getElementsAnnotatedWith(InjectViews.class)) {
-            annotatedClass = getAnnotatedClass(element,"@InjectViews");
-            if (annotatedClass==null)
-                continue;
+        Set<Element> set = (Set<Element>) roundEnv.getElementsAnnotatedWith(InjectViews.class);
+        if (set!=null && set.size()>0) {
+            for (Element element : set) {
+                annotatedClass = getAnnotatedClass(element,"@InjectViews");
+                if (annotatedClass==null)
+                    continue;
 
-            field = new BindViewFields(element);
-            annotatedClass.addFields(field);
+                field = new BindViewFields(element);
+                annotatedClass.addFields(field);
+            }
         }
     }
 

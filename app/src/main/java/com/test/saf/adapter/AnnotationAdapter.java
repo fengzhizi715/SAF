@@ -1,7 +1,9 @@
 package com.test.saf.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -9,16 +11,13 @@ import com.test.saf.R;
 
 import java.util.List;
 
-import cn.salesuite.saf.adapter.SAFRecyclerAdapter;
-import cn.salesuite.saf.adapter.SAFViewHolder;
-import cn.salesuite.saf.inject.annotation.InjectView;
-
 /**
  * Created by Tony Shen on 2016/11/22.
  */
 
-public class AnnotationAdapter extends SAFRecyclerAdapter {
+public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.NormalTextViewHolder> {
 
+    private List<String> mList;
     private Context mContext;
 
     public AnnotationAdapter(Context context,List<String> data) {
@@ -28,21 +27,32 @@ public class AnnotationAdapter extends SAFRecyclerAdapter {
 
     @Override
     public NormalTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NormalTextViewHolder(parent, R.layout.cell_general_annotation);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_general_annotation, parent, false);
+        return new NormalTextViewHolder(view);
     }
 
     @Override
-    protected void bindCustomViewHolder(SAFViewHolder holder, int position) {
-        ((NormalTextViewHolder)holder).name.setText((String)mList.get(position));
+    public void onBindViewHolder(NormalTextViewHolder holder, int position) {
+        holder.name.setText((String)mList.get(position));
     }
 
-    public class NormalTextViewHolder extends SAFViewHolder {
+    @Override
+    public int getItemCount() {
+        return mList!=null?mList.size():0;
+    }
 
-        @InjectView
+    public class NormalTextViewHolder extends RecyclerView.ViewHolder {
+
+//        @InjectView(id=R.id.name)
         TextView name;
 
-        public NormalTextViewHolder(ViewGroup parent, @LayoutRes int resId) {
-            super(parent, resId);
+        public NormalTextViewHolder(View itemView) {
+            super(itemView);
+//            Injector.injectInto(this,itemView);
+
+            name = (TextView) itemView.findViewById(R.id.name);
         }
     }
+
+
 }

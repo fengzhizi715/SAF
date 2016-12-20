@@ -53,10 +53,11 @@ allprojects {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.+'
     compile 'com.github.clans:fab:1.6.4'
     compile 'us.feras.mdv:markdownview:1.1.0'
     compile project(':library')
+    compile project(':saf-injectview-annotations')
     compile project(':saf-injectview')
     compile project(':saf-router')
     apt project(':saf-injectview-compiler')

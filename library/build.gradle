@@ -51,111 +51,111 @@ dependencies {
     compile project(':saf-cache')
 }
 
-task buildJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-all-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //去除路径集下部分的资源
-    exclude "cn/salesuite/saf/BuildConfig.class"
-    exclude "cn/salesuite/saf/BuildConfig\$*.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-task buildCoreJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-core-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //去除路径集下部分的资源
-    exclude "cn/salesuite/saf/BuildConfig.class"
-    exclude "cn/salesuite/saf/BuildConfig\$*.class"
-    exclude "cn/salesuite/saf/utils/*.class"
-    exclude "cn/salesuite/saf/inject/**/*.class"
-    exclude "cn/salesuite/saf/view/*.class"
-    exclude "cn/salesuite/saf/eventbus/*.class"
-    exclude "cn/salesuite/saf/download/*.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-task buildAnnotationJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-annotation-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/inject/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-task buildOrmJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-orm-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/orm/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-task buildHttpJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-http-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/http/rest/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-task buildRouterJar(dependsOn: ['assembleRelease'], type: Jar) {
-
-    archiveName = 'SAF-router-'+VERSION_NAME+'.jar'
-
-    //需打包的资源所在的路径集
-    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
-    //初始化资源路径集
-    from srcClassDir
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/saf/route/**/*.class"
-    destinationDir = file('build/outputs')
-}
-
-// 打包各个jar
-task buildAll(dependsOn: ['buildJar','buildCoreJar','buildAnnotationJar','buildOrmJar','buildHttpJar','buildRouterJar']) {
-
-}
+//task buildJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-all-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //去除路径集下部分的资源
+//    exclude "cn/salesuite/saf/BuildConfig.class"
+//    exclude "cn/salesuite/saf/BuildConfig\$*.class"
+//    exclude "**/R.class"
+//    exclude "**/R\$*.class"
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//task buildCoreJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-core-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //去除路径集下部分的资源
+//    exclude "cn/salesuite/saf/BuildConfig.class"
+//    exclude "cn/salesuite/saf/BuildConfig\$*.class"
+//    exclude "cn/salesuite/saf/utils/*.class"
+//    exclude "cn/salesuite/saf/inject/**/*.class"
+//    exclude "cn/salesuite/saf/view/*.class"
+//    exclude "cn/salesuite/saf/eventbus/*.class"
+//    exclude "cn/salesuite/saf/download/*.class"
+//    exclude "**/R.class"
+//    exclude "**/R\$*.class"
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//task buildAnnotationJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-annotation-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/inject/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//task buildOrmJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-orm-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/orm/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//task buildHttpJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-http-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/http/rest/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//task buildRouterJar(dependsOn: ['assembleRelease'], type: Jar) {
+//
+//    archiveName = 'SAF-router-'+VERSION_NAME+'.jar'
+//
+//    //需打包的资源所在的路径集
+//    def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+//    //初始化资源路径集
+//    from srcClassDir
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/saf/route/**/*.class"
+//    destinationDir = file('build/outputs')
+//}
+//
+//// 打包各个jar
+//task buildAll(dependsOn: ['buildJar','buildCoreJar','buildAnnotationJar','buildOrmJar','buildHttpJar','buildRouterJar']) {
+//
+//}
 
 task javadoc(type: Javadoc) {
 

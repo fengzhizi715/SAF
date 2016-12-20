@@ -6,9 +6,9 @@ import android.widget.TextView;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 
+import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.router.annotations.RouterRule;
-import cn.salesuite.saf.inject.annotation.InjectExtra;
-import cn.salesuite.saf.inject.annotation.InjectView;
+import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.saf.utils.Preconditions;
 import us.feras.mdv.MarkdownView;
 
@@ -18,10 +18,10 @@ import us.feras.mdv.MarkdownView;
 @RouterRule(url={"annotationName/:anno_name"})
 public class AnnotationActivity extends BaseActivity {
 
-    @InjectView
+    @InjectView(id=R.id.text)
     MarkdownView text;
 
-    @InjectView
+    @InjectView(id=R.id.title)
     TextView title;
 
     @InjectExtra(key = ANNO_NAME)

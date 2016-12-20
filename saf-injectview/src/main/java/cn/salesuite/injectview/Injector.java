@@ -138,7 +138,8 @@ public class Injector {
             ViewBinder viewBinder = (ViewBinder) finderClass.newInstance();
             viewBinder.inject(host, source, finder);
         } catch (Exception e) {
-            throw new RuntimeException("Unable to inject for " + className, e);
+//            throw new RuntimeException("Unable to inject for " + className, e);
+            System.out.println("Unable to inject for " + className);
         }
     }
 }

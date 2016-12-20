@@ -24,7 +24,7 @@ public class ImageLoaderAdapter extends SAFRecyclerAdapter {
 
     private Context mContext;
 
-    public ImageLoaderAdapter(Context context,List<MMPicsResponse.Pic> data) {
+    public ImageLoaderAdapter(Context context, List<MMPicsResponse.Pic> data) {
         mContext = context;
         mList = data;
     }

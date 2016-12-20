@@ -135,9 +135,12 @@ public class ImageLoaderFragment extends BaseFragment {
     private void initData() {
 
         if (mCache.getObject(Config.FIRST_PICS)!=null) {
-            recyclerview.setLayoutManager(new GridLayoutManager(mContext,2));
+            GridLayoutManager manager = new GridLayoutManager(mContext,2);
+            manager.setRecycleChildrenOnDetach(true);
+            recyclerview.setLayoutManager(manager);
             recyclerview.setAdapter(new ImageLoaderAdapter(mContext, (List<MMPicsResponse.Pic>) mCache.getObject(Config.FIRST_PICS)));
             recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
+            recyclerview.setRecycledViewPool(myPool);
         }
 
         String url = "http://www.tngou.net/tnfs/api/news";
@@ -159,9 +162,12 @@ public class ImageLoaderFragment extends BaseFragment {
                         try {
                             respnose = RestUtil.parseAs(MMPicsResponse.class, content);
                             if (respnose != null && Preconditions.isNotBlank(respnose.tngou)) {
-                                recyclerview.setLayoutManager(new GridLayoutManager(mContext,2));
+                                GridLayoutManager manager = new GridLayoutManager(mContext,2);
+                                manager.setRecycleChildrenOnDetach(true);
+                                recyclerview.setLayoutManager(manager);
                                 recyclerview.setAdapter(new ImageLoaderAdapter(mContext, respnose.tngou));
                                 recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
+                                recyclerview.setRecycledViewPool(myPool);
 
                                 if ("http://www.tngou.net/tnfs/api/news".equals(url)) {
                                     mCache.put(Config.FIRST_PICS,(Serializable) respnose.tngou);
@@ -195,5 +201,10 @@ public class ImageLoaderFragment extends BaseFragment {
         public String onExecute() {
             return RestClient.get(apiUrl).body();
         }
+    }
+
+    static RecyclerView.RecycledViewPool myPool = new RecyclerView.RecycledViewPool();
+    static{
+        myPool.setMaxRecycledViews(0, 10);
     }
 }

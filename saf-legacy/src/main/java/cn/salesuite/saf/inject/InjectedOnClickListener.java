@@ -3,10 +3,10 @@
  */
 package cn.salesuite.saf.inject;
 
-import java.lang.reflect.Method;
-
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import java.lang.reflect.Method;
 
 /**
  * @author Tony Shen

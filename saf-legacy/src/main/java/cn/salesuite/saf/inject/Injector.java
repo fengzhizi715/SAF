@@ -43,7 +43,6 @@ import cn.salesuite.saf.inject.annotation.OnLongClick;
 import cn.salesuite.saf.inject.annotation.OnTouch;
 import cn.salesuite.saf.reflect.Reflect;
 import cn.salesuite.saf.utils.Preconditions;
-import cn.salesuite.saf.utils.StringUtils;
 
 /**
  * 可以注入view、resource、systemservice等等<br>
@@ -348,18 +347,18 @@ public class Injector {
 
         Object value = extras != null ? extras.get(extraKey) : null;
         if (value==null) {
-            if (field.getType().getName().equals(java.lang.Integer.class.getName())
+            if (field.getType().getName().equals(Integer.class.getName())
                     || field.getType().getName().equals("int")) {
                 value = ((InjectExtra) annotation).defaultInt();
-            } else if (field.getType().getName().equals(java.lang.Boolean.class.getName())
+            } else if (field.getType().getName().equals(Boolean.class.getName())
                     || field.getType().getName().equals("boolean")) {
                 value = ((InjectExtra) annotation).defaultBoolean();
-            } else if (field.getType().getName().equals(java.lang.String.class.getName())) {
+            } else if (field.getType().getName().equals(String.class.getName())) {
                 value = ((InjectExtra) annotation).defaultString();
-            } else if (field.getType().getName().equals(java.lang.Long.class.getName())
+            } else if (field.getType().getName().equals(Long.class.getName())
                     || field.getType().getName().equals("long")) {
                 value = ((InjectExtra) annotation).defaultLong();
-            } else if (field.getType().getName().equals(java.lang.Double.class.getName())
+            } else if (field.getType().getName().equals(Double.class.getName())
                     || field.getType().getName().equals("double")) {
                 value = ((InjectExtra) annotation).defaultDouble();
             }

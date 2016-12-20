@@ -1,9 +1,9 @@
 package cn.salesuite.saf.inject;
 
-import java.lang.reflect.Method;
-
 import android.view.View;
 import android.view.View.OnLongClickListener;
+
+import java.lang.reflect.Method;
 
 /**
  * @author frankswu

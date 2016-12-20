@@ -1,10 +1,10 @@
 package cn.salesuite.saf.inject;
 
-import java.lang.reflect.Method;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+
+import java.lang.reflect.Method;
 
 /**
  * @author frankswu

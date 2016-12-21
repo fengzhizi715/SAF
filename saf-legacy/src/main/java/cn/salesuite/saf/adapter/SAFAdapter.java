@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.recyclerview;
+package cn.salesuite.saf.adapter;
 
 import android.view.View;
 import android.widget.BaseAdapter;

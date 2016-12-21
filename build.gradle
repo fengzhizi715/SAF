@@ -87,6 +87,9 @@ def utils = properties.getProperty("project.utils")
 // log
 def log = properties.getProperty("project.log")
 
+// legacy
+def legacy = properties.getProperty("project.legacy")
+
 def classPath = properties.getProperty("project.class.path")
 def javaClassPath = properties.getProperty("project.java.class.path")
 def cfg = rootProject.ext.configuration // 配置
@@ -109,6 +112,8 @@ def cachePath = [project.findProject(cache).buildDir.absolutePath + classPath];
 def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
 
 def logPath = [project.findProject(log).buildDir.absolutePath + classPath];
+
+def legacyPath = [project.findProject(legacy).buildDir.absolutePath + classPath];
 
 task buildCache( type: Jar) {
 
@@ -152,6 +157,24 @@ task buildUtils( type: Jar) {
 
     //初始化资源路径集
     from utilsPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
+
+task buildLegacy( type: Jar) {
+
+    archiveName = 'SAF-legacy.jar'
+
+    //初始化资源路径集
+    from legacyPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -257,7 +280,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLegacy','buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
     logger.info("all build finish!");
 }
 

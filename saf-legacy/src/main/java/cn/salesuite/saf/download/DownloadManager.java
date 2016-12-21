@@ -1,11 +1,12 @@
 package cn.salesuite.saf.download;
 
+import android.content.Context;
+
 import java.io.File;
 import java.net.MalformedURLException;
 
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
-import android.content.Context;
 
 /**
  * downloadtask的manager

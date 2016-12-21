@@ -9,8 +9,6 @@ def VERSION_NAME = cfg.saf_version_name
 android {
     compileSdkVersion 25
     buildToolsVersion "25"
-    //兼容API 23干掉了httpClient，手动加入httpClient库,或者将org.apache.http.legacy.jar放到lib文件中
-    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         minSdkVersion 9

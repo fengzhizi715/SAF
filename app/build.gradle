@@ -38,9 +38,9 @@ android {
         abortOnError false
     }
 
-    dexOptions {
-        incremental true
-    }
+//    dexOptions {
+//        incremental true
+//    }
 }
 
 allprojects {
@@ -57,7 +57,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'us.feras.mdv:markdownview:1.1.0'
     compile project(':library')
-    compile project(':saf-injectview-annotations')
     compile project(':saf-injectview')
     compile project(':saf-router')
     apt project(':saf-injectview-compiler')

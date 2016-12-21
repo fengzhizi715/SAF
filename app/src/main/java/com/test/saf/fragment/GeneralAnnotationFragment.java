@@ -18,7 +18,7 @@ import java.util.List;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.router.Router;
-import cn.salesuite.saf.adapter.OnItemClickListener;
+import cn.salesuite.saf.recyclerview.OnItemClickListener;
 
 /**
  * Created by tony on 2016/11/20.

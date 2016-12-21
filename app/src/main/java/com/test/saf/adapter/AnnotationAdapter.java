@@ -43,13 +43,10 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.No
 
     public class NormalTextViewHolder extends RecyclerView.ViewHolder {
 
-//        @InjectView(id=R.id.name)
         TextView name;
 
         public NormalTextViewHolder(View itemView) {
             super(itemView);
-//            Injector.injectInto(this,itemView);
-
             name = (TextView) itemView.findViewById(R.id.name);
         }
     }

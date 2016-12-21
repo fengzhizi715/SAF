@@ -26,7 +26,7 @@ import java.util.List;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.OnClick;
-import cn.salesuite.saf.adapter.OnItemClickListener;
+import cn.salesuite.saf.recyclerview.OnItemClickListener;
 import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;

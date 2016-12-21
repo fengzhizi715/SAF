@@ -1,4 +1,4 @@
-package cn.salesuite.saf.adapter;
+package cn.salesuite.saf.recyclerview;
 
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;

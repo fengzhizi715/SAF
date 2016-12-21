@@ -37,7 +37,9 @@ public class DiskCacheObservable extends CacheObservable {
     private File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()
-            && context.getExternalCacheDir().canWrite()) {
+                && SAFUtils.checkPermissions(context, "android.permission.WRITE_EXTERNAL_STORAGE")
+                && context.getExternalCacheDir() !=null
+                && context.getExternalCacheDir().canWrite()) {
             cachePath = context.getExternalCacheDir().getPath();
         } else {
             cachePath = context.getCacheDir().getPath();

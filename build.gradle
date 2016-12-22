@@ -87,6 +87,9 @@ def utils = properties.getProperty("project.utils")
 // log
 def log = properties.getProperty("project.log")
 
+// general-annotations
+def generalAnnotations = properties.getProperty("project.saf-general-annotations")
+
 // legacy
 def legacy = properties.getProperty("project.legacy")
 
@@ -113,6 +116,8 @@ def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
 
 def logPath = [project.findProject(log).buildDir.absolutePath + classPath];
 
+def generalAnnotationsPath = [project.findProject(generalAnnotations).buildDir.absolutePath + classPath];
+
 def legacyPath = [project.findProject(legacy).buildDir.absolutePath + classPath];
 
 task buildCache( type: Jar) {
@@ -121,6 +126,24 @@ task buildCache( type: Jar) {
 
     //初始化资源路径集
     from cachePath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
+
+task buildGeneralAnnotations( type: Jar) {
+
+    archiveName = 'SAF-general-annotations-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from generalAnnotationsPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -280,7 +303,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLegacy','buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLegacy','buildGeneralAnnotations','buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
     logger.info("all build finish!");
 }
 

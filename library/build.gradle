@@ -40,7 +40,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.0.0'
     compile 'com.alibaba:fastjson:1.1.54.android'
-    compile 'commons-codec:commons-codec:1.10'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'org.aspectj:aspectjrt:1.8.+'

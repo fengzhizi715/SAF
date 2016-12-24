@@ -296,6 +296,8 @@ task buildSAF(type: Jar) {
     exclude "**/Manifest.class"
     exclude "**/R.class"
     exclude "**/R\$*.class"
+    // 去除rxjava版本的eventbus
+    exclude "cn/salesuite/saf/rxjava"
 
     //只导入资源路径集下的部分资源
     include "cn/salesuite/**/*.class"

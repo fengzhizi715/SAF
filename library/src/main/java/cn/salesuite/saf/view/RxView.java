@@ -1,4 +1,4 @@
-package cn.salesuite.saf.rxjava.view;
+package cn.salesuite.saf.view;
 
 import android.text.Editable;
 import android.text.TextWatcher;

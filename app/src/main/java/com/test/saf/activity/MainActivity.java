@@ -17,7 +17,6 @@ import com.test.saf.fragment.HomeFragment;
 import com.test.saf.menu.MenuManager;
 import com.test.saf.utils.DoubleClickExitUtils;
 
-import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.saf.utils.Preconditions;
 
@@ -41,7 +40,6 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Injector.injectInto(this);
 		initViews();
 		initData();
 	}

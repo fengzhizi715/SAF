@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <com.test.saf.ui.GridRecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_layout_animation">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.test.saf.ui.GridRecyclerView>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_labels_right"

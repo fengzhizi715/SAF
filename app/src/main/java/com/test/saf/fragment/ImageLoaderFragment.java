@@ -18,6 +18,7 @@ import com.test.saf.adapter.ImageLoaderAdapter;
 import com.test.saf.app.BaseFragment;
 import com.test.saf.config.Config;
 import com.test.saf.domain.MMPicsResponse;
+import com.test.saf.ui.GridRecyclerView;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -26,12 +27,12 @@ import java.util.List;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.injectview.annotations.OnClick;
-import cn.salesuite.saf.recyclerview.OnItemClickListener;
 import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.recyclerview.OnItemClickListener;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**
@@ -41,7 +42,7 @@ import cn.salesuite.saf.utils.Preconditions;
 public class ImageLoaderFragment extends BaseFragment {
 
     @InjectView(id=R.id.recyclerview)
-    RecyclerView recyclerview;
+    GridRecyclerView recyclerview;
 
     @InjectView(id=R.id.menu_labels_right)
     FloatingActionMenu faMenu;

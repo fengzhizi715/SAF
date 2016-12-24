@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.test.saf.R;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by Tony Shen on 2016/11/22.
  */
 
-public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.NormalTextViewHolder> {
+public class AnnotationAdapter extends RecyclerView.Adapter<NormalTextViewHolder> {
 
     private List<String> mList;
     private Context mContext;
@@ -40,16 +39,5 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.No
     public int getItemCount() {
         return mList!=null?mList.size():0;
     }
-
-    public class NormalTextViewHolder extends RecyclerView.ViewHolder {
-
-        TextView name;
-
-        public NormalTextViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.name);
-        }
-    }
-
 
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.router.Router;
+import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.recyclerview.OnItemClickListener;
 
 /**
@@ -31,11 +32,13 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
     List<String> data = new ArrayList<String>();
 
+    private PermissionGuard permissionGuard;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_general_annotation, container, false);
         Injector.injectInto(this, v);
-
+        permissionGuard = new PermissionGuard(mContext,this);
         initData();
 
         return v;

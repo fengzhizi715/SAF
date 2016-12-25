@@ -6,6 +6,7 @@
         android:minSdkVersion="9"
         android:targetSdkVersion="21"/>
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <application
         android:name="com.test.saf.app.DemoApp"
         android:allowBackup="true"
@@ -51,5 +52,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
 </manifest>

@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.Prefs;
 import cn.salesuite.saf.prefs.AppPrefs;
+import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 
 /**
@@ -36,27 +37,33 @@ public class PrefsAspect {
         Method method = signature.getMethod();
 
         Prefs prefs = method.getAnnotation(Prefs.class);
-        String key = prefs.key();
+        Object result = null;
+        if (Preconditions.isNotBlank(prefs)) {
+            String key = prefs.key();
 
-        Object result = joinPoint.proceed();
-        String type = ((MethodSignature) joinPoint.getSignature()).getReturnType().toString();
+            result = joinPoint.proceed();
+            String type = ((MethodSignature) joinPoint.getSignature()).getReturnType().toString();
 
-        if (!"void".equalsIgnoreCase(type)) {
-            String className = ((MethodSignature) joinPoint.getSignature()).getReturnType().getCanonicalName();
-            AppPrefs appPrefs = AppPrefs.get(SAFUtils.getContext());
-            if ("int".equals(className) || "java.lang.Integer".equals(className)) {
-                appPrefs.putInt(key, (Integer) result);
-            } else if ("boolean".equals(className) || "java.lang.Boolean".equals(className)) {
-                appPrefs.putBoolean(key,(Boolean) result);
-            } else if ("float".equals(className) || "java.lang.Float".equals(className)) {
-                appPrefs.putFloat(key,(Float) result);
-            } else if ("long".equals(className) || "java.lang.Long".equals(className)) {
-                appPrefs.putLong(key,(Long) result);
-            } else if ("java.lang.String".equals(className)) {
-                appPrefs.putString(key,(String) result);
-            } else {
-                appPrefs.putObject(key,result);
+            if (!"void".equalsIgnoreCase(type)) {
+                String className = ((MethodSignature) joinPoint.getSignature()).getReturnType().getCanonicalName();
+                AppPrefs appPrefs = AppPrefs.get(SAFUtils.getContext());
+                if ("int".equals(className) || "java.lang.Integer".equals(className)) {
+                    appPrefs.putInt(key, (Integer) result);
+                } else if ("boolean".equals(className) || "java.lang.Boolean".equals(className)) {
+                    appPrefs.putBoolean(key,(Boolean) result);
+                } else if ("float".equals(className) || "java.lang.Float".equals(className)) {
+                    appPrefs.putFloat(key,(Float) result);
+                } else if ("long".equals(className) || "java.lang.Long".equals(className)) {
+                    appPrefs.putLong(key,(Long) result);
+                } else if ("java.lang.String".equals(className)) {
+                    appPrefs.putString(key,(String) result);
+                } else {
+                    appPrefs.putObject(key,result);
+                }
             }
+        } else {
+            // 不影响原来的流程
+            result = joinPoint.proceed();
         }
 
         return result;

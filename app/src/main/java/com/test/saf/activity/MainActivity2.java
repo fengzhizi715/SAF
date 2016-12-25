@@ -1,5 +1,8 @@
 package com.test.saf.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -15,6 +18,7 @@ import com.test.saf.app.BaseActivity;
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectViews;
 import cn.salesuite.saf.log.L;
+import cn.salesuite.saf.permissions.Permission;
 import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.permissions.PermissionGuardAware;
 import cn.salesuite.saf.rxjava.eventbus.RxEventBus;
@@ -60,9 +64,12 @@ public class MainActivity2 extends BaseActivity implements PermissionGuardAware 
 //        initData();
     }
 
-//    @Permission(android.Manifest.permission.CAMERA)
+    @Permission(Manifest.permission.CALL_PHONE)
     private void openCamera(View v) {
-toast("1111");
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + "10086");
+        intent.setData(data);
+        startActivity(intent);
     }
 
 //    @Cacheable(key = "user")

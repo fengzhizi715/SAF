@@ -33,7 +33,7 @@ public class PermissionAspect {
 
         Permission permission = method.getAnnotation(Permission.class);
 
-        if (Preconditions.isBlank(permission.value()))
+        if (Preconditions.isBlank(permission) || Preconditions.isBlank(permission.value()))
             return;
 
         PermissionGuardAware permissionGuardAware = (PermissionGuardAware) joinPoint.getTarget();

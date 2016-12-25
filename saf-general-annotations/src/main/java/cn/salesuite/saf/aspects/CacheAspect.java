@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.Cacheable;
 import cn.salesuite.saf.cache.Cache;
+import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 
 /**
@@ -37,15 +38,22 @@ public class CacheAspect {
         Method method = signature.getMethod();
 
         Cacheable cacheable = method.getAnnotation(Cacheable.class);
-        String key = cacheable.key();
-        int expiry = cacheable.expiry();
+        Object result = null;
 
-        Object result = joinPoint.proceed();
-        Cache cache = Cache.get(SAFUtils.getContext());
-        if (expiry>0) {
-            cache.put(key,(Serializable)result,expiry);
+        if (Preconditions.isNotBlank(cacheable)) {
+            String key = cacheable.key();
+            int expiry = cacheable.expiry();
+
+            result = joinPoint.proceed();
+            Cache cache = Cache.get(SAFUtils.getContext());
+            if (expiry>0) {
+                cache.put(key,(Serializable)result,expiry);
+            } else {
+                cache.put(key,(Serializable)result);
+            }
         } else {
-            cache.put(key,(Serializable)result);
+            // 不影响原来的流程
+            result = joinPoint.proceed();
         }
 
         return result;

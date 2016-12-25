@@ -1,9 +1,10 @@
 SAF
 ===
-SAF(Simple Android Framework)是一个简单的android框架，它为开发Android app开发提供了基础性组件。  
-SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。  
-目前google code上的工程早已暂停维护，全部迁移到github上。它到了1.1.19版本，下一个版本肯定会是1.2.0。
-目前已经增加了Rxjava作为依赖库,新增RxEventBus和RxImageLoader这两个模块,不过还不太成熟,不推荐生产中使用,新版本会进行改进。
+SAF(Simple Android Framework)最早的定位是一个简单的Android框架，现在它可以为Android App开发提供一系列基础性的组件。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。  
+
+SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。
+目前google code上的工程早已暂停维护，全部迁移到github上。SAF目前文档版本是1.1.19，下一个版本会是1.2.0。1.2.0发布在即，会有很多新的变化和特性。
+
 遇到任何问题欢迎跟我联系，qq: 63067756/wechat: fengzhizi715, 玩得开心:)
 
 我也觉得SAF越来越大了,怎么办呢? 好在SAF通过gradle进行构建项目,在命令行中输入gradle,即可一键生成多种jar包.

@@ -59,6 +59,7 @@ dependencies {
     compile project(':library')
     compile project(':saf-injectview')
     compile project(':saf-router')
+    compile project(':saf-permissions')
     apt project(':saf-injectview-compiler')
     apt project(':saf-router-compiler')
 }

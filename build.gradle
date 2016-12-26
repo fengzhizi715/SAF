@@ -90,6 +90,9 @@ def log = properties.getProperty("project.log")
 // general-annotations
 def generalAnnotations = properties.getProperty("project.saf-general-annotations")
 
+// permissions
+def permissions = properties.getProperty("project.saf-permissions")
+
 // legacy
 def legacy = properties.getProperty("project.legacy")
 
@@ -117,6 +120,8 @@ def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
 def logPath = [project.findProject(log).buildDir.absolutePath + classPath];
 
 def generalAnnotationsPath = [project.findProject(generalAnnotations).buildDir.absolutePath + classPath];
+
+def permissionsPath = [project.findProject(permissions).buildDir.absolutePath + classPath];
 
 def legacyPath = [project.findProject(legacy).buildDir.absolutePath + classPath];
 
@@ -180,6 +185,24 @@ task buildUtils( type: Jar) {
 
     //初始化资源路径集
     from utilsPath
+
+    //去除路径集下部分的资源
+    exclude "**/BuildConfig.class"
+    exclude "**/Manifest.class"
+    exclude "**/R.class"
+    exclude "**/R\$*.class"
+
+    //只导入资源路径集下的部分资源
+    include "cn/salesuite/**/*.class"
+    destinationDir = file('build/outputs/')
+}
+
+task buildPermissions( type: Jar) {
+
+    archiveName = 'SAF-permissions-'+VERSION_NAME+'.jar'
+
+    //初始化资源路径集
+    from permissionsPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -305,7 +328,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLegacy','buildGeneralAnnotations','buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildGeneralAnnotations','buildCache','buildLog','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
     logger.info("all build finish!");
 }
 

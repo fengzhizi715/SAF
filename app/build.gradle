@@ -55,7 +55,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.+'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'us.feras.mdv:markdownview:1.1.0'
+    compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':library')
     compile project(':saf-injectview')
     compile project(':saf-router')

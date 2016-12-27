@@ -6,11 +6,12 @@ import android.widget.TextView;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 
+import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.router.annotations.RouterRule;
-import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.saf.utils.Preconditions;
-import us.feras.mdv.MarkdownView;
+import thereisnospon.codeview.CodeView;
+import thereisnospon.codeview.CodeViewTheme;
 
 /**
  * Created by Tony Shen on 2016/11/22.
@@ -19,7 +20,7 @@ import us.feras.mdv.MarkdownView;
 public class AnnotationActivity extends BaseActivity {
 
     @InjectView(id=R.id.text)
-    MarkdownView text;
+    CodeView text;
 
     @InjectView(id=R.id.title)
     TextView title;
@@ -46,7 +47,8 @@ public class AnnotationActivity extends BaseActivity {
         String content = getUsage(annotationName);
 
         if (Preconditions.isNotBlank(content)) {
-            text.loadMarkdown(content);
+            text.setTheme(CodeViewTheme.ANDROIDSTUDIO).fillColor();
+            text.showCode(content);
         }
     }
 
@@ -54,24 +56,20 @@ public class AnnotationActivity extends BaseActivity {
 
         String result = null;
         if ("@Async".equals(annotationName)) {
-            result = "<pre><code>\n" +
-                    "\t@Async\n" +
-                    "\tprivate void useAsync() {\n" +
-                    "\t\tLog.e(TAG, \" thread=\" + Thread.currentThread().getId());\n" +
-                    "\t\tLog.e(TAG, \"ui thread=\" + Looper.getMainLooper().getThread().getId());" +
-                    "\n" +
-                    "\t}\n" +
-                    "</pre></code>";
+            result = "    @Async\n" +
+                    "    private void useAsync() {\n" +
+                    "        Log.e(TAG, \" thread=\" + Thread.currentThread().getId());\n" +
+                    "        Log.e(TAG, \"ui thread=\" + Looper.getMainLooper().getThread().getId" +
+                    "());\n" +
+                    "    }";
         } else if ("@Cacheable".equals(annotationName)) {
-            result = "<pre><code>\n" +
-                    "\t@Cacheable(key = \"user\")\n" +
-                    "\tprivate User initData() {\n" +
-                    "\t\tUser user = new User();\n" +
-                    "\t\tuser.userName = \"tony\";\n" +
-                    "\t\tuser.password = \"123456\";\n" +
-                    "\t\treturn user;\n" +
-                    "\t}\n" +
-                    "</pre></code>";
+            result = "    @Cacheable(key = \"user\")\n" +
+                    "    private User initData() {\n" +
+                    "        User user = new User();\n" +
+                    "        user.userName = \"tony\";\n" +
+                    "        user.password = \"123456\";\n" +
+                    "        return user;\n" +
+                    "    }";
         }
 
         return result;

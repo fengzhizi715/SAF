@@ -112,7 +112,7 @@ public class BasePrefs {
 
     public void save() {
         if (editor != null) {
-            editor.commit();
+            editor.apply();
         }
     }
 

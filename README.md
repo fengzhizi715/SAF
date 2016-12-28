@@ -2,7 +2,7 @@ SAF
 ===
 SAF(Simple Android Framework)最早的定位是一个简单的Android框架，现在它可以为Android App开发提供一系列基础性的组件。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。  
 
-SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app等等。
+SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app(京东众包、京明管家、众包商户端、众包运作主管)等等。
 目前google code上的工程早已暂停维护，全部迁移到github上。SAF目前文档版本是1.1.19，下一个版本会是1.2.0。1.2.0发布在即，会有很多新的变化和特性。
 
 遇到任何问题欢迎跟我联系，qq: 63067756/wechat: fengzhizi715, 玩得开心:)
@@ -15,7 +15,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 主要功能
 -----------------------------------
-* [General Annotation(use aspectj)](docs/general_annotation.md) 通用的注解
+* [General Annotation(use aspectj)](docs/general_annotation.md) 是一个通用的注解
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions) android6.0 以后的权限操作
 * [Event Bus](docs/event_bus.md) 事件总线

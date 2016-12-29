@@ -36,6 +36,15 @@ ChangeLog
 ===
 [版本更新记录](CHANGELOG.md)
 
+Author
+===
+
+联系方式
+
+Blog: http://www.jianshu.com/users/4f2c483c12d8/
+
+Github: https://github.com/fengzhizi715
+
 Contributors
 ===
 1. [frankswu](https://github.com/frankswu) 完善老版本的Inject框架和Router框架

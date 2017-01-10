@@ -19,10 +19,10 @@ import thereisnospon.codeview.CodeViewTheme;
 @RouterRule(url={"annotationName/:anno_name"})
 public class AnnotationActivity extends BaseActivity {
 
-    @InjectView(id=R.id.text)
+    @InjectView(R.id.text)
     CodeView text;
 
-    @InjectView(id=R.id.title)
+    @InjectView(R.id.title)
     TextView title;
 
     @InjectExtra(key = ANNO_NAME)

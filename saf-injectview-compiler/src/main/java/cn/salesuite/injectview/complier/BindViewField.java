@@ -24,7 +24,7 @@ public class BindViewField {
 
         mFieldElement = (VariableElement) element;
         InjectView injectView = mFieldElement.getAnnotation(InjectView.class);
-        mResId = injectView.id();
+        mResId = injectView.value();
 
         if (mResId < 0) {
             throw new IllegalArgumentException(

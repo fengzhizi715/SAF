@@ -23,7 +23,7 @@ import cn.salesuite.injectview.annotations.InjectView;
 
 public class HomeFragment extends BaseFragment {
 
-    @InjectView(id=R.id.webview)
+    @InjectView(R.id.webview)
     WebView webview;
 
     ProgressDialog progDailog;

@@ -15,7 +15,7 @@ import cn.salesuite.injectview.annotations.InjectView;
 
 public class NormalTextViewHolder extends RecyclerView.ViewHolder {
 
-    @InjectView(id= R.id.name)
+    @InjectView(R.id.name)
     TextView name;
 
     public NormalTextViewHolder(View itemView) {

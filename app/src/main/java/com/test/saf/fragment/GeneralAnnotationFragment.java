@@ -27,7 +27,7 @@ import cn.salesuite.saf.recyclerview.OnItemClickListener;
 
 public class GeneralAnnotationFragment extends BaseFragment {
 
-    @InjectView(id=R.id.recyclerview)
+    @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
 
     List<String> data = new ArrayList<String>();

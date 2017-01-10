@@ -22,13 +22,13 @@ import cn.salesuite.saf.utils.Preconditions;
 
 public class MainActivity extends BaseActivity {
 
-	@InjectView(id=R.id.drawer_layout)
+	@InjectView(R.id.drawer_layout)
 	DrawerLayout drawerLayout;
 
-	@InjectView(id = R.id.navigation_view)
+	@InjectView(R.id.navigation_view)
 	NavigationView navigationView;
 
-	@InjectView(id = R.id.toolbar)
+	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
 	private MenuManager menuManager;

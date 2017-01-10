@@ -41,10 +41,10 @@ import cn.salesuite.saf.utils.Preconditions;
 
 public class ImageLoaderFragment extends BaseFragment {
 
-    @InjectView(id=R.id.recyclerview)
+    @InjectView(R.id.recyclerview)
     GridRecyclerView recyclerview;
 
-    @InjectView(id=R.id.menu_labels_right)
+    @InjectView(R.id.menu_labels_right)
     FloatingActionMenu faMenu;
 
     MMPicsResponse respnose;

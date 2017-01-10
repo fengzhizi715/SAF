@@ -1,5 +1,7 @@
 package cn.salesuite.saf.permissions;
 
+import android.util.Log;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,7 +10,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**
@@ -47,7 +48,7 @@ public class PermissionAspect {
                 try {
                     joinPoint.proceed();
                 } catch (Throwable e) {
-                    L.d("joinPoint errror", e);
+                    Log.d("PermissionAspect","joinPoint errror", e);
                 }
             }
         }, permission.value());

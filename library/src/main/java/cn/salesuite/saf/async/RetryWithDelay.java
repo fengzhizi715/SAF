@@ -1,8 +1,9 @@
 package cn.salesuite.saf.async;
 
+import com.safframework.log.L;
+
 import java.util.concurrent.TimeUnit;
 
-import cn.salesuite.saf.log.L;
 import rx.Observable;
 import rx.functions.Func1;
 

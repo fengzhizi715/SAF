@@ -1,5 +1,7 @@
 package cn.salesuite.saf.aspects;
 
+import com.safframework.log.L;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,7 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.HookMethod;
-import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.reflect.Reflect;
 import cn.salesuite.saf.reflect.ReflectException;
 import cn.salesuite.saf.utils.Preconditions;

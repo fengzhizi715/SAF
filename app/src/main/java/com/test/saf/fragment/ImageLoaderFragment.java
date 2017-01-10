@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.safframework.log.L;
 import com.test.saf.R;
 import com.test.saf.activity.ImageDetailActivity;
 import com.test.saf.adapter.DividerGridItemDecoration;
@@ -31,7 +32,6 @@ import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
-import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.recyclerview.OnItemClickListener;
 import cn.salesuite.saf.utils.Preconditions;
 

@@ -5,6 +5,7 @@ package cn.salesuite.saf.http.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.safframework.log.L;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -37,7 +38,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import cn.salesuite.saf.log.L;
 import cn.salesuite.saf.utils.Preconditions;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;

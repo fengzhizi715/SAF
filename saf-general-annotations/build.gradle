@@ -32,7 +32,7 @@ dependencies {
     compile 'org.aspectj:aspectjrt:1.8.+'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
+    compile 'com.safframework.log:saf-log:1.0.0'
     compile project(':saf-cache')
     compile project(':saf-utils')
-    compile project(':saf-log')
 }

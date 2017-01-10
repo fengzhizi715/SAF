@@ -3,6 +3,11 @@
  */
 package cn.salesuite.saf.parcel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.safframework.log.L;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -10,10 +15,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-
-import cn.salesuite.saf.log.L;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * 抽象的基类Parcelable，可以直接继承该类

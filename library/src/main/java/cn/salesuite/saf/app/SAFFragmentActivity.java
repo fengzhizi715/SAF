@@ -12,7 +12,8 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import cn.salesuite.saf.log.L;
+import com.safframework.log.L;
+
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 

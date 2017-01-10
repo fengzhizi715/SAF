@@ -1,5 +1,7 @@
 package cn.salesuite.saf.aspects;
 
+import com.safframework.log.L;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -7,8 +9,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.Arrays;
-
-import cn.salesuite.saf.log.L;
 
 /**
  * Created by Tony Shen on 16/3/22.

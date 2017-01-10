@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
+import com.safframework.log.L;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.config.Config;
 
 import java.util.concurrent.TimeUnit;
 
-import cn.salesuite.saf.log.L;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import cn.salesuite.saf.log.L;
+import com.safframework.log.L;
+
 import cn.salesuite.saf.utils.SAFUtils;
 import cn.salesuite.saf.utils.ToastUtils;
 

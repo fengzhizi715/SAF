@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.safframework.router.Router;
 import com.test.saf.R;
 import com.test.saf.adapter.AnnotationAdapter;
 import com.test.saf.app.BaseFragment;
@@ -17,7 +18,6 @@ import java.util.List;
 
 import cn.salesuite.injectview.Injector;
 import cn.salesuite.injectview.annotations.InjectView;
-import cn.salesuite.router.Router;
 import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.recyclerview.OnItemClickListener;
 

@@ -23,7 +23,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Image Cache(use rxjava)](docs/image_cache.md) 图片加载框架
 * [Dependency Injection(use apt)](docs/dependency_injection.md) 依赖注入
 * [Sqlite ORM](docs/sqlite_orm.md) 数据库操作框架
-* [Router](docs/router.md) Activity、Fragment的路由框架
+* [Router](https://github.com/fengzhizi715/SAF-Kotlin-Router) Activity、Fragment的路由框架
 * [Cache](docs/cache.md) 缓存框架
 * [L](https://github.com/fengzhizi715/SAF-Kotlin-log) 日志框架
 * [Utils](docs/utils.md) 各种工具类

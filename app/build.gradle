@@ -37,19 +37,16 @@ android {
     lintOptions {
         abortOnError false
     }
-
-//    dexOptions {
-//        incremental true
-//    }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven { url {
-                 "https://jitpack.io"
-                 "https://dl.bintray.com/fengzhizi715/maven/"
-        } }
+        maven {
+            url {
+                "https://jitpack.io"
+            }
+        }
     }
 }
 
@@ -61,10 +58,8 @@ dependencies {
     compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':library')
     compile project(':saf-injectview')
-//    compile project(':saf-router')
     compile project(':saf-permissions')
     apt project(':saf-injectview-compiler')
-//    apt project(':saf-router-compiler')
 
     compile 'com.safframework.router:saf-router:1.0.0'
     apt 'com.safframework.router:saf-router-compiler:1.0.0'

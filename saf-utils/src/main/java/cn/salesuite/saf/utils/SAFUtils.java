@@ -44,8 +44,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.salesuite.saf.func.Fn;
-import cn.salesuite.saf.func.functions.Predicate;
 import cn.salesuite.saf.reflect.Reflect;
 
 /**
@@ -581,18 +579,16 @@ public class SAFUtils {
 		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
 
-		final int myPid = android.os.Process.myPid();
-
-		RunningAppProcessInfo proInfo = Fn.first(new Predicate<RunningAppProcessInfo>(){
-
-			@Override
-			public boolean accept(RunningAppProcessInfo proInfo) {
-
-				return proInfo!=null && proInfo.pid == myPid;
+		if (Preconditions.isNotBlank(runningApps)) {
+			int myPid = android.os.Process.myPid();
+			for (ActivityManager.RunningAppProcessInfo proInfo : runningApps) {
+				if (proInfo!=null && proInfo.pid == myPid) {
+					return proInfo.processName;
+				}
 			}
-		},runningApps);
+		}
 
-		return proInfo!=null?proInfo.processName:null;
+		return null;
 	}
 
 	/**

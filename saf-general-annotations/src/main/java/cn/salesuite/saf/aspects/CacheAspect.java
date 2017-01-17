@@ -2,6 +2,8 @@ package cn.salesuite.saf.aspects;
 
 import android.annotation.TargetApi;
 
+import com.safframework.cache.Cache;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,7 +14,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.Cacheable;
-import cn.salesuite.saf.cache.Cache;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 

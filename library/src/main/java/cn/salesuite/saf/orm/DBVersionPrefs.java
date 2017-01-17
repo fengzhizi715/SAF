@@ -4,13 +4,14 @@
 package cn.salesuite.saf.orm;
 
 import android.content.Context;
-import cn.salesuite.saf.prefs.BasePrefs;
+
+import com.safframework.prefs.BasePrefs;
 
 /**
  * @author Tony Shen
  *
  */
-public class DBVersionPrefs extends BasePrefs{
+public class DBVersionPrefs extends BasePrefs {
 
 	private static final String PREFS_NAME = "DBVersionPrefs";
 	public static final String DB_VERSION = "db_version";

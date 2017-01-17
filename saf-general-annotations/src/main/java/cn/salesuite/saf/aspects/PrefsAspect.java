@@ -2,6 +2,8 @@ package cn.salesuite.saf.aspects;
 
 import android.annotation.TargetApi;
 
+import com.safframework.prefs.AppPrefs;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.reflect.Method;
 
 import cn.salesuite.saf.aspects.annotation.Prefs;
-import cn.salesuite.saf.prefs.AppPrefs;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 

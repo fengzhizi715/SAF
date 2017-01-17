@@ -3,8 +3,9 @@ package com.test.saf.app;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
+import com.safframework.cache.Cache;
+
 import cn.salesuite.saf.app.SAFFragment;
-import cn.salesuite.saf.cache.Cache;
 
 /**
  * Created by Tony Shen on 15/11/19.

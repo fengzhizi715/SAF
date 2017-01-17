@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.salesuite.saf.prefs;
+package com.safframework.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;

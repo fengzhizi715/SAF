@@ -1,3 +1,20 @@
+#下载安装
+
+Gradle:
+```groovy
+compile 'com.safframework:saf-cache:1.0.1'
+```
+
+Maven:
+```groovy
+<dependency>
+  <groupId>com.safframework</groupId>
+  <artifactId>saf-cache</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
 这是一个通用的Cache,可以保存String、对象、JSON等等,操作起来十分简单,支持设置缓存的过期时间。保存Cache的过程也可以使用@Cacheable
 
 保持缓存数据：

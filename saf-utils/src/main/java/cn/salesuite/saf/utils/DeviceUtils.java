@@ -329,7 +329,7 @@ public class DeviceUtils {
      * @param context context
      * @return App Version
      */
-    public static String getAppVersion(@NonNull Context context) {
+    public static synchronized String getAppVersion(@NonNull Context context) {
         String result = "1.0";
         try {
             result = context.getPackageManager().getPackageInfo(context.getPackageName(), 0)

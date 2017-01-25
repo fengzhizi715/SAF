@@ -1,8 +1,8 @@
 package com.test.saf.app;
 
 import android.os.Bundle;
+import com.safframework.injectview.Injector;
 
-import cn.salesuite.injectview.Injector;
 import cn.salesuite.saf.app.SAFAppCompatActivity;
 
 /**

@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.safframework.injectview.Injector;
+import com.safframework.injectview.annotations.InjectExtra;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.ui.SmoothImageView;
 
-import cn.salesuite.injectview.Injector;
-import cn.salesuite.injectview.annotations.InjectExtra;
 import cn.salesuite.saf.utils.Preconditions;
 
 /**

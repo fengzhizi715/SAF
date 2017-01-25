@@ -3,15 +3,15 @@ apply plugin: 'com.hujiang.android-aspectjx'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     //兼容API 23干掉了httpClient，手动加入httpClient库,或者将org.apache.http.legacy.jar放到lib文件中
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "app.magicwindow.cn.testsaf"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -57,10 +57,13 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':library')
-    compile project(':saf-injectview')
+//    compile project(':saf-injectview')
     compile project(':saf-permissions')
-    apt project(':saf-injectview-compiler')
+//    apt project(':saf-injectview-compiler')
 
     compile 'com.safframework.router:saf-router:1.0.0'
     apt 'com.safframework.router:saf-router-compiler:1.0.2'
+
+    compile 'com.safframework.injectview:saf-injectview:1.0.0'
+    apt 'com.safframework.injectview:saf-injectview-compiler:1.0.0'
 }

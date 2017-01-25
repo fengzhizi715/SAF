@@ -3,12 +3,12 @@ package com.test.saf.activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.safframework.injectview.annotations.InjectExtra;
+import com.safframework.injectview.annotations.InjectView;
 import com.safframework.router.RouterRule;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 
-import cn.salesuite.injectview.annotations.InjectExtra;
-import cn.salesuite.injectview.annotations.InjectView;
 import cn.salesuite.saf.utils.Preconditions;
 import thereisnospon.codeview.CodeView;
 import thereisnospon.codeview.CodeViewTheme;

@@ -10,11 +10,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.safframework.injectview.Injector;
+import com.safframework.injectview.annotations.InjectView;
 import com.test.saf.R;
 import com.test.saf.app.BaseFragment;
 
-import cn.salesuite.injectview.Injector;
-import cn.salesuite.injectview.annotations.InjectView;
 
 
 /**

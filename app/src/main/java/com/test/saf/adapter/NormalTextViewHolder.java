@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.safframework.injectview.Injector;
+import com.safframework.injectview.annotations.InjectView;
 import com.test.saf.R;
 
-import cn.salesuite.injectview.Injector;
-import cn.salesuite.injectview.annotations.InjectView;
 
 /**
  * Created by Tony Shen on 2016/12/24.

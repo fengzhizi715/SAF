@@ -10,14 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.safframework.injectview.Injector;
+import com.safframework.injectview.annotations.InjectViews;
 import com.safframework.log.L;
 import com.test.saf.R;
 import com.test.saf.Test2Event;
 import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
 
-import cn.salesuite.injectview.Injector;
-import cn.salesuite.injectview.annotations.InjectViews;
 import cn.salesuite.saf.permissions.Permission;
 import cn.salesuite.saf.permissions.PermissionGuard;
 import cn.salesuite.saf.permissions.PermissionGuardAware;

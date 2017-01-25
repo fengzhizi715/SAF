@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.safframework.injectview.Injector;
+import com.safframework.injectview.annotations.InjectView;
+import com.safframework.injectview.annotations.OnClick;
 import com.safframework.log.L;
 import com.test.saf.R;
 import com.test.saf.activity.ImageDetailActivity;
@@ -25,9 +28,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.salesuite.injectview.Injector;
-import cn.salesuite.injectview.annotations.InjectView;
-import cn.salesuite.injectview.annotations.OnClick;
 import cn.salesuite.saf.async.RxAsyncTask;
 import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;

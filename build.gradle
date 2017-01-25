@@ -44,6 +44,7 @@ allprojects {
         jcenter() {
             url 'http://jcenter.bintray.com/'
         }
+        maven{url 'https://dl.bintray.com/fengzhizi715/maven/'}
     }
 
     //加上这些
@@ -78,9 +79,9 @@ def library = properties.getProperty("project.library")
 def baseCompiler = properties.getProperty("project.saf-base-compiler")
 
 // injectview
-def injectviewAnnotations = properties.getProperty("project.saf-injectview-annotations")
-def injectviewCompiler = properties.getProperty("project.saf-injectview-compiler")
-def injectview = properties.getProperty("project.injectview")
+//def injectviewAnnotations = properties.getProperty("project.saf-injectview-annotations")
+//def injectviewCompiler = properties.getProperty("project.saf-injectview-compiler")
+//def injectview = properties.getProperty("project.injectview")
 
 //// router
 //def routerAnnotations = properties.getProperty("project.saf-router-annotations")
@@ -109,11 +110,12 @@ def VERSION_NAME = cfg.saf_version_name
 
 //需打包的资源所在的路径集
 def libraryPath = [project.findProject(library).buildDir.absolutePath + classPath];
-def baseCompilerPath = [project.findProject(baseCompiler).buildDir.absolutePath + javaClassPath];
 
-def injectviewCompilerPath = [project.findProject(injectviewCompiler).buildDir.absolutePath + javaClassPath];
-def injectviewAnnotationsPath = [project.findProject(injectviewAnnotations).buildDir.absolutePath + javaClassPath];
-def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + classPath];
+//def baseCompilerPath = [project.findProject(baseCompiler).buildDir.absolutePath + javaClassPath];
+//
+//def injectviewCompilerPath = [project.findProject(injectviewCompiler).buildDir.absolutePath + javaClassPath];
+//def injectviewAnnotationsPath = [project.findProject(injectviewAnnotations).buildDir.absolutePath + javaClassPath];
+//def injectviewPath = [project.findProject(injectview).buildDir.absolutePath + classPath];
 
 //def routerCompilerPath = [project.findProject(routerCompiler).buildDir.absolutePath + javaClassPath];
 //def routerAnnotationsPath = [project.findProject(routerAnnotations).buildDir.absolutePath + javaClassPath];
@@ -219,42 +221,42 @@ task buildLegacy( type: Jar) {
     destinationDir = file('build/outputs/')
 }
 
-task buildInjectCompiler( type: Jar) {
-
-    archiveName = 'SAF-inject-compiler-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from baseCompilerPath, injectviewCompilerPath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    include "META-INF/services/javax.annotation.processing.Processor"
-    destinationDir = file('build/outputs/')
-}
-
-task buildInjectAnnotations( type: Jar) {
-
-    archiveName = 'SAF-inject-annotations-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from injectviewAnnotationsPath, injectviewPath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
+//task buildInjectCompiler( type: Jar) {
+//
+//    archiveName = 'SAF-inject-compiler-'+VERSION_NAME+'.jar'
+//
+//    //初始化资源路径集
+//    from baseCompilerPath, injectviewCompilerPath
+//
+//    //去除路径集下部分的资源
+//    exclude "**/BuildConfig.class"
+//    exclude "**/Manifest.class"
+//    exclude "**/R.class"
+//    exclude "**/R\$*.class"
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/**/*.class"
+//    include "META-INF/services/javax.annotation.processing.Processor"
+//    destinationDir = file('build/outputs/')
+//}
+//
+//task buildInjectAnnotations( type: Jar) {
+//
+//    archiveName = 'SAF-inject-annotations-'+VERSION_NAME+'.jar'
+//
+//    //初始化资源路径集
+//    from injectviewAnnotationsPath, injectviewPath
+//
+//    //去除路径集下部分的资源
+//    exclude "**/BuildConfig.class"
+//    exclude "**/Manifest.class"
+//    exclude "**/R.class"
+//    exclude "**/R\$*.class"
+//
+//    //只导入资源路径集下的部分资源
+//    include "cn/salesuite/**/*.class"
+//    destinationDir = file('build/outputs/')
+//}
 
 //task buildRouterCompiler( type: Jar) {
 //
@@ -314,7 +316,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildGeneralAnnotations','buildCache','buildUtils','buildInjectCompiler','buildInjectAnnotations','buildRouterCompiler','buildRouterAnnotations','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildGeneralAnnotations','buildCache','buildUtils','buildSAF']) {
     logger.info("all build finish!");
 }
 

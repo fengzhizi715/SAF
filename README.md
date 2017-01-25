@@ -34,6 +34,12 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 Permissions
 ===
 
+SAF子项目
+==
+* 日志框架：https://github.com/fengzhizi715/SAF-Kotlin-log
+* Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
+* 依赖注入框架：https://github.com/fengzhizi715/SAF-Kotlin-InjectView
+
 ChangeLog
 ===
 [版本更新记录](CHANGELOG.md)

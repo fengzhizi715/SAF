@@ -21,7 +21,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Event Bus](docs/event_bus.md) 事件总线
 * [Rest Client](docs/rest_client.md) 网络框架
 * [Image Cache(use rxjava)](docs/image_cache.md) 图片加载框架
-* [Dependency Injection(use apt)](docs/dependency_injection.md) 依赖注入
+* [Dependency Injection(use apt)](https://github.com/fengzhizi715/SAF-Kotlin-InjectView) 依赖注入
 * [Sqlite ORM](docs/sqlite_orm.md) 数据库操作框架
 * [Router](https://github.com/fengzhizi715/SAF-Kotlin-Router) Activity、Fragment的路由框架
 * [Cache](docs/cache.md) 缓存框架

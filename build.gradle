@@ -44,7 +44,6 @@ allprojects {
         jcenter() {
             url 'http://jcenter.bintray.com/'
         }
-        maven{url 'https://dl.bintray.com/fengzhizi715/maven/'}
     }
 
     //加上这些

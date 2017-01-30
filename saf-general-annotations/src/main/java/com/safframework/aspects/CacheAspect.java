@@ -1,7 +1,8 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import android.annotation.TargetApi;
 
+import com.safframework.aspects.annotation.Cacheable;
 import com.safframework.cache.Cache;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,7 +14,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.aspects.annotation.Cacheable;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 
@@ -29,7 +29,7 @@ public class CacheAspect {
         return cacheMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.Cacheable)||@annotation(cn.salesuite.saf.aspects.annotation.Cacheable)")
+    @Pointcut("@within(com.safframework.aspects.annotation.Cacheable)||@annotation(com.safframework.aspects.annotation.Cacheable)")
     public void onCacheMethod() {
     }
 

@@ -1,5 +1,6 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
+import com.safframework.aspects.annotation.HookMethod;
 import com.safframework.log.L;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,7 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.aspects.annotation.HookMethod;
 import cn.salesuite.saf.reflect.Reflect;
 import cn.salesuite.saf.reflect.ReflectException;
 import cn.salesuite.saf.utils.Preconditions;
@@ -26,8 +26,7 @@ public class HookMethodAspect {
         hookMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.HookMethod)||@annotation(cn.salesuite" +
-            ".saf.aspects.annotation.HookMethod)")
+    @Pointcut("@within(com.safframework.aspects.annotation.HookMethod)||@annotation(com.safframework.aspects.annotation.HookMethod)")
     public void onHookMethod() {
     }
 

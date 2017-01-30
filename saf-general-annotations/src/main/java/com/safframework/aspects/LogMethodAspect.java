@@ -1,4 +1,4 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import com.safframework.log.L;
 
@@ -21,7 +21,7 @@ public class LogMethodAspect {
         return logMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.LogMethod)||@annotation(cn.salesuite.saf.aspects.annotation.LogMethod)")
+    @Pointcut("@within(com.safframework.aspects.annotation.LogMethod)||@annotation(com.safframework.aspects.annotation.LogMethod)")
     public void onLogMethod() {
     }
 

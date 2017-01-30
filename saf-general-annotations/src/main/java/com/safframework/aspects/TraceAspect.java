@@ -1,4 +1,4 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import com.safframework.log.L;
 
@@ -19,7 +19,7 @@ public class TraceAspect {
         return traceMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.Trace)||@annotation(cn.salesuite.saf.aspects.annotation.Trace)")
+    @Pointcut("@within(com.safframework.aspects.annotation.Trace)||@annotation(com.safframework.aspects.annotation.Trace)")
     public void onTraceMethod() {
     }
 

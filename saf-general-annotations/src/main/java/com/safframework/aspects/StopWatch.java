@@ -1,4 +1,4 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import java.util.concurrent.TimeUnit;
 

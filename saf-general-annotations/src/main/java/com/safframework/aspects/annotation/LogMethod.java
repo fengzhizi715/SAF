@@ -1,4 +1,4 @@
-package cn.salesuite.saf.aspects.annotation;
+package com.safframework.aspects.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

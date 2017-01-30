@@ -1,7 +1,8 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import android.annotation.TargetApi;
 
+import com.safframework.aspects.annotation.Prefs;
 import com.safframework.prefs.AppPrefs;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.aspects.annotation.Prefs;
 import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 
@@ -28,7 +28,7 @@ public class PrefsAspect {
         return prefsMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.Prefs)||@annotation(cn.salesuite.saf.aspects.annotation.Prefs)")
+    @Pointcut("@within(com.safframework.aspects.annotation.Prefs)||@annotation(com.safframework.aspects.annotation.Prefs)")
     public void onPrefsMethod() {
     }
 

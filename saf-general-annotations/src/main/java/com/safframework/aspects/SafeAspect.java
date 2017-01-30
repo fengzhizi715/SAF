@@ -1,4 +1,4 @@
-package cn.salesuite.saf.aspects;
+package com.safframework.aspects;
 
 import com.safframework.log.L;
 
@@ -22,7 +22,7 @@ public class SafeAspect {
         return safeMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.aspects.annotation.Safe)||@annotation(cn.salesuite.saf.aspects.annotation.Safe)")
+    @Pointcut("@within(com.safframework.aspects.annotation.Safe)||@annotation(com.safframework.aspects.annotation.Safe)")
     public void onSafe() {
     }
 

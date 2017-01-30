@@ -36,7 +36,7 @@ public class HookMethodAspect {
 
         HookMethod hookMethod = method.getAnnotation(HookMethod.class);
 
-        if (Preconditions.isBlank(hookMethod)) return;
+        if (hookMethod==null) return;
 
         String beforeMethod = hookMethod.beforeMethod();
         String afterMethod = hookMethod.afterMethod();

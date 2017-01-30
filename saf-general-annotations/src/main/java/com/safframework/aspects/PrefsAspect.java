@@ -39,7 +39,7 @@ public class PrefsAspect {
 
         Prefs prefs = method.getAnnotation(Prefs.class);
         Object result = null;
-        if (Preconditions.isNotBlank(prefs)) {
+        if (prefs!=null) {
             String key = prefs.key();
 
             result = joinPoint.proceed();

@@ -41,7 +41,7 @@ public class CacheAspect {
         Cacheable cacheable = method.getAnnotation(Cacheable.class);
         Object result = null;
 
-        if (Preconditions.isNotBlank(cacheable)) {
+        if (cacheable!=null) {
             String key = cacheable.key();
             int expiry = cacheable.expiry();
 

@@ -37,8 +37,41 @@ Permissions
 SAF子项目
 ==
 * 日志框架：https://github.com/fengzhizi715/SAF-Kotlin-log
+
+  下载：
+  ```groovy
+  compile 'com.safframework.log:saf-log:1.0.2'
+  ```
+  
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
+
+  下载：
+  ```groovy
+  apply plugin: 'com.neenbedankt.android-apt'
+  
+  ...
+  
+  dependencies {
+      compile 'com.safframework.router:saf-router:1.0.0'
+      apt 'com.safframework.router:saf-router-compiler:1.0.2'
+      ...
+  }
+  ```
+
 * 依赖注入框架：https://github.com/fengzhizi715/SAF-Kotlin-InjectView
+  
+  下载：
+  ```groovy
+  apply plugin: 'com.neenbedankt.android-apt'
+  
+  ...
+  
+  dependencies {
+      compile 'com.safframework.injectview:saf-injectview:1.0.0'
+      apt 'com.safframework.injectview:saf-injectview-compiler:1.0.0'
+      ...
+  }
+  ```
 
 ChangeLog
 ===

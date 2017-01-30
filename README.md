@@ -72,6 +72,13 @@ SAF子项目
       ...
   }
   ```
+  
+* 缓存框架：在saf项目中，并未单独拆分成独立的项目
+
+  下载：
+  ```groovy
+  compile 'com.safframework:saf-cache:1.0.1'
+  ```
 
 ChangeLog
 ===

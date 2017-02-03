@@ -7,8 +7,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 遇到任何问题欢迎跟我联系，qq: 63067756/wechat: fengzhizi715, 玩得开心:)
 
-我也觉得SAF越来越大了,怎么办呢? 好在SAF通过gradle进行构建项目,在命令行中输入gradle,即可一键生成多种jar包.
-
 除了SAF自带的demo app外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
 
 ![](logo.png)

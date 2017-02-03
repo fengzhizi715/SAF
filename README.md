@@ -14,7 +14,10 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 ![](logo.png)
 
 主要功能
------------------------------------
+----
+
+![](SAF Framework.png)
+
 * [General Annotation(use aspectj)](docs/general_annotation.md) 是一个通用的注解
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions) android6.0 以后的权限操作
@@ -27,8 +30,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Cache](docs/cache.md) 缓存框架
 * [L](https://github.com/fengzhizi715/SAF-Kotlin-log) 日志框架
 * [Utils](docs/utils.md) 各种工具类
-
-![](SAF Framework.png)
 
 
 Permissions

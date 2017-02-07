@@ -33,7 +33,6 @@ import cn.salesuite.saf.http.rest.RestClient;
 import cn.salesuite.saf.http.rest.RestUtil;
 import cn.salesuite.saf.http.rest.UrlBuilder;
 import cn.salesuite.saf.recyclerview.OnItemClickListener;
-import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * Created by Tony Shen on 2016/11/22.

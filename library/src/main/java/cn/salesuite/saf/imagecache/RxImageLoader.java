@@ -6,7 +6,8 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import cn.salesuite.saf.utils.Preconditions;
+import com.safframwork.tony.common.utils.Preconditions;
+
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;

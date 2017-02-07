@@ -10,8 +10,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.utils.Preconditions;
-
 /**
  * Created by Tony Shen on 2016/11/28.
  */
@@ -34,8 +32,7 @@ public class PermissionAspect {
 
         Permission permission = method.getAnnotation(Permission.class);
 
-        if (Preconditions.isBlank(permission) || Preconditions.isBlank(permission.value()))
-            return;
+        if (permission==null || permission.value()==null) return;
 
         PermissionGuardAware permissionGuardAware = (PermissionGuardAware) joinPoint.getTarget();
         PermissionGuard permissionGuard = permissionGuardAware.getPermissionGuard();

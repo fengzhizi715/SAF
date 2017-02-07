@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.safframwork.tony.common.reflect.Reflect;
+import com.safframwork.tony.common.utils.Preconditions;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -41,8 +44,6 @@ import cn.salesuite.saf.inject.annotation.OnClick;
 import cn.salesuite.saf.inject.annotation.OnItemClick;
 import cn.salesuite.saf.inject.annotation.OnLongClick;
 import cn.salesuite.saf.inject.annotation.OnTouch;
-import cn.salesuite.saf.reflect.Reflect;
-import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * 可以注入view、resource、systemservice等等<br>

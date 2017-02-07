@@ -3,9 +3,10 @@ package cn.salesuite.saf.imagecache;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.safframwork.tony.common.utils.Preconditions;
+
 import java.util.ArrayList;
 
-import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 import rx.Observable;
 import rx.Subscriber;

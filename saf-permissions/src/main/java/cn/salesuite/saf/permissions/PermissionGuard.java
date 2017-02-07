@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
@@ -14,7 +15,6 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 
-import cn.salesuite.saf.utils.SAFUtils;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
@@ -57,7 +57,7 @@ public class PermissionGuard {
      */
     @UiThread
     public void requestPermission(@NonNull final Runnable runnable, @Nullable final Runnable deniedRunnable, @NonNull final String... permissions) {
-        if (!SAFUtils.isMOrHigher()  || isPermissionsGranted(permissions)) {
+        if (Build.VERSION.SDK_INT<23  || isPermissionsGranted(permissions)) {
             runnable.run();
             return;
         }

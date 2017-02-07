@@ -3,12 +3,12 @@
  */
 package cn.salesuite.saf.http.rest;
 
+import com.safframwork.tony.common.utils.Preconditions;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.salesuite.saf.utils.Preconditions;
 
 /**
  * 构造url的builder，用法:

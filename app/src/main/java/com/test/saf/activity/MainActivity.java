@@ -18,8 +18,6 @@ import com.test.saf.fragment.HomeFragment;
 import com.test.saf.menu.MenuManager;
 import com.test.saf.utils.DoubleClickExitUtils;
 
-import cn.salesuite.saf.utils.Preconditions;
-
 public class MainActivity extends BaseActivity {
 
 	@InjectView(R.id.drawer_layout)

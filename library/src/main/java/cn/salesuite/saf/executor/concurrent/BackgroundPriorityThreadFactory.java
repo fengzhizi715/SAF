@@ -5,9 +5,9 @@ package cn.salesuite.saf.executor.concurrent;
 
 import android.os.Process;
 
-import java.util.concurrent.ThreadFactory;
+import com.safframwork.tony.common.utils.Preconditions;
 
-import cn.salesuite.saf.utils.Preconditions;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * 使用该类时，app需要增加权限：&ltuses-permission android:name="android.permission.RAISED_THREAD_PRIORITY"/>

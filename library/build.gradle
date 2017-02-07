@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: "android-aspectj"
 apply plugin: "findbugs"
 
 def cfg = rootProject.ext.configuration // 配置
@@ -43,6 +42,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'com.safframework.log:saf-log:1.0.2'
     compile 'com.safframework:saf-cache:1.0.1'
+    compile 'tony-common:tony-common-utils:1.0.0'
     compile project(':saf-utils')
 }
 

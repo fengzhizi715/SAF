@@ -10,8 +10,6 @@ import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.ui.SmoothImageView;
 
-import cn.salesuite.saf.utils.Preconditions;
-
 /**
  * Created by Tony Shen on 2016/12/2.
  */

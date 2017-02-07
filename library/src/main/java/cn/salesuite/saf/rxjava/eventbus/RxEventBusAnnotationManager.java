@@ -8,7 +8,6 @@ import java.util.List;
 
 import cn.salesuite.saf.executor.concurrent.BackgroundExecutor;
 import cn.salesuite.saf.reflect.Reflect;
-import cn.salesuite.saf.utils.Preconditions;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

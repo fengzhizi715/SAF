@@ -9,7 +9,6 @@ import com.safframework.router.RouterRule;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 
-import cn.salesuite.saf.utils.Preconditions;
 import thereisnospon.codeview.CodeView;
 import thereisnospon.codeview.CodeViewTheme;
 

@@ -16,12 +16,13 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.safframwork.tony.common.utils.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.salesuite.saf.config.SAFConstant;
 import cn.salesuite.saf.imagecache.RxImageLoader;
-import cn.salesuite.saf.utils.Preconditions;
 import cn.salesuite.saf.utils.SAFUtils;
 
 /**

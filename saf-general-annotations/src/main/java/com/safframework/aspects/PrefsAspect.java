@@ -13,9 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.utils.Preconditions;
-import cn.salesuite.saf.utils.SAFUtils;
-
 /**
  * Created by Tony Shen on 16/3/28.
  */
@@ -47,7 +44,7 @@ public class PrefsAspect {
 
             if (!"void".equalsIgnoreCase(type)) {
                 String className = ((MethodSignature) joinPoint.getSignature()).getReturnType().getCanonicalName();
-                AppPrefs appPrefs = AppPrefs.get(SAFUtils.getContext());
+                AppPrefs appPrefs = AppPrefs.get(Utils.getContext());
                 if ("int".equals(className) || "java.lang.Integer".equals(className)) {
                     appPrefs.putInt(key, (Integer) result);
                 } else if ("boolean".equals(className) || "java.lang.Boolean".equals(className)) {

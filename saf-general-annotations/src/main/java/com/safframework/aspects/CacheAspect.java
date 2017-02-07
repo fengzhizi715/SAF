@@ -14,9 +14,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import cn.salesuite.saf.utils.Preconditions;
-import cn.salesuite.saf.utils.SAFUtils;
-
 /**
  * Created by Tony Shen on 16/3/23.
  */
@@ -46,7 +43,7 @@ public class CacheAspect {
             int expiry = cacheable.expiry();
 
             result = joinPoint.proceed();
-            Cache cache = Cache.get(SAFUtils.getContext());
+            Cache cache = Cache.get(Utils.getContext());
             if (expiry>0) {
                 cache.put(key,(Serializable)result,expiry);
             } else {

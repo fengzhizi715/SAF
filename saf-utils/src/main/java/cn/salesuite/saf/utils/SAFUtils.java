@@ -28,12 +28,12 @@ import android.os.StatFs;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.text.format.Formatter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.safframwork.tony.common.reflect.Reflect;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -44,7 +44,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.salesuite.saf.reflect.Reflect;
 
 /**
  * SAF的工具类

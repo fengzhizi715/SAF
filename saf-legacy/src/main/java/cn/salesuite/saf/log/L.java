@@ -5,13 +5,14 @@ package cn.salesuite.saf.log;
 
 import android.util.Log;
 
+import com.safframwork.tony.common.utils.Preconditions;
+import com.safframwork.tony.common.utils.StringUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
-
-import cn.salesuite.saf.utils.SAFUtils;
 
 /**
  * 日志包装类
@@ -196,7 +197,7 @@ public class L {
 		}
 
 		try {
-			String objStr = SAFUtils.printObject(object);
+			String objStr = StringUtils.printObject(object);
 			JSONObject jsonObject = new JSONObject(objStr);
 			String message = jsonObject.toString(LoggerPrinter.JSON_INDENT);
 			message = message.replaceAll("\n","\n║ ");

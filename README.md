@@ -71,6 +71,12 @@ SAF子项目
       ...
   }
   ```
+* AOP框架：https://github.com/fengzhizi715/SAF-AOP
+  
+  下载：
+  ```groovy
+  compile 'com.safframework:saf-aop:1.0.0'
+  ```
   
 * 缓存框架：在saf项目中，并未单独拆分成独立的项目
 

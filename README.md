@@ -35,6 +35,8 @@ Permissions
 
 SAF子项目
 ==
+每个子项目都可以单独使用，没有任何的依赖关系。
+
 * 日志框架：https://github.com/fengzhizi715/SAF-Kotlin-log
 
   下载：

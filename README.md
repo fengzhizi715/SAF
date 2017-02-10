@@ -16,7 +16,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 ![](SAF Framework.png)
 
-* [AOP(use aspectj)](docs/general_annotation.md) AOP相关的注解框架
+* [AOP(use aspectj)](https://github.com/fengzhizi715/SAF-AOP) AOP相关的注解框架
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
 * [Permissions](https://github.com/fengzhizi715/SAF#permissions) android6.0 以后的权限操作
 * [Event Bus](docs/event_bus.md) 事件总线

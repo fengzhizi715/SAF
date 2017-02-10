@@ -56,7 +56,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.github.clans:fab:1.6.4'
     compile 'thereisnospon.codeview:codeview:0.3.1'
-    compile project(':library')
+    compile project(':saf-core')
     compile project(':saf-permissions')
 
     compile 'com.safframework.router:saf-router:1.0.0'

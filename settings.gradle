@@ -1,5 +1,4 @@
 include ':saf-core'
-include ':saf-utils'
 include ':saf-cache'
 include ':saf-legacy'
 include ':saf-permissions'

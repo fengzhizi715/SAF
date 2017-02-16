@@ -581,7 +581,7 @@ public class SAFUtils {
 
 		if (Preconditions.isNotBlank(runningApps)) {
 			int myPid = android.os.Process.myPid();
-			for (ActivityManager.RunningAppProcessInfo proInfo : runningApps) {
+			for (RunningAppProcessInfo proInfo : runningApps) {
 				if (proInfo!=null && proInfo.pid == myPid) {
 					return proInfo.processName;
 				}

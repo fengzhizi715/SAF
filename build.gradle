@@ -68,13 +68,9 @@ if (projectPropertiesFile.exists()) {
 
 // read properties
 def library = properties.getProperty("project.library")
-def baseCompiler = properties.getProperty("project.saf-base-compiler")
 
 // cache
 def cache = properties.getProperty("project.cache")
-
-// utils
-def utils = properties.getProperty("project.utils")
 
 // permissions
 def permissions = properties.getProperty("project.saf-permissions")
@@ -92,9 +88,6 @@ def libraryPath = [project.findProject(library).buildDir.absolutePath + classPat
 
 def cachePath = [project.findProject(cache).buildDir.absolutePath + classPath];
 
-def utilsPath = [project.findProject(utils).buildDir.absolutePath + classPath];
-
-
 def permissionsPath = [project.findProject(permissions).buildDir.absolutePath + classPath];
 
 def legacyPath = [project.findProject(legacy).buildDir.absolutePath + classPath];
@@ -105,24 +98,6 @@ task buildCache( type: Jar) {
 
     //初始化资源路径集
     from cachePath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
-
-task buildUtils( type: Jar) {
-
-    archiveName = 'SAF-utils-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from utilsPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -176,7 +151,7 @@ task buildSAF(type: Jar) {
     archiveName = 'SAF-'+VERSION_NAME+'.jar'
 
     //初始化资源路径集
-    from utilsPath,libraryPath
+    from libraryPath
 
     //去除路径集下部分的资源
     exclude "**/BuildConfig.class"
@@ -192,7 +167,7 @@ task buildSAF(type: Jar) {
 }
 
 //生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildCache','buildUtils','buildSAF']) {
+task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildCache','buildSAF']) {
     logger.info("all build finish!");
 }
 

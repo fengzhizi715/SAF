@@ -42,7 +42,6 @@ dependencies {
     compile "com.safframework.log:saf-log:${libs.saf_log}"
     compile "com.safframework:saf-cache:${libs.saf_cache}"
     compile "tony-common:tony-common-utils:${libs.tony_common_utils}"
-    compile project(':saf-utils')
 }
 
 //task buildJar(dependsOn: ['assembleRelease'], type: Jar) {

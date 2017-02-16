@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: "findbugs"
 
-def cfg = rootProject.ext.configuration // 配置
-def VERSION_NAME = cfg.saf_version_name
+def libs = rootProject.ext.libraries // 库
 
 android {
     compileSdkVersion 25
@@ -40,9 +39,9 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.56.android'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
-    compile 'com.safframework.log:saf-log:1.0.4'
-    compile 'com.safframework:saf-cache:1.0.1'
-    compile 'tony-common:tony-common-utils:1.0.1'
+    compile "com.safframework.log:saf-log:${libs.saf_log}"
+    compile "com.safframework:saf-cache:${libs.saf_cache}"
+    compile "tony-common:tony-common-utils:${libs.tony_common_utils}"
     compile project(':saf-utils')
 }
 

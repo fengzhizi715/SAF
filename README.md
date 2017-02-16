@@ -77,7 +77,7 @@ SAF子项目
   
   下载：
   ```groovy
-  compile 'com.safframework:saf-aop:1.0.0'
+  compile 'com.safframework:saf-aop:1.0.1'
   ```
   
 * 缓存框架：在saf项目中，并未单独拆分成独立的项目

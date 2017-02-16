@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+def libs = rootProject.ext.libraries // 库
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -35,5 +37,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'io.reactivex:rxandroid:1.2.0'
 
-    compile 'tony-common:tony-common-utils:1.0.1'
+    compile "tony-common:tony-common-utils:${libs.tony_common_utils}"
 }

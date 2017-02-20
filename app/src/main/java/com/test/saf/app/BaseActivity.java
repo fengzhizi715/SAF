@@ -1,9 +1,10 @@
 package com.test.saf.app;
 
 import android.os.Bundle;
-import com.safframework.injectview.Injector;
 
-import cn.salesuite.saf.app.SAFAppCompatActivity;
+import com.safframework.injectview.Injector;
+import com.safframework.saf.app.SAFAppCompatActivity;
+
 
 /**
  * Created by Tony Shen on 15/11/19.

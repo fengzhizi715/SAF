@@ -1,6 +1,6 @@
 package com.test.saf.domain;
 
-import cn.salesuite.saf.parcel.AbstractParcelable;
+import com.safframework.saf.parcel.AbstractParcelable;
 
 /**
  * Created by Tony Shen on 2016/12/1.

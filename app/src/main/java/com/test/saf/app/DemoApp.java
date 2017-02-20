@@ -1,8 +1,7 @@
 package com.test.saf.app;
 
 import com.safframework.router.RouterManager;
-
-import cn.salesuite.saf.app.SAFApp;
+import com.safframework.saf.app.SAFApp;
 
 /**
  * Created by Tony Shen on 15/11/19.

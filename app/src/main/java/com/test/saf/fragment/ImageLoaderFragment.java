@@ -15,6 +15,11 @@ import com.safframework.injectview.Injector;
 import com.safframework.injectview.annotations.InjectView;
 import com.safframework.injectview.annotations.OnClick;
 import com.safframework.log.L;
+import com.safframework.saf.async.RxAsyncTask;
+import com.safframework.saf.recyclerview.OnItemClickListener;
+import com.safframework.saf.rest.RestClient;
+import com.safframework.saf.rest.RestUtil;
+import com.safframework.saf.rest.UrlBuilder;
 import com.safframwork.tony.common.utils.Preconditions;
 import com.test.saf.R;
 import com.test.saf.activity.ImageDetailActivity;
@@ -28,12 +33,6 @@ import com.test.saf.ui.GridRecyclerView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-
-import cn.salesuite.saf.async.RxAsyncTask;
-import cn.salesuite.saf.http.rest.RestClient;
-import cn.salesuite.saf.http.rest.RestUtil;
-import cn.salesuite.saf.http.rest.UrlBuilder;
-import cn.salesuite.saf.recyclerview.OnItemClickListener;
 
 /**
  * Created by Tony Shen on 2016/11/22.

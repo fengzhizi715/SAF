@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.safframework.injectview.Injector;
 import com.safframework.injectview.annotations.InjectView;
 import com.safframework.router.Router;
+import com.safframework.saf.recyclerview.OnItemClickListener;
 import com.test.saf.R;
 import com.test.saf.adapter.AnnotationAdapter;
 import com.test.saf.app.BaseFragment;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.salesuite.saf.permissions.PermissionGuard;
-import cn.salesuite.saf.recyclerview.OnItemClickListener;
 
 /**
  * Created by tony on 2016/11/20.

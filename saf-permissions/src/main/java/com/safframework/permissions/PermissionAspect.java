@@ -21,7 +21,7 @@ public class PermissionAspect {
         permissionMethod(joinPoint);
     }
 
-    @Pointcut("@within(cn.salesuite.saf.permissions.Permission)||@annotation(cn.salesuite.saf.permissions.Permission)")
+    @Pointcut("@within(com.safframework.permissions.Permission)||@annotation(com.safframework.permissions.Permission)")
     public void onPermissionMethod() {
     }
 

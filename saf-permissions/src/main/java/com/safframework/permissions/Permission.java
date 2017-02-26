@@ -1,4 +1,4 @@
-package cn.salesuite.saf.permissions;
+package com.safframework.permissions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

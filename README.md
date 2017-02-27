@@ -1,5 +1,9 @@
 SAF
 ===
+
+[![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+
 SAF(Simple Android Framework)最早的定位是一个简单的Android框架，现在它可以为Android App开发提供一系列基础性的组件。这个项目第一次提交到google code是2012年的3月26号，我已经断断续续做了4年多了。  
 
 SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app(京东众包、京明管家、众包商户端、众包运作主管)等等。

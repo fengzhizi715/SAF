@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.safframework.injectview.Injector;
 import com.safframework.injectview.annotations.InjectViews;
 import com.safframework.log.L;
+import com.safframework.permissions.Permission;
+import com.safframework.permissions.PermissionGuard;
+import com.safframework.permissions.PermissionGuardAware;
 import com.safframework.saf.rxjava.eventbus.RxEventBus;
 import com.safframework.saf.rxjava.eventbus.RxEventBusAnnotationManager;
 import com.safframework.saf.rxjava.eventbus.Subscribe;
@@ -21,10 +24,6 @@ import com.test.saf.R;
 import com.test.saf.Test2Event;
 import com.test.saf.TestEvent;
 import com.test.saf.app.BaseActivity;
-
-import cn.salesuite.saf.permissions.Permission;
-import cn.salesuite.saf.permissions.PermissionGuard;
-import cn.salesuite.saf.permissions.PermissionGuardAware;
 
 /**
  * Created by Tony Shen on 2016/11/18.

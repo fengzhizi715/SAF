@@ -110,6 +110,12 @@ Contributors
 2. [ymcao](https://github.com/ymcao) 增加AsyncTask替换android系统的AsyncTask
 3. [aaron](https://github.com/snailflying) 修改build.gradle，支持多个module合并到一个jar包。
 
+TODO
+===
+1. Rxjava1 替换成 Rxjava2
+2. Image Cache模块需要进一步优化
+3. Utils 全部用Kotlin重写
+
 License
 -------
 

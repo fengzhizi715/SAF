@@ -35,7 +35,7 @@ task clearJar(type: Delete) {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:design:25.0.1'
     compile 'com.alibaba:fastjson:1.1.56.android'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'

@@ -19,7 +19,6 @@ import com.test.saf.app.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.salesuite.saf.permissions.PermissionGuard;
 
 /**
  * Created by tony on 2016/11/20.
@@ -32,13 +31,10 @@ public class GeneralAnnotationFragment extends BaseFragment {
 
     List<String> data = new ArrayList<String>();
 
-    private PermissionGuard permissionGuard;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_general_annotation, container, false);
         Injector.injectInto(this, v);
-        permissionGuard = new PermissionGuard(mContext,this);
         initData();
 
         return v;

@@ -9,6 +9,9 @@ ext {
     ]
 
     libraries = [
+            junit               : "4.12",
+            support_design      : "25.0.1",
+            support_appcompat_v7: "25.0.1",
             saf_log             : "1.0.5",
             saf_cache           : "1.0.1",
             tony_common_utils   : "1.0.1"
@@ -49,124 +52,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-
-//genera aar
-
-Properties properties = new Properties()
-
-File localPropertiesFile = project.rootProject.file("local.properties");
-if (localPropertiesFile.exists()) {
-    properties.load(localPropertiesFile.newDataInputStream())
-}
-File projectPropertiesFile = project.rootProject.file("project.properties");
-if (projectPropertiesFile.exists()) {
-    properties.load(projectPropertiesFile.newDataInputStream())
-}
-
-// read properties
-def library = properties.getProperty("project.library")
-
-// cache
-def cache = properties.getProperty("project.cache")
-
-// permissions
-def permissions = properties.getProperty("project.saf-permissions")
-
-// legacy
-def legacy = properties.getProperty("project.legacy")
-
-def classPath = properties.getProperty("project.class.path")
-def javaClassPath = properties.getProperty("project.java.class.path")
-def cfg = rootProject.ext.configuration // 配置
-def VERSION_NAME = cfg.saf_version_name
-
-//需打包的资源所在的路径集
-def libraryPath = [project.findProject(library).buildDir.absolutePath + classPath];
-
-def cachePath = [project.findProject(cache).buildDir.absolutePath + classPath];
-
-def permissionsPath = [project.findProject(permissions).buildDir.absolutePath + classPath];
-
-def legacyPath = [project.findProject(legacy).buildDir.absolutePath + classPath];
-
-task buildCache( type: Jar) {
-
-    archiveName = 'SAF-cache-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from cachePath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
-
-task buildPermissions( type: Jar) {
-
-    archiveName = 'SAF-permissions-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from permissionsPath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
-
-task buildLegacy( type: Jar) {
-
-    archiveName = 'SAF-legacy.jar'
-
-    //初始化资源路径集
-    from legacyPath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
-
-task buildSAF(type: Jar) {
-
-    archiveName = 'SAF-'+VERSION_NAME+'.jar'
-
-    //初始化资源路径集
-    from libraryPath
-
-    //去除路径集下部分的资源
-    exclude "**/BuildConfig.class"
-    exclude "**/Manifest.class"
-    exclude "**/R.class"
-    exclude "**/R\$*.class"
-    // 去除rxjava版本的eventbus
-    exclude "cn/salesuite/saf/rxjava"
-
-    //只导入资源路径集下的部分资源
-    include "cn/salesuite/**/*.class"
-    destinationDir = file('build/outputs/')
-}
-
-//生成所有的jar包 编译前，请手动build一下工程，以生成中间文件
-task generaAllJar(dependsOn: ['buildLegacy','buildPermissions','buildCache','buildSAF']) {
-    logger.info("all build finish!");
-}
-
-defaultTasks 'generaAllJar'

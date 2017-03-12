@@ -1,14 +1,17 @@
 apply plugin: 'com.android.library'
 
+def cfg = rootProject.ext.configuration // 配置
+def libs = rootProject.ext.libraries // 库
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
     //兼容API 23干掉了httpClient，手动加入httpClient库,或者将org.apache.http.legacy.jar放到lib文件中
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
         versionCode 1
         versionName "1.0"
 
@@ -28,7 +31,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
-    compile 'tony-common:tony-common-utils:1.0.1'
+    compile "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
+    testCompile "junit:junit:${libs.junit}"
+    compile "tony-common:tony-common-utils:${libs.tony_common_utils}"
 }

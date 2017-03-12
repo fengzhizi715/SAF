@@ -2,16 +2,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.hujiang.android-aspectjx'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def cfg = rootProject.ext.configuration // 配置
+def libs = rootProject.ext.libraries // 库
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
     //兼容API 23干掉了httpClient，手动加入httpClient库,或者将org.apache.http.legacy.jar放到lib文件中
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "app.magicwindow.cn.testsaf"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion cfg.targetSdk
         versionCode 1
         versionName "1.0"
     }
@@ -52,8 +55,8 @@ allprojects {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile "junit:junit:${libs.junit}"
+    compile "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
     compile 'com.github.clans:fab:1.6.4'
     compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':saf-core')

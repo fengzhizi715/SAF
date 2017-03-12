@@ -1,17 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: "findbugs"
 
+def cfg = rootProject.ext.configuration // 配置
 def libs = rootProject.ext.libraries // 库
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25"
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
         versionCode 1
-        versionName "1.1.19"
+        versionName cfg.saf_version_name
     }
     buildTypes {
         release {
@@ -63,12 +64,6 @@ task buildJar(dependsOn: ['assembleRelease'], type: Jar) {
     include "com/safframework/saf/**/*.class"
     destinationDir = file('build/outputs')
 }
-
-//
-//// 打包各个jar
-//task buildAll(dependsOn: ['buildJar','buildCoreJar','buildAnnotationJar','buildOrmJar','buildHttpJar','buildRouterJar']) {
-//
-//}
 
 task javadoc(type: Javadoc) {
 

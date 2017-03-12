@@ -1,13 +1,11 @@
 ext {
     configuration = [
 //            package          : "cn.salesuite.saf",
-//            buildToolsVersion: "23.0.1",
-//            compileVersion   : 23,
-//            minSdk           : 14,
-//            targetSdk        : 23,
-//            version_code     : 1,
-//            version_name     : "0.0.1",
-              saf_version_name:"1.1.19"
+            buildToolsVersion: "25.0.0",
+            compileVersion   : 25,
+            minSdk           : 9,
+            targetSdk        : 25,
+            saf_version_name : "1.1.19"
     ]
 
     libraries = [

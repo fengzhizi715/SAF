@@ -444,4 +444,15 @@ public class DeviceUtils {
 
         return result;
     }
+
+    /**
+     * 判断当前设备是手机还是平板
+     *
+     * @param context
+     * @return 平板返回 True，手机返回 False
+     */
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration
+                .SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
 }

@@ -1,15 +1,12 @@
 package com.safframework.saf.view;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.subjects.BehaviorSubject;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * 提供Observable化的View
@@ -23,16 +20,15 @@ public class RxView {
      * @return
      */
     public static Observable<View> clicks(final View view) {
-        return Observable.create(new Observable.OnSubscribe<View>() {
+
+        return Observable.create(new ObservableOnSubscribe<View>(){
+
             @Override
-            public void call(final Subscriber<? super View> subscriber) {
-                view.setOnClickListener(new View.OnClickListener() {
+            public void subscribe(final ObservableEmitter<View> e) throws Exception {
+                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (subscriber.isUnsubscribed())
-                            return;
-
-                        subscriber.onNext(v);
+                        e.onNext(v);
                     }
                 });
             }
@@ -79,21 +75,21 @@ public class RxView {
         return RxView.clicks(v).throttleFirst(1, TimeUnit.SECONDS);
     }
 
-    public static Observable<String> text(EditText view) {
-        String currentText = String.valueOf(view.getText());
-        final BehaviorSubject<String> subject = BehaviorSubject.create(currentText);
-        view.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                subject.onNext(editable.toString());
-            }
-        });
-        return subject;
-    }
+//    public static Observable<String> text(EditText view) {
+//        String currentText = String.valueOf(view.getText());
+//        final BehaviorSubject<String> subject = BehaviorSubject.create(currentText);
+//        view.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                subject.onNext(editable.toString());
+//            }
+//        });
+//        return subject;
+//    }
 }

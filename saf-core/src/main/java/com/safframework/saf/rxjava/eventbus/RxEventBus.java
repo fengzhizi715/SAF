@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Created by Tony Shen on 15/10/26.
@@ -38,7 +38,7 @@ public class RxEventBus {
             subjectMapper.put(tag, subjectList);
         }
 
-        Subject<T, T> subject = PublishSubject.create();
+        Subject<T> subject = PublishSubject.create();
         subjectList.add(subject);
 
         return subject;

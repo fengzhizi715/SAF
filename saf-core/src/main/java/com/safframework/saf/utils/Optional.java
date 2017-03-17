@@ -3,12 +3,12 @@
  */
 package com.safframework.saf.utils;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * 使用方法:
  * 		String s = null;
- * 		Optional.ofNullable(s).orElse("default")); // 如果s为null,则显示default,否则显示s的值
+ * 		Optional.ofNullable(s).orElse("default"); // 如果s为null,则显示default,否则显示s的值
  * @author Tony Shen
  *
  */
@@ -37,10 +37,12 @@ public class Optional<T> {
     }
 
     public T get() {
-        return obs.toBlocking().single();
+
+        return obs.blockingSingle();
     }
 
     public T orElse(T defaultValue) {
-        return obs.defaultIfEmpty(defaultValue).toBlocking().single();
+
+        return obs.defaultIfEmpty(defaultValue).blockingSingle();
     }
 }

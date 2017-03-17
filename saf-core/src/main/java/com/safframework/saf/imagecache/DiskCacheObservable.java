@@ -22,10 +22,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class DiskCacheObservable extends CacheObservable {
 
@@ -95,16 +96,15 @@ public class DiskCacheObservable extends CacheObservable {
 
         if (cacheSize > 0)
             mCacheSize = cacheSize;
-        this.observable = Observable.create(new Observable.OnSubscribe<Data>() {
+
+        this.observable = Observable.create(new ObservableOnSubscribe<Data>() {
             @Override
-            public void call(Subscriber<? super Data> subscriber) {
+            public void subscribe(ObservableEmitter<Data> e) throws Exception {
                 Bitmap ob = cache(key);
                 Data data = new Data(ob, key);
 
-                if(!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(data);
-                    subscriber.onCompleted();
-                }
+                e.onNext(data);
+                e.onComplete();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -115,15 +115,15 @@ public class DiskCacheObservable extends CacheObservable {
      */
     @Override
     public void putData(final Data data) {
-        Observable.create(new Observable.OnSubscribe<Data>() {
+
+        Observable.create(new ObservableOnSubscribe<Data>() {
+
             @Override
-            public void call(Subscriber<? super Data> subscriber) {
+            public void subscribe(ObservableEmitter<Data> e) throws Exception {
                 putDiskCache(data.url, data.bitmap);
 
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(data);
-                    subscriber.onCompleted();
-                }
+                e.onNext(data);
+                e.onComplete();
             }
         }).subscribeOn(Schedulers.io()).subscribe();
     }

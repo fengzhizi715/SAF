@@ -11,9 +11,11 @@ import com.test.saf.config.Config;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by Tony Shen on 2016/12/5.
@@ -49,9 +51,9 @@ public class SplashActivity extends BaseActivity {
 
         // 延迟2秒跳到首页
         Observable.timer(2000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
+                .subscribe(new Consumer<Long>() {
                     @Override
-                    public void call(Long aLong) {
+                    public void accept(@NonNull Long aLong) throws Exception {
                         Intent i = new Intent(mContext, MainActivity.class);
                         startActivity(i);
                         finish();

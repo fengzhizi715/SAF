@@ -14,8 +14,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by Tony Shen on 15/11/13.
@@ -178,13 +179,12 @@ public class MemoryCacheObservable extends CacheObservable {
      */
     public void create(final String key) {
 
-        this.observable = Observable.create(new Observable.OnSubscribe<Data>() {
+        this.observable = Observable.create(new ObservableOnSubscribe<Data>() {
+
             @Override
-            public void call(Subscriber<? super Data> subscriber) {
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(new Data(mLruCache.get(key), key));
-                    subscriber.onCompleted();
-                }
+            public void subscribe(ObservableEmitter<Data> e) throws Exception {
+                e.onNext(new Data(mLruCache.get(key), key));
+                e.onComplete();
             }
         });
     }

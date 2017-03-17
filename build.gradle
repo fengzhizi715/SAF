@@ -1,6 +1,5 @@
 ext {
     configuration = [
-//            package          : "cn.salesuite.saf",
             buildToolsVersion: "25.0.0",
             compileVersion   : 25,
             minSdk           : 9,

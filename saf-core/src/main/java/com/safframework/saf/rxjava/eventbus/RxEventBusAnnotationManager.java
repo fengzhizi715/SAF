@@ -10,10 +10,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Tony Shen on 15/11/5.
@@ -98,9 +99,10 @@ public class RxEventBusAnnotationManager {
             return;
         }
 
-        schedulerObservable.subscribe(new Action1<T>() {
+        schedulerObservable.subscribe(new Consumer<T>() {
+
             @Override
-            public void call(T t) {
+            public void accept(@NonNull T t) throws Exception {
                 try {
                     Reflect.on(object).call(method.getName(), t);
                 } catch (Exception e) {

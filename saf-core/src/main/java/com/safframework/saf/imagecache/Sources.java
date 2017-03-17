@@ -8,10 +8,11 @@ import com.safframwork.tony.common.utils.Preconditions;
 
 import java.util.ArrayList;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
-import rx.observables.ConnectableObservable;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observables.ConnectableObservable;
 
 /**
  * Created by Tony Shen on 15/11/13.
@@ -55,26 +56,17 @@ public class Sources {
             for(CacheObservable t: observables)
                 list.add(t.observable);
 
-            ConnectableObservable<Data> connectableObservable = Observable.concat(Observable.from(list)).first(new Func1<Data, Boolean>() {
+            ConnectableObservable<Data> connectableObservable = Observable.concat(Observable.fromIterable(list)).filter(new Predicate<Data>() {
+
                 @Override
-                public Boolean call(Data data) {
+                public boolean test(@NonNull Data data) throws Exception {
                     return DataUtils.isAvailable(data);
                 }
-            }).publish();
+            }).firstElement().toObservable().publish();
 
-            connectableObservable.subscribe(new Subscriber<Data>() {
+            connectableObservable.subscribe(new Consumer<Data>() {
                 @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(Data data) {
+                public void accept(@NonNull Data data) throws Exception {
                     if (DataUtils.isAvailable(data)) {
                         for(CacheObservable t: observables) {
                             t.putData(data);

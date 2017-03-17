@@ -15,9 +15,10 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.subjects.PublishSubject;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+
 
 /**
  * Created by Tony Shen on 2016/11/28.
@@ -31,7 +32,7 @@ public class PermissionGuard {
     private Fragment mFragment;
     private PublishSubject<Integer> publishSubject;
     private boolean onPermissonsResult = false;
-    private Subscription subscription;
+    private Disposable subscription;
 
     public PermissionGuard(@NonNull Context context,@NonNull Activity activity) {
         this.mContext = context;
@@ -122,10 +123,10 @@ public class PermissionGuard {
             mFragment.requestPermissions(permissions, REQUEST_ID);
         }
 
-        subscription = publishSubject.subscribe(new Action1<Integer>() {
+        subscription = publishSubject.subscribe(new Consumer<Integer>() {
             @Override
-            public void call(Integer v) {
-                if (v == PackageManager.PERMISSION_GRANTED) {
+            public void accept(@io.reactivex.annotations.NonNull Integer integer) throws Exception {
+                if (integer == PackageManager.PERMISSION_GRANTED) {
                     runnable.run();
                 } else {
                     if (deniedRunnable != null) {
@@ -164,7 +165,7 @@ public class PermissionGuard {
 //                        .show();
             }
             publishSubject.onNext(allAgreed ? PackageManager.PERMISSION_GRANTED : PackageManager.PERMISSION_DENIED);
-            subscription.unsubscribe();
+            subscription.dispose();
         }
     }
 

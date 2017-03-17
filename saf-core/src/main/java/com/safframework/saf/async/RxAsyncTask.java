@@ -2,11 +2,13 @@ package com.safframework.saf.async;
 
 import android.app.Dialog;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Tony Shen on 2016/11/9.
@@ -41,9 +43,11 @@ public abstract class RxAsyncTask<T> {
             observable.retryWhen(new RetryWithDelay(retryCount, 1000))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<T>() {
+                    .subscribe(new Consumer<T>() {
+
                         @Override
-                        public void call(T t) {
+                        public void accept(@NonNull T t) throws Exception {
+
                             if (mDialog != null) {
                                 mDialog.dismiss();
                                 mDialog = null;
@@ -53,9 +57,9 @@ public abstract class RxAsyncTask<T> {
                                 successHandler.onSuccess(t);
                             }
                         }
-                    }, new Action1<Throwable>() {
+                    }, new Consumer<Throwable>() {
                         @Override
-                        public void call(Throwable throwable) {
+                        public void accept(@NonNull Throwable throwable) throws Exception {
                             if (mDialog != null) {
                                 mDialog.dismiss();
                                 mDialog = null;
@@ -70,9 +74,9 @@ public abstract class RxAsyncTask<T> {
             observable
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<T>() {
+                    .subscribe(new Consumer<T>() {
                         @Override
-                        public void call(T t) {
+                        public void accept(@NonNull T t) throws Exception {
                             if (mDialog != null) {
                                 mDialog.dismiss();
                                 mDialog = null;
@@ -82,9 +86,10 @@ public abstract class RxAsyncTask<T> {
                                 successHandler.onSuccess(t);
                             }
                         }
-                    }, new Action1<Throwable>() {
+
+                    }, new Consumer<Throwable>() {
                         @Override
-                        public void call(Throwable throwable) {
+                        public void accept(@NonNull Throwable throwable) throws Exception {
                             if (mDialog != null) {
                                 mDialog.dismiss();
                                 mDialog = null;
@@ -102,17 +107,17 @@ public abstract class RxAsyncTask<T> {
     /**
      * 所有的task都必须执行这个方法，否则无法运行
      */
-    public void start(){
+    public void start() {
         execute();
     }
 
     private Observable<T> createObservable() {
-        return Observable.create(new Observable.OnSubscribe<T>() {
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public void subscribe(ObservableEmitter<T> e) throws Exception {
 
-                subscriber.onNext(onExecute());
-                subscriber.onCompleted();
+                e.onNext(onExecute());
+                e.onComplete();
             }
         });
     }

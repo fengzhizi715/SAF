@@ -8,10 +8,10 @@ import android.widget.ImageView;
 
 import com.safframwork.tony.common.utils.Preconditions;
 
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.observables.ConnectableObservable;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observables.ConnectableObservable;
 
 /**
  * Created by Tony Shen on 15/11/13.
@@ -65,22 +65,15 @@ public class RxImageLoader {
 
         ConnectableObservable<Data> connectableObservable = getObservables(url,imageView);
         connectableObservable.observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<Data>() {
-                @Override
-                public void onCompleted() {
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                }
-
-                @Override
-                public void onNext(Data data) {
-                    if (DataUtils.isAvailable(data)) {
-                        imageView.setImageBitmap(data.bitmap);
+                .subscribe(new Consumer<Data>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Data data) throws
+                            Exception {
+                        if (DataUtils.isAvailable(data)) {
+                            imageView.setImageBitmap(data.bitmap);
+                        }
                     }
-                }
-            });
+                });
         connectableObservable.connect();
     }
 

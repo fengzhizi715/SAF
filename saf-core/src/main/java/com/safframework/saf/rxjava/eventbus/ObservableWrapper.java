@@ -1,6 +1,6 @@
 package com.safframework.saf.rxjava.eventbus;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Tony Shen on 15/11/5.

@@ -2,7 +2,7 @@ package com.safframework.saf.imagecache;
 
 import android.graphics.Bitmap;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Tony Shen on 15/11/13.

@@ -38,8 +38,10 @@ dependencies {
     testCompile "junit:junit:${libs.junit}"
     compile "com.android.support:design:${libs.support_design}"
     compile 'com.alibaba:fastjson:1.1.56.android'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+//    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+//    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.rxAndroid
     compile "com.safframework.log:saf-log:${libs.saf_log}"
     compile "com.safframework:saf-cache:${libs.saf_cache}"
     compile "tony-common:tony-common-utils:${libs.tony_common_utils}"

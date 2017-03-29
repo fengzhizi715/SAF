@@ -18,7 +18,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 主要功能
 ----
 
-![](SAF Framework.png)
+![](SAF_Framework.png)
 
 * [AOP(use aspectj)](https://github.com/fengzhizi715/SAF-AOP) AOP相关的注解框架
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
@@ -112,9 +112,9 @@ Contributors
 
 TODO
 ===
-1. Rxjava1 替换成 Rxjava2
-2. Image Cache模块需要进一步优化
-3. Utils 全部用Kotlin重写
+1. Image Cache模块需要进一步优化
+2. Utils 全部用Kotlin重写
+3. Event Bus需要重构
 
 License
 -------

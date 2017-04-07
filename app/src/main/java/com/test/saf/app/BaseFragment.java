@@ -28,4 +28,11 @@ public class BaseFragment extends SAFFragment {
 
         mCache = Cache.get(mContext);
     }
+
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        app.imageLoader.clearMemCache();
+    }
 }

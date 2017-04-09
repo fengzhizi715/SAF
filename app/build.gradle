@@ -65,6 +65,6 @@ dependencies {
     compile 'com.safframework.router:saf-router:1.0.1'
     apt 'com.safframework.router:saf-router-compiler:1.0.2'
 
-    compile 'com.safframework.injectview:saf-injectview:1.0.0'
-    apt 'com.safframework.injectview:saf-injectview-compiler:1.0.0'
+    compile 'com.safframework.injectview:saf-injectview:1.1.0'
+    apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
 }

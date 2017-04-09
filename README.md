@@ -72,8 +72,8 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ...
   
   dependencies {
-      compile 'com.safframework.injectview:saf-injectview:1.0.0'
-      apt 'com.safframework.injectview:saf-injectview-compiler:1.0.0'
+      compile 'com.safframework.injectview:saf-injectview:1.1.0'
+      apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
       ...
   }
   ```

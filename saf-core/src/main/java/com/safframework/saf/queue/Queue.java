@@ -14,10 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Queue {
 
-    private Bundle          bundle = null;
-    private HandlerThread   operationHandlerThread = null;
-    private Handler         operationHandlerThreadHandler = null;
-    private LinkedBlockingQueue<OperationThread> operationQueue = new LinkedBlockingQueue<>();
+    private Bundle                                 bundle = null;
+    private HandlerThread                          operationHandlerThread = null;
+    private Handler                                operationHandlerThreadHandler = null;
+    private LinkedBlockingQueue<OperationRunnable> operationQueue = new LinkedBlockingQueue<>();
     private boolean         isRunning = false;
     private String          name = null;
     private int             priority = Process.THREAD_PRIORITY_DEFAULT;
@@ -55,7 +55,7 @@ public class Queue {
         }
         operationHandlerThread.start();
         operationHandlerThreadHandler = new Handler(operationHandlerThread.getLooper());
-        for(OperationThread op : operationQueue ){
+        for(OperationRunnable op : operationQueue ){
             op.queueing(operationHandlerThreadHandler);
         }
         operationQueue.clear();
@@ -85,9 +85,9 @@ public class Queue {
             if(operationHandlerThreadHandler == null)
                 return false;
 
-            return operationHandlerThreadHandler.post(new OperationThread(this, operation));
+            return operationHandlerThreadHandler.post(new OperationRunnable(this, operation));
         } else {
-            return operationQueue.add(new OperationThread(this, operation));
+            return operationQueue.add(new OperationRunnable(this, operation));
         }
     }
 
@@ -96,9 +96,9 @@ public class Queue {
             if(operationHandlerThreadHandler == null)
                 return false;
 
-            return operationHandlerThreadHandler.postAtFrontOfQueue(new OperationThread(this, operation));
+            return operationHandlerThreadHandler.postAtFrontOfQueue(new OperationRunnable(this, operation));
         } else {
-            return operationQueue.add(new OperationThread(this, operation, OperationThread.Type.ATFIRST, null, 0));
+            return operationQueue.add(new OperationRunnable(this, operation, OperationRunnable.Type.ATFIRST, null, 0));
         }
     }
 
@@ -107,9 +107,9 @@ public class Queue {
             if(operationHandlerThreadHandler == null)
                 return false;
 
-            return operationHandlerThreadHandler.postAtTime(new OperationThread(this, operation), uptimeMillis);
+            return operationHandlerThreadHandler.postAtTime(new OperationRunnable(this, operation), uptimeMillis);
         } else {
-            return operationQueue.add(new OperationThread(this, operation, OperationThread.Type.ATTIME, null, uptimeMillis));
+            return operationQueue.add(new OperationRunnable(this, operation, OperationRunnable.Type.ATTIME, null, uptimeMillis));
         }
     }
 
@@ -118,9 +118,9 @@ public class Queue {
             if(operationHandlerThreadHandler == null)
                 return false;
 
-            return operationHandlerThreadHandler.postAtTime(new OperationThread(this, operation), token, uptimeMillis);
+            return operationHandlerThreadHandler.postAtTime(new OperationRunnable(this, operation), token, uptimeMillis);
         } else {
-            return operationQueue.add(new OperationThread(this, operation, OperationThread.Type.ATTIME_WITH_TOKEN, token, uptimeMillis));
+            return operationQueue.add(new OperationRunnable(this, operation, OperationRunnable.Type.ATTIME_WITH_TOKEN, token, uptimeMillis));
         }
     }
 
@@ -129,9 +129,9 @@ public class Queue {
             if(operationHandlerThreadHandler == null)
                 return false;
 
-            return operationHandlerThreadHandler.postDelayed(new OperationThread(this, operation), delayTimeMillis);
+            return operationHandlerThreadHandler.postDelayed(new OperationRunnable(this, operation), delayTimeMillis);
         } else {
-            return operationQueue.add(new OperationThread(this, operation, OperationThread.Type.DELAY, null, delayTimeMillis));
+            return operationQueue.add(new OperationRunnable(this, operation, OperationRunnable.Type.DELAY, null, delayTimeMillis));
         }
     }
 
@@ -139,9 +139,9 @@ public class Queue {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
                 return ;
-            operationHandlerThreadHandler.removeCallbacks(new OperationThread(this, operation));
+            operationHandlerThreadHandler.removeCallbacks(new OperationRunnable(this, operation));
         } else {
-            operationQueue.remove(new OperationThread(this, operation));
+            operationQueue.remove(new OperationRunnable(this, operation));
         }
     }
 
@@ -149,9 +149,9 @@ public class Queue {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
                 return;
-            operationHandlerThreadHandler.removeCallbacks(new OperationThread(this, operation), token);
+            operationHandlerThreadHandler.removeCallbacks(new OperationRunnable(this, operation), token);
         } else {
-            operationQueue.remove(new OperationThread(this, operation, OperationThread.Type.NORMAL, token, 0));
+            operationQueue.remove(new OperationRunnable(this, operation, OperationRunnable.Type.NORMAL, token, 0));
         }
     }
 

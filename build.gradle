@@ -55,3 +55,6 @@ task clean(type: Delete) {
 }
 
 apply from: rootProject.file('dependencies.gradle')
+
+
+tasks.getByPath(":saf-cache:bintrayUpload").enabled = false

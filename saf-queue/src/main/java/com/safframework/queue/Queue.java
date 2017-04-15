@@ -1,9 +1,8 @@
-package com.safframework.saf.queue;
+package com.safframework.queue;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-
 import android.os.Process;
 
 import java.util.concurrent.LinkedBlockingQueue;

@@ -1,4 +1,4 @@
-package com.safframework.saf.queue;
+package com.safframework.queue;
 
 import android.os.Bundle;
 

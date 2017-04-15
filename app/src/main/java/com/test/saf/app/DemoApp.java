@@ -1,8 +1,8 @@
 package com.test.saf.app;
 
+import com.safframework.queue.Queue;
 import com.safframework.router.RouterManager;
 import com.safframework.saf.app.SAFApp;
-import com.safframework.saf.queue.Queue;
 
 /**
  * Created by Tony Shen on 15/11/19.

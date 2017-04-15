@@ -70,7 +70,7 @@ public class Queue {
      */
     public synchronized void stop() {
 
-        if(isRunning == false) return;
+        if(!isRunning) return;
 
         isRunning = false;
         removeAllOperations();
@@ -84,6 +84,7 @@ public class Queue {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
                 return false;
+
             return operationHandlerThreadHandler.post(new OperationThread(this, operation));
         } else {
             return operationQueue.add(new OperationThread(this, operation));

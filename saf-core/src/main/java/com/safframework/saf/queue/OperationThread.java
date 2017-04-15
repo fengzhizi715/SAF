@@ -26,7 +26,10 @@ public class OperationThread extends Thread {
     }
 
     public static void sleep(long sleepTimeMillis) {
-        try { Thread.sleep(sleepTimeMillis); } catch(Exception e) {}
+        try {
+            Thread.sleep(sleepTimeMillis);
+        } catch (Exception e) {
+        }
     }
 
     protected enum Type {

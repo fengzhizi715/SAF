@@ -14,26 +14,26 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Queue {
 
-    private Bundle bundle = null;
-    private HandlerThread operationHandlerThread = null;
-    private Handler operationHandlerThreadHandler = null;
+    private Bundle          bundle = null;
+    private HandlerThread   operationHandlerThread = null;
+    private Handler         operationHandlerThreadHandler = null;
     private LinkedBlockingQueue<OperationThread> operationQueue = new LinkedBlockingQueue<>();
     private boolean         isRunning = false;
     private String          name = null;
     private int             priority = Process.THREAD_PRIORITY_DEFAULT;
 
     /**
-     * Construct AndroidOperationQueue with name and default thread priority as Process.THREAD_PRIORITY_DEFAULT
-     * @param name AndroidOperationQueue's name
+     * 构造Queue
+     * @param name
      */
     public Queue(String name) {
         this(name, Process.THREAD_PRIORITY_DEFAULT);
     }
 
     /**
-     * Construct AndroidOperationQueue with name and thread priority
-     * @param name AndroidOperationQueue's name
-     * @param priority AndroidOperation's priority. you should use Process's THREAD_PRIORITY.
+     * 基于线程优先级构造Queue
+     * @param name
+     * @param priority
      */
     public Queue(String name, int priority) {
         this.name = name;
@@ -43,11 +43,11 @@ public class Queue {
     }
 
     /**
-     * Start Android Operation Queue
+     * 启动queue
      */
     public synchronized void start() {
 
-        if(isRunning == true) return;
+        if(isRunning) return;
 
         isRunning = true;
         if(operationHandlerThread == null) {
@@ -66,7 +66,7 @@ public class Queue {
     }
 
     /**
-     * Stop Android Operation Queue and remove all operations
+     * 停止queue，并且清空所有操作
      */
     public synchronized void stop() {
 
@@ -80,11 +80,6 @@ public class Queue {
         bundle.clear();
     }
 
-    /**
-     * add operation to OperationQueue at the end
-     * @param operation The operation that will be executed.
-     * @return return true if the operation was successfully placed in to the operation queue. Returns false on failure.
-     */
     public boolean addOperation(Operation operation) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -95,11 +90,6 @@ public class Queue {
         }
     }
 
-    /**
-     * add operation to OperationQueue. The Operation will be executed on the next iteration through the operation queue.
-     * @param operation The operation that will be executed.
-     * @return return true if the operation was successfully placed in to the operation queue. Returns false on failure.
-     */
     public boolean addOperationAtFirst(Operation operation) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -111,11 +101,6 @@ public class Queue {
         }
     }
 
-    /**
-     * add operation to OperationQueue, to be run at a specific time given by uptimeMillis. { @link android.os.SystemClock.uptimeMillis }
-     * @param operation operation The operation that will be executed.
-     * @return return true if the operation was successfully placed in to the operation queue. Returns false on failure.
-     */
     public boolean addOperationAtTime(Operation operation, long uptimeMillis) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -127,11 +112,6 @@ public class Queue {
         }
     }
 
-    /**
-     * add operation to OperationQueue, to be run at a specific time given by uptimeMillis. { @link android.os.SystemClock.uptimeMillis }
-     * @param operation operation The operation that will be executed.
-     * @return return true if the operation was successfully placed in to the operation queue. Returns false on failure.
-     */
     public boolean addOperationAtTime(Operation operation, Object token, long uptimeMillis) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -143,12 +123,6 @@ public class Queue {
         }
     }
 
-    /**
-     * add operation to OperationQueue, to be run after the specific time given by delayTimeMillis. { @link android.os.SystemClock.uptimeMillis }
-     * @param operation operation operation The operation that will be executed.
-     * @param delayTimeMillis
-     * @return return true if the operation was successfully placed in to the operation queue. Returns false on failure.
-     */
     public boolean addOperationAfterDelay(Operation operation, long delayTimeMillis) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -160,10 +134,6 @@ public class Queue {
         }
     }
 
-    /**
-     * Remove any pending Operations that are in OperationQueue
-     * @param operation
-     */
     public void removeOperation(Operation operation) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
@@ -174,12 +144,7 @@ public class Queue {
         }
     }
 
-    /**
-     * Remove any pending Operations with token that are in OperationQueue
-     * @param operation
-     * @param token
-     */
-    public void removeOperations(Operation operation, Object token) {
+    public void removeOperation(Operation operation, Object token) {
         if(isRunning) {
             if(operationHandlerThreadHandler == null)
                 return;
@@ -189,9 +154,6 @@ public class Queue {
         }
     }
 
-    /**
-     * Remove all pending Operations that are in OperationQueue
-     */
     public void removeAllOperations() {
         if(operationHandlerThreadHandler != null) {
             operationHandlerThreadHandler.removeCallbacksAndMessages(null);
@@ -199,9 +161,6 @@ public class Queue {
         operationQueue.clear();
     }
 
-    /**
-     * Return bundle
-     */
     public Bundle getBundle() {
         return bundle;
     }

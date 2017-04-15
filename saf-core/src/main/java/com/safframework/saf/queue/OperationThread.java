@@ -11,8 +11,6 @@ import java.lang.ref.WeakReference;
 
 public class OperationThread extends Thread {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Thread Helper Functions
     private static final Handler handler = new Handler(Looper.getMainLooper());
 
     public static void runOnUiThread(Runnable runnable) {
@@ -45,8 +43,7 @@ public class OperationThread extends Thread {
     private Object token = null;
     private long time = 0;
     private WeakReference<Queue> owner;
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // AndroidOperation
+
     protected OperationThread(Queue queue, Operation operation) {
         this(queue, operation, Type.NORMAL, null, 0);
     }

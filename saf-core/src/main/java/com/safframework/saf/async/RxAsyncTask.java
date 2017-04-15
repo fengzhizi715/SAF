@@ -7,6 +7,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -20,6 +21,8 @@ public abstract class RxAsyncTask<T> {
     private SuccessHandler successHandler;
     private FailedHandler failedHandler;
     private int retryCount = 3;
+
+    private CompositeDisposable composite = new CompositeDisposable();
 
     public RxAsyncTask() {
         this(null);
@@ -40,7 +43,7 @@ public abstract class RxAsyncTask<T> {
         Observable<T> observable = createObservable();
 
         if (retryCount > 0) {
-            observable.retryWhen(new RetryWithDelay(retryCount, 1000))
+            composite.add(observable.retryWhen(new RetryWithDelay(retryCount, 1000))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<T>() {
@@ -69,9 +72,9 @@ public abstract class RxAsyncTask<T> {
                                 failedHandler.onFail(throwable);
                             }
                         }
-                    });
+                    }));
         } else {
-            observable
+            composite.add(observable
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<T>() {
@@ -99,7 +102,7 @@ public abstract class RxAsyncTask<T> {
                                 failedHandler.onFail(throwable);
                             }
                         }
-                    });
+                    }));
         }
 
     }
@@ -109,6 +112,13 @@ public abstract class RxAsyncTask<T> {
      */
     public void start() {
         execute();
+    }
+
+    /**
+     * 取消task的执行
+     */
+    public void cancel() {
+        composite.clear();
     }
 
     private Observable<T> createObservable() {

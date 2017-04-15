@@ -52,6 +52,8 @@ public class ImageLoaderFragment extends BaseFragment {
 
     ProgressDialog progDailog;
 
+    ImageLoaderAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_imageloader, container, false);
@@ -137,8 +139,10 @@ public class ImageLoaderFragment extends BaseFragment {
         if (mCache.getObject(Config.FIRST_PICS)!=null) {
             GridLayoutManager manager = new GridLayoutManager(mContext,2);
             manager.setRecycleChildrenOnDetach(true);
+
+            adapter = new ImageLoaderAdapter(mContext, (List<MMPicsResponse.Pic>) mCache.getObject(Config.FIRST_PICS));
             recyclerview.setLayoutManager(manager);
-            recyclerview.setAdapter(new ImageLoaderAdapter(mContext, (List<MMPicsResponse.Pic>) mCache.getObject(Config.FIRST_PICS)));
+            recyclerview.setAdapter(adapter);
             recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
             recyclerview.setRecycledViewPool(myPool);
         }
@@ -164,8 +168,10 @@ public class ImageLoaderFragment extends BaseFragment {
                             if (respnose != null && Preconditions.isNotBlank(respnose.tngou)) {
                                 GridLayoutManager manager = new GridLayoutManager(mContext,2);
                                 manager.setRecycleChildrenOnDetach(true);
+
+                                adapter = new ImageLoaderAdapter(mContext, respnose.tngou);
                                 recyclerview.setLayoutManager(manager);
-                                recyclerview.setAdapter(new ImageLoaderAdapter(mContext, respnose.tngou));
+                                recyclerview.setAdapter(adapter);
                                 recyclerview.addItemDecoration(new DividerGridItemDecoration(mContext));
                                 recyclerview.setRecycledViewPool(myPool);
 

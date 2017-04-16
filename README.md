@@ -91,6 +91,14 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   compile 'com.safframework:saf-cache:1.0.1'
   ```
 
+* 消息队列框架：在saf项目中，并未单独拆分成独立的项目
+
+  下载：
+  ```groovy
+  compile 'com.safframework:saf-queue:1.0.0'
+  ```  
+  
+
 ChangeLog
 ===
 [版本更新记录](CHANGELOG.md)

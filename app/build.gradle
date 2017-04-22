@@ -61,7 +61,8 @@ dependencies {
     compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':saf-core')
     compile project(':saf-permissions')
-    compile project(':saf-queue')
+
+    compile 'com.safframework:saf-queue:1.0.0'
 
     compile 'com.safframework.router:saf-router:1.0.1'
     apt 'com.safframework.router:saf-router-compiler:1.0.2'

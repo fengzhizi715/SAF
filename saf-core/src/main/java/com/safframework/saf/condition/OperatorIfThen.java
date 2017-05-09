@@ -1,4 +1,4 @@
-package com.safframework.saf.rxjava;
+package com.safframework.saf.condition;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;

@@ -1,4 +1,4 @@
-package com.safframework.saf.rxjava;
+package com.safframework.saf.condition;
 
 /**
  * Created by Tony Shen on 2017/5/9.

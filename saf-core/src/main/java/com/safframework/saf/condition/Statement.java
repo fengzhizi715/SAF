@@ -36,10 +36,10 @@ public final class Statement {
         return RxJavaPlugins.onAssembly(new FlowableIfThen<R>(condition, then, orElse));
     }
 
-    public static <K, R> Observable<R> switchCase(Func0<? extends K> caseSelector,
+    public static <K, R> Observable<R> switchCase(Callable<? extends K> caseSelector,
                                                   Map<? super K, ? extends Observable<? extends R>> mapOfCases,
                                                   Observable<? extends R> defaultCase) {
-        return Observable.create(new OperatorSwitchCase<K, R>(caseSelector, mapOfCases, defaultCase));
+        return RxJavaPlugins.onAssembly(new ObservableSwitchCase<R, K>(caseSelector, mapOfCases, defaultCase));
     }
 
     public static <K, R> Flowable<R> switchCase(Callable<? extends K> caseSelector,

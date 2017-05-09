@@ -11,6 +11,10 @@ import io.reactivex.functions.BooleanSupplier;
 
 public final class Statement {
 
+    public static <R> Observable<R> ifThen(BooleanSupplier condition, Observable<? extends R> then) {
+        return Observable.create(new OperatorIfThen<R>(condition, then, Observable.<R> empty()));
+    }
+
     public static <R> Observable<R> ifThen(BooleanSupplier condition, Observable<? extends R> then,
                                            Observable<? extends R> orElse) {
         return Observable.create(new OperatorIfThen<R>(condition, then, orElse));

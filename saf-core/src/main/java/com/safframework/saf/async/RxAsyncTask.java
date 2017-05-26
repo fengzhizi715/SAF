@@ -142,9 +142,21 @@ public abstract class RxAsyncTask<T> {
         return this;
     }
 
+    /**
+     * 重试次数，默认是3次，可以根据实际情况修改
+     * @param retryCount
+     * @return
+     */
     public RxAsyncTask retry(int retryCount) {
         this.retryCount = retryCount;
         return this;
+    }
+
+    public void destory() {
+
+        if (!composite.isDisposed()) {
+            composite.dispose();
+        }
     }
 
     /**

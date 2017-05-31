@@ -152,6 +152,9 @@ public abstract class RxAsyncTask<T> {
         return this;
     }
 
+    /**
+     * 可以在Activity/Fragment注销时使用，防止内存泄露
+     */
     public void destory() {
 
         if (!composite.isDisposed()) {

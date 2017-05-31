@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ObservableUtils {
 
-    public static Observable wrap(final Object obj) {
+    public static Observable wrap(Object obj) {
 
         if (obj==null)
             return null;

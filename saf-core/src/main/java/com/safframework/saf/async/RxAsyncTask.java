@@ -2,9 +2,10 @@ package com.safframework.saf.async;
 
 import android.app.Dialog;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -40,10 +41,10 @@ public abstract class RxAsyncTask<T> {
 
     private void execute() {
         onPreExecute();
-        Observable<T> observable = createObservable();
+        Flowable<T> flowable = createFlowable();
 
         if (retryCount > 0) {
-            composite.add(observable.retryWhen(new RetryWithDelay(retryCount, 1000))
+            composite.add(flowable.retryWhen(new RetryWithDelay(retryCount, 1000))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<T>() {
@@ -74,7 +75,7 @@ public abstract class RxAsyncTask<T> {
                         }
                     }));
         } else {
-            composite.add(observable
+            composite.add(flowable
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<T>() {
@@ -121,15 +122,14 @@ public abstract class RxAsyncTask<T> {
         composite.clear();
     }
 
-    private Observable<T> createObservable() {
-        return Observable.create(new ObservableOnSubscribe<T>() {
+    private Flowable<T> createFlowable() {
+        return Flowable.create(new FlowableOnSubscribe<T>() {
             @Override
-            public void subscribe(ObservableEmitter<T> e) throws Exception {
-
+            public void subscribe(@NonNull FlowableEmitter<T> e) throws Exception {
                 e.onNext(onExecute());
                 e.onComplete();
             }
-        });
+        }, BackpressureStrategy.BUFFER);
     }
 
     public RxAsyncTask success(SuccessHandler successHandler) {

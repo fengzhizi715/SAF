@@ -4,8 +4,7 @@ import com.safframework.log.L;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
+import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
@@ -15,7 +14,7 @@ import io.reactivex.functions.Function;
  */
 
 public class RetryWithDelay implements
-        Function<Observable<? extends Throwable>, Observable<?>> {
+        Function<Flowable<? extends Throwable>, Flowable<?>> {
 
     private final int maxRetries;
     private final int retryDelayMillis;
@@ -27,23 +26,22 @@ public class RetryWithDelay implements
     }
 
     @Override
-    public Observable<?> apply(@NonNull Observable<? extends Throwable> observable) throws
-            Exception {
-        return observable
-                .flatMap(new Function<Throwable, ObservableSource<?>>() {
+    public Flowable<?> apply(@NonNull Flowable<? extends Throwable> flowable) throws Exception {
+        return flowable
+                .flatMap(new Function<Throwable, Flowable<?>>() {
                     @Override
-                    public ObservableSource<?> apply(@NonNull Throwable throwable) throws
+                    public Flowable<?> apply(@NonNull Throwable throwable) throws
                             Exception {
                         if (++retryCount <= maxRetries) {
                             // When this Observable calls onNext, the original Observable will be
                             // retried (i.e. re-subscribed).
                             L.i("get error, it will try after " + retryDelayMillis
                                     + " millisecond, retry count " + retryCount);
-                            return Observable.timer(retryDelayMillis,
+                            return Flowable.timer(retryDelayMillis,
                                     TimeUnit.MILLISECONDS);
                         }
                         // Max retries hit. Just pass the error along.
-                        return Observable.error(throwable);
+                        return Flowable.error(throwable);
                     }
                 });
     }

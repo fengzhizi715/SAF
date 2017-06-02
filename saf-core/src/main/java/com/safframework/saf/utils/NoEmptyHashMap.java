@@ -1,6 +1,6 @@
 package com.safframework.saf.utils;
 
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.util.HashMap;
 import java.util.Map;

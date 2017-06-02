@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.safframework.saf.utils.SAFUtils;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.lang.ref.SoftReference;
 import java.util.Collections;

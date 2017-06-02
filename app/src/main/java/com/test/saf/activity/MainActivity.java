@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.safframework.injectview.annotations.InjectView;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.fragment.HomeFragment;

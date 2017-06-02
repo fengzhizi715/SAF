@@ -19,7 +19,7 @@ import android.util.Log;
 import com.safframework.saf.config.SAFConstant;
 import com.safframework.saf.imagecache.RxImageLoader;
 import com.safframework.saf.utils.SAFUtils;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.safframework.injectview.annotations.InjectExtra;
 import com.safframework.injectview.annotations.InjectView;
 import com.safframework.router.RouterRule;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 

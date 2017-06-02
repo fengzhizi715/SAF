@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

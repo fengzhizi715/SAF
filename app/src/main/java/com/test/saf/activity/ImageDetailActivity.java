@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.safframework.injectview.Injector;
 import com.safframework.injectview.annotations.InjectExtra;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 import com.test.saf.R;
 import com.test.saf.app.BaseActivity;
 import com.test.saf.ui.SmoothImageView;

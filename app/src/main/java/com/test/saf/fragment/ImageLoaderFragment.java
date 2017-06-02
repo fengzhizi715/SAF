@@ -20,7 +20,7 @@ import com.safframework.saf.recyclerview.OnItemClickListener;
 import com.safframework.saf.rest.RestClient;
 import com.safframework.saf.rest.RestUtil;
 import com.safframework.saf.rest.UrlBuilder;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 import com.test.saf.R;
 import com.test.saf.activity.ImageDetailActivity;
 import com.test.saf.adapter.DividerGridItemDecoration;

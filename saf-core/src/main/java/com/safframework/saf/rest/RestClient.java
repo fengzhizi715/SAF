@@ -6,7 +6,7 @@ package com.safframework.saf.rest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.safframework.log.L;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;

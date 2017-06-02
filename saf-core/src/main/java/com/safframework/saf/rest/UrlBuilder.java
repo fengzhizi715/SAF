@@ -3,7 +3,7 @@
  */
 package com.safframework.saf.rest;
 
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

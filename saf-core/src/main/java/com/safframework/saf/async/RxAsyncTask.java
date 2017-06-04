@@ -9,6 +9,7 @@ import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -52,11 +53,6 @@ public abstract class RxAsyncTask<T> {
                         @Override
                         public void accept(@NonNull T t) throws Exception {
 
-                            if (mDialog != null) {
-                                mDialog.dismiss();
-                                mDialog = null;
-                            }
-
                             if (successHandler != null) {
                                 successHandler.onSuccess(t);
                             }
@@ -64,13 +60,17 @@ public abstract class RxAsyncTask<T> {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(@NonNull Throwable throwable) throws Exception {
-                            if (mDialog != null) {
-                                mDialog.dismiss();
-                                mDialog = null;
-                            }
 
                             if (throwable != null && failedHandler != null) {
                                 failedHandler.onFail(throwable);
+                            }
+                        }
+                    }, new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
                             }
                         }
                     }));
@@ -81,10 +81,6 @@ public abstract class RxAsyncTask<T> {
                     .subscribe(new Consumer<T>() {
                         @Override
                         public void accept(@NonNull T t) throws Exception {
-                            if (mDialog != null) {
-                                mDialog.dismiss();
-                                mDialog = null;
-                            }
 
                             if (successHandler != null) {
                                 successHandler.onSuccess(t);
@@ -94,13 +90,17 @@ public abstract class RxAsyncTask<T> {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(@NonNull Throwable throwable) throws Exception {
-                            if (mDialog != null) {
-                                mDialog.dismiss();
-                                mDialog = null;
-                            }
 
                             if (throwable != null && failedHandler != null) {
                                 failedHandler.onFail(throwable);
+                            }
+                        }
+                    }, new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            if (mDialog != null) {
+                                mDialog.dismiss();
+                                mDialog = null;
                             }
                         }
                     }));

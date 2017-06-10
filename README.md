@@ -22,7 +22,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 * [AOP(use aspectj)](https://github.com/fengzhizi715/SAF-AOP) AOP相关的注解框架
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
-* [Permissions](https://github.com/fengzhizi715/SAF#permissions) android6.0 以后的权限操作
 * [Event Bus](docs/event_bus.md) 事件总线
 * [Rest Client](docs/rest_client.md) 网络框架
 * [Image Cache(use rxjava)](docs/image_cache.md) 图片加载框架
@@ -33,9 +32,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [L](https://github.com/fengzhizi715/SAF-Kotlin-log) 日志框架
 * [Utils](docs/utils.md) 各种工具类
 
-
-Permissions
-===
 
 SAF子项目
 ==

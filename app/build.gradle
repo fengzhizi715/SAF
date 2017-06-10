@@ -60,7 +60,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'thereisnospon.codeview:codeview:0.3.1'
     compile project(':saf-core')
-    compile project(':saf-permissions')
 
     compile 'com.safframework:saf-queue:1.0.0'
 

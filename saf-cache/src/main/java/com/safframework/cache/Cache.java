@@ -428,7 +428,9 @@ public class Cache {
     }
 
     /**
-     * 获取可序列化的数据
+     * 获取Parcel，如果要转换成相应的class，则
+     * Parcel parcel = ...
+     * MyClass myclass = new MyClass(parcel); // Or MyClass.CREATOR.createFromParcel(parcel).
      *
      * @param key
      * @return Parcel 数据
@@ -441,6 +443,14 @@ public class Cache {
         return null;
     }
 
+    /**
+     * 获取可序列化的数据
+     * MyClass myclass = cache.getObject(key, MyClass.CREATOR);
+     * @param key
+     * @param creator
+     * @param <T>
+     * @return
+     */
     public <T> T getObject(String key,Parcelable.Creator<T> creator) {
         byte[] data = getBytes(key);
         if (data != null) {

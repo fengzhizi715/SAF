@@ -2,8 +2,8 @@ package cn.salesuite.saf.inject;
 
 import android.view.View;
 
-import com.safframwork.tony.common.reflect.Reflect;
-import com.safframwork.tony.common.utils.Preconditions;
+import com.safframework.tony.common.reflect.Reflect;
+import com.safframework.tony.common.utils.Preconditions;
 
 import java.lang.reflect.Method;
 

@@ -429,7 +429,7 @@ public class Cache {
 
     /**
      * 获取Parcel，如果要转换成相应的class，则
-     * Parcel parcel = ...
+     * Parcel parcel = cache.getParcelObject(key)
      * MyClass myclass = new MyClass(parcel); // Or MyClass.CREATOR.createFromParcel(parcel).
      *
      * @param key

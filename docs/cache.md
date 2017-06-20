@@ -2,7 +2,7 @@
 
 Gradle:
 ```groovy
-compile 'com.safframework:saf-cache:1.0.1'
+compile 'com.safframework:saf-cache:1.1.0'
 ```
 
 Maven:
@@ -10,7 +10,7 @@ Maven:
 <dependency>
   <groupId>com.safframework</groupId>
   <artifactId>saf-cache</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```

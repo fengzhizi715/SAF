@@ -60,7 +60,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'com.safframework'
     artifactId = 'saf-cache'
-    publishVersion = '1.0.1'
+    publishVersion = '1.1.0'
     desc = 'this is a cache library for android'
     website = 'https://github.com/fengzhizi715/SAF'
 }

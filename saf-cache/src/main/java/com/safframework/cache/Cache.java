@@ -1,6 +1,8 @@
 package com.safframework.cache;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,6 +74,8 @@ public class Cache {
         }
         cacheManager = new CacheManager(cacheDir, max_size, max_count);
     }
+
+    /**--------------String相关操作--------------*/
 
     /**
      * 保存 String数据 到 缓存中
@@ -153,6 +157,8 @@ public class Cache {
         }
     }
 
+    /**--------------JSONObject相关操作--------------*/
+
     /**
      * 保存 JSONObject数据 到 缓存中
      *
@@ -191,6 +197,8 @@ public class Cache {
         }
     }
 
+    /**--------------JSONArray相关操作--------------*/
+
     /**
      * 保存 JSONArray数据 到 缓存中
      *
@@ -228,6 +236,8 @@ public class Cache {
             return null;
         }
     }
+
+    /**--------------byte[]相关操作--------------*/
 
     /**
      * 保存 byte数据 到 缓存中
@@ -305,6 +315,8 @@ public class Cache {
         }
     }
 
+    /**--------------Serializable相关操作--------------*/
+
     /**
      * 保存序列化的数据 到 缓存中
      *
@@ -380,7 +392,61 @@ public class Cache {
             }
         }
         return null;
+    }
 
+    /**--------------Parcelable相关操作--------------*/
+
+    /**
+     * 保存序列化的数据 到 缓存中
+     *
+     * @param key
+     * @param value
+     */
+    public void put(String key, Parcelable value) {
+        put(key, value, -1);
+    }
+
+    /**
+     * 保存 Parcelable数据到 缓存中
+     *
+     * @param key
+     * @param value
+     * @param saveTime 保存的时间，单位：秒
+     */
+    public void put(String key, Parcelable value, int saveTime) {
+
+        try {
+            byte[] data = ParcelableUtils.marshall(value);
+            if (saveTime != -1) {
+                put(key, data, saveTime);
+            } else {
+                put(key, data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取可序列化的数据
+     *
+     * @param key
+     * @return Parcel 数据
+     */
+    public Parcel getParcelObject(String key) {
+        byte[] data = getBytes(key);
+        if (data != null) {
+            return ParcelableUtils.unmarshall(data);
+        }
+        return null;
+    }
+
+    public <T> T getObject(String key,Parcelable.Creator<T> creator) {
+        byte[] data = getBytes(key);
+        if (data != null) {
+            return ParcelableUtils.unmarshall(data,creator);
+        }
+        return null;
     }
 
     /**

@@ -14,7 +14,7 @@ ext {
 
             commons_codec       : "1.10",
             saf_log             : "1.0.5",
-            saf_cache           : "1.0.1",
+            saf_cache           : "1.1.0",
             tony_common_utils   : "1.1.0"
     ]
 }

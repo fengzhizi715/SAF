@@ -37,4 +37,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
     testCompile "junit:junit:${libs.junit}"
     compile "tony-common:tony-common-utils:${libs.tony_common_utils}"
+
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.rxAndroid
 }

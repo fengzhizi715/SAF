@@ -9,7 +9,6 @@ import com.test.saf.fragment.CacheFragment;
 import com.test.saf.fragment.EventBusFragment;
 import com.test.saf.fragment.GeneralAnnotationFragment;
 import com.test.saf.fragment.HomeFragment;
-import com.test.saf.fragment.ImageLoaderFragment;
 import com.test.saf.fragment.LogFragment;
 import com.test.saf.fragment.RouterFragment;
 import com.test.saf.fragment.SqliteORMFragment;
@@ -29,7 +28,6 @@ public class MenuManager {
         HOME("SAF介绍",false),
         ANNOTATION("通用注解",true),
         EVENTBUS("Event Bus",true),
-        IMAGELOADER("图片加载",true),
         SQLITE("Sqlite ORM",true),
         ROUTER("Router",true),
         CACHE("Cache",true),
@@ -104,10 +102,6 @@ public class MenuManager {
 
             case EVENTBUS:
                 fragment = new EventBusFragment();
-                break;
-
-            case IMAGELOADER:
-                fragment = new ImageLoaderFragment();
                 break;
 
             case SQLITE:

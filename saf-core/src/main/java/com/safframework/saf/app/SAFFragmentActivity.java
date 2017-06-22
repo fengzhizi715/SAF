@@ -3,9 +3,7 @@
  */
 package com.safframework.saf.app;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,24 +71,6 @@ public class SAFFragmentActivity extends FragmentActivity{
 			return app.activityManager.get(size-1).getClass().getName();
 		}
 		return null;
-	}
-	
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		app.imageLoader.clearMemCache();
-	}
-	
-	@Override
-	@TargetApi(14)
-	public void onTrimMemory(int level) {
-		if (SAFUtils.isICSOrHigher()) {
-			super.onTrimMemory(level);
-			
-			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
-				app.imageLoader.clearMemCache();
-			}
-		}
 	}
 	
 	@Override

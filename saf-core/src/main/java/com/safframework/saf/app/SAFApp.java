@@ -7,7 +7,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,7 +16,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.safframework.saf.config.SAFConstant;
-import com.safframework.saf.imagecache.RxImageLoader;
 import com.safframework.saf.utils.SAFUtils;
 import com.safframework.tony.common.utils.Preconditions;
 
@@ -45,11 +43,7 @@ public class SAFApp extends Application {
 	public String version;   // app的versionName
 	public int versionCode;  // app的versionCode
 
-	public RxImageLoader imageLoader;
 	private static SAFApp instance;
-	
-	private int defaultImageId;
-	private String fileDir;
 
 	/**
 	 * @see Application#onCreate()
@@ -64,8 +58,6 @@ public class SAFApp extends Application {
 		instance = this;
 
 		activityManager = new ArrayList<Activity>();
-		imageLoader = new RxImageLoader();
-		imageLoader.init(instance);
 		
 		PackageManager manager = this.getPackageManager();
 		try {
@@ -117,39 +109,5 @@ public class SAFApp extends Application {
 
 	public static SAFApp getInstance() {
 		return instance;
-	}
-
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		imageLoader.clearMemCache();
-	}
-	
-	@Override
-	@TargetApi(14)
-	public void onTrimMemory(int level) {
-		if (SAFUtils.isICSOrHigher()) {
-			super.onTrimMemory(level);
-			
-			if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
-				imageLoader.clearMemCache();
-			}
-		}
-	}
-	
-	/**
-	 * 子类继承时,可使用自己的默认图片
-	 * @param defaultImageId
-	 */
-	public void setDefaultImageId(int defaultImageId) {
-		this.defaultImageId = defaultImageId;
-	}
-
-	/**
-	 * 子类继承时,可使用自己的默认文件路径存放图片
-	 * @param fileDir
-	 */
-	public void setFileDir(String fileDir) {
-		this.fileDir = fileDir;
 	}
 }

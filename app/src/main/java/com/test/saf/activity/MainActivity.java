@@ -105,9 +105,6 @@ public class MainActivity extends BaseActivity {
 			case R.id.drawer_eventbus:
 				menuManager.show(MenuManager.MenuType.EVENTBUS);
 				break;
-			case R.id.drawer_imageloader:
-				menuManager.show(MenuManager.MenuType.IMAGELOADER);
-				break;
 			case R.id.drawer_sqlite:
 				menuManager.show(MenuManager.MenuType.SQLITE);
 				break;

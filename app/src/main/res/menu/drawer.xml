@@ -37,11 +37,6 @@
             android:title="@string/eventbus"/>
 
         <item
-            android:id="@+id/drawer_imageloader"
-            android:icon="@drawable/menu_imageloader"
-            android:title="@string/imageloader"/>
-
-        <item
             android:id="@+id/drawer_sqlite"
             android:icon="@drawable/menu_sqlite_orm"
             android:title="@string/sqlite"/>

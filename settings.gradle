@@ -1,4 +1,4 @@
-include ':saf-core'
+include ':saf-core', ':saf-permission'
 include ':saf-queue'
 include ':saf-cache'
 include ':saf-legacy'

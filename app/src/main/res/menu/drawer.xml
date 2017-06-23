@@ -57,5 +57,10 @@
             android:icon="@drawable/menu_log"
             android:title="@string/log"/>
 
+        <item
+            android:id="@+id/drawer_permission"
+            android:icon="@drawable/menu_permission"
+            android:title="@string/log"/>
+
     </group>
 </menu>

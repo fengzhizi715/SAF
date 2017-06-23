@@ -1,6 +1,7 @@
 # SAF
 
 [![@Tony沈哲 on weibo](https://img.shields.io/badge/weibo-%40Tony%E6%B2%88%E5%93%B2-blue.svg)](http://www.weibo.com/fengzhizi715)
+[![Build Status](https://travis-ci.org/fengzhizi715/SAF.svg?branch=master)](https://travis-ci.org/fengzhizi715/SAF)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2fe613634c2a44338fe40a6b75a20ec7)](https://www.codacy.com/app/fengzhizi715/SAF?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fengzhizi715/SAF&amp;utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 

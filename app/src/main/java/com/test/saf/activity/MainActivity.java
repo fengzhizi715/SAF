@@ -117,6 +117,9 @@ public class MainActivity extends BaseActivity {
 			case R.id.drawer_log:
 				menuManager.show(MenuManager.MenuType.LOG);
 				break;
+			case R.id.drawer_permission:
+				menuManager.show(MenuManager.MenuType.PERMISSION);
+				break;
 			default:
 				break;
 		}

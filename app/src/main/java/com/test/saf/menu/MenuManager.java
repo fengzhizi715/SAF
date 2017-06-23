@@ -10,6 +10,7 @@ import com.test.saf.fragment.EventBusFragment;
 import com.test.saf.fragment.GeneralAnnotationFragment;
 import com.test.saf.fragment.HomeFragment;
 import com.test.saf.fragment.LogFragment;
+import com.test.saf.fragment.PermissionFragment;
 import com.test.saf.fragment.RouterFragment;
 import com.test.saf.fragment.SqliteORMFragment;
 
@@ -31,7 +32,8 @@ public class MenuManager {
         SQLITE("Sqlite ORM",true),
         ROUTER("Router",true),
         CACHE("Cache",true),
-        LOG("日志框架L",true);
+        LOG("日志框架L",true),
+        PERMISSION("权限框架",true);
 
         public final String title;
         public final boolean removed;
@@ -118,6 +120,10 @@ public class MenuManager {
 
             case LOG:
                 fragment = new LogFragment();
+                break;
+
+            case PERMISSION:
+                fragment = new PermissionFragment();
                 break;
 
             default:

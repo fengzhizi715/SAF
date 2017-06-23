@@ -252,7 +252,7 @@ public class RxPermissions {
     }
 
     boolean isMarshmallow() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+        return Build.VERSION.SDK_INT >= 23;
     }
 
     void onRequestPermissionsResult(String permissions[], int[] grantResults) {

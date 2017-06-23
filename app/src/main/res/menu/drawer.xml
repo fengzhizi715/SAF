@@ -23,43 +23,43 @@
         <item
             android:id="@+id/drawer_saf"
             android:checked="true"
-            android:icon="@drawable/menu_safinfo"
+            android:icon="@drawable/ic_safinfo"
             android:title="@string/saf"/>
 
         <item
             android:id="@+id/drawer_anno"
-            android:icon="@drawable/menu_general_anno"
+            android:icon="@drawable/ic_annotation"
             android:title="@string/general_anno"/>
 
         <item
             android:id="@+id/drawer_eventbus"
-            android:icon="@drawable/menu_eventbus"
+            android:icon="@drawable/ic_eventbus"
             android:title="@string/eventbus"/>
 
         <item
             android:id="@+id/drawer_sqlite"
-            android:icon="@drawable/menu_sqlite_orm"
+            android:icon="@drawable/ic_sqlite"
             android:title="@string/sqlite"/>
 
 
         <item
             android:id="@+id/drawer_router"
-            android:icon="@drawable/menu_router"
+            android:icon="@drawable/ic_router"
             android:title="@string/router"/>
 
         <item
             android:id="@+id/drawer_cache"
-            android:icon="@drawable/menu_cache"
+            android:icon="@drawable/ic_cache"
             android:title="@string/cache"/>
 
         <item
             android:id="@+id/drawer_log"
-            android:icon="@drawable/menu_log"
+            android:icon="@drawable/ic_log"
             android:title="@string/log"/>
 
         <item
             android:id="@+id/drawer_permission"
-            android:icon="@drawable/menu_permission"
+            android:icon="@drawable/ic_permission"
             android:title="@string/permission"/>
 
     </group>

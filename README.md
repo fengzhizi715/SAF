@@ -9,7 +9,7 @@ SAF(Simple Android Framework)最早的定位是一个简单的Android框架，�
 SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星app、京东内部的多个app(京东众包、京明管家、众包商户端、众包运作主管)等等。
 目前google code上的工程早已暂停维护，全部迁移到github上。SAF目前文档版本是1.1.19，下一个版本会是1.2.0。1.2.0发布在即，会有很多新的变化和特性。
 
-遇到任何问题欢迎跟我联系，qq: 63067756/wechat: fengzhizi715, 玩得开心:)
+遇到任何问题欢迎跟我联系，玩得开心:)
 
 除了SAF自带的demo app外，[魔窗的android demo app](https://github.com/magicwindow/mw-androidsdk-example)也使用了SAF，而且也是开源的
 
@@ -108,6 +108,8 @@ Blog: http://www.jianshu.com/users/4f2c483c12d8/
 Github: https://github.com/fengzhizi715
 
 E-mail：fengzhizi715@126.com
+
+Wechat：fengzhizi715
 
 # Contributors
 

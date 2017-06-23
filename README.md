@@ -1,5 +1,5 @@
-SAF
-===
+# SAF
+
 [![@Tony沈哲 on weibo](https://img.shields.io/badge/weibo-%40Tony%E6%B2%88%E5%93%B2-blue.svg)](http://www.weibo.com/fengzhizi715)
 [![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
@@ -15,8 +15,8 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 
 ![](logo.png)
 
-主要功能
-----
+## 主要功能
+
 
 ![](SAF_Framework.png)
 
@@ -24,7 +24,6 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
 * [Event Bus](docs/event_bus.md) 事件总线
 * [Rest Client](docs/rest_client.md) 网络框架
-* [Image Cache(use rxjava)](docs/image_cache.md) 图片加载框架
 * [Dependency Injection(use apt)](https://github.com/fengzhizi715/SAF-Kotlin-InjectView) 依赖注入
 * [Sqlite ORM](docs/sqlite_orm.md) 数据库操作框架
 * [Router](https://github.com/fengzhizi715/SAF-Kotlin-Router) Activity、Fragment的路由框架
@@ -33,8 +32,8 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Utils](docs/utils.md) 各种工具类
 
 
-SAF子项目
-==
+## SAF子项目
+
 SAF已经拆分成多个子项目，每个子项目都可以单独使用，没有任何的依赖关系。
 
 * 日志框架：https://github.com/fengzhizi715/SAF-Kotlin-log
@@ -95,12 +94,12 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ```  
   
 
-ChangeLog
-===
+# ChangeLog
+
 [版本更新记录](CHANGELOG.md)
 
-Author
-===
+# Author
+
 
 联系方式
 
@@ -108,22 +107,22 @@ Blog: http://www.jianshu.com/users/4f2c483c12d8/
 
 Github: https://github.com/fengzhizi715
 
-Contributors
-===
+E-mail：fengzhizi715@126.com
+
+# Contributors
+
 1. [frankswu](https://github.com/frankswu) 完善老版本的Inject框架和Router框架
 2. [ymcao](https://github.com/ymcao) 增加AsyncTask替换android系统的AsyncTask
 3. [aaron](https://github.com/snailflying) 修改build.gradle，支持多个module合并到一个jar包。
 
-TODO
-===
-1. Image Cache模块需要进一步优化
-2. Utils 全部用Kotlin重写
-3. Event Bus需要重构
+# TODO
+
+1. Utils 全部用Kotlin重写
 
 License
 -------
 
-    Copyright (C) 2012-2017 Tony Shen.
+    Copyright (C) 2012 - present Tony Shen.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

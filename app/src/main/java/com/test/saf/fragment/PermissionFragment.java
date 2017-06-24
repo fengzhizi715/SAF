@@ -29,6 +29,9 @@ public class PermissionFragment extends BaseFragment {
     @InjectView(R.id.text1)
     TextView text1;
 
+    @InjectView(R.id.text2)
+    TextView text2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_permission, container, false);
@@ -48,9 +51,23 @@ public class PermissionFragment extends BaseFragment {
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
 
                         if (aBoolean) {
-                            Toast.makeText(mContext,"打开摄像头成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"获取摄像头权限成功",Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(mContext,"打开摄像头失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"获取摄像头权限失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        RxView.clicks(text2).throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(new RxPermissions(mContext).ensure(Manifest.permission.CALL_PHONE))
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+
+                        if (aBoolean) {
+                            Toast.makeText(mContext,"获取打电话权限成功",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext,"获取打电话权限失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

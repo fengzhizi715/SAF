@@ -14,15 +14,15 @@
         android:gravity="center"
         android:text="测试打开摄像头"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/text2"-->
-        <!--android:layout_below="@+id/text1"-->
-        <!--android:layout_width="350dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@drawable/textview_border"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:gravity="center"-->
-        <!--android:text="测试打开摄像头"/>-->
+    <TextView
+        android:id="@+id/text2"
+        android:layout_below="@+id/text1"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/textview_border"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="测试打开手机"/>
 
 </RelativeLayout>

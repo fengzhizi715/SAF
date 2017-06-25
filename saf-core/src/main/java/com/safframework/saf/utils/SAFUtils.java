@@ -119,10 +119,8 @@ public class SAFUtils {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		if(wm==null || wm.isWifiEnabled()==false) return false;
-		
-		return true;
+
+		return wm!=null && wm.isWifiEnabled();
     }
 	
 	/**

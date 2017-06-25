@@ -251,7 +251,7 @@ public class RxPermissions {
         return isMarshmallow() && mRxPermissionsFragment.isRevoked(permission);
     }
 
-    boolean isMarshmallow() {
+    private boolean isMarshmallow() {
         return Build.VERSION.SDK_INT >= 23;
     }
 

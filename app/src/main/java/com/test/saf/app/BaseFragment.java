@@ -16,9 +16,6 @@ public class BaseFragment extends SAFFragment {
     protected FragmentManager fmgr;
     protected Cache mCache;
 
-    public BaseFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

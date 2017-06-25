@@ -104,6 +104,9 @@ public class OperationRunnable implements Runnable {
                 break;
             case DELAY:
                 handler.postDelayed(this, time);
+            default:
+                handler.post(this);
+                break;
         }
     }
 }

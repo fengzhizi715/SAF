@@ -11,6 +11,16 @@ import java.lang.ref.WeakReference;
 
 public class OperationRunnable implements Runnable {
 
+    private Operation operation = null;
+    private Type type = Type.NORMAL;
+    private Object token = null;
+    private long time = 0;
+    private WeakReference<Queue> owner;
+
+    protected OperationRunnable(Queue queue, Operation operation) {
+        this(queue, operation, Type.NORMAL, null, 0);
+    }
+
     private static final Handler handler = new Handler(Looper.getMainLooper());
 
     public static void runOnUiThread(Runnable runnable) {
@@ -39,16 +49,6 @@ public class OperationRunnable implements Runnable {
         ATTIME,
         ATTIME_WITH_TOKEN,
         DELAY,
-    }
-
-    private Operation operation = null;
-    private Type type = Type.NORMAL;
-    private Object token = null;
-    private long time = 0;
-    private WeakReference<Queue> owner;
-
-    protected OperationRunnable(Queue queue, Operation operation) {
-        this(queue, operation, Type.NORMAL, null, 0);
     }
 
     protected OperationRunnable(Queue queue, Operation operation, Type type, Object token, long time) {

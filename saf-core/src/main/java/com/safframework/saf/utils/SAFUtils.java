@@ -53,12 +53,6 @@ import java.util.List;
  */
 public class SAFUtils {
 
-//	private static final int REQUEST_EXTERNAL_STORAGE = 1;
-//	private static String[] PERMISSIONS_STORAGE = {
-//			Manifest.permission.READ_EXTERNAL_STORAGE,
-//			Manifest.permission.WRITE_EXTERNAL_STORAGE
-//	};
-	
 	public static boolean isFroyoOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
     }
@@ -483,12 +477,9 @@ public class SAFUtils {
 	 * @return
 	 */
 	public static boolean positionInChina(Location mLocation){
-		if(mLocation.getLatitude()>18.167 && mLocation.getLatitude()<53.55){
-			if(mLocation.getLongitude()>73.667 && mLocation.getLongitude()<135.033){
-				return true;
-			}
-		}
-		return false;
+
+		return mLocation.getLatitude()>18.167 && mLocation.getLatitude()<53.55
+				&& mLocation.getLongitude()>73.667 && mLocation.getLongitude()<135.033;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class RxPermissions {
     static final String TAG = "RxPermissions";
     static final Object TRIGGER = new Object();
 
-    RxPermissionsFragment mRxPermissionsFragment;
+    private RxPermissionsFragment mRxPermissionsFragment;
 
     public RxPermissions(@NonNull Activity activity) {
         mRxPermissionsFragment = getRxPermissionsFragment(activity);

@@ -21,14 +21,14 @@ public class LifecyclePublisher {
     public static final int ON_DESTROY = 8;
     public static final int ON_DETACH = 9;
 
+    private final BehaviorProcessor<Integer> behavior = BehaviorProcessor.create();
+
     @IntDef({ON_ATTACH, ON_CREATE, ON_CREATE_VIEW,
             ON_START, ON_RESUME,
             ON_PAUSE, ON_STOP,
             ON_DESTROY_VIEW, ON_DESTROY, ON_DETACH})
     public @interface Event {
     }
-
-    private final BehaviorProcessor<Integer> behavior = BehaviorProcessor.create();
 
     public BehaviorProcessor<Integer> getBehavior() {
         return behavior;

@@ -1,5 +1,5 @@
-include ':saf-core', ':saf-permission'
+include ':saf-core'
 include ':saf-queue'
 include ':saf-cache'
-include ':saf-legacy'
+include ':saf-permission'
 include 'app'

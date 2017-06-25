@@ -1,6 +1,5 @@
 package com.test.saf.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,8 @@ import java.util.List;
 public class AnnotationAdapter extends RecyclerView.Adapter<NormalTextViewHolder> {
 
     private List<String> mList;
-    private Context mContext;
 
-    public AnnotationAdapter(Context context,List<String> data) {
-        mContext = context;
+    public AnnotationAdapter(List<String> data) {
         mList = data;
     }
 

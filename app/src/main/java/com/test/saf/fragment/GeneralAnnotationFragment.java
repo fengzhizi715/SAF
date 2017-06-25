@@ -51,7 +51,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
         data.add("@Trace");
 
         recyclerview.setLayoutManager(new LinearLayoutManager(mContext));//这里用线性显示 类似于listview
-        recyclerview.setAdapter(new AnnotationAdapter(mContext,data));
+        recyclerview.setAdapter(new AnnotationAdapter(data));
         recyclerview.getLayoutManager().setAutoMeasureEnabled(true);
         recyclerview.setNestedScrollingEnabled(false);
         recyclerview.setHasFixedSize(false);

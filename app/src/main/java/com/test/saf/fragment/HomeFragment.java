@@ -26,7 +26,7 @@ public class HomeFragment extends BaseFragment {
     @InjectView(R.id.webview)
     WebView webview;
 
-    ProgressDialog progDailog;
+    private ProgressDialog progDailog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

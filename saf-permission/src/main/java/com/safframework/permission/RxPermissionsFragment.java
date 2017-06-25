@@ -48,8 +48,10 @@ public class RxPermissionsFragment extends Fragment {
 
         boolean[] shouldShowRequestPermissionRationale = new boolean[permissions.length];
 
-        for (int i = 0; i < permissions.length; i++) {
-            shouldShowRequestPermissionRationale[i] = shouldShowRequestPermissionRationale(permissions[i]);
+        int i = 0;
+        for (String permission:permissions) {
+            shouldShowRequestPermissionRationale[i] = shouldShowRequestPermissionRationale(permission);
+            i++;
         }
 
         onRequestPermissionsResult(permissions, grantResults, shouldShowRequestPermissionRationale);

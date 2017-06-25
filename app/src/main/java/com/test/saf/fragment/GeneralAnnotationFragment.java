@@ -29,7 +29,7 @@ public class GeneralAnnotationFragment extends BaseFragment {
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
 
-    List<String> data = new ArrayList<String>();
+    private List<String> data = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

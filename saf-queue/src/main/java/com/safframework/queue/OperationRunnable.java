@@ -16,12 +16,11 @@ public class OperationRunnable implements Runnable {
     private Object token = null;
     private long time = 0;
     private WeakReference<Queue> owner;
+    private static final Handler handler = new Handler(Looper.getMainLooper());
 
     protected OperationRunnable(Queue queue, Operation operation) {
         this(queue, operation, Type.NORMAL, null, 0);
     }
-
-    private static final Handler handler = new Handler(Looper.getMainLooper());
 
     public static void runOnUiThread(Runnable runnable) {
         handler.post(runnable);
@@ -104,6 +103,7 @@ public class OperationRunnable implements Runnable {
                 break;
             case DELAY:
                 handler.postDelayed(this, time);
+                break;
             default:
                 handler.post(this);
                 break;

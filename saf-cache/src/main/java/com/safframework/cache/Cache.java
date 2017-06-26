@@ -610,6 +610,8 @@ public class Cache {
     }
 
     private static class CacheUtils {
+        
+        private static final char mSeparator = ' ';
 
         /**
          * 判断缓存的String数据是否到期
@@ -705,8 +707,6 @@ public class Cache {
                     Math.min(original.length - from, newLength));
             return copy;
         }
-
-        private static final char mSeparator = ' ';
 
         private static String createDateInfo(int second) {
             String currentTime = System.currentTimeMillis() + "";

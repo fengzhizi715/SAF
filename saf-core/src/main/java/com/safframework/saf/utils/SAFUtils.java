@@ -487,12 +487,8 @@ public class SAFUtils {
      * @return
      */
 	public static boolean positionInChina(double latitude,double longitude){
-		if(latitude>18.167 && latitude<53.55){
-			if(longitude>73.667 && longitude<135.033){
-				return true;
-			}
-		}
-		return false;
+
+		return latitude>18.167 && latitude<53.55 && longitude>73.667 && longitude<135.033;
 	}
 
 	/**

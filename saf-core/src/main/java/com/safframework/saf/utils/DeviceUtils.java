@@ -35,9 +35,6 @@ import java.util.Locale;
 
 public class DeviceUtils {
 
-    private static final String FIRST_TAG = "0";   //此值代表首次启动
-    private static final String NO_FIRST_TAG = "1";   //此值代表非首次启动
-
     public final static String CHINA_CARRIER_UNKNOWN = "0";
     public final static String CHINA_MOBILE = "1";
     public final static String CHINA_UNICOM = "2";

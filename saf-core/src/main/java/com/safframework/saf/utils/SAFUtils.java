@@ -543,16 +543,19 @@ public class SAFUtils {
 	 */
 	public static boolean checkPermissions(Context context, String permission) {
 
+		Context mContext = null;
 		if (context==null) {
 			if (SAFUtils.isICSOrHigher()) {
-				context = getContext();
+				mContext = getContext();
 			} else {
 				return false;
 			}
+		} else {
+			mContext = context;
 		}
 
-		PackageManager localPackageManager = context.getApplicationContext().getPackageManager();
-		return localPackageManager.checkPermission(permission, context.getApplicationContext().getPackageName()) == PackageManager.PERMISSION_GRANTED;
+		PackageManager localPackageManager = mContext.getApplicationContext().getPackageManager();
+		return localPackageManager.checkPermission(permission, mContext.getApplicationContext().getPackageName()) == PackageManager.PERMISSION_GRANTED;
 	}
 
 	/**

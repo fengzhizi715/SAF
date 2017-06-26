@@ -47,12 +47,8 @@ public class StringUtils {
 		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(emailStr.trim());
-		boolean isMatched = matcher.matches();
-		if (isMatched) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return matcher.matches();
 	}
 	
 	/**

@@ -610,7 +610,7 @@ public class Cache {
     }
 
     private static class CacheUtils {
-        
+
         private static final char mSeparator = ' ';
 
         /**

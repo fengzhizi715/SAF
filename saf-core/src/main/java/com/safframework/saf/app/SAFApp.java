@@ -33,8 +33,6 @@ import java.util.List;
  */
 public class SAFApp extends Application {
 
-	public String root = "/sdcard";
-
 	public List<Activity> activityManager;
 
 	public String deviceid;  // 设备ID

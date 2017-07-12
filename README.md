@@ -42,7 +42,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework.log:saf-log:1.0.6'
+  compile 'com.safframework.log:saf-log:1.0.8'
   ```
   
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router

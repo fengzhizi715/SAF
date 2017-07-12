@@ -1,4 +1,4 @@
-package com.safframework.saf.lifecycle;
+package com.safframework.lifecycle;
 
 import android.support.annotation.IntDef;
 

@@ -23,7 +23,7 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 ![](SAF_Framework.png)
 
 * [AOP(use aspectj)](https://github.com/fengzhizi715/SAF-AOP) AOP相关的注解框架
-* [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 区别于系统自带的AsyncTask
+* [RxAsyncTask(use rxjava)](docs/rxasynctask.md) 使用RxJava开发的AsyncTask，区别于Android系统自带的AsyncTask
 * [Event Bus](docs/event_bus.md) 事件总线
 * [Rest Client](docs/rest_client.md) 网络框架
 * [Dependency Injection(use apt)](https://github.com/fengzhizi715/SAF-Kotlin-InjectView) 依赖注入
@@ -31,6 +31,8 @@ SAF曾经在多个项目中使用，包括今夜酒店特价app、锦江之星ap
 * [Router](https://github.com/fengzhizi715/SAF-Kotlin-Router) Activity、Fragment的路由框架
 * [Cache](docs/cache.md) 缓存框架
 * [L](https://github.com/fengzhizi715/SAF-Kotlin-log) 日志框架
+* Permission 权限框架，用于适配android6.0之后新的权限框架
+* RxLifecycle 管理Activity、Fragment生命周期的框架，防止由于使用RxJava而产生内存泄漏
 * [Utils](docs/utils.md) 各种工具类
 
 
@@ -94,7 +96,12 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ```groovy
   compile 'com.safframework:saf-queue:1.0.0'
   ```  
-  
+* 权限框架：在saf项目中，并未单独拆分成独立的项目
+
+  下载：
+  ```groovy
+  compile 'com.safframework:saf-permission:1.0.0'
+  ```
 
 # ChangeLog
 

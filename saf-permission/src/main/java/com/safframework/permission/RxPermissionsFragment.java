@@ -58,7 +58,8 @@ public class RxPermissionsFragment extends Fragment {
     }
 
     void onRequestPermissionsResult(String permissions[], int[] grantResults, boolean[] shouldShowRequestPermissionRationale) {
-        for (int i = 0, size = permissions.length; i < size; i++) {
+        int size = permissions.length;
+        for (int i = 0; i < size; i++) {
             log("onRequestPermissionsResult  " + permissions[i]);
             // Find the corresponding subject
             PublishSubject<Permission> subject = mSubjects.get(permissions[i]);

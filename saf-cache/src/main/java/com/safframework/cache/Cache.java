@@ -69,7 +69,7 @@ public class Cache {
 
     private Cache(File cacheDir, long max_size, int max_count) {
         if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-            throw new RuntimeException("can't make dirs in "
+            throw new CacheException("can't make dirs in "
                     + cacheDir.getAbsolutePath());
         }
         cacheManager = new CacheManager(cacheDir, max_size, max_count);

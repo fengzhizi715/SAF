@@ -52,13 +52,13 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   下载：
   ```groovy
   apply plugin: 'com.neenbedankt.android-apt'
-  
+
   ...
-  
+
   dependencies {
-      compile 'com.safframework.router:saf-router:1.0.0'
-      apt 'com.safframework.router:saf-router-compiler:1.0.2'
-      ...
+     compile 'com.safframework.router:saf-router:1.1.1'
+     apt 'com.safframework.router:saf-router-compiler:1.1.0'
+     ...
   }
   ```
 

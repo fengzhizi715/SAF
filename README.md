@@ -56,7 +56,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ...
 
   dependencies {
-     compile 'com.safframework.router:saf-router:1.1.1'
+     compile 'com.safframework.router:saf-router:1.1.2'
      apt 'com.safframework.router:saf-router-compiler:1.1.0'
      ...
   }

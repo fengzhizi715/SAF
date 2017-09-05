@@ -13,7 +13,7 @@ ext {
             support_appcompat_v7: "25.0.1",
 
             commons_codec       : "1.10",
-            saf_log             : "1.0.6",
+            saf_log             : "1.1.0",
             saf_cache           : "1.1.0",
             tony_common_utils   : "1.1.0"
     ]
@@ -26,7 +26,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.8'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.10'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.novoda:bintray-release:0.4.0'
         // NOTE: Do not place your application dependencies here; they belong

@@ -46,7 +46,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ```groovy
   compile 'com.safframework.log:saf-log:1.2.0'
   ```
-  
+
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
 
   下载：
@@ -56,20 +56,20 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   ...
 
   dependencies {
-     compile 'com.safframework.router:saf-router:1.1.2'
+     compile 'com.safframework.router:saf-router:1.1.3'
      apt 'com.safframework.router:saf-router-compiler:1.1.0'
      ...
   }
   ```
 
 * 依赖注入框架：https://github.com/fengzhizi715/SAF-Kotlin-InjectView
-  
+
   下载：
   ```groovy
   apply plugin: 'com.neenbedankt.android-apt'
-  
+
   ...
-  
+
   dependencies {
       compile 'com.safframework.injectview:saf-injectview:1.1.0'
       apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
@@ -77,12 +77,12 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   }
   ```
 * AOP框架：https://github.com/fengzhizi715/SAF-AOP
-  
+
   下载：
   ```groovy
   compile 'com.safframework:saf-aop:1.1.4'
   ```
-  
+
 * 缓存框架：在saf项目中，并未单独拆分成独立的项目
 
   下载：

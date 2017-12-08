@@ -30,9 +30,9 @@ public class RxLifecycle {
     }
 
     public static RxLifecycle bind(@NonNull FragmentManager fragmentManager) {
-        BindingFragment fragment = (BindingFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
+        BindingV4Fragment fragment = (BindingV4Fragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
         if (fragment == null) {
-            fragment = new BindingFragment();
+            fragment = new BindingV4Fragment();
 
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(fragment, FRAGMENT_TAG);

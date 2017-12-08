@@ -13,11 +13,11 @@ import android.view.ViewGroup;
  * Created by Tony Shen on 2017/5/25.
  */
 
-public class BindingFragment extends Fragment {
+public class BindingV4Fragment extends Fragment {
 
     private final LifecyclePublisher lifecyclePublisher = new LifecyclePublisher();
 
-    public BindingFragment() {
+    public BindingV4Fragment() {
     }
 
     public LifecyclePublisher getLifecyclePublisher() {

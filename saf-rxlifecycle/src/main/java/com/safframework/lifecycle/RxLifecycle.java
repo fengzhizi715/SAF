@@ -1,11 +1,11 @@
 package com.safframework.lifecycle;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import io.reactivex.Flowable;
@@ -25,14 +25,17 @@ public class RxLifecycle {
         return bind(targetActivity.getSupportFragmentManager());
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static RxLifecycle bind(@NonNull Fragment targetFragment) {
         return bind(targetFragment.getChildFragmentManager());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static RxLifecycle bind(@NonNull FragmentManager fragmentManager) {
-        BindingV4Fragment fragment = (BindingV4Fragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
+        BindingFragment fragment = (BindingFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
         if (fragment == null) {
-            fragment = new BindingV4Fragment();
+            fragment = new BindingFragment();
 
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(fragment, FRAGMENT_TAG);
@@ -40,6 +43,28 @@ public class RxLifecycle {
 
         } else if (Build.VERSION.SDK_INT >= 13 && fragment.isDetached()) {
             final FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.attach(fragment);
+            transaction.commit();
+        }
+
+        return bind(fragment.getLifecyclePublisher());
+    }
+
+    public static RxLifecycle bind(@NonNull android.support.v4.app.Fragment targetFragment) {
+        return bind(targetFragment.getChildFragmentManager());
+    }
+
+    public static RxLifecycle bind(@NonNull android.support.v4.app.FragmentManager fragmentManager) {
+        BindingV4Fragment fragment = (BindingV4Fragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
+        if (fragment == null) {
+            fragment = new BindingV4Fragment();
+
+            final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(fragment, FRAGMENT_TAG);
+            transaction.commit();
+
+        } else if (Build.VERSION.SDK_INT >= 13 && fragment.isDetached()) {
+            final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.attach(fragment);
             transaction.commit();
         }

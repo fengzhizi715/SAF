@@ -106,7 +106,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-rxlifecycle:1.0.0'
+  compile 'com.safframework:saf-rxlifecycle:1.1.0'
   ```
 
 # ChangeLog

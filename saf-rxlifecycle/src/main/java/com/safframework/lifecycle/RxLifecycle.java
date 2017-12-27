@@ -62,8 +62,8 @@ public class RxLifecycle {
             final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(fragment, FRAGMENT_TAG);
             transaction.commit();
+        } else if (fragment.isDetached()) {
 
-        } else if (Build.VERSION.SDK_INT >= 13 && fragment.isDetached()) {
             final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.attach(fragment);
             transaction.commit();

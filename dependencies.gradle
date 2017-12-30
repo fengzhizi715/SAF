@@ -11,7 +11,7 @@ ext {
     supportAppCompat = "com.android.support:appcompat-v7:$supportVersion"
     supportDesign = "com.android.support:design:$supportVersion"
 
-    rxJava = 'io.reactivex.rxjava2:rxjava:2.1.0'
+    rxJava = 'io.reactivex.rxjava2:rxjava:2.1.8'
     rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
     junit = 'junit:junit:4.12'
 

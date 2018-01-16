@@ -59,9 +59,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
     compile 'com.github.clans:fab:1.6.4'
     compile 'thereisnospon.codeview:codeview:0.3.1'
-    compile project(':saf-core')
-    compile project(':saf-permission')
-
+    
     compile 'com.safframework:saf-queue:1.0.0'
 
     compile 'com.safframework.router:saf-router:1.0.1'
@@ -71,4 +69,7 @@ dependencies {
     apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
 
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+
+    compile project(':saf-core')
+    compile project(':saf-permission')
 }

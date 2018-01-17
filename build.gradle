@@ -1,34 +1,35 @@
 ext {
     configuration = [
-            buildToolsVersion: "25.0.2",
-            compileVersion   : 25,
-            minSdk           : 9,
-            targetSdk        : 25,
+            buildToolsVersion: "27.0.2",
+            compileVersion   : 27,
+            minSdk           : 15,
+            targetSdk        : 27,
             saf_version_name : "1.1.19"
     ]
 
     libraries = [
             junit               : "4.12",
-            support_design      : "25.0.1",
-            support_appcompat_v7: "25.0.1",
+            support_design      : "27.0.2",
+            support_appcompat_v7: "27.0.2",
 
             commons_codec       : "1.10",
-            saf_log             : "1.5.0",
+            saf_log             : "1.5.1",
             saf_cache           : "1.1.0",
             tony_common_utils   : "1.2.4"
     ]
 }
 
 buildscript {
-    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.10'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.novoda:bintray-release:0.4.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.1.1'
+        classpath 'org.aspectj:aspectjtools:1.8.13'
+        classpath 'com.novoda:bintray-release:0.5.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -36,9 +37,8 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter() {
-            url 'http://jcenter.bintray.com/'
-        }
+        google()
+        jcenter()
     }
 
     //加上这些

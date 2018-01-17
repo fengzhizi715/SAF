@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.hujiang.android-aspectjx'
-apply plugin: 'com.neenbedankt.android-apt'
 
 def cfg = rootProject.ext.configuration // 配置
 def libs = rootProject.ext.libraries // 库
@@ -62,11 +61,13 @@ dependencies {
     
     compile 'com.safframework:saf-queue:1.0.0'
 
-    compile 'com.safframework.router:saf-router:1.0.1'
-    apt 'com.safframework.router:saf-router-compiler:1.0.2'
+    implementation 'com.safframework.router:saf-router:1.1.4'
+    implementation 'com.safframework.router:saf-router-annotation:1.1.1'
+    annotationProcessor 'com.safframework.router:saf-router-compiler:1.1.1'
 
-    compile 'com.safframework.injectview:saf-injectview:1.1.0'
-    apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
+    implementation 'com.safframework.injectview:saf-injectview:1.1.1'
+    implementation 'com.safframework.injectview:saf-injectview-annotation:1.1.1'
+    annotationProcessor 'com.safframework.injectview:saf-injectview-compiler:1.1.1'
 
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 

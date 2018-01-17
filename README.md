@@ -44,20 +44,17 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework.log:saf-log:1.5.0'
+  compile 'com.safframework.log:saf-log:1.5.1'
   ```
 
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
 
   下载：
   ```groovy
-  apply plugin: 'com.neenbedankt.android-apt'
-
-  ...
-
   dependencies {
-     compile 'com.safframework.router:saf-router:1.1.3'
-     apt 'com.safframework.router:saf-router-compiler:1.1.0'
+     implementation 'com.safframework.router:saf-router:1.1.4'
+     implementation 'com.safframework.router:saf-router-annotation:1.1.1'
+     annotationProcessor 'com.safframework.router:saf-router-compiler:1.1.1'
      ...
   }
   ```
@@ -66,13 +63,10 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  apply plugin: 'com.neenbedankt.android-apt'
-
-  ...
-
   dependencies {
-      compile 'com.safframework.injectview:saf-injectview:1.1.0'
-      apt 'com.safframework.injectview:saf-injectview-compiler:1.1.0'
+      implementation 'com.safframework.injectview:saf-injectview:1.1.1'
+      implementation 'com.safframework.injectview:saf-injectview-annotation:1.1.1'
+      annotationProcessor 'com.safframework.injectview:saf-injectview-compiler:1.1.1'
       ...
   }
   ```

@@ -55,7 +55,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'com.safframework'
     artifactId = 'saf-queue'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'this is a queue library for android'
     website = 'https://github.com/fengzhizi715/SAF'
 }

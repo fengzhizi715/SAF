@@ -57,7 +57,7 @@ task clean(type: Delete) {
 apply from: rootProject.file('dependencies.gradle')
 
 
-//tasks.getByPath(":saf-cache:bintrayUpload").enabled = false
-//tasks.getByPath(":saf-queue:bintrayUpload").enabled = false
-//tasks.getByPath(":saf-permission:bintrayUpload").enabled = false
-//tasks.getByPath(":saf-rxlifecycle:bintrayUpload").enabled = true
+tasks.getByPath(":saf-cache:bintrayUpload").enabled = false
+tasks.getByPath(":saf-queue:bintrayUpload").enabled = true
+tasks.getByPath(":saf-permission:bintrayUpload").enabled = false
+tasks.getByPath(":saf-rxlifecycle:bintrayUpload").enabled = true

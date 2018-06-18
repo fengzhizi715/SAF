@@ -44,7 +44,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework.log:saf-log:1.5.1'
+  compile 'com.safframework.log:saf-log:1.5.3'
   ```
 
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
@@ -52,9 +52,9 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
   下载：
   ```groovy
   dependencies {
-     implementation 'com.safframework.router:saf-router:1.1.4'
-     implementation 'com.safframework.router:saf-router-annotation:1.1.1'
-     annotationProcessor 'com.safframework.router:saf-router-compiler:1.1.1'
+     implementation 'com.safframework.router:saf-router:1.2.1'
+     implementation 'com.safframework.router:saf-router-annotation:1.2.0'
+     annotationProcessor 'com.safframework.router:saf-router-compiler:1.2.0'
      ...
   }
   ```
@@ -74,7 +74,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-aop:1.2.0'
+  compile 'com.safframework:saf-aop:1.2.1'
   ```
 
 * 缓存框架：在saf项目中，并未单独拆分成独立的项目
@@ -88,19 +88,19 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-queue:1.0.0'
+  compile 'com.safframework:saf-queue:1.0.1'
   ```  
 * 权限框架：在saf项目中，并未单独拆分成独立的项目
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-permission:1.0.0'
+  compile 'com.safframework:saf-permission:1.0.1'
   ```
 * RxLifecycle:在saf项目中，并未单独拆分成独立的项目
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-rxlifecycle:1.1.1'
+  compile 'com.safframework:saf-rxlifecycle:1.1.2'
   ```
 
 # ChangeLog

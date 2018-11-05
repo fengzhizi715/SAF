@@ -44,7 +44,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework.log:saf-log:1.5.3'
+  compile 'com.safframework.log:saf-log:1.5.4'
   ```
 
 * Activity路由框架：https://github.com/fengzhizi715/SAF-Kotlin-Router
@@ -74,14 +74,14 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-aop:1.2.1'
+  compile 'com.safframework:saf-aop:1.2.4'
   ```
 
 * 缓存框架：在saf项目中，并未单独拆分成独立的项目
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-cache:1.1.0'
+  compile 'com.safframework:saf-cache:1.1.1'
   ```
 
 * 消息队列框架：在saf项目中，并未单独拆分成独立的项目

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -30,13 +30,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
+    compileOnly "com.android.support:appcompat-v7:${libs.support_appcompat_v7}"
     testCompile "junit:junit:${libs.junit}"
-    compile "commons-codec:commons-codec:${libs.commons_codec}"
+    implementation "commons-codec:commons-codec:${libs.commons_codec}"
 }
 
 repositories {
@@ -60,7 +60,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'com.safframework'
     artifactId = 'saf-cache'
-    publishVersion = '1.1.0'
+    publishVersion = '1.1.1'
     desc = 'this is a cache library for android'
     website = 'https://github.com/fengzhizi715/SAF'
 }

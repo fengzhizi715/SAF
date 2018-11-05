@@ -13,9 +13,9 @@ ext {
             support_appcompat_v7: "27.0.2",
 
             commons_codec       : "1.10",
-            saf_log             : "1.5.1",
-            saf_cache           : "1.1.0",
-            tony_common_utils   : "1.2.4"
+            saf_log             : "1.5.4",
+            saf_cache           : "1.1.1",
+            tony_common_utils   : "1.2.6"
     ]
 }
 
@@ -27,7 +27,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.1.1'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
         classpath 'org.aspectj:aspectjtools:1.8.13'
         classpath 'com.novoda:bintray-release:0.5.0'
         // NOTE: Do not place your application dependencies here; they belong
@@ -57,7 +57,7 @@ task clean(type: Delete) {
 apply from: rootProject.file('dependencies.gradle')
 
 
-tasks.getByPath(":saf-cache:bintrayUpload").enabled = false
-tasks.getByPath(":saf-queue:bintrayUpload").enabled = true
+tasks.getByPath(":saf-cache:bintrayUpload").enabled = true
+tasks.getByPath(":saf-queue:bintrayUpload").enabled = false
 tasks.getByPath(":saf-permission:bintrayUpload").enabled = false
-tasks.getByPath(":saf-rxlifecycle:bintrayUpload").enabled = true
+tasks.getByPath(":saf-rxlifecycle:bintrayUpload").enabled = false

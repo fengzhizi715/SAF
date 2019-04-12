@@ -94,7 +94,7 @@ SAF已经拆分成多个子项目，每个子项目都可以单独使用，没�
 
   下载：
   ```groovy
-  compile 'com.safframework:saf-permission:1.0.1'
+  compile 'com.safframework:saf-permission:1.1.0'
   ```
 * RxLifecycle:在saf项目中，并未单独拆分成独立的项目
 
